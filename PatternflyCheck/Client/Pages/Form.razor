@@ -36,6 +36,16 @@
                 </Editors>
             </PatternflyFieldGroup>
 
+            <PatternflyFieldGroup Label="Type" IsRequired="true" Name="type" Stack="true">
+                <Help>The type of product</Help>
+                <Editors>
+                    <InputRadioGroup @bind-Value="value.Type">
+                        <PatternflyInputRadio Value="@("subscription")" Label="Subscription" />
+                        <PatternflyInputRadio Value="@("product")" Label="Product" />
+                    </InputRadioGroup>
+                </Editors>
+            </PatternflyFieldGroup>
+
             <PatternflyFieldGroup Label="Active" IsRequired="true" Name="active">
                 <Help>Is the product active</Help>
                 <Editors>
@@ -61,7 +71,8 @@
             Name = "Cardboard box",
             Price = 5.10m,
             Description = "As it says on the tin.",
-            Active = false
+            Active = false,
+            Type = "product"
         };
     string completeResult;
 
@@ -72,6 +83,7 @@
         public decimal Price { get; set; }
         public string Description { get; set; }
         public bool Active { get; set; }
+        public string Type { get; set; }
     }
 
     protected override void OnInitialized()
