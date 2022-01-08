@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Outrage.Patternfly.Components.Form
 {
-    public class PatternflyCheckbox: InputCheckbox
+    public class PatternflyInputCheckbox: InputCheckbox
     {
         [Parameter]
         public string Label { get; set; }

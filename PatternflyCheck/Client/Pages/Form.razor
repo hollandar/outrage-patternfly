@@ -49,7 +49,14 @@
             <PatternflyFieldGroup Label="Active" IsRequired="true" Name="active">
                 <Help>Is the product active</Help>
                 <Editors>
-                    <PatternflyCheckbox @bind-Value="value.Active" Label="Active Label" />
+                    <PatternflyInputCheckbox @bind-Value="value.Active" Label="Active Label" />
+                </Editors>
+            </PatternflyFieldGroup>            
+            
+            <PatternflyFieldGroup Label="File" IsRequired="true" Name="file">
+                <Help>Product image</Help>
+                <Editors>
+                    <InputFile />
                 </Editors>
             </PatternflyFieldGroup>
 

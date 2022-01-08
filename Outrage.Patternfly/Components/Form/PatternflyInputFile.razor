@@ -1,0 +1,50 @@
+﻿@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+@inherits InputFile
+
+<div class="pf-c-file-upload">
+  <div class="pf-c-file-upload__file-select">
+    <div class="pf-c-input-group">
+      <input
+        id="@inputTextId"
+        class="pf-c-form-control"
+        name="basic-file-upload-text-input"
+        aria-label="Drag and drop a file or upload one"
+        readonly
+        placeholder="Drag and drop a file or upload one"
+        aria-describedby="basic-file-upload-browse"
+      />
+      <button
+        class="pf-c-button pf-m-control"
+        type="button"
+        id="basic-file-upload-browse"
+        @onclick="OpenUploadDialog"
+      >Upload</button>
+      <button class="pf-c-button pf-m-control" type="button" disabled>Clear</button>
+    </div>
+  </div>
+  <div class="pf-c-file-upload__file-details">
+    <textarea
+      class="pf-c-form-control pf-m-resize-vertical"
+      id="basic-file-upload-file-details"
+      name="basic-file-upload-file-details"
+      aria-label="Empty text area"
+    ></textarea>
+  </div>
+  <input type="file" autocomplete="off" tabindex="-1" style="display: none;" @ref="this.Element" id="@inputFileId" multiple/>
+</div>
+
+@code {
+    HtmlId inputFileId = new();
+    HtmlId inputTextId = new();
+    IJSObjectReference handlerObject;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        handlerObject = await this.JSRuntime.InvokeAsync<IJSObjectReference>("PatternflyElementClick.attach", DotNetObjectReference.Create(this), this.inputFileId.ToString(), this.inputTextId.ToString());
+        await base.OnAfterRenderAsync(firstRender);
+    }
+    void OpenUploadDialog()
+    {
+        this.handlerObject.InvokeVoidAsync("clickElement", inputFileId.ToString());
+    }
+}
