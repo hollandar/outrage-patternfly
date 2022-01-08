@@ -29,6 +29,13 @@
                 </Editors>
             </PatternflyFieldGroup>
 
+            <PatternflyFieldGroup Label="Description" IsRequired="true" Name="description">
+                <Help>A description of the product</Help>
+                <Editors>
+                    <PatternflyInputTextArea @bind-Value="value.Description" />
+                </Editors>
+            </PatternflyFieldGroup>
+
             <PatternflyFieldGroup Label="Active" IsRequired="true" Name="active">
                 <Help>Is the product active</Help>
                 <Editors>
@@ -53,6 +60,7 @@
             Id = 1,
             Name = "Cardboard box",
             Price = 5.10m,
+            Description = "As it says on the tin.",
             Active = false
         };
     string completeResult;
@@ -62,6 +70,7 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
+        public string Description { get; set; }
         public bool Active { get; set; }
     }
 
