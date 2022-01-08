@@ -1,0 +1,66 @@
+﻿@implements IDisposable
+@using Outrage.EventBus
+@using Outrage.Patternfly.Messages
+@inject IClientEventBus Bus
+  
+<toaster>
+    @foreach (var message in messages.OrderByDescending(message => message.ExpireTime))
+    {
+        <toast class="@(message.ExpireTime < DateTimeOffset.UtcNow? "expiring":"visible") @(message.Message.StyleClass ?? string.Empty)">@message.Message.Message</toast>
+    }
+</toaster>
+
+@code {
+
+    [Parameter]
+    public TimeSpan Expiry { get; set; } = TimeSpan.FromSeconds(2);
+
+    IList<ToastMessageModel> messages = new List<ToastMessageModel>();
+    System.Threading.Timer timer;
+    ISubscriber filterSubscriber;
+    System.Threading.SemaphoreSlim listLock = new System.Threading.SemaphoreSlim(1);
+
+    protected override Task OnInitializedAsync()
+    {
+        this.filterSubscriber = this.Bus.Subscribe<ToastMessage>(HandleToastMessage);
+        this.timer = new System.Threading.Timer(MessageTimeout, null, 0, (int)(this.Expiry.TotalMilliseconds / 4));
+        return base.OnInitializedAsync();
+    }
+
+    private async Task HandleToastMessage(EventContext context, ToastMessage toastMessage)
+    {
+        try
+        {
+            await this.listLock.WaitAsync();
+            this.messages.Add(new ToastMessageModel(toastMessage, this.Expiry));
+            await InvokeAsync(() => { this.StateHasChanged(); });
+        }
+        finally
+        {
+            this.listLock.Release();
+        }
+    }
+
+    public async void MessageTimeout(object state)
+    {
+        try
+        {
+            await this.listLock.WaitAsync();
+            var expiredMessages = this.messages.Where(message => message.ExpireTime < DateTimeOffset.UtcNow.AddSeconds(-1));
+            if (expiredMessages.Any())
+            {
+                this.messages = this.messages.Except(expiredMessages).ToList();
+            }
+            await this.InvokeAsync(() => { try { this.StateHasChanged(); } catch (ObjectDisposedException) { } });
+        }
+        finally
+        {
+            this.listLock.Release();
+        }
+    }
+
+    void IDisposable.Dispose()
+    {
+        this.timer.Dispose();
+    }
+}

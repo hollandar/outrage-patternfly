@@ -1,0 +1,17 @@
+﻿@typeparam TItem
+<td role="cell">
+    <a href="@Href">
+        @ChildContent(Value)
+    </a>
+</td>
+
+@code {
+    [Parameter]
+    public TItem Value { get; set; }
+
+    [Parameter]
+    public string Href { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem> ChildContent { get; set; }
+}

@@ -1,0 +1,37 @@
+﻿<InputSelect @attributes="AdditionalAttributes" Value="@this.StringValue" ValueExpression="@(() => this.StringValue)" ValueChanged="@(async (string value) => { await MapBoundValue(value); })">
+    <option value="True">@WhenTrue</option>
+    <option value="False">@WhenFalse</option>
+</InputSelect>
+
+@code {
+
+    string StringValue { get; set; }
+
+    [Parameter]
+    public bool Value { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> ValueChanged { get; set; }
+
+    [Parameter]
+    public RenderFragment WhenTrue { get;set; }
+
+    [Parameter]
+    public RenderFragment WhenFalse { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> AdditionalAttributes { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.StringValue = Value.ToString();
+        base.OnInitialized();
+    }
+
+    public async Task MapBoundValue(string stringValue)
+    {
+        this.StringValue = stringValue;
+        this.Value = bool.Parse(stringValue);
+        await ValueChanged.InvokeAsync(this.Value);
+    }
+}

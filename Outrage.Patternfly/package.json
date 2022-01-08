@@ -1,0 +1,15 @@
+{
+  "name": "patternfly.components",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "sass --style=compressed ./Styles/patternfly.base.scss:./wwwroot/css/patternfly.base.css"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@patternfly/patternfly": "^4.164.2",
+    "sass": "^1.46.0"
+  }
+}

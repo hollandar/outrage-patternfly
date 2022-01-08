@@ -1,0 +1,23 @@
+﻿<NavLink class="pf-c-nav__link" ActiveClass="pf-m-current" Match="@Match" href="@(Href ?? "#")">
+    @if (Icon != null)
+    {
+        <i class="@Icon" aria-hidden="true"></i>
+        <span>&nbsp;</span>
+    }
+    @if (Text != null)
+    {
+        @Text
+    }
+    @if (ChildContent != null)
+    {
+        @ChildContent
+    }
+</NavLink>
+
+@code {
+    [Parameter] public NavLinkMatch Match { get; set; } = NavLinkMatch.Prefix;
+    [Parameter] public string? Icon { get; set; } = null;
+    [Parameter] public string? Href { get; set; } = null;
+    [Parameter] public string? Text { get; set; } = null;
+    [Parameter] public RenderFragment? ChildContent { get; set; } = null;
+}

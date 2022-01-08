@@ -1,0 +1,34 @@
+﻿@page "/accordion"
+
+<PageTitle>Accordion</PageTitle>
+
+<h1>Accordion</h1>
+
+<PatternflyAccordion UseSavedState="true" CloseOthers="true" AccordionId="accordion_1">
+    <PatternflyAccordionPanel StateId="one" Visible="true">
+        <Header>
+            One
+        </Header>
+        <Content>
+            Panel 1 Content
+        </Content>
+    </PatternflyAccordionPanel>
+
+    <PatternflyAccordionPanel StateId="one" >
+        <Header>
+            Two
+        </Header>
+        <Content>
+            Panel 2 Content
+        </Content>
+    </PatternflyAccordionPanel>
+
+</PatternflyAccordion>
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

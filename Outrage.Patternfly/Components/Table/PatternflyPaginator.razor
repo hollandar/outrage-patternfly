@@ -1,0 +1,38 @@
+﻿<div class="grid-paginator">
+    <button class="action" disabled="@FirstPage" @onclick="(e)=>SelectPage(0)">&lt;&lt;</button>
+    <button class="action" disabled="@FirstPage" @onclick="(e)=>SelectPage(Page-1)">&lt;</button>
+    @for (var i = PageLow; i <= PageHigh; i++)
+    {
+        var n = i;
+        <button class="action" disabled="@(n == Page)" @onclick="(e)=>SelectPage(n)">@(n+1)</button><text></text>
+    }
+    <button class="action" disabled="@LastPage" @onclick="(e)=>SelectPage(Page+1)">&gt;</button>
+    <button class="action" disabled="@LastPage" @onclick="(e)=>SelectPage(PageCount-1)">&gt;&gt;</button>
+
+</div>
+
+@code {
+
+    [Parameter]
+    public int Page { get; set; }
+
+    [Parameter]
+    public int TotalCount { get; set; }
+
+    [Parameter]
+    public int PageSize { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnSelectPage { get; set; }
+
+    void SelectPage(int page)
+    {
+        this.OnSelectPage.InvokeAsync(page);
+    }
+
+    public int PageCount { get { return (int)Math.Ceiling((decimal)TotalCount / PageSize); } }
+    public bool FirstPage { get { return Page <= 0; } }
+    public bool LastPage { get { return Page >= PageCount - 1; } }
+    public int PageLow { get { return (int)Math.Max(0, Page - 5); } }
+    public int PageHigh { get { return (int)Math.Min(PageCount - 1, Page + 5); } }
+}

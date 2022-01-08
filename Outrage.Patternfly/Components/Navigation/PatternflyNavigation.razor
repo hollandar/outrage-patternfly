@@ -1,0 +1,9 @@
+﻿<nav class="pf-c-nav" aria-label="Global">
+  <ul class="pf-c-nav__list">
+    @ChildContent
+  </ul>
+</nav>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

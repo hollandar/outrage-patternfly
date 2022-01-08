@@ -1,0 +1,30 @@
+﻿@using Outrage.Patternfly.Components.Button
+<div class="pf-c-action-list__item">
+    <PatternflyButton Color="@Color" Icon="@Icon" IconPosition="@IconPosition" Clicked="ActionClicked">
+        @ChildContent
+    </PatternflyButton>
+</div>
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public Color Color { get; set; } = Color.Primary;
+
+    [Parameter] 
+    public string Icon { get; set; } = null;
+
+    [Parameter] 
+    public IconPosition IconPosition { get; set; } = IconPosition.Start;
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    async Task ActionClicked(MouseEventArgs e)
+    {
+        await this.Clicked.InvokeAsync(e);
+    }
+
+}

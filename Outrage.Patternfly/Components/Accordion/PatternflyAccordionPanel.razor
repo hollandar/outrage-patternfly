@@ -1,0 +1,69 @@
+﻿@inject IJSRuntime jsRuntime
+
+<h3>
+    <button class="pf-c-accordion__toggle @(Visible? "pf-m-expanded":string.Empty)" type="button" aria-expanded="@Visible" @onclick="Show">
+        <span class="pf-c-accordion__toggle-text">
+            @Header
+        </span>
+
+        <span class="pf-c-accordion__toggle-icon">
+            <i class="fas @(Visible?"fa-angle-down":"fa-angle-right")" aria-hidden="true"></i>
+        </span>
+    </button>
+</h3>
+<div class="pf-c-accordion__expanded-content @(Visible? "pf-m-expanded":string.Empty)" hidden="@(!Visible)">
+    <div class="pf-c-accordion__expanded-content-body">@Content</div>
+</div>
+
+@code {
+    private ElementReference accordionPanelElement;
+
+    [Parameter]
+    public string StateId { get; set; } = HtmlId.Create();
+
+    [Parameter]
+    public RenderFragment Header { get; set; }
+    [Parameter]
+    public RenderFragment Content { get; set; }
+
+    [Parameter]
+    public bool Visible { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<bool> VisibleChanged { get; set; }
+
+    [CascadingParameter(Name = "Accordion")]
+    public PatternflyAccordion Accordion { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.Accordion.Panels.Add(this);
+        if (this.Accordion.StateId == StateId && this.Accordion.UseSavedState)
+        {
+            await this.SetVisible(true);
+        }
+    }
+
+    public async Task Show()
+    {
+        await this.Accordion.CloseAll();
+        await this.SetVisible(true);
+    }
+
+    public async Task SetVisible(bool visible)
+    {
+        if (visible != this.Visible)
+        {
+            this.Visible = visible;
+            await this.InvokeAsync(
+                () => { this.StateHasChanged(); }
+            );
+        }
+    }
+
+    public void OnVisibleChanged()
+    {
+        this.VisibleChanged.InvokeAsync(this.Visible);
+    }
+
+}

@@ -1,0 +1,24 @@
+﻿@page "/panel"
+
+<PageTitle>Panel</PageTitle>
+
+<h1>Panel</h1>
+
+<PatternflyPanel Raised="true">
+    <Header><h1>Actions</h1></Header>
+    <Main>
+        This is the content of the action panel
+    </Main>
+    <Footer>
+        <PatternflyActionList>
+            <PatternflyAction>Action 1</PatternflyAction>
+            <PatternflyAction Color="Color.Secondary">Action 2</PatternflyAction>
+            <PatternflyAction Color="Color.Tertiary">Action 3</PatternflyAction>
+        </PatternflyActionList>
+    </Footer>
+</PatternflyPanel>
+
+
+@code {
+    PatternflyModal modal;
+}

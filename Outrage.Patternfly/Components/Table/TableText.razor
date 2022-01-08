@@ -1,0 +1,18 @@
+﻿<td role="cell">
+    @if (Value != null && !String.IsNullOrWhiteSpace(Value.ToString()))
+    {
+        @Value
+    }
+    else
+    {
+        @ChildContent
+    }
+</td>
+
+@code {
+    [Parameter]
+    public object Value { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

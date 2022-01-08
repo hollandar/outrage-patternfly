@@ -1,0 +1,16 @@
+﻿<div class="ou-conditional-section" hidden="@(!IsVisible)">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public bool IsVisible { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+}

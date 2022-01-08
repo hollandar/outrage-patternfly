@@ -1,0 +1,39 @@
+﻿@inject IJSRuntime JSRuntime
+@using Outrage.EventBus
+@inject IClientEventBus Bus
+
+<div class="ou-event-log">
+    @foreach (var entry in log)
+    {
+        <div class="ou-log-entry">@entry</div>
+    }
+</div>
+
+@code {
+    ISubscriber subscriber;
+
+    [Parameter]
+    public int Length { get; set; } = 20;
+
+    private IList<string> log = new List<string>();
+    protected override Task OnInitializedAsync()
+    {
+        this.subscriber = this.Bus.Subscribe(this.HandleMessage);
+        return base.OnInitializedAsync();
+    }
+
+    public async Task HandleMessage(EventContext context, IMessage message)
+    {
+        var typeString = message.GetType().ToString();
+        var eventString = Newtonsoft.Json.JsonConvert.SerializeObject(message);
+        var eventLog = $"event: {typeString}: {eventString}";
+        log.Insert(0, eventLog);
+        while (log.Count > Length)
+            log.RemoveAt(log.Count - 1);
+
+        await InvokeAsync(() =>
+        {
+            this.StateHasChanged();
+        });
+    }
+}

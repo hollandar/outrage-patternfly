@@ -1,0 +1,77 @@
+﻿<li class="pf-c-menu__list-item @(Expanded && this.Menu.MenuStyle == MenuStyle.DrillDown? "pf-m-current-path":"")">
+    <button class="pf-c-menu__item" type="button" @onclick="OnClicked">
+        <span class="pf-c-menu__item-main">
+            @if (Icon != null)
+            {
+                <span class="pf-c-menu__item-icon">
+                    <i class="@Icon" aria-hidden="true"></i>
+                    &nbsp;
+                </span>
+            }
+            <span class="pf-c-menu__item-text">
+                @Text
+            </span>
+            @if (ChildContent != null)
+            {
+                <span class="pf-c-menu__item-toggle-icon">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            }
+        </span>
+        @if (Description != null)
+        {
+            <span class="pf-c-menu__item-description">@Description</span>
+        }
+    </button>
+    @if (Expanded)
+    {
+        @ChildContent
+    }
+</li>
+
+@code {
+    [Parameter]
+    public string? Text { get; set; }
+
+    [Parameter]
+    public string? Icon { get; set; }
+
+    [Parameter]
+    public string? Description { get; set; }
+
+    [Parameter]
+    public bool Expanded { get; set; } = false;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    [CascadingParameter(Name = "Menu")]
+    public PatternflyMenu Menu { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.Menu.AddMenuItem(this);
+        await base.OnInitializedAsync();
+    }
+
+    async Task OnClicked(MouseEventArgs e)
+    {
+        if (this.ChildContent == null)
+        {
+            await this.Clicked.InvokeAsync(e);
+        } else
+        {
+            await this.Menu.ResetExpanded();
+            this.Expanded = true;
+            await this.InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public void ResetExpanded()
+    {
+        this.Expanded = false;
+    }
+}

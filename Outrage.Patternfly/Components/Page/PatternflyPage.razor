@@ -1,0 +1,43 @@
+﻿<div class="pf-c-page">
+    <header class="pf-c-page__header" role="banner">
+        <div class="pf-c-page__header-brand">
+            @if (Toggle != null) {
+                <div class="pf-c-page__header-brand-toggle u-cursor-pointer" @onclick="ToggleSidebar" aria-controls="@controlsId">@Toggle</div>
+            }
+            @if (Logo != null)
+            {
+                <a href="#" class="pf-c-page__header-brand-link">@Logo</a>
+            }
+        </div>
+        @if (Tools != null)
+        {
+            <div class="pf-c-page__header-tools">@Tools</div>
+        }
+    </header>
+    @if (Sidebar != null && sidebar)
+    {
+        <div id="@controlsId" class="pf-c-page__sidebar" aria-expanded="@sidebar">
+            <div class="pf-c-page__sidebar-body">@Sidebar</div>
+        </div>
+    }
+    <main class="pf-c-page__main" tabindex="-1" role="main">
+        <section class="pf-c-page__main-section">@MainContent</section>
+    </main>
+</div>
+
+@code {
+    public bool sidebar = true;
+    public HtmlId controlsId = new();
+
+    [Parameter] public RenderFragment? Toggle { get; set; }
+    [Parameter] public RenderFragment? Logo { get; set; }
+    [Parameter] public RenderFragment? Tools { get; set; }
+    [Parameter] public RenderFragment? Sidebar { get; set; }
+    [Parameter] public RenderFragment? MainContent { get; set; }
+
+    void ToggleSidebar()
+    {
+        this.sidebar = !sidebar;
+        this.StateHasChanged();
+    }
+}

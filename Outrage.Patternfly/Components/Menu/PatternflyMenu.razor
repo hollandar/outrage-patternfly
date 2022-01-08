@@ -1,0 +1,66 @@
+﻿<CascadingValue Name="Menu" Value="this">
+    <div class="@DeriveClass()">
+        <div class="pf-c-menu__content">
+            <ul class="pf-c-menu__list">
+                @ChildContent
+            </ul>
+        </div>
+    </div>
+</CascadingValue>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public bool Scrollable { get; set; } = false;
+
+    [Parameter]
+    public MenuStyle MenuStyle { get; set; } = MenuStyle.Normal;
+
+    [Parameter]
+    public string Class { get; set; } = null;
+
+    public bool IsDrilledIn
+    {
+        get
+        {
+            return this.items.Any(r => r.Expanded);
+        }
+    }
+
+    private HashSet<PatternflyMenuItem> items = new();
+
+    public void AddMenuItem(PatternflyMenuItem item)
+    {
+        this.items.Add(item);
+    }
+
+    public async Task ResetExpanded()
+    {
+        foreach (var item in items)
+        {
+            item.ResetExpanded();
+        }
+
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+    public string DeriveClass()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-menu", Class });
+        if (Scrollable)
+            classes.Add("pf-c-menu");
+        if (MenuStyle == MenuStyle.Flyout)
+            classes.Add("pf-m-flyout");
+        if (MenuStyle == MenuStyle.DrillDown)
+        {
+            classes.Add("pf-m-drilldown");
+            if (IsDrilledIn)
+                classes.Add("pf-m-drilled-in");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+}

@@ -1,0 +1,50 @@
+﻿@inject IJSRuntime jsRuntime
+ 
+<CascadingValue Name="Accordion" TValue="PatternflyAccordion" Value="this">
+    <div @ref="accordionElement" class="pf-c-accordion">
+        @ChildContent
+    </div>
+</CascadingValue>
+
+@code {
+    static Dictionary<string, string> savedStates = new();
+
+    [Parameter]
+    public string AccordionId { get; set; } = HtmlId.Create();
+
+    [Parameter]
+    public string StateId { get; set; } = null;
+    protected ElementReference accordionElement;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public bool CloseOthers { get; set; }
+
+    [Parameter]
+    public bool UseSavedState { get; set; } = false;
+
+    public List<PatternflyAccordionPanel> Panels { get; } = new();
+
+    protected override Task OnInitializedAsync()
+    {
+        if (savedStates.ContainsKey(AccordionId))
+            this.StateId = savedStates[AccordionId];
+
+        return base.OnInitializedAsync();
+    }
+
+    public async Task CloseAll()
+    {
+        if (CloseOthers)
+        {
+            foreach (var panel in Panels)
+            {
+                await panel.SetVisible(false);
+            }
+        }    
+    }
+
+    
+}

@@ -1,0 +1,38 @@
+﻿@page "/menu"
+
+<PageTitle>Menu</PageTitle>
+
+<h1>Menu</h1>
+
+<PatternflyMenu Class="pf-u-w-50" MenuStyle="MenuStyle.Flyout">
+    <PatternflyMenuItem Text="One" Clicked="SetOneClicked"/>
+    <PatternflyMenuItem Text="Container">
+        <PatternflyMenu>
+            <PatternflyMenuItem Text="Two" Clicked="SetTwoClicked"/>
+        </PatternflyMenu>
+        </PatternflyMenuItem>
+</PatternflyMenu>
+
+<p>
+    @lastClicked
+</p>
+
+@code {
+    string lastClicked = "None";
+
+    void SetLastClicked(string last)
+    {
+        this.lastClicked = last;
+        this.StateHasChanged();
+    }
+
+    void SetOneClicked(MouseEventArgs e)
+    {
+        SetLastClicked("One");
+    }
+
+    void SetTwoClicked(MouseEventArgs e)
+    {
+        SetLastClicked("Two");
+    }
+}

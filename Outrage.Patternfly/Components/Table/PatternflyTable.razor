@@ -1,0 +1,141 @@
+﻿@typeparam TItem
+@typeparam TItemKey
+
+<CascadingValue Name="Parent" Value="@this">
+    <table class="pf-c-table @DeriveClass()"
+           role="grid"
+        aria-label="@(Label??"")">
+        @if (Headings != null)
+        {
+            <thead>
+                <tr role="row">
+                    @Headings
+                </tr>
+            </thead>
+        }
+
+        <tbody role="rowgroup">
+            @if (Items != null)
+            {
+                foreach (var row in Items.Items)
+                {
+                    <tr role="row" 
+                        class="@(UseSelection && row.IsSelected ? "selected":"") @(OnRowClicked.HasDelegate?"selectable":"")" 
+                        @key="row" 
+                        @onclick="@(async (e)=> { await RowClicked(e, row);})">
+                        @RowTemplate(row.Item)
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    @if (Items != null && Items.Items.Count() == 0 && !String.IsNullOrWhiteSpace(NotFoundText))
+    {
+        <div class="ou-not-found">@NotFoundText</div>
+    }
+
+    @if (TotalCount > PageSize)
+    {
+        <GridPaginator Page="@Page" PageSize="@PageSize" TotalCount="@TotalCount" OnSelectPage="SelectPage"></GridPaginator>
+    }
+
+</CascadingValue>
+
+@code {
+
+    private TItemKey loadedId = default(TItemKey);
+
+    [Parameter]
+    public RenderFragment Headings { get; set; }
+
+    [Parameter]
+    public Func<TItem, object> Key { get; set; } = null;
+
+    [Parameter]
+    public RenderFragment<TItem> RowTemplate { get; set; }
+
+    [Parameter]
+    public EventCallback<PageSwitchArgs<TItemKey>> OnLoadItems { get; set; }
+
+    [Parameter]
+    public TablePageModel<TItem> Items { get; set; }
+
+    [Parameter]
+    public EventCallback<TableRowWrapper<TItem>> OnRowClicked { get; set; }
+
+    [Parameter]
+    public bool UseSelection { get; set; } = true;
+
+    [Parameter]
+    public string NotFoundText { get; set; } = "No records found.";
+
+    public int TotalCount { get { return this.Items.Total; } }
+    public int Page { get; set; } = 0;
+
+    [Parameter]
+    public int PageSize { get; set; } = 20;
+    HashSet<string> Columns { get; } = new HashSet<string>();
+
+    [Parameter]
+    public TableFallbackPoint Fallback { get; set; } = TableFallbackPoint.Medium;
+
+    [Parameter]
+    public string? Class { get; set; } = null;
+
+    [Parameter]
+    public string? Label { get; set; } = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await Refresh();
+    }
+
+    public async Task SelectPage(int page)
+    {
+        this.Page = page;
+        await OnLoadItems.InvokeAsync(new PageSwitchArgs<TItemKey> { Id = loadedId, Page = Page, PageSize = PageSize });
+        this.StateHasChanged();
+    }
+
+    public async Task SelectById(TItemKey id)
+    {
+        this.loadedId = id;
+        await SelectPage(0);
+    }
+
+    public async Task RowClicked(MouseEventArgs args, TableRowWrapper<TItem> wrapper)
+    {
+        foreach (var row in this.Items.Items)
+        {
+            row.IsSelected = row == wrapper;
+        }
+        await OnRowClicked.InvokeAsync(wrapper);
+        this.StateHasChanged();
+    }
+
+    public async Task Refresh(bool reset = false)
+    {
+        if (reset) this.Page = 0;
+        await this.InvokeAsync(async () =>
+        {
+            await OnLoadItems.InvokeAsync(new PageSwitchArgs<TItemKey> { Id = loadedId, Page = Page, PageSize = PageSize });
+            this.StateHasChanged();
+        });
+    }
+
+    string DeriveClass()
+    {
+        var classes = new HashSet<string>(new string[] { Class });
+        switch (Fallback)
+        {
+            case TableFallbackPoint.Custom: classes.Add("pf-m-grid"); break;
+            case TableFallbackPoint.Medium: classes.Add("pf-m-grid-md"); break;
+            case TableFallbackPoint.Large: classes.Add("pf-m-grid-lg"); break;
+            case TableFallbackPoint.XLarge: classes.Add("pf-m-grid-xl"); break;
+            case TableFallbackPoint.XXLarge: classes.Add("pf-m-grid-2xl"); break;
+        }
+
+        return string.Join(" ", classes);
+    }
+}

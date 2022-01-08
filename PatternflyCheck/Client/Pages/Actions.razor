@@ -1,0 +1,38 @@
+﻿@page "/actions"
+
+<PageTitle>Actions</PageTitle>
+
+<h1>Actions</h1>
+
+<PatternflyActionList>
+    <PatternflyAction Clicked="SetOneClicked">
+        One
+    </PatternflyAction>
+    <PatternflyAction Clicked="SetTwoClicked">
+        Two
+    </PatternflyAction>
+</PatternflyActionList>
+
+<p>
+    @lastClicked
+</p>
+
+@code {
+    string lastClicked = "None";
+
+    void SetLastClicked(string last)
+    {
+        this.lastClicked = last;
+        this.StateHasChanged();
+    }
+
+    void SetOneClicked(MouseEventArgs e)
+    {
+        SetLastClicked("One");
+    }
+
+    void SetTwoClicked(MouseEventArgs e)
+    {
+        SetLastClicked("Two");
+    }
+}

@@ -1,0 +1,20 @@
+﻿<td role="cell">
+    @if (Value)
+    {
+        @WhenTrue
+    } else
+    {
+        @WhenFalse
+    }
+</td>
+
+@code {
+    [Parameter]
+    public bool Value { get; set; }
+
+    [Parameter]
+    public RenderFragment WhenTrue { get; set; } = @<span>Yes</span>;
+
+    [Parameter]
+    public RenderFragment WhenFalse { get; set; } = @<span>No</span>;
+}

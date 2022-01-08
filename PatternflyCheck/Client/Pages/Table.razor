@@ -1,0 +1,40 @@
+﻿@page "/table"
+
+<PageTitle>Table</PageTitle>
+
+<h1>Table</h1>
+
+<PatternflyTable TItem="TableModel" TItemKey="int" Items="values">
+    <Headings>
+        <TableColumn>Name</TableColumn>
+        <TableColumn>Price</TableColumn>
+    </Headings>
+    <RowTemplate Context="contextItem">
+        <TableText>@contextItem.Name</TableText>
+        <TableText>@contextItem.Price.ToString("C")</TableText>
+    </RowTemplate>
+</PatternflyTable>
+
+@code {
+    TablePageModel<TableModel> values;
+    class TableModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        values = new TablePageModel<TableModel>(5, new TableModel[]
+                {
+            new TableModel { Id = 1, Name = "Coffee Cup", Price = 5.0m },
+            new TableModel { Id = 1, Name = "Prescription Glasses", Price = 310.0m },
+            new TableModel { Id = 1, Name = "Computer Monitor", Price = 199.0m },
+            new TableModel { Id = 1, Name = "Camper", Price = 11000.0m },
+            new TableModel { Id = 1, Name = "Small House", Price = 199000.0m },
+                });
+
+        base.OnInitialized();
+    }
+}

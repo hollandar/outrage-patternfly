@@ -1,0 +1,87 @@
+﻿@using Outrage.Patternfly.Components.Backdrop
+@using Outrage.Patternfly.Components.Utilities
+@if (this.Shown)
+{
+    <PatternflyBackdrop>
+        <PatternflyBullseye>
+            <div class="@(DeriveClass())" aria-modal="true" aria-labelledby="@modalId.With("modal-help-title")" aria-describedby="@modalId.With("modal-help-description")">
+                <button class="pf-c-button pf-m-plain" type="button" aria-label="Close" @onclick="Hide">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+                <header class="pf-c-modal-box__header pf-m-help">
+                    <div class="pf-c-modal-box__header-main">
+                        <h1 class="pf-c-modal-box__title" id="@modalId.With("modal-help-title")">
+                            @ModalHeader
+                        </h1>
+                        @if (HelpContent != null)
+                        {
+                            <div class="pf-c-modal-box__description" id="@modalId.With("modal-help-description")" hidden="@(!HelpShown)">
+                                @HelpContent
+                            </div>
+                        }
+                    </div>
+                    @if (HelpContent != null)
+                    {
+                        <div class="pf-c-modal-box__header-help">
+                            <button class="pf-c-button pf-m-plain" type="button" aria-label="Help" @onclick="ToggleHelp">
+                                <i class="fas fa-question-circle" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    }
+                </header>
+                <div class="pf-c-modal-box__body">
+                    @ModalBody
+                </div>
+                <footer class="pf-c-modal-box__footer">
+                    @ModalFooter
+                </footer>
+            </div>
+        </PatternflyBullseye>
+    </PatternflyBackdrop>
+}
+
+@code {
+    HtmlId modalId = new();
+
+    [Parameter]
+    public RenderFragment ModalHeader { get; set; }
+
+    [Parameter]
+    public RenderFragment ModalBody { get; set; }
+
+    [Parameter]
+    public RenderFragment ModalFooter { get; set; }
+
+    [Parameter]
+    public RenderFragment HelpContent { get; set; }
+
+    [Parameter]
+    public ModalSize Size { get; set; } = ModalSize.Medium;
+
+    [Parameter]
+    public bool Shown { get; set; } = false;
+
+    private bool HelpShown { get; set; } = false;
+
+    public void Show() { this.Shown = true; this.StateHasChanged(); }
+    public void Hide() { this.Shown = false; this.StateHasChanged(); }
+
+    public void ToggleHelp()
+    {
+        this.HelpShown = !this.HelpShown;
+        this.StateHasChanged();
+    }
+
+    string DeriveClass()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-modal-box" });
+        if (Size == ModalSize.Small)
+            classes.Add("pf-m-sm");
+        if (Size == ModalSize.Medium)
+            classes.Add("pf-m-md");
+        if (Size == ModalSize.Large)
+            classes.Add("pf-m-lg");
+
+        return String.Join(" ", classes);
+    }
+}

@@ -1,0 +1,42 @@
+﻿<li class="pf-c-nav__item pf-m-expandable">
+    <button class="pf-c-nav__link"
+            id="@controlsId"
+            aria-expanded="@Expanded"
+            @onclick="ToggleExpanded">
+        @if (Icon != null)
+        {
+            <span class="@Icon"></span>
+        }
+        @if (Text != null)
+        {
+            @Text
+        }
+        <span class="pf-c-nav__toggle">
+            <span class="pf-c-nav__toggle-icon">
+                <i class="fas @(Expanded?"fa-angle-down":"fa-angle-right")" aria-hidden="true"></i>
+            </span>
+        </span>
+    </button>
+    <section class="pf-c-nav__subnav)"
+             aria-labelledby="@controlsId"
+             hidden="@(!Expanded)"
+    >
+        <ul class="pf-c-nav__list">
+            @ChildContent
+        </ul>
+    </section>
+</li>
+
+@code {
+    HtmlId controlsId;
+    [Parameter] public string? Text { get; set; } = null;
+    [Parameter] public string? Icon { get; set; } = null;
+    [Parameter] public RenderFragment? ChildContent { get; set; } = null;
+    [Parameter] public bool Expanded { get; set; } = false;
+
+    void ToggleExpanded()
+    {
+        this.Expanded = !this.Expanded;
+        this.StateHasChanged();
+    }
+}

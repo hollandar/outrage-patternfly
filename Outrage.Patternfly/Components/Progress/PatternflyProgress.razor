@@ -1,0 +1,75 @@
+﻿<div class="pf-c-progress" id="@progressId">
+  <div
+    class="pf-c-progress__description"
+    id="@progressId.With("description")"
+  >@Description</div>
+  <div class="pf-c-progress__status" aria-hidden="true">
+    <span class="pf-c-progress__measure">@(Progress.ToString("P"))</span>
+  </div>
+  <div
+    class="pf-c-progress__bar"
+    role="progressbar"
+    aria-valuemin="@ValueMin"
+    aria-valuemax="@ValueMax"
+    aria-valuenow="@Value"
+    aria-labelledby="@progressId.With("description")"
+  >
+    <div class="pf-c-progress__indicator" style="width:@(Progress.ToString("P"));"></div>
+  </div>
+</div>
+
+@code {
+    ElementReference progressElement;
+    HtmlId progressId = new();
+
+    [Parameter]
+    public string Description { get; set; } = null;
+
+    [Parameter]
+    public bool Complete { get; set; } = false;
+
+    [Parameter]
+    public decimal ValueMin { get; set; } = 0;
+
+    [Parameter]
+    public decimal ValueMax { get; set; } = 100;
+
+    [Parameter]
+    public decimal Value { get; set; } = 0;
+
+    [Parameter]
+    public int CompleteTimeout { get; set; } = 1000;
+
+    [Parameter]
+    public EventCallback OnComplete { get; set; }
+
+    public decimal Progress {
+        get
+        {
+            if (Complete) return 1m;
+            decimal size = ValueMax - ValueMin;
+            decimal consumed = Value - ValueMin;
+            return consumed / size;
+        }
+    }
+
+    public async Task SetProgress(decimal progress)
+    {
+        this.Value = progress;
+        await this.RefreshProgress();
+    }
+
+    public async Task RefreshProgress()
+    {
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+    public async Task MarkComplete()
+    {
+        Complete = true;
+        await this.InvokeAsync(StateHasChanged);
+        await Task.Delay(this.CompleteTimeout);
+        await OnComplete.InvokeAsync(this);
+    }
+}
+
