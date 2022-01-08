@@ -1,0 +1,58 @@
+﻿<CascadingValue Name="FieldName" Value="formGroupId.With(this.Name)">
+    <div class="pf-c-form__group">
+        <div class="pf-c-form__group-label">
+            <label class="pf-c-form__label" for="@formGroupId.With(this.Name)">
+                <span class="pf-c-form__label-text">@Label</span>
+                @if (IsRequired)
+                {
+                    <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+                }
+            </label>
+            @if (Help != null)
+            {
+                <button type="button" class="pf-c-form__group-label-help" aria-label="More info" @onclick="ToggleHelp">
+                    <i class="fas fa-question-circle" aria-hidden="true"></i>
+                </button>
+            }
+        </div>
+        <div class="pf-c-form__group-control @(Stack? "pf-m-stack":"")">
+            @Editors
+            @if (Help != null && showHelp)
+            {
+                <p class="pf-c-form__helper-text"
+               id="@formGroupId.With("helptext")"
+               aria-live="polite">@Help</p>
+            }
+        </div>
+    </div>
+</CascadingValue>
+
+@code {
+    HtmlId formGroupId = new();
+
+    [Parameter]
+    public bool IsRequired { get; set; } = false;
+
+    [Parameter]
+    public string Label { get; set; } = "Label";
+
+    [Parameter]
+    public string Name { get; set; } = null;
+
+    [Parameter]
+    public bool Stack { get; set; } = false;
+
+    [Parameter]
+    public RenderFragment Help { get; set; }
+
+    [Parameter]
+    public RenderFragment Editors { get; set; }
+
+    bool showHelp = false;
+
+    void ToggleHelp()
+    {
+        this.showHelp = !this.showHelp;
+        this.StateHasChanged();
+    }
+}

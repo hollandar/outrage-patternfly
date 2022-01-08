@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternflyCheck.Client", "P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternflyCheck.Shared", "PatternflyCheck\Shared\PatternflyCheck.Shared.csproj", "{DE6A5BC7-8E25-4217-9390-DD2F32196A72}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Patternfly.Components", "Outrage.Patternfly\Outrage.Patternfly.csproj", "{66E02D89-D70C-47AC-83E2-E6E9E1E71A1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outrage.Patternfly", "Outrage.Patternfly\Outrage.Patternfly.csproj", "{66E02D89-D70C-47AC-83E2-E6E9E1E71A1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

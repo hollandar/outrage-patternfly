@@ -1,6 +1,6 @@
 ﻿@using Outrage.Patternfly.Components.Button
 <div class="pf-c-action-list__item">
-    <PatternflyButton Color="@Color" Icon="@Icon" IconPosition="@IconPosition" Clicked="ActionClicked">
+    <PatternflyButton Color="@Color" Icon="@Icon" IconPosition="@IconPosition" Clicked="ActionClicked" @attributes="AdditionalAttributes">
         @ChildContent
     </PatternflyButton>
 </div>
@@ -21,6 +21,9 @@
 
     [Parameter]
     public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> AdditionalAttributes { get; set; }
 
     async Task ActionClicked(MouseEventArgs e)
     {

@@ -1,0 +1,68 @@
+﻿@page "/form"
+@using Newtonsoft.Json
+
+<PageTitle>Form</PageTitle>
+
+<h1>Form</h1>
+<PatternflyPanel>
+    <Header>Edit Product</Header>
+    <Main>
+        <PatternflyEditForm Model="value" OnValidSubmit="SetComplete" Horizontal="true">
+            <PatternflyFieldGroup Label="Id" IsRequired="false" Name="id">
+                <Help>The product id</Help>
+                <Editors>
+                    <PatternflyInputNumber readonly @bind-Value="value.Id" />
+                </Editors>
+            </PatternflyFieldGroup>
+
+            <PatternflyFieldGroup Label="Product" IsRequired="true" Name="name">
+                <Help>The name of the product</Help>
+                <Editors>
+                    <PatternflyInputText @bind-Value="value.Name" />
+                </Editors>
+            </PatternflyFieldGroup>
+
+            <PatternflyFieldGroup Label="Price" IsRequired="true" Name="price">
+                <Help>The price of the product</Help>
+                <Editors>
+                    <PatternflyInputNumber @bind-Value="value.Price" />
+                </Editors>
+            </PatternflyFieldGroup>
+            <PatternflyActionList>
+                <PatternflyAction type="submit">Save</PatternflyAction>
+            </PatternflyActionList>
+        </PatternflyEditForm>
+    </Main>
+</PatternflyPanel>
+
+<p>
+    @completeResult
+</p>
+
+@code {
+    TableModel value = new TableModel
+        {
+            Id = 1,
+            Name = "Cardboard box",
+            Price = 5.10m
+        };
+    string completeResult;
+
+    class TableModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    void SetComplete()
+    {
+        this.completeResult = JsonConvert.SerializeObject(value);
+        this.StateHasChanged();
+    }
+}
