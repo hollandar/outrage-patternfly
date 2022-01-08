@@ -14,26 +14,11 @@ public class PatternflyInputText : InputText
 
     protected override void OnParametersSet()
     {
-        var classes = "pf-c-form-control";
-        var additionalAttributes = new Dictionary<string, object>(this.AdditionalAttributes ?? new Dictionary<string, object>());
-        if (additionalAttributes.ContainsKey("class"))
+        this.AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "pf-c-form-control", this.FieldName, (a) =>
         {
-            classes += " " + additionalAttributes["class"];
+            a["type"] = "text";
         }
-        additionalAttributes["class"] = classes;
-
-        additionalAttributes["type"] = "text";
-
-        var name = this.FieldName;
-        if (additionalAttributes.ContainsKey("name"))
-        {
-            name = (string)additionalAttributes["name"];
-        }
-        additionalAttributes["name"] = name;
-        additionalAttributes["id"] = this.FieldName;
-
-
-        this.AdditionalAttributes = additionalAttributes;
+        ) ?? null;
         base.OnParametersSet();
     }
 }

@@ -15,24 +15,7 @@ public class PatternflyInputNumber<[DynamicallyAccessedMembers(DynamicallyAccess
 
     protected override void OnParametersSet()
     {
-        var classes = "pf-c-form-control";
-        var additionalAttributes = new Dictionary<string, object>(this.AdditionalAttributes ?? new Dictionary<string, object>());
-        if (additionalAttributes.ContainsKey("class"))
-        {
-            classes += " " + additionalAttributes["class"];
-        }
-        additionalAttributes["class"] = classes;
-
-        var name = this.FieldName;
-        if (additionalAttributes.ContainsKey("name"))
-        {
-            name = (string)additionalAttributes["name"];
-        }
-        additionalAttributes["name"] = name;
-        additionalAttributes["id"] = this.FieldName;
-
-
-        this.AdditionalAttributes = additionalAttributes;
+        this.AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "pf-c-form-control", this.FieldName) ?? null;
         base.OnParametersSet();
     }
 }

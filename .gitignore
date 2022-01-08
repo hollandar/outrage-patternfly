@@ -3,4 +3,5 @@ bin/
 obj/
 node_modules/
 Outrage.Patternfly/wwwroot/css/patternfly.base.css
+Outrage.Patternfly/wwwroot/css/patternfly.base.css.map
 Outrage.Patternfly/wwwroot/js/styles.js

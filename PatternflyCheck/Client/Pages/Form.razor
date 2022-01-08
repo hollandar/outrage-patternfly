@@ -28,6 +28,14 @@
                     <PatternflyInputNumber @bind-Value="value.Price" />
                 </Editors>
             </PatternflyFieldGroup>
+
+            <PatternflyFieldGroup Label="Active" IsRequired="true" Name="active">
+                <Help>Is the product active</Help>
+                <Editors>
+                    <PatternflyCheckbox @bind-Value="value.Active" Label="Active Label" />
+                </Editors>
+            </PatternflyFieldGroup>
+
             <PatternflyActionList>
                 <PatternflyAction type="submit">Save</PatternflyAction>
             </PatternflyActionList>
@@ -44,7 +52,8 @@
         {
             Id = 1,
             Name = "Cardboard box",
-            Price = 5.10m
+            Price = 5.10m,
+            Active = false
         };
     string completeResult;
 
@@ -53,6 +62,7 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
+        public bool Active { get; set; }
     }
 
     protected override void OnInitialized()
