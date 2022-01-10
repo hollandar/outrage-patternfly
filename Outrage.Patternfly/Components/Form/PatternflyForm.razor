@@ -1,0 +1,21 @@
+﻿<div class="@DeriveClass()">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public bool Horizontal { get; set; } = false;
+
+    [Parameter]
+    public RenderFragment? ChildContent {  get;  set; }
+
+    string DeriveClass()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-form" });
+
+        if (Horizontal)
+            classes.Add("pf-m-horizontal");
+
+        return String.Join(" ", classes);
+    }
+}

@@ -1,0 +1,23 @@
+﻿<div class="@DeriveClass()">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool Gutter { get; set; } = true;
+
+    string DeriveClass()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-l-stack" });
+
+        if (Gutter)
+        {
+            classes.Add("pf-m-gutter");
+
+        }
+        return String.Join(" ", classes);
+    }
+}

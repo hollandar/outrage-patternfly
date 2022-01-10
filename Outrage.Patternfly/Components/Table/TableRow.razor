@@ -1,4 +1,4 @@
-﻿<tr role="row" @attributes="AdditionalAttributes">
+﻿<tr role="row" @attributes="AdditionalAttributes" @onclick="RowClicked">
     @ChildContent
 </tr>
 
@@ -9,5 +9,14 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public IDictionary<string, object>? AdditionalAttributes { get; set; }
 
+    [Parameter]
+    public EventCallback<MouseEventArgs> Clicked { get; set; }
 
+    async Task RowClicked(MouseEventArgs e)
+    {
+        if (Clicked.HasDelegate)
+        {
+            await Clicked.InvokeAsync(e);
+        }
+    }
 }

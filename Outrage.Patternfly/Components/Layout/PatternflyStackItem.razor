@@ -1,0 +1,23 @@
+﻿<div class="@DeriveClass()">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool Fill { get; set; } = true;
+
+    string DeriveClass()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-l-stack__item" });
+
+        if (Fill)
+        {
+            classes.Add("pf-m-fill");
+
+        }
+        return String.Join(" ", classes);
+    }
+}
