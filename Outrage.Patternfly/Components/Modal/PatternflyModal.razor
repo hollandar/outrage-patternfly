@@ -1,5 +1,5 @@
 ﻿@using Outrage.Patternfly.Components.Backdrop
-@using Outrage.Patternfly.Components.Utilities
+@using Outrage.Patternfly.Components.Layout
 @if (this.Shown)
 {
     <PatternflyBackdrop>
@@ -44,16 +44,16 @@
     HtmlId modalId = new();
 
     [Parameter]
-    public RenderFragment ModalHeader { get; set; }
+    public RenderFragment? ModalHeader { get; set; }
 
     [Parameter]
-    public RenderFragment ModalBody { get; set; }
+    public RenderFragment? ModalBody { get; set; }
 
     [Parameter]
-    public RenderFragment ModalFooter { get; set; }
+    public RenderFragment? ModalFooter { get; set; }
 
     [Parameter]
-    public RenderFragment HelpContent { get; set; }
+    public RenderFragment? HelpContent { get; set; }
 
     [Parameter]
     public ModalSize Size { get; set; } = ModalSize.Medium;

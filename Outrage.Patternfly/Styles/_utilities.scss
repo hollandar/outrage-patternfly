@@ -24,35 +24,7 @@
     float: right;
 }
 
-/* WIDTH */
-.ou-w-0 {
-    width: var(--ou-size-0);
+.ou-float-left {
+    float: left;
 }
 
-/* FLEX */
-
-.ou-flex {
-    display: flex;
-}
-
-.ou-flex-1 {
-    flex: 1 1 0%;
-}
-
-.ou-flex-auto {
-    flex: 1 1 auto;
-}
-
-.ou-flex-auto {
-    flex: 0 1 auto;
-}
-
-.ou-flex-none {
-    flex: none;
-}
-
-/* GAP */
-
-.ou-gap-4 {
-    gap: var(--ou-size-4);
-}

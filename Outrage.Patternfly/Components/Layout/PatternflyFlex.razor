@@ -1,0 +1,31 @@
+﻿<div class="@DeriveClass()">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool Column { get; set; } = false;
+
+    [Parameter]
+    public bool Grow { get; set; } = false;
+
+    string DeriveClass()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-l-flex" });
+
+        if (Column)
+        {
+            classes.Add("pf-m-column");
+        }
+
+        if (Grow)
+        {
+            classes.Add("pf-m-grow");
+        }
+
+        return String.Join(" ", classes);
+    }
+}
