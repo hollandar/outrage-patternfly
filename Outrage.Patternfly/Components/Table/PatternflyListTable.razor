@@ -1,0 +1,57 @@
+﻿<CascadingValue Name="Parent" Value="@this">
+    <table class="pf-c-table @DeriveClass()"
+           role="grid"
+        aria-label="@(Label??"")">
+        @if (Headings != null)
+        {
+            <thead>
+                <tr role="row">
+                    @Headings
+                </tr>
+            </thead>
+        }
+
+        <tbody role="rowgroup">
+            @Rows
+        </tbody>
+    </table>
+</CascadingValue>
+
+@code {
+
+
+    [Parameter]
+    public RenderFragment? Headings { get; set; }
+
+    [Parameter]
+    public TableFallbackPoint Fallback { get; set; } = TableFallbackPoint.Medium;
+
+    [Parameter]
+    public RenderFragment? Rows { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; } = null;
+
+    [Parameter]
+    public string? Label { get; set; } = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+    string DeriveClass()
+    {
+        var classes = new HashSet<string>(new string[] { Class });
+        switch (Fallback)
+        {
+            case TableFallbackPoint.Custom: classes.Add("pf-m-grid"); break;
+            case TableFallbackPoint.Medium: classes.Add("pf-m-grid-md"); break;
+            case TableFallbackPoint.Large: classes.Add("pf-m-grid-lg"); break;
+            case TableFallbackPoint.XLarge: classes.Add("pf-m-grid-xl"); break;
+            case TableFallbackPoint.XXLarge: classes.Add("pf-m-grid-2xl"); break;
+        }
+
+        return string.Join(" ", classes);
+    }
+}

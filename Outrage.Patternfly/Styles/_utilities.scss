@@ -1,0 +1,58 @@
+﻿/* VARIABLES */
+:root {
+    --ou-size-0: 0;
+    --ou-size-4: 1rem;
+}
+
+/* CURSOR */
+
+.ou-cursor-pointer {
+    cursor: pointer;
+}
+
+
+/* DISPLAY */
+
+.ou-display-none {
+    display: none;
+}
+
+
+/* FLOAT */
+
+.ou-float-right {
+    float: right;
+}
+
+/* WIDTH */
+.ou-w-0 {
+    width: var(--ou-size-0);
+}
+
+/* FLEX */
+
+.ou-flex {
+    display: flex;
+}
+
+.ou-flex-1 {
+    flex: 1 1 0%;
+}
+
+.ou-flex-auto {
+    flex: 1 1 auto;
+}
+
+.ou-flex-auto {
+    flex: 0 1 auto;
+}
+
+.ou-flex-none {
+    flex: none;
+}
+
+/* GAP */
+
+.ou-gap-4 {
+    gap: var(--ou-size-4);
+}
