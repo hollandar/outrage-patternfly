@@ -1,0 +1,44 @@
+﻿@namespace Outrage.Patternfly.Components.Tabs
+
+@using Outrage.Patternfly.Components.Utilities
+
+@implements ITab
+
+<li class="pf-c-tabs__item @(TitleCssClass)" id="@(TabId)_tab">
+    <button class="pf-c-tabs__link" type="button" disabled="@(Disabled)" id="default-example-users-link" @onclick="ActivateTab">
+        @if (!string.IsNullOrEmpty(Icon))
+        {
+            <span class="pf-c-tabs__item-icon" aria-hidden="true">
+              <Icon Name="@(Icon)" />
+            </span>
+        }
+        <span class="pf-c-tabs__item-text">@(Title)</span>
+    </button>
+</li>
+
+@code {
+
+    [CascadingParameter]
+    public PatternflyTabs? ContainerTabSet { get; set; }
+
+    [Parameter] public string TabId { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public string? Icon { get; set; }
+    [Parameter] public string? PanelCssClass { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+
+    private string? TitleCssClass => 
+        ContainerTabSet?.ActiveTab == this ? "pf-m-current" : null;
+
+    protected override void OnInitialized()
+    {
+        ContainerTabSet?.AddTab(this);
+    }
+
+    private void ActivateTab()
+    {
+        ContainerTabSet?.SetActiveTab(this);
+    }
+}
