@@ -29,11 +29,11 @@
 
     public ITab? ActiveTab { get; private set; }
 
-    public void AddTab(ITab tab)
+    public async Task AddTab(ITab tab)
     {
         if (ActiveTab is null)
         {
-            SetActiveTab(tab);
+            await SetActiveTab(tab);
         }
     }
 

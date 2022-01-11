@@ -34,14 +34,15 @@
     private string? TitleCssClass => 
         ContainerTabSet?.ActiveTab == this ? "pf-m-current" : null;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        ContainerTabSet?.AddTab(this);
+        await ContainerTabSet?.AddTab(this);
+        await base.OnInitializedAsync();
     }
 
-    private void ActivateTab()
+    private async Task ActivateTab()
     {
-        ContainerTabSet?.SetActiveTab(this);
+        await ContainerTabSet?.SetActiveTab(this);
     }
 
     protected override IEnumerable<string> OnIntroduceClasses()
