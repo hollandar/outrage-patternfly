@@ -1,6 +1,6 @@
 ﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
 
-<div class="pf-c-page @Classes" @attributes="AdditionalAttributes">
+<div class="@Classes" @attributes="AdditionalAttributes">
     <header class="pf-c-page__header" role="banner">
         <div class="pf-c-page__header-brand">
             @if (Toggle != null) {
@@ -11,6 +11,10 @@
                 <a href="#" class="pf-c-page__header-brand-link">@Logo</a>
             }
         </div>
+        @if (HeaderNav != null)
+        {
+            <div class="pf-c-page__header-nav">@HeaderNav</div>
+        }
         @if (Tools != null)
         {
             <div class="pf-c-page__header-tools">@Tools</div>
@@ -24,6 +28,10 @@
     }
     <main class="pf-c-page__main" tabindex="-1" role="main">
         <section class="pf-c-page__main-section">@MainContent</section>
+        @if (Footer != null)
+        {
+            <section class="pf-c-page__main-section pf-m-sticky-bottom pf-m-dark-200">@Footer</section>
+        }
     </main>
 </div>
 
@@ -33,13 +41,20 @@
 
     [Parameter] public RenderFragment? Toggle { get; set; }
     [Parameter] public RenderFragment? Logo { get; set; }
+    [Parameter] public RenderFragment? HeaderNav { get; set; }
     [Parameter] public RenderFragment? Tools { get; set; }
     [Parameter] public RenderFragment? Sidebar { get; set; }
     [Parameter] public RenderFragment? MainContent { get; set; }
+    [Parameter] public RenderFragment? Footer { get; set; }
 
     void ToggleSidebar()
     {
         this.sidebar = !sidebar;
         this.StateHasChanged();
+    }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        return new string[] { "pf-c-page" };
     }
 }

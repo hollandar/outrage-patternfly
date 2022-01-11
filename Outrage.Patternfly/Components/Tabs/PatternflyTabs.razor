@@ -1,0 +1,47 @@
+﻿@namespace Outrage.Patternfly.Components.Tabs
+
+<nav class="pf-c-tabs">
+  <button class="pf-c-tabs__scroll-button" disabled aria-hidden="true" aria-label="Scroll left"> 
+    <i class="fas fa-angle-left" aria-hidden="true"></i>
+  </button>
+
+  <CascadingValue Value="@this">
+    <ul class="pf-c-tabs__list">
+        @ChildContent        
+    </ul>
+  </CascadingValue>
+  
+  <button class="pf-c-tabs__scroll-button" disabled aria-hidden="true" aria-label="Scroll right" >
+    <i class="fas fa-angle-right" aria-hidden="true"></i>
+  </button>
+</nav>
+
+<section class="pf-c-tab-content @(ActiveTab?.PanelCssClass)" role="tabpanel" tabindex="0" id="@(ActiveTab?.TabId)_panel">
+  <div class="pf-c-tab-content__body">@(ActiveTab?.ChildContent)</div>
+</section>
+
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public EventCallback<string> OnTabSelected { get; set; }
+
+    public ITab? ActiveTab { get; private set; }
+
+    public void AddTab(ITab tab)
+    {
+        if (ActiveTab is null)
+        {
+            SetActiveTab(tab);
+        }
+    }
+
+    public async Task SetActiveTab(ITab tab)
+    {
+        if (ActiveTab != tab)
+        {
+            ActiveTab = tab;
+            StateHasChanged();
+            await OnTabSelected.InvokeAsync(tab.TabId);
+        }
+    }
+}
