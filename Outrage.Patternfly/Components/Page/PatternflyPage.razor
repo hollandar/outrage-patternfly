@@ -22,9 +22,9 @@
             <div class="pf-c-page__header-tools pf-l-flex__item">@Tools</div>
         }
     </header>
-    @if (Sidebar != null && sidebar)
+    @if (Sidebar != null)
     {
-        <div id="@controlsId" class="pf-c-page__sidebar" aria-expanded="@sidebar">
+        <div id="@controlsId" class="pf-c-page__sidebar @(sidebar?"pf-m-expanded":"pf-m-collapsed")" aria-expanded="@sidebar">
             <div class="pf-c-page__sidebar-body">@Sidebar</div>
         </div>
     }
