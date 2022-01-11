@@ -1,6 +1,8 @@
-﻿@namespace Outrage.Patternfly.Components.Tabs
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
 
-<nav class="pf-c-tabs">
+@namespace Outrage.Patternfly.Components.Tabs
+
+<nav class="@Classes" @attributes="AdditionalAttributes">
   <button class="pf-c-tabs__scroll-button" disabled aria-hidden="true" aria-label="Scroll left"> 
     <i class="fas fa-angle-left" aria-hidden="true"></i>
   </button>
@@ -43,5 +45,10 @@
             StateHasChanged();
             await OnTabSelected.InvokeAsync(tab.TabId);
         }
+    }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        return new string[] { "pf-c-tabs" };
     }
 }

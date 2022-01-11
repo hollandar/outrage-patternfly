@@ -1,10 +1,12 @@
-﻿@namespace Outrage.Patternfly.Components.Tabs
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+@namespace Outrage.Patternfly.Components.Tabs
 
 @using Outrage.Patternfly.Components.Utilities
 
 @implements ITab
 
-<li class="pf-c-tabs__item @(TitleCssClass)" id="@(TabId)_tab">
+<li class="@(Classes) @(TitleCssClass)" id="@(TabId)_tab" @attributes="AdditionalAttributes">
     <button class="pf-c-tabs__link" type="button" disabled="@(Disabled)" id="default-example-users-link" @onclick="ActivateTab">
         @if (!string.IsNullOrEmpty(Icon))
         {
@@ -40,5 +42,10 @@
     private void ActivateTab()
     {
         ContainerTabSet?.SetActiveTab(this);
+    }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        return new string[] { "pf-c-tabs__item" };
     }
 }
