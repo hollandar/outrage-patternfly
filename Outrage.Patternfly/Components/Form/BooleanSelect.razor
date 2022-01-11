@@ -1,4 +1,6 @@
-﻿<InputSelect @attributes="AdditionalAttributes" Value="@this.StringValue" ValueExpression="@(() => this.StringValue)" ValueChanged="@(async (string value) => { await MapBoundValue(value); })">
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<InputSelect class="@Classes" @attributes="AdditionalAttributes" Value="@this.StringValue" ValueExpression="@(() => this.StringValue)" ValueChanged="@(async (string value) => { await MapBoundValue(value); })">
     <option value="True">@WhenTrue</option>
     <option value="False">@WhenFalse</option>
 </InputSelect>
@@ -18,9 +20,6 @@
 
     [Parameter]
     public RenderFragment WhenFalse { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public IDictionary<string, object> AdditionalAttributes { get; set; }
 
     protected override void OnInitialized()
     {

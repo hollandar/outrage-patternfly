@@ -1,4 +1,6 @@
-﻿<nav class="pf-c-nav" aria-label="Global">
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<nav class="@Classes" @attributes="AdditionalAttributes" aria-label="Global">
   <ul class="pf-c-nav__list">
     @ChildContent
   </ul>
@@ -6,4 +8,9 @@
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        return new string[] { "pf-c-nav" };
+    }
 }

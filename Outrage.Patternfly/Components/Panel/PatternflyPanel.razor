@@ -1,4 +1,6 @@
-﻿<div class="pf-c-panel @DeriveClass()">
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="@Classes" @attributes="AdditionalAttributes">
     @if (Header != null)
     {
         <div class="pf-c-panel__header">@Header</div>
@@ -37,12 +39,10 @@
     [Parameter]
     public bool Scrollable { get; set; }
 
-    [Parameter]
-    public string? Class { get; set; }
 
-    string DeriveClass()
+    protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { Class });
+        var classes = new HashSet<string>(new string[] { "pf-c-panel" });
         if (Raised)
             classes.Add("pf-m-raised");
         if (Bordered)
@@ -50,6 +50,6 @@
         if (Scrollable)
             classes.Add("pf-m-scrollable");
 
-        return string.Join(" ", classes);
+        return classes;
     }
 }

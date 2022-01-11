@@ -1,4 +1,6 @@
-﻿<div class="@DeriveClass()">
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="@Classes" @attributes="AdditionalAttributes">
     @ChildContent
 </div>
 
@@ -7,15 +9,15 @@
     public bool Horizontal { get; set; } = false;
 
     [Parameter]
-    public RenderFragment? ChildContent {  get;  set; }
+    public RenderFragment? ChildContent { get; set; }
 
-    string DeriveClass()
+    protected override IEnumerable<string> OnIntroduceClasses()
     {
         var classes = new HashSet<string>(new string[] { "pf-c-form" });
 
         if (Horizontal)
             classes.Add("pf-m-horizontal");
 
-        return String.Join(" ", classes);
+        return classes;
     }
 }

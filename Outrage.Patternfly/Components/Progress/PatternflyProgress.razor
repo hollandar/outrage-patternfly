@@ -1,4 +1,6 @@
-﻿<div class="pf-c-progress" id="@progressId">
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="pf-c-progress @Classes" id="@progressId" @attributes="AdditionalAttributes">
   <div
     class="pf-c-progress__description"
     id="@progressId.With("description")"

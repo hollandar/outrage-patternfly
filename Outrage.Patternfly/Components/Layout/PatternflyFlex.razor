@@ -1,4 +1,6 @@
-﻿<div class="@DeriveClass()">
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="@Classes" @attributes="@AdditionalAttributes">
     @ChildContent
 </div>
 
@@ -12,9 +14,16 @@
     [Parameter]
     public bool Grow { get; set; } = false;
 
-    string DeriveClass()
+    [Parameter]
+    public Justify Justify { get; set; } = Justify.FlexStart;
+
+    protected override IEnumerable<string> OnIntroduceClasses()
     {
         var classes = new HashSet<string>(new string[] { "pf-l-flex" });
+        if (AdditionalAttributes?.ContainsKey("class") ?? false)
+        {
+            classes.Add((string)AdditionalAttributes["class"]);    
+        }
 
         if (Column)
         {
@@ -26,6 +35,14 @@
             classes.Add("pf-m-grow");
         }
 
-        return String.Join(" ", classes);
+        switch (Justify)
+        {
+            case Justify.FlexStart: classes.Add("pf-m-justify-content-flex-start"); break;
+            case Justify.SpaceBetween: classes.Add("pf-m-justify-content-space-between"); break;
+            case Justify.FlexEnd: classes.Add("pf-m-justify-content-flex-end"); break;
+
+        }
+
+        return classes;
     }
 }

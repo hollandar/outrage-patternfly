@@ -1,4 +1,6 @@
-﻿<NavLink class="pf-c-nav__link" ActiveClass="pf-m-current" Match="@Match" href="@(Href ?? "#")">
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<NavLink class="@Classes" ActiveClass="pf-m-current" Match="@Match" href="@(Href ?? "#")" @attributes="AdditionalAttributes">
     @if (Icon != null)
     {
         <i class="@Icon" aria-hidden="true"></i>
@@ -20,4 +22,9 @@
     [Parameter] public string? Href { get; set; } = null;
     [Parameter] public string? Text { get; set; } = null;
     [Parameter] public RenderFragment? ChildContent { get; set; } = null;
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        return new string[] { "pf-c-nav__link" };
+    }
 }

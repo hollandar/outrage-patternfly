@@ -1,12 +1,14 @@
-﻿<CascadingValue Name="Parent" Value="@this">
-    <table class="pf-c-table @DeriveClass()"
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<CascadingValue Name="Parent" Value="@this">
+    <table class="@Classes" @attributes="AdditionalAttributes"
            role="grid"
         aria-label="@(Label??"")">
-        @if (Headings != null)
+        @if (Columns != null)
         {
             <thead>
                 <tr role="row">
-                    @Headings
+                    @Columns
                 </tr>
             </thead>
         }
@@ -21,16 +23,13 @@
 
 
     [Parameter]
-    public RenderFragment? Headings { get; set; }
+    public RenderFragment? Columns { get; set; }
 
     [Parameter]
     public TableFallbackPoint Fallback { get; set; } = TableFallbackPoint.Medium;
 
     [Parameter]
     public RenderFragment? Rows { get; set; }
-
-    [Parameter]
-    public string? Class { get; set; } = null;
 
     [Parameter]
     public string? Label { get; set; } = null;
@@ -40,9 +39,9 @@
         await base.OnInitializedAsync();
     }
 
-    string DeriveClass()
+    protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { Class });
+        var classes = new HashSet<string>(new string[] { "pf-c-table" });
         switch (Fallback)
         {
             case TableFallbackPoint.Custom: classes.Add("pf-m-grid"); break;
@@ -52,6 +51,6 @@
             case TableFallbackPoint.XXLarge: classes.Add("pf-m-grid-2xl"); break;
         }
 
-        return string.Join(" ", classes);
+        return classes;
     }
 }

@@ -1,15 +1,15 @@
-﻿@typeparam TItem
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+@typeparam TItem
 @typeparam TItemKey
 
 <CascadingValue Name="Parent" Value="@this">
-    <table class="pf-c-table @DeriveClass()"
-           role="grid"
-        aria-label="@(Label??"")">
-        @if (Headings != null)
+    <table class="@Classes" @attributes="AdditionalAttributes" role="grid" aria-label="@(Label ?? "")">
+        @if (this.Columns != null)
         {
             <thead>
                 <tr role="row">
-                    @Headings
+                    @this.Columns
                 </tr>
             </thead>
         }
@@ -29,7 +29,7 @@
             }
         </tbody>
     </table>
-    @if (Items != null && Items.Items.Count() == 0 && !String.IsNullOrWhiteSpace(NotFoundText))
+    @if (Items != null && Items.Items.Count<TableRowWrapper<TItem>>() == 0 && !string.IsNullOrWhiteSpace(NotFoundText))
     {
         <div class="ou-not-found">@NotFoundText</div>
     }
@@ -46,19 +46,19 @@
     private TItemKey loadedId = default(TItemKey);
 
     [Parameter]
-    public RenderFragment Headings { get; set; }
+    public RenderFragment? Columns { get; set; }
 
     [Parameter]
     public Func<TItem, object> Key { get; set; } = null;
 
     [Parameter]
-    public RenderFragment<TItem> RowTemplate { get; set; }
+    public RenderFragment<TItem>? RowTemplate { get; set; }
 
     [Parameter]
     public EventCallback<PageSwitchArgs<TItemKey>> OnLoadItems { get; set; }
 
     [Parameter]
-    public TablePageModel<TItem> Items { get; set; }
+    public TablePageModel<TItem>? Items { get; set; }
 
     [Parameter]
     public EventCallback<TableRowWrapper<TItem>> OnRowClicked { get; set; }
@@ -69,18 +69,14 @@
     [Parameter]
     public string NotFoundText { get; set; } = "No records found.";
 
-    public int TotalCount { get { return this.Items.Total; } }
+    public int TotalCount { get { return this.Items?.Total ?? 0; } }
     public int Page { get; set; } = 0;
 
     [Parameter]
     public int PageSize { get; set; } = 20;
-    HashSet<string> Columns { get; } = new HashSet<string>();
 
     [Parameter]
     public TableFallbackPoint Fallback { get; set; } = TableFallbackPoint.Medium;
-
-    [Parameter]
-    public string? Class { get; set; } = null;
 
     [Parameter]
     public string? Label { get; set; } = null;
@@ -124,9 +120,9 @@
         });
     }
 
-    string DeriveClass()
+    protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { Class });
+        var classes = new HashSet<string>(new string[] { "pf-c-table" });
         switch (Fallback)
         {
             case TableFallbackPoint.Custom: classes.Add("pf-m-grid"); break;
@@ -136,6 +132,6 @@
             case TableFallbackPoint.XXLarge: classes.Add("pf-m-grid-2xl"); break;
         }
 
-        return string.Join(" ", classes);
+        return classes;
     }
 }

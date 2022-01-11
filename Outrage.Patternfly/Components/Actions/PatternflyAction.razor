@@ -1,5 +1,8 @@
-﻿@using Outrage.Patternfly.Components.Button
-<div class="pf-c-action-list__item">
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+@using Outrage.Patternfly.Components.Button
+
+<div class="@Classes" @attributes="AdditionalAttributes">
     <PatternflyButton Color="@Color" Icon="@Icon" IconPosition="@IconPosition" Clicked="ActionClicked" @attributes="AdditionalAttributes">
         @ChildContent
     </PatternflyButton>
@@ -22,12 +25,13 @@
     [Parameter]
     public EventCallback<MouseEventArgs> Clicked { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public IDictionary<string, object> AdditionalAttributes { get; set; }
-
     async Task ActionClicked(MouseEventArgs e)
     {
         await this.Clicked.InvokeAsync(e);
     }
 
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        return new string[] { "pf-c-action-list__item" };
+    }
 }

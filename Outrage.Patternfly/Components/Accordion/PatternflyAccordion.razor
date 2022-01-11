@@ -1,7 +1,9 @@
-﻿@inject IJSRuntime jsRuntime
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+@inject IJSRuntime jsRuntime
  
 <CascadingValue Name="Accordion" TValue="PatternflyAccordion" Value="this">
-    <div @ref="accordionElement" class="pf-c-accordion">
+    <div @ref="accordionElement" class="@Classes" @attributes="AdditionalAttributes">
         @ChildContent
     </div>
 </CascadingValue>
@@ -46,5 +48,10 @@
         }    
     }
 
-    
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        return new string[] { "pf-c-accordion" };
+    }
+
+
 }

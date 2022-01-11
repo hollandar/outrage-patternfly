@@ -1,4 +1,6 @@
-﻿<div class="grid-paginator">
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="grid-paginator @Classes" @attributes="AdditionalAttributes">
     <button class="action" disabled="@FirstPage" @onclick="(e)=>SelectPage(0)">&lt;&lt;</button>
     <button class="action" disabled="@FirstPage" @onclick="(e)=>SelectPage(Page-1)">&lt;</button>
     @for (var i = PageLow; i <= PageHigh; i++)

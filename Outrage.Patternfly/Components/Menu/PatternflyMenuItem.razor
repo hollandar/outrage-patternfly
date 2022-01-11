@@ -1,4 +1,6 @@
-﻿<li class="pf-c-menu__list-item @(Expanded && this.Menu.MenuStyle == MenuStyle.DrillDown? "pf-m-current-path":"")">
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<li class="pf-c-menu__list-item @(Expanded && this.Menu.MenuStyle == MenuStyle.DrillDown? "pf-m-current-path":"") @Classes" @attributes="AdditionalAttributes">
     <button class="pf-c-menu__item" type="button" @onclick="OnClicked">
         <span class="pf-c-menu__item-main">
             @if (Icon != null)

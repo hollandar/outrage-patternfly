@@ -1,5 +1,7 @@
-﻿<CascadingValue Name="FieldName" Value="formGroupId.With(this.Name)">
-    <div class="pf-c-form__group">
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<CascadingValue Name="FieldName" Value="formGroupId.With(this.Name)">
+    <div class="@Classes" @attributes="AdditionalAttributes">
         <div class="pf-c-form__group-label">
             <label class="pf-c-form__label" for="@formGroupId.With(this.Name)">
                 <span class="pf-c-form__label-text">@Label</span>
@@ -54,5 +56,10 @@
     {
         this.showHelp = !this.showHelp;
         this.StateHasChanged();
+    }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        return new string[] { "pf-c-form__group" };
     }
 }

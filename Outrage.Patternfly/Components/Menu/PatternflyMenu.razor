@@ -1,5 +1,7 @@
-﻿<CascadingValue Name="Menu" Value="this">
-    <div class="@DeriveClass()">
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<CascadingValue Name="Menu" Value="this">
+    <div class="@Classes" @attributes="AdditionalAttributes">
         <div class="pf-c-menu__content">
             <ul class="pf-c-menu__list">
                 @ChildContent
@@ -17,9 +19,6 @@
 
     [Parameter]
     public MenuStyle MenuStyle { get; set; } = MenuStyle.Normal;
-
-    [Parameter]
-    public string Class { get; set; } = null;
 
     public bool IsDrilledIn
     {
@@ -46,7 +45,7 @@
         await this.InvokeAsync(StateHasChanged);
     }
 
-    public string DeriveClass()
+    protected override IEnumerable<string> OnIntroduceClasses()
     {
         var classes = new HashSet<string>(new string[] { "pf-c-menu", Class });
         if (Scrollable)
@@ -60,7 +59,7 @@
                 classes.Add("pf-m-drilled-in");
         }
 
-        return string.Join(" ", classes);
+        return classes;
     }
 
 }

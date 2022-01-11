@@ -1,4 +1,6 @@
-﻿<div class="@DeriveClass()">
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="@Classes" @attributes="AdditionalAttributes">
     @ChildContent
 </div>
 
@@ -9,7 +11,7 @@
     [Parameter]
     public bool Gutter { get; set; } = true;
 
-    string DeriveClass()
+    protected override IEnumerable<string> OnIntroduceClasses()
     {
         var classes = new HashSet<string>(new string[] { "pf-l-stack" });
 
@@ -18,6 +20,7 @@
             classes.Add("pf-m-gutter");
 
         }
-        return String.Join(" ", classes);
+
+        return classes;
     }
 }

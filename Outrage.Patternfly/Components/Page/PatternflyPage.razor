@@ -1,4 +1,6 @@
-﻿<div class="pf-c-page">
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="pf-c-page @Classes" @attributes="AdditionalAttributes">
     <header class="pf-c-page__header" role="banner">
         <div class="pf-c-page__header-brand">
             @if (Toggle != null) {
