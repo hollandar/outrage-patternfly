@@ -10,7 +10,7 @@ namespace Outrage.Patternfly.Components.Base
     public class PatternflyComponentBase: ComponentBase
     {
         [Parameter(CaptureUnmatchedValues = true)]
-        public Dictionary<string, object>? AdditionalAttributes { get; set; }
+        public Dictionary<string, object>? AdditionalAttributes { get; set; } = new Dictionary<string, object>();
 
         [Parameter]
         public string? Class { get; set; } = null;

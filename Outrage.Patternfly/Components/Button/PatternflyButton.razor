@@ -84,6 +84,9 @@
                 break;
         }
 
+        if (!AdditionalAttributes?.ContainsKey("type") ?? false)
+            AdditionalAttributes["type"] = "button";
+
         return classes;
     }
 
