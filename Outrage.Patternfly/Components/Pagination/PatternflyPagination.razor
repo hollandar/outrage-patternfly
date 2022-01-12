@@ -3,7 +3,7 @@
 @using Outrage.Patternfly.Components.Utilities
 
 <div class="@Classes" @attributes="AdditionalAttributes">
-  <div class="pf-c-options-menu pf-m-top">
+  <div class="pf-c-options-menu @(Position == PaginationPosition.Bottom ? "pf-m-top" : string.Empty)">
     <div class="pf-c-options-menu__toggle pf-m-text pf-m-plain">
       <span class="pf-c-options-menu__toggle-text">
         <b>@FirstRecord - @LastRecord</b>&nbsp;of&nbsp;
@@ -21,7 +21,7 @@
       </button>
     </div>
     <ul
-      class="pf-c-options-menu__menu pf-m-top"
+      class="pf-c-options-menu__menu @(Position == PaginationPosition.Bottom ? "pf-m-top" : string.Empty)"
       aria-labelledby="pagination-options-toggle-@(componentId)"
       hidden="@(!showPageSizeSelector)">
         @for (int i = 5; i < 20; i += 5)

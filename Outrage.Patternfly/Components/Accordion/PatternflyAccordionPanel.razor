@@ -47,8 +47,15 @@
 
     public async Task Show()
     {
-        await this.Accordion.CloseAll();
-        await this.SetVisible(true);
+        if (this.Accordion.CloseOthers)
+        {
+            await this.Accordion.CloseAll();
+            await this.SetVisible(true);
+        }
+        else
+        {
+            await this.SetVisible(!Visible);
+        }
     }
 
     public async Task SetVisible(bool visible)
