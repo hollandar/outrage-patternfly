@@ -1,19 +1,25 @@
 ﻿@implements IDisposable
 @using Outrage.EventBus
+@using Outrage.Patternfly.Components.Alert
 @using Outrage.Patternfly.Messages
 @inject IClientEventBus Bus
-  
-<toaster>
+
+<ul class="pf-c-alert-group pf-m-toast">
     @foreach (var message in messages.OrderByDescending(message => message.ExpireTime))
     {
-        <toast class="@(message.ExpireTime < DateTimeOffset.UtcNow? "expiring":"visible") @(message.Message.StyleClass ?? string.Empty)">@message.Message.Message</toast>
+        <li class="pf-c-alert-group__item">
+            <PatternflyAlert hidden="@(message.ExpireTime > DateTimeOffset.UtcNow)"
+                         Color="@message.Message.StyleClass"
+                         Title="@message.Message.Message"
+                         Description="@message.Message.Description" />
+        </li>
     }
-</toaster>
+</ul>
 
 @code {
 
     [Parameter]
-    public TimeSpan Expiry { get; set; } = TimeSpan.FromSeconds(2);
+    public TimeSpan Expiry { get; set; } = TimeSpan.FromSeconds(5);
 
     IList<ToastMessageModel> messages = new List<ToastMessageModel>();
     System.Threading.Timer timer;

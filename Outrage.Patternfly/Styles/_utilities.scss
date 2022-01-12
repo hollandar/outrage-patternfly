@@ -42,3 +42,16 @@
 [hidden] {
     visibility: hidden;
 }
+
+/* Z-INDEX*/
+.ou-z-top {
+    z-index:900;
+}
+
+.ou-z-zero {
+    z-index:0;
+}
+
+.ou-z-behind {
+    z-index:-1;
+}

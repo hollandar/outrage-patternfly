@@ -19,10 +19,11 @@
             <i class="fas fa-times" aria-hidden="true"></i>
         </PatternflyButton>
     </div>
-    @if (Description != null)
+    @if (Description != null || Content != null)
     {
         <div class="pf-c-alert__description">
             @Description
+            @Content
         </div>
     }
     @if (Controls != null)
@@ -37,7 +38,8 @@
     [Parameter] public AlertColor Color { get; set; } = AlertColor.Default;
     [Parameter] public string? Icon { get; set; } = null;
     [Parameter] public string? Title { get; set; } = null;
-    [Parameter] public RenderFragment? Description { get; set; } = null;
+    [Parameter] public string Description { get; set; } = null;
+    [Parameter] public RenderFragment? Content { get; set; } = null;
     [Parameter] public RenderFragment? Controls { get; set; }
     [Parameter] public bool Closed { get; set; } = false;
 
