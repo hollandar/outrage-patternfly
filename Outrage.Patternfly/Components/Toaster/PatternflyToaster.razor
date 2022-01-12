@@ -9,7 +9,7 @@
     {
         <li class="pf-c-alert-group__item">
             <PatternflyAlert hidden="@(message.ExpireTime > DateTimeOffset.UtcNow)"
-                         Color="@message.Message.StyleClass"
+                         Color="@message.Message.Color"
                          Title="@message.Message.Message"
                          Description="@message.Message.Description" />
         </li>
