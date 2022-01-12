@@ -22,7 +22,7 @@
     public RenderFragment ChildContent { get; set; }
 
     [Parameter]
-    public Color Color { get; set; }
+    public ButtonColor Color { get; set; } = ButtonColor.Primary;
 
     [Parameter]
     public string Icon { get; set; } = null;
@@ -39,47 +39,47 @@
 
         switch (Color)
         {
-            case Color.None:
+            case ButtonColor.Plain:
                 classes.Add("pf-m-plain");
                 break;
 
-            case Color.Primary:
+            case ButtonColor.Primary:
                 classes.Add("pf-m-primary");
                 break;
 
-            case Color.Secondary:
+            case ButtonColor.Secondary:
                 classes.Add("pf-m-secondary");
                 break;
 
-            case Color.SecondaryDanger:
+            case ButtonColor.SecondaryDanger:
                 classes.Add("pf-m-secondary pf-m-danger");
                 break;
 
-            case Color.Tertiary:
+            case ButtonColor.Tertiary:
                 classes.Add("pf-m-tertiary");
                 break;
 
-            case Color.Danger:
+            case ButtonColor.Danger:
                 classes.Add("pf-m-danger");
                 break;
 
-            case Color.Warning:
+            case ButtonColor.Warning:
                 classes.Add("pf-m-warning");
                 break;
 
-            case Color.Link:
+            case ButtonColor.Link:
                 classes.Add("pf-m-link");
                 break;
 
-            case Color.InlineLink:
+            case ButtonColor.InlineLink:
                 classes.Add("pf-m-link pf-m-inline");
                 break;
 
-            case Color.LinkDanger:
+            case ButtonColor.LinkDanger:
                 classes.Add("pf-m-link pf-m-danger");
                 break;
 
-            case Color.Control:
+            case ButtonColor.Control:
                 classes.Add("pf-m-control");
                 break;
         }

@@ -1,0 +1,65 @@
+﻿@using Outrage.Patternfly.Components.Button
+@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="pf-c-alert pf-m-success" aria-label="Success alert" hidden="@Closed">
+    @if (Icon != null)
+    {
+        <div class="pf-c-alert__icon">
+            <i class="@Icon" aria-hidden="true"></i>
+        </div>
+    }
+    <p class="pf-c-alert__title">
+        <span class="pf-screen-reader">@Color.ToString() alert:</span>
+        @Title
+    </p>
+    <div class="pf-c-alert__action">
+        <PatternflyButton Color="ButtonColor.Plain"
+                          aria-label="@($"Close alert: {Title}")"
+                          Clicked="CloseAlert">
+            <i class="fas fa-times" aria-hidden="true"></i>
+        </PatternflyButton>
+    </div>
+    @if (Description != null)
+    {
+        <div class="pf-c-alert__description">
+            @Description
+        </div>
+    }
+    @if (Controls != null)
+    {
+        <div class="pf-c-alert__action-group">
+            @Controls
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public AlertColor Color { get; set; } = AlertColor.Default;
+    [Parameter] public string? Icon { get; set; } = null;
+    [Parameter] public string? Title { get; set; } = null;
+    [Parameter] public RenderFragment? Description { get; set; } = null;
+    [Parameter] public RenderFragment? Controls { get; set; }
+    [Parameter] public bool Closed { get; set; } = false;
+
+    protected async Task CloseAlert()
+    {
+        Closed = true;
+        await this.InvokeAsync(StateHasChanged);
+    }
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>();
+        classes.Add("pf-c-alert");
+        switch (Color)
+        {
+            case AlertColor.Info: classes.Add("pf-m-info"); break;
+            case AlertColor.Success: classes.Add("pf-m-success"); break;
+            case AlertColor.Warning: classes.Add("pf-m-warning"); break;
+            case AlertColor.Danger: classes.Add("pf-m-danger"); break;
+            case AlertColor.Default:
+            default: break;
+        }
+        return classes;
+
+    }
+}

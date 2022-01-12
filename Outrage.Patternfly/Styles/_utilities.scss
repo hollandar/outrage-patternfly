@@ -37,3 +37,8 @@
 .ou-p-4 {
     padding: var(--ou-size-4);
 }
+
+/* HIDDEN */
+[hidden] {
+    visibility: hidden;
+}

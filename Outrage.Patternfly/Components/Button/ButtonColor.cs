@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Outrage.Patternfly.Components.Button
 {
-    public enum Color
+    public enum ButtonColor
     {
-        None,
+        Plain,
         Primary,
         Secondary,
         SecondaryDanger,
