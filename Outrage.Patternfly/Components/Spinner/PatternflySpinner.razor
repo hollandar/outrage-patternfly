@@ -1,0 +1,29 @@
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<span class="@Classes" @attributes="AdditionalAttributes" role="progressbar" aria-label="Loading...">
+    <span class="pf-c-spinner__clipper"></span>
+    <span class="pf-c-spinner__lead-ball"></span>
+    <span class="pf-c-spinner__tail-ball"></span>
+</span>
+
+@code {
+    [Parameter] public SpinnerSize Size { get; set; } = SpinnerSize.Default;
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-spinner" });
+
+        switch (Size)
+        {
+            case SpinnerSize.Small: classes.Add("pf-m-sm"); break;
+            case SpinnerSize.Medium: classes.Add("pf-m-md"); break;
+            case SpinnerSize.Large: classes.Add("pf-m-lg"); break;
+            case SpinnerSize.XLarge: classes.Add("pf-m-xl"); break;
+            case SpinnerSize.Default:
+            default:
+                break;
+        }
+
+        return classes;
+    }
+}
