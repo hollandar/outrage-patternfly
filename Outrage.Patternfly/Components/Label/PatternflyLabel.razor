@@ -1,0 +1,73 @@
+﻿@using Outrage.Patternfly.Components.Button
+@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<span class="@Classes" @attributes="AdditionalAttributes">
+    <span class="pf-c-label__content">
+        @if (Icon != null)
+        {
+            <span class="pf-c-label__icon">
+                <i class="@Icon" aria-hidden="true"></i>
+            </span>
+        }
+        @if (Clicked.HasDelegate)
+        {
+            <a class="pf-c-label__text" href="javascript:void(0)" @onclick="ClickLabel" @onclick:preventDefault @onclick:stopPropagation>@Text</a>
+        }
+        else
+        {
+            <span class="pf-c-label__text">@Text</span>
+        }
+    </span>
+    @if (Closed.HasDelegate)
+    {
+        <PatternflyButton Color="ButtonColor.Plain"
+                      type="button"
+                      aria-label="Remove"
+                      Clicked="CloseLabel">
+            <i class="fas fa-times" aria-hidden="true"></i>
+        </PatternflyButton>
+    }
+</span>
+
+@code {
+    [Parameter] public LabelColor Color { get; set; } = LabelColor.Default;
+    [Parameter] public string? Icon { get; set; } = null;
+    [Parameter] public string? Text { get; set; } = null;
+    [Parameter] public bool Compact { get; set; } = false;
+    [Parameter] public EventCallback<MouseEventArgs> Closed { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    protected async Task CloseLabel(MouseEventArgs args)
+    {
+        await this.Closed.InvokeAsync(args);
+    }
+
+    protected async Task ClickLabel(MouseEventArgs args)
+    {
+        await this.Clicked.InvokeAsync(args);
+    }
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>();
+        classes.Add("pf-c-label");
+        switch (Color)
+        {
+            case LabelColor.Blue: classes.Add("pf-m-blue"); break;
+            case LabelColor.Green: classes.Add("pf-m-green"); break;
+            case LabelColor.Orange: classes.Add("pf-m-orange"); break;
+            case LabelColor.Red: classes.Add("pf-m-red"); break;
+            case LabelColor.Purple: classes.Add("pf-m-purple"); break;
+            case LabelColor.Cyan: classes.Add("pf-m-cyan"); break;
+            case LabelColor.Default:
+            case LabelColor.Gray:
+            default: break;
+        }
+
+        if (Compact)
+        {
+            classes.Add("pf-m-compact");
+        }
+        return classes;
+
+    }
+}

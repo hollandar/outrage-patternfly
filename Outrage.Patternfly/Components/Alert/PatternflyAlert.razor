@@ -1,7 +1,7 @@
 ﻿@using Outrage.Patternfly.Components.Button
 @inherits Patternfly.Components.Base.PatternflyComponentBase
 
-<div class="pf-c-alert pf-m-success" aria-label="Success alert" hidden="@Closed">
+<div class="@Classes" @attributes="AdditionalAttributes" aria-label="@($"{@Color.ToString()} alert")" hidden="@Closed">
     @if (Icon != null)
     {
         <div class="pf-c-alert__icon">
