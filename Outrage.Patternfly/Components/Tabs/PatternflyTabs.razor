@@ -29,22 +29,33 @@
 
     public ITab? ActiveTab { get; private set; }
 
+    private List<ITab> tabs = new List<ITab>();
+
     public async Task AddTab(ITab tab)
     {
         if (ActiveTab is null)
         {
             await SetActiveTab(tab);
         }
+        tabs.Add(tab);
     }
 
     public async Task SetActiveTab(ITab tab)
     {
-        if (ActiveTab != tab)
+        if (ActiveTab != tab && tab != null)
         {
             ActiveTab = tab;
             StateHasChanged();
             await OnTabSelected.InvokeAsync(tab.TabId);
         }
+    }
+
+    public async Task SetActiveTab(string? tabId)
+    {
+        ITab? tab = null;
+        if (!string.IsNullOrEmpty(tabId))
+            tab = tabs.SingleOrDefault(t => t.TabId == tabId);
+        await SetActiveTab(tab ?? tabs.First());
     }
 
     protected override IEnumerable<string> OnIntroduceClasses()

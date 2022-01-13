@@ -1,17 +1,19 @@
-﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+﻿@using Outrage.Patternfly.Components.Utilities
 
-<button class="@Classes" @onclick="OnClicked" @attributes="AdditionalAttributes">
+@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<button class="@Classes" @onclick="OnClicked" @onclick:stopPropagation @attributes="AdditionalAttributes">
     @if (Icon != null && IconPosition == IconPosition.Start)
     {
         <span class="pf-c-button__icon pf-m-start">
-            <i class="@Icon" aria-hidden="true"></i>
+            <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true" />
         </span>
     }
     @ChildContent
     @if (Icon != null && IconPosition == IconPosition.End)
     {
         <span class="pf-c-button__icon pf-m-end">
-            <i class="@Icon" aria-hidden="true"></i>
+            <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true" />
         </span>
     }
 </button>
@@ -25,7 +27,13 @@
     public ButtonColor Color { get; set; } = ButtonColor.Primary;
 
     [Parameter]
+    public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+
+    [Parameter]
     public string Icon { get; set; } = null;
+
+    [Parameter]
+    public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.regular;
 
     [Parameter]
     public IconPosition IconPosition { get; set; } = IconPosition.Start;

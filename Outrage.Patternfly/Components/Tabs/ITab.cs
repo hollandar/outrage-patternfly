@@ -12,5 +12,7 @@ namespace Outrage.Patternfly.Components.Tabs
         string TabId { get; }
         string PanelCssClass { get; }
         RenderFragment ChildContent { get; }
+
+        Task ActivateTab();
     }
 }

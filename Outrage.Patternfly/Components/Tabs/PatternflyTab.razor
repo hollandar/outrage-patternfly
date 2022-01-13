@@ -36,13 +36,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await ContainerTabSet?.AddTab(this);
+        if (ContainerTabSet != null)
+            await ContainerTabSet.AddTab(this);
         await base.OnInitializedAsync();
     }
 
-    private async Task ActivateTab()
+    public async Task ActivateTab()
     {
-        await ContainerTabSet?.SetActiveTab(this);
+        if (ContainerTabSet != null)
+            await ContainerTabSet.SetActiveTab(this);
     }
 
     protected override IEnumerable<string> OnIntroduceClasses()

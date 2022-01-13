@@ -1,9 +1,11 @@
-﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+﻿@using Outrage.Patternfly.Components.Utilities
+
+@inherits Patternfly.Components.Base.PatternflyComponentBase
 
 @using Outrage.Patternfly.Components.Button
 
 <div class="@Classes" @attributes="AdditionalAttributes">
-    <PatternflyButton Color="@Color" Icon="@Icon" IconPosition="@IconPosition" Clicked="ActionClicked" @attributes="AdditionalAttributes">
+    <PatternflyButton Color="@Color" Icon="@Icon" IconLibrary="@IconLibrary" IconWeight="@IconWeight" IconPosition="@IconPosition" Clicked="ActionClicked" @attributes="AdditionalAttributes">
         @ChildContent
     </PatternflyButton>
 </div>
@@ -19,8 +21,14 @@
     [Parameter] 
     public string Icon { get; set; } = null;
 
+    [Parameter]
+    public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+
     [Parameter] 
     public IconPosition IconPosition { get; set; } = IconPosition.Start;
+
+    [Parameter]
+    public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.regular;
 
     [Parameter]
     public EventCallback<MouseEventArgs> Clicked { get; set; }
