@@ -11,7 +11,7 @@
         @if (!string.IsNullOrEmpty(Icon))
         {
             <span class="pf-c-tabs__item-icon" aria-hidden="true">
-              <Icon Name="@(Icon)" />
+              <Icon Name="@(Icon)" Weight="@IconWeight" Library="@IconLibrary" />
             </span>
         }
         <span class="pf-c-tabs__item-text">@(Title)</span>
@@ -27,6 +27,8 @@
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public string? Title { get; set; }
     [Parameter] public string? Icon { get; set; }
+    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.regular;
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
     [Parameter] public string? PanelCssClass { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
 

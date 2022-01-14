@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Outrage.Patternfly.Components.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace Outrage.Patternfly.Components.Utilities
         public PatternflyH6(): base(6, "pf-m-md") { }
     }
 
-    public class PatternflyH: ComponentBase
+    public class PatternflyH: PatternflyComponentBase
     {
         private readonly int level = 1;
         private readonly string modifier = "";
@@ -49,9 +50,13 @@ namespace Outrage.Patternfly.Components.Utilities
             this.level = level;
             this.modifier = modifier;
         }
+        protected override IEnumerable<string> OnIntroduceClasses()
+        {
+            return new List<string>(new string[] { "pf-c-title", Modifier ?? modifier, Class });
+        }
+
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
-            var classes = new HashSet<string>(new string[] { "pf-c-title", Modifier ?? modifier});
             builder.OpenElement(0, $"h{level}");
             builder.AddAttribute(1, "class", String.Join(" ", classes));
             ChildContent?.Invoke(builder);
