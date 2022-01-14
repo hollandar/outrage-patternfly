@@ -1,10 +1,11 @@
-﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+﻿@using Outrage.Patternfly.Components.Utilities
+
+@inherits Patternfly.Components.Base.PatternflyComponentBase
 
 <NavLink class="@Classes" ActiveClass="pf-m-current" Match="@Match" href="@(Href ?? "#")" @attributes="AdditionalAttributes">
     @if (Icon != null)
     {
-        <i class="@Icon" aria-hidden="true"></i>
-        <span>&nbsp;</span>
+        <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" class="fa-fw pf-u-mr-sm" aria-hidden="true" />
     }
     @if (Text != null)
     {
@@ -19,6 +20,8 @@
 @code {
     [Parameter] public NavLinkMatch Match { get; set; } = NavLinkMatch.Prefix;
     [Parameter] public string? Icon { get; set; } = null;
+    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.regular;
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
     [Parameter] public string? Href { get; set; } = null;
     [Parameter] public string? Text { get; set; } = null;
     [Parameter] public RenderFragment? ChildContent { get; set; } = null;
