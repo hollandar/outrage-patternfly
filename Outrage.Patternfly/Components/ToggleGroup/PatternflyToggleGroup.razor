@@ -1,0 +1,25 @@
+﻿@using Outrage.Patternfly.Components.Utilities
+
+@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="@Classes" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Compact { get; set; }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-toggle-group" });
+
+        if (Compact)
+        {
+            classes.Add("pf-m-compact");
+
+        }
+
+        return classes;
+    }
+}

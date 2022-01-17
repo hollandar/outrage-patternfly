@@ -20,37 +20,37 @@
 
 .ou-hidden-on-xs {
     @media only screen and (min-width: $pf-global--breakpoint--xs) {
-        display: inherit;
+        display: unset;
     }
 }
 
 .ou-hidden-on-sm {
     @media only screen and (min-width: $pf-global--breakpoint--sm) {
-        display: inherit;
+        display: unset;
     }
 }
 
 .ou-hidden-on-md {
     @media only screen and (min-width: $pf-global--breakpoint--md) {
-        display: inherit;
+        display: unset;
     }
 }
 
 .ou-hidden-on-lg {
     @media only screen and (min-width: $pf-global--breakpoint--lg) {
-        display: inherit;
+        display: unset;
     }
 }
 
 .ou-hidden-on-xl {
     @media only screen and (min-width: $pf-global--breakpoint--xl) {
-        display: inherit;
+        display: unset;
     }
 }
 
 .ou-hidden-on-2xl {
     @media only screen and (min-width: $pf-global--breakpoint--2xl) {
-        display: inherit;
+        display: unset;
     }
 }
 

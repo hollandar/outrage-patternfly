@@ -1,0 +1,41 @@
+﻿@using Outrage.Patternfly.Components.Button
+@using Outrage.Patternfly.Components.Utilities
+
+@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="@Classes" @attributes="AdditionalAttributes">
+    <button class="pf-c-toggle-group__button @(Selected ? "pf-m-selected" : string.Empty)" type="button" @onclick="Clicked">
+        @if (IconPosition == IconPosition.Start)
+        {
+            <span class="pf-c-toggle-group__icon">
+                <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" aria-hidden="true" />
+            </span>            
+        }
+        @if (ChildContent != null)
+        {
+            <span class="pf-c-toggle-group__text">@ChildContent</span>            
+        }
+        @if (IconPosition == IconPosition.End)
+        {
+            <span class="pf-c-toggle-group__icon">
+                <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" aria-hidden="true" />
+            </span>            
+        }
+    </button>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Selected { get; set; }
+    [Parameter] public string? Icon { get; set; }
+    [Parameter] public IconPosition IconPosition { get; set; } = IconPosition.Start;
+    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.regular;
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-toggle-group__item" });
+        return classes;
+    }
+}

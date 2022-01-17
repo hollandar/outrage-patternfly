@@ -29,10 +29,10 @@
         </div>
     }
     <main class="pf-c-page__main" tabindex="-1" role="main">
-        <section class="pf-c-page__main-section">@MainContent</section>
+        <section class="pf-c-page__main-section @(FillMainContent ? "pf-m-fill" : string.Empty)">@MainContent</section>
         @if (Footer != null)
         {
-            <section class="pf-c-page__main-section pf-m-sticky-bottom pf-m-dark-200">@Footer</section>
+            <section class="pf-c-page__main-section @(StickyFooter ? "pf-m-sticky-bottom" : string.Empty) pf-m-no-fill pf-m-dark-200">@Footer</section>
         }
     </main>
 </div>
@@ -48,6 +48,9 @@
     [Parameter] public RenderFragment? Sidebar { get; set; }
     [Parameter] public RenderFragment? MainContent { get; set; }
     [Parameter] public RenderFragment? Footer { get; set; }
+
+    [Parameter] public bool FillMainContent { get; set; }
+    [Parameter] public bool StickyFooter { get; set; }
 
     void ToggleSidebar()
     {
