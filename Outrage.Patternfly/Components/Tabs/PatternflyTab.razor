@@ -1,4 +1,4 @@
-﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 
 @namespace Outrage.Patternfly.Components.Tabs
 
@@ -6,15 +6,15 @@
 
 @implements ITab
 
-<li class="@(Classes) @(TitleCssClass)" id="@(TabId)_tab" @attributes="AdditionalAttributes">
-    <button class="pf-c-tabs__link" type="button" disabled="@(Disabled)" id="default-example-users-link" @onclick="ActivateTab">
+<li class="@(Classes) @(tabCssClass)" id="@(TabId)_tab" @attributes="AdditionalAttributes">
+    <button class="pf-c-tabs__link" type="button" disabled="@(Disabled)" id="default-example-users-link" title="@(Title)" @onclick="ActivateTab">
         @if (!string.IsNullOrEmpty(Icon))
         {
             <span class="pf-c-tabs__item-icon" aria-hidden="true">
               <Icon Name="@(Icon)" Weight="@IconWeight" Library="@IconLibrary" />
             </span>
         }
-        <span class="pf-c-tabs__item-text">@(Title)</span>
+        <span class="pf-c-tabs__item-text @(TitleCssClass)">@(Title)</span>
     </button>
 </li>
 
@@ -30,10 +30,11 @@
     [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.regular;
     [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
     [Parameter] public string? PanelCssClass { get; set; }
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? TitleCssClass { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
 
-    private string? TitleCssClass => 
+    private string? tabCssClass => 
         ContainerTabSet?.ActiveTab == this ? "pf-m-current" : null;
 
     protected override async Task OnInitializedAsync()

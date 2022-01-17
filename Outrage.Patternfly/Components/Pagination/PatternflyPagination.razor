@@ -1,12 +1,18 @@
-﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+﻿@using Outrage.Patternfly.Components.Utilities
 
-@using Outrage.Patternfly.Components.Utilities
+@namespace Outrage.Patternfly.Components.Pagination
+
+@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+
 
 <div class="@Classes" @attributes="AdditionalAttributes">
-    <div class="pf-c-pagination__total-items">
-        <b>@FirstRecord - @LastRecord</b>&nbsp;of&nbsp;
-        <b>@TotalRecords.ToString("N0")</b>
-    </div>
+    @if (Position == PaginationPosition.Top)
+    {
+        <div class="pf-c-pagination__total-items">
+            <b>@FirstRecord - @LastRecord</b>&nbsp;of&nbsp;
+            <b>@TotalRecords.ToString("N0")</b>
+        </div>
+    }
     <div class="pf-c-options-menu @(Position == PaginationPosition.Bottom ? "pf-m-top" : string.Empty)">
         <div class="pf-c-options-menu__toggle pf-m-text pf-m-plain">
             <span class="pf-c-options-menu__toggle-text">
@@ -74,15 +80,18 @@
         </ul>
     </div>
     <nav class="pf-c-pagination__nav" aria-label="Pagination">
-        <div class="pf-c-pagination__nav-control pf-m-first">
-            <button class="pf-c-button pf-m-plain"
+        @if (!Compact)
+        {
+            <div class="pf-c-pagination__nav-control pf-m-first">
+                <button class="pf-c-button pf-m-plain"
                     type="button"
                     aria-label="Go to first page"
                     @onclick="@(() => SelectPage(0))"
                     disabled="@(Page <= 0)">
-                <Icon Name="angle-double-left" aria-hidden="true" />
-            </button>
-        </div>
+                    <Icon Name="angle-double-left" aria-hidden="true" />
+                </button>
+            </div>
+        }
         <div class="pf-c-pagination__nav-control pf-m-prev">
             <button class="pf-c-button pf-m-plain"
                     type="button"
@@ -92,16 +101,19 @@
                 <Icon Name="angle-left" aria-hidden="true" />
             </button>
         </div>
-        <div class="pf-c-pagination__nav-page-select">
-            <input class="pf-c-form-control"
+        @if (!Compact)
+        {
+            <div class="pf-c-pagination__nav-page-select">
+                <input class="pf-c-form-control"
                    aria-label="Current page"
                    type="number"
                    min="1"
                    max="@pageCount"
                    value="@(Page + 1)"
                    @oninput="@((eventArgs) => SelectPage(int.Parse(eventArgs?.Value?.ToString() ?? "1")))" />
-            <span aria-hidden="true">of @(pageCount.ToString("N0"))</span>
-        </div>
+                <span aria-hidden="true">of @(pageCount.ToString("N0"))</span>
+            </div>
+        }
         <div class="pf-c-pagination__nav-control pf-m-next">
             <button class="pf-c-button pf-m-plain"
                     type="button"
@@ -111,15 +123,18 @@
                 <Icon Name="angle-right" aria-hidden="true" />
             </button>
         </div>
-        <div class="pf-c-pagination__nav-control pf-m-last">
-            <button class="pf-c-button pf-m-plain"
+        @if (!Compact)
+        {
+            <div class="pf-c-pagination__nav-control pf-m-last">
+                <button class="pf-c-button pf-m-plain"
                     type="button"
                     aria-label="Go to last page"
                     @onclick="@(() => SelectPage(pageCount -1))"
                     disabled="@(Page >= pageCount -1)">
-                <Icon Name="angle-double-right" aria-hidden="true" />
-            </button>
-        </div>
+                    <Icon Name="angle-double-right" aria-hidden="true" />
+                </button>
+            </div>
+        }
     </nav>
 </div>
 
@@ -137,6 +152,8 @@
     [Parameter] public EventCallback<int> PageSelected { get; set; }
 
     [Parameter] public bool Sticky { get; set; }
+
+    [Parameter] public bool Compact { get; set; }
 
     [Parameter] public PaginationPosition Position { get; set; }
 
@@ -181,6 +198,9 @@
 
         if (Sticky)
             classes.Add("pf-m-sticky");
+
+        if (Compact)
+            classes.Add("pf-m-compact");
 
         return classes;
     }

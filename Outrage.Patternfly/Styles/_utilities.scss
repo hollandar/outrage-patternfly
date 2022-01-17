@@ -13,8 +13,45 @@
 
 /* DISPLAY */
 
-.ou-display-none {
+.ou-display-none, .ou-hidden,
+.ou-hidden-on-xs, .ou-hidden-on-sm, .ou-hidden-on-md, .ou-hidden-on-lg, .ou-hidden-on-2xl {
     display: none;
+}
+
+.ou-hidden-on-xs {
+    @media only screen and (min-width: $pf-global--breakpoint--xs) {
+        display: inherit;
+    }
+}
+
+.ou-hidden-on-sm {
+    @media only screen and (min-width: $pf-global--breakpoint--sm) {
+        display: inherit;
+    }
+}
+
+.ou-hidden-on-md {
+    @media only screen and (min-width: $pf-global--breakpoint--md) {
+        display: inherit;
+    }
+}
+
+.ou-hidden-on-lg {
+    @media only screen and (min-width: $pf-global--breakpoint--lg) {
+        display: inherit;
+    }
+}
+
+.ou-hidden-on-xl {
+    @media only screen and (min-width: $pf-global--breakpoint--xl) {
+        display: inherit;
+    }
+}
+
+.ou-hidden-on-2xl {
+    @media only screen and (min-width: $pf-global--breakpoint--2xl) {
+        display: inherit;
+    }
 }
 
 
