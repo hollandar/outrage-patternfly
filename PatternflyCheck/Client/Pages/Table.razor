@@ -5,10 +5,10 @@
 <h1>Table</h1>
 
 <PatternflyTable TItem="TableModel" TItemKey="int" Items="values">
-    <Headings>
+    <Columns>
         <TableColumn>Name</TableColumn>
         <TableColumn>Price</TableColumn>
-    </Headings>
+    </Columns>
     <RowTemplate Context="contextItem">
         <TableText>@contextItem.Name</TableText>
         <TableText>@contextItem.Price.ToString("C")</TableText>
