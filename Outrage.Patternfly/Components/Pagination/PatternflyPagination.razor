@@ -3,127 +3,124 @@
 @using Outrage.Patternfly.Components.Utilities
 
 <div class="@Classes" @attributes="AdditionalAttributes">
-  <div class="pf-c-options-menu @(Position == PaginationPosition.Bottom ? "pf-m-top" : string.Empty)">
-    <div class="pf-c-options-menu__toggle pf-m-text pf-m-plain">
-      <span class="pf-c-options-menu__toggle-text">
+    <div class="pf-c-pagination__total-items">
         <b>@FirstRecord - @LastRecord</b>&nbsp;of&nbsp;
         <b>@TotalRecords.ToString("N0")</b>
-      </span>
-      <button
-        class="pf-c-options-menu__toggle-button"
-        id="pagination-options-toggle-@(componentId)"
-        aria-haspopup="listbox"
-        aria-expanded="false"
-        aria-label="Items per page" @onclick="@(() => showPageSizeSelector = !showPageSizeSelector)">
-        <span class="pf-c-options-menu__toggle-button-icon">
-            <Icon Name="caret-down" aria-hidden="true" />
-        </span>
-      </button>
     </div>
-    <ul
-      class="pf-c-options-menu__menu @(Position == PaginationPosition.Bottom ? "pf-m-top" : string.Empty)"
-      aria-labelledby="pagination-options-toggle-@(componentId)"
-      hidden="@(!showPageSizeSelector)">
-        @for (int i = 5; i < 20; i += 5)
-        {
-            var pageSize = i;
-            <li>
-                <button class="pf-c-options-menu__menu-item" type="button" @onclick="@(() => SelectPageSize(pageSize))">
-                    @(pageSize) per page
-                    @if (PageSize == pageSize)
-                    {
-                        <div class="pf-c-options-menu__menu-item-icon">
-                            <Icon Name="check" aria-hidden="true" />
-                        </div>
-                    }
-                </button>
-            </li>
-        }
-        @for (int i = 20; i < 50; i += 10)
-        {
-            var pageSize = i;
-            <li>
-                <button class="pf-c-options-menu__menu-item" type="button" @onclick="@(() => SelectPageSize(pageSize))">
-                    @(pageSize) per page
-                    @if (PageSize == pageSize)
-                    {
-                        <div class="pf-c-options-menu__menu-item-icon">
-                            <Icon Name="check" aria-hidden="true" />
-                        </div>
-                    }
-                </button>
-            </li>
-        }
-        @for (int i = 50; i <= 200; i += 50)
-        {
-            var pageSize = i;
-            <li>
-                <button class="pf-c-options-menu__menu-item" type="button" @onclick="@(() => SelectPageSize(pageSize))">
-                    @(pageSize) per page
-                    @if (PageSize == pageSize)
-                    {
-                        <div class="pf-c-options-menu__menu-item-icon">
-                            <Icon Name="check" aria-hidden="true" />
-                        </div>
-                    }
-                </button>
-            </li>
-        }       
-    </ul>
-  </div>
-  <nav class="pf-c-pagination__nav" aria-label="Pagination">
-    <div class="pf-c-pagination__nav-control pf-m-first">
-      <button
-        class="pf-c-button pf-m-plain"
-        type="button"
-        aria-label="Go to first page"
-        @onclick="@(() => SelectPage(0))"
-        disabled="@(Page <= 0)">
-        <Icon Name="angle-double-left" aria-hidden="true" /> 
-      </button>
+    <div class="pf-c-options-menu @(Position == PaginationPosition.Bottom ? "pf-m-top" : string.Empty)">
+        <div class="pf-c-options-menu__toggle pf-m-text pf-m-plain">
+            <span class="pf-c-options-menu__toggle-text">
+                <b>@FirstRecord - @LastRecord</b>&nbsp;of&nbsp;
+                <b>@TotalRecords.ToString("N0")</b>
+            </span>
+            <button class="pf-c-options-menu__toggle-button"
+                    id="pagination-options-toggle-@(componentId)"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                    aria-label="Items per page" @onclick="@(() => showPageSizeSelector = !showPageSizeSelector)">
+                <span class="pf-c-options-menu__toggle-button-icon">
+                    <Icon Name="caret-down" aria-hidden="true" />
+                </span>
+            </button>
+        </div>
+        <ul class="pf-c-options-menu__menu @(Position == PaginationPosition.Bottom ? "pf-m-top" : string.Empty)"
+            aria-labelledby="pagination-options-toggle-@(componentId)"
+            hidden="@(!showPageSizeSelector)">
+            @for (int i = 5; i < 20; i += 5)
+            {
+                var pageSize = i;
+                <li>
+                    <button class="pf-c-options-menu__menu-item" type="button" @onclick="@(() => SelectPageSize(pageSize))">
+                        @(pageSize) per page
+                        @if (PageSize == pageSize)
+                        {
+                            <div class="pf-c-options-menu__menu-item-icon">
+                                <Icon Name="check" aria-hidden="true" />
+                            </div>
+                        }
+                    </button>
+                </li>
+            }
+            @for (int i = 20; i < 50; i += 10)
+            {
+                var pageSize = i;
+                <li>
+                    <button class="pf-c-options-menu__menu-item" type="button" @onclick="@(() => SelectPageSize(pageSize))">
+                        @(pageSize) per page
+                        @if (PageSize == pageSize)
+                        {
+                            <div class="pf-c-options-menu__menu-item-icon">
+                                <Icon Name="check" aria-hidden="true" />
+                            </div>
+                        }
+                    </button>
+                </li>
+            }
+            @for (int i = 50; i <= 200; i += 50)
+            {
+                var pageSize = i;
+                <li>
+                    <button class="pf-c-options-menu__menu-item" type="button" @onclick="@(() => SelectPageSize(pageSize))">
+                        @(pageSize) per page
+                        @if (PageSize == pageSize)
+                        {
+                            <div class="pf-c-options-menu__menu-item-icon">
+                                <Icon Name="check" aria-hidden="true" />
+                            </div>
+                        }
+                    </button>
+                </li>
+            }
+        </ul>
     </div>
-    <div class="pf-c-pagination__nav-control pf-m-prev">
-      <button
-        class="pf-c-button pf-m-plain"
-        type="button"
-        aria-label="Go to previous page"
-        @onclick="@(() => SelectPage(Page - 1))"
-        disabled="@(Page <= 0)">
-        <Icon Name="angle-left" aria-hidden="true" />
-      </button>
-    </div>
-    <div class="pf-c-pagination__nav-page-select">
-      <input
-        class="pf-c-form-control"
-        aria-label="Current page"
-        type="number"
-        min="1"
-        max="@pageCount"
-        value="@(Page + 1)"
-        @oninput="@((eventArgs) => SelectPage(int.Parse(eventArgs?.Value?.ToString() ?? "1")))"/>
-      <span aria-hidden="true">of @(pageCount.ToString("N0"))</span>
-    </div>
-    <div class="pf-c-pagination__nav-control pf-m-next">
-      <button
-        class="pf-c-button pf-m-plain"
-        type="button"
-        aria-label="Go to next page"
-        @onclick="@(() => SelectPage(Page + 1))"
-        disabled="@(Page >= pageCount -1)">
-        <Icon Name="angle-right" aria-hidden="true" />
-      </button>
-    </div>
-    <div class="pf-c-pagination__nav-control pf-m-last">
-      <button
-        class="pf-c-button pf-m-plain"
-        type="button"
-        aria-label="Go to last page"
-        @onclick="@(() => SelectPage(pageCount -1))"
-        disabled="@(Page >= pageCount -1)">
-        <Icon Name="angle-double-right" aria-hidden="true" />
-      </button>
-    </div>
-  </nav>
+    <nav class="pf-c-pagination__nav" aria-label="Pagination">
+        <div class="pf-c-pagination__nav-control pf-m-first">
+            <button class="pf-c-button pf-m-plain"
+                    type="button"
+                    aria-label="Go to first page"
+                    @onclick="@(() => SelectPage(0))"
+                    disabled="@(Page <= 0)">
+                <Icon Name="angle-double-left" aria-hidden="true" />
+            </button>
+        </div>
+        <div class="pf-c-pagination__nav-control pf-m-prev">
+            <button class="pf-c-button pf-m-plain"
+                    type="button"
+                    aria-label="Go to previous page"
+                    @onclick="@(() => SelectPage(Page - 1))"
+                    disabled="@(Page <= 0)">
+                <Icon Name="angle-left" aria-hidden="true" />
+            </button>
+        </div>
+        <div class="pf-c-pagination__nav-page-select">
+            <input class="pf-c-form-control"
+                   aria-label="Current page"
+                   type="number"
+                   min="1"
+                   max="@pageCount"
+                   value="@(Page + 1)"
+                   @oninput="@((eventArgs) => SelectPage(int.Parse(eventArgs?.Value?.ToString() ?? "1")))" />
+            <span aria-hidden="true">of @(pageCount.ToString("N0"))</span>
+        </div>
+        <div class="pf-c-pagination__nav-control pf-m-next">
+            <button class="pf-c-button pf-m-plain"
+                    type="button"
+                    aria-label="Go to next page"
+                    @onclick="@(() => SelectPage(Page + 1))"
+                    disabled="@(Page >= pageCount -1)">
+                <Icon Name="angle-right" aria-hidden="true" />
+            </button>
+        </div>
+        <div class="pf-c-pagination__nav-control pf-m-last">
+            <button class="pf-c-button pf-m-plain"
+                    type="button"
+                    aria-label="Go to last page"
+                    @onclick="@(() => SelectPage(pageCount -1))"
+                    disabled="@(Page >= pageCount -1)">
+                <Icon Name="angle-double-right" aria-hidden="true" />
+            </button>
+        </div>
+    </nav>
 </div>
 
 
