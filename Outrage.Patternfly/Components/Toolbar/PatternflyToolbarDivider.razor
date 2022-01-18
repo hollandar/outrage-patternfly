@@ -1,0 +1,9 @@
+﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+<hr class="@Classes" @attributes="AdditionalAttributes" />
+@code {
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-divider", "pf-m-vertical" });
+        return classes;
+    }
+}

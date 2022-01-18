@@ -1,0 +1,18 @@
+﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+<div class="@Classes" @attributes="AdditionalAttributes">
+    <div class="pf-c-toolbar__content">
+        <div class="pf-c-toolbar__content-section">
+            @ChildContent
+        </div>
+    </div>
+</div>
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-toolbar" });
+
+        return classes;
+    }
+}

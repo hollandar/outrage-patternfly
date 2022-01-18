@@ -1,12 +1,14 @@
 ﻿@using Outrage.Patternfly.Components.Button
-@inherits Patternfly.Components.Base.PatternflyComponentBase
+@using Outrage.Patternfly.Components.Utilities
+
+@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 
 <span class="@Classes" @attributes="AdditionalAttributes">
     <span class="pf-c-label__content">
         @if (Icon != null)
         {
             <span class="pf-c-label__icon">
-                <i class="@Icon" aria-hidden="true"></i>
+                <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" aria-hidden="true" />
             </span>
         }
         @if (Clicked.HasDelegate)
@@ -21,10 +23,11 @@
     @if (Closed.HasDelegate)
     {
         <PatternflyButton Color="ButtonColor.Plain"
+                        Icon="times"
+                        IconWeight="@Utilities.Icon.WeightEnum.solid"
                       type="button"
                       aria-label="Remove"
                       Clicked="CloseLabel">
-            <i class="fas fa-times" aria-hidden="true"></i>
         </PatternflyButton>
     }
 </span>
@@ -32,8 +35,11 @@
 @code {
     [Parameter] public LabelColor Color { get; set; } = LabelColor.Default;
     [Parameter] public string? Icon { get; set; } = null;
+    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.regular;
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
     [Parameter] public string? Text { get; set; } = null;
     [Parameter] public bool Compact { get; set; } = false;
+    [Parameter] public bool Outline { get; set; } = false;
     [Parameter] public EventCallback<MouseEventArgs> Closed { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
@@ -66,6 +72,10 @@
         if (Compact)
         {
             classes.Add("pf-m-compact");
+        }
+        if (Outline)
+        {
+            classes.Add("pf-m-outline");
         }
         return classes;
 

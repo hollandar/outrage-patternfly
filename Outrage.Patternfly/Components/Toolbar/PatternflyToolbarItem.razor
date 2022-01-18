@@ -1,0 +1,21 @@
+﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+<div class="@Classes" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public ToolbarItemType ItemType { get; set; } = ToolbarItemType.none;
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-toolbar__item" });
+        switch (ItemType)
+        {
+            case ToolbarItemType.bulkSelect: classes.Add("pf-m-bulk-select"); break;
+            case ToolbarItemType.overflowMenu: classes.Add("pf-m-overflow-menu"); break;
+            case ToolbarItemType.pagination: classes.Add("pf-m-pagination"); break;
+            case ToolbarItemType.searchFilter: classes.Add("pf-m-searchFilter"); break;
+        }
+        return classes;
+    }
+}

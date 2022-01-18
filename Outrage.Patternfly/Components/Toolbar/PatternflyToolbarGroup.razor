@@ -1,0 +1,20 @@
+﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+<div class="@Classes" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public ToolbarGroupType GroupType { get; set; } = ToolbarGroupType.none;
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-toolbar__group" });
+        switch (GroupType)
+        {
+            case ToolbarGroupType.filter: classes.Add("pf-m-filter-group"); break;
+            case ToolbarGroupType.iconButton: classes.Add("pf-m-icon-button-group"); break;
+            case ToolbarGroupType.button: classes.Add("pf-m-button-group"); break;
+        }
+        return classes;
+    }
+}
