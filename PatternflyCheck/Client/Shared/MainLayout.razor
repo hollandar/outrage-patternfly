@@ -1,4 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@using Outrage.Patternfly.Components.Toaster
+
+@inherits LayoutComponentBase
 
 <PatternflyPage>
     <Logo>
@@ -22,3 +24,4 @@
     </MainContent>
 
 </PatternflyPage>
+<PatternflyToaster Expiry="@(TimeSpan.FromSeconds(10))"/>

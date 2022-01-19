@@ -1,0 +1,23 @@
+﻿@page "/toaster"
+
+@using Outrage.EventBus
+@using Outrage.Patternfly.Components.Toaster
+@using Outrage.Patternfly.Components.Button
+@using Outrage.Patternfly.Components.Utilities
+@using Outrage.Patternfly.Messages
+
+<PatternflyH1>Toaster</PatternflyH1>
+
+<PatternflyButton Clicked="Toast">Pop</PatternflyButton>
+
+@* NOTE! The PatternflyToaster component must be included in the MainLayout otherwise it will appear underneath the masthead. *@
+@* NOTE! RootEventBus and UIEventBus classes are implemented in PatternflyCheck.Client.EventBus and registered in Program.cs *@
+
+@code {
+    [Inject] public IClientEventBus? EventBus { get; set; }
+
+    private Task Toast(MouseEventArgs eventArgs)
+    {
+        return EventBus?.PublishAsync(new ToastMessage("Toast message here.", Outrage.Patternfly.Components.Alert.AlertColor.Info)) ?? Task.CompletedTask;
+    }
+}

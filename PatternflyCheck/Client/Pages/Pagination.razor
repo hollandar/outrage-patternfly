@@ -1,0 +1,102 @@
+﻿@page "/pagination"
+
+@using Outrage.Patternfly.Components.Toolbar
+@using Outrage.Patternfly.Components.Pagination
+@using Outrage.Patternfly.Components.Utilities
+
+<PageTitle>Pagination</PageTitle>
+
+<PatternflyH1>Pagination</PatternflyH1>
+
+@if (pageModel != null)
+{
+    <PatternflyToolbar>
+        <PatternflyToolbarItem ItemType="@ToolbarItemType.pagination">
+            <PatternflyPagination Position="PaginationPosition.Top" Page="@(pageModel.Page)" PageSize="@(pageModel.PageSize)" TotalRecords="@(pageModel.TotalCount)" 
+                PageSelected="PageSelected" 
+                PageSizeSelected="PageSizeSelected"/>
+        </PatternflyToolbarItem>
+    </PatternflyToolbar>
+    <ul class="pf-c-data-list" role="list" aria-label="Pagination example">
+        <li class="pf-c-data-list__item">
+            <div class="pf-c-data-list__item-row">
+                <div class="pf-c-data-list__item-content">
+                    <div class="pf-c-data-list__cell"><h2>Name</h2></div>
+                    <div class="pf-c-data-list__cell pf-m-no-fill pf-m-align-right"><h2>Price</h2></div>
+                </div>
+            </div>
+        </li>
+        @foreach (var item in pageModel.Items)
+        {
+            <li class="pf-c-data-list__item">
+                <div class="pf-c-data-list__item-row">
+                    <div class="pf-c-data-list__item-content">
+                        <div class="pf-c-data-list__cell">
+                            @item.Name
+                        </div>
+                        <div class="pf-c-data-list__cell pf-m-no-fill pf-m-align-right">
+                            @item.Price.ToString("N02")
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+
+    <PatternflyPagination Position="PaginationPosition.Bottom" Page="@(pageModel.Page)" PageSize="@(pageModel.PageSize)" TotalRecords="@(pageModel.TotalCount)" 
+        PageSelected="PageSelected" 
+        PageSizeSelected="PageSizeSelected"/>
+}
+@code {
+    class ItemModel {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+    }
+
+    class ItemPageModel {
+        public int Page { get; set; }
+        public int PageSize { get; set; } = 5;
+        public int TotalCount { get; set; }
+        public IEnumerable<ItemModel> Items { get; set; }
+    }
+
+    private List<ItemModel> allItems = new List<ItemModel>();
+    private ItemPageModel pageModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var random = new Random();
+        allItems = new List<ItemModel>();
+        for (int i = 0; i < 24; i++)
+        {
+            allItems.Add(new ItemModel{ Id = Guid.NewGuid(), Name = $"Product #{i+1}", Price =  random.Next() * 10.0m / int.MaxValue});
+        }
+
+        await LoadPage(0, 5);
+        await base.OnInitializedAsync();
+    }
+
+    private async Task PageSelected(int page)
+    {
+        await LoadPage(page, pageModel.PageSize);
+    }
+
+    private async Task PageSizeSelected(int pageSize)
+    {
+        await LoadPage(0, pageSize);
+    }
+
+    private async Task LoadPage(int page, int pageSize)
+    {
+        var startRecord = page * pageSize;
+        pageModel = new ItemPageModel
+        {
+            Page = page,
+            PageSize = pageSize,
+            TotalCount = allItems.Count(),
+            Items = allItems.Skip(page * pageSize).Take(pageSize)
+        };
+        await Task.CompletedTask;
+    }
+}

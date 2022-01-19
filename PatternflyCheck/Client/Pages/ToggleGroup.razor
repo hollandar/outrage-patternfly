@@ -1,0 +1,18 @@
+﻿@page "/togglegroup"
+
+@using Outrage.Patternfly.Components.ToggleGroup
+@using Outrage.Patternfly.Components.Utilities
+
+<PatternflyH1>ToggleGroup</PatternflyH1>
+
+<PatternflyToggleGroup>
+    <PatternflyToggleGroupItem Icon="rocket" Clicked="@(() => selected = "toggle1")" Selected="@(selected=="toggle1")">Toggle 1</PatternflyToggleGroupItem>
+    <PatternflyToggleGroupItem Icon="bomb" Clicked="@(() => selected = "toggle2")" Selected="@(selected=="toggle2")">Toggle 2</PatternflyToggleGroupItem>
+    <PatternflyToggleGroupItem Icon="envelope" Clicked="@(() => selected ="toggle3")" Selected="@(selected=="toggle3")">Toggle 3</PatternflyToggleGroupItem>
+</PatternflyToggleGroup>
+
+@code {
+
+    private string? selected = null;
+
+}
