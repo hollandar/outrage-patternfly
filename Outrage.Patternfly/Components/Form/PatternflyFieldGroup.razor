@@ -2,28 +2,34 @@
 
 <CascadingValue Name="FieldName" Value="formGroupId.With(this.Name)">
     <div class="@Classes" @attributes="AdditionalAttributes">
-        <div class="pf-c-form__group-label">
-            <label class="pf-c-form__label" for="@formGroupId.With(this.Name)">
-                <span class="pf-c-form__label-text">@Label</span>
-                @if (IsRequired)
+        @if (Label != null && Help != null)
+        {
+            <div class="pf-c-form__group-label">
+                @if (Label != null)
                 {
-                    <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+                    <label class="pf-c-form__label" for="@formGroupId.With(this.Name)">
+                        <span class="pf-c-form__label-text">@Label</span>
+                        @if (IsRequired)
+                        {
+                            <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+                        }
+                    </label>
                 }
-            </label>
-            @if (Help != null)
-            {
-                <button type="button" class="pf-c-form__group-label-help" aria-label="More info" @onclick="ToggleHelp">
-                    <i class="fas fa-question-circle" aria-hidden="true"></i>
-                </button>
-            }
-        </div>
+                @if (Help != null)
+                {
+                    <button type="button" class="pf-c-form__group-label-help" aria-label="More info" @onclick="ToggleHelp">
+                            <i class="fas fa-question-circle" aria-hidden="true"></i>
+                    </button>
+                }
+            </div>
+        }
         <div class="pf-c-form__group-control @(Stack? "pf-m-stack":"")">
             @Editors
             @if (Help != null && showHelp)
             {
                 <p class="pf-c-form__helper-text"
-               id="@formGroupId.With("helptext")"
-               aria-live="polite">@Help</p>
+                   id="@formGroupId.With("helptext")"
+                   aria-live="polite">@Help</p>
             }
         </div>
     </div>
@@ -36,10 +42,10 @@
     public bool IsRequired { get; set; } = false;
 
     [Parameter]
-    public string Label { get; set; } = "Label";
+    public string? Label { get; set; } = null;
 
     [Parameter]
-    public string Name { get; set; } = null;
+    public string Name { get; set; }
 
     [Parameter]
     public bool Stack { get; set; } = false;

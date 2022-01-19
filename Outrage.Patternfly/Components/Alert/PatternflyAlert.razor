@@ -1,24 +1,29 @@
 ﻿@using Outrage.Patternfly.Components.Button
-@inherits Patternfly.Components.Base.PatternflyComponentBase
+@using Outrage.Patternfly.Components.Utilities
+
+@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 
 <div class="@Classes" @attributes="AdditionalAttributes" aria-label="@($"{@Color.ToString()} alert")" hidden="@Closed">
     @if (Icon != null)
     {
         <div class="pf-c-alert__icon">
-            <i class="@Icon" aria-hidden="true"></i>
+            <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true"/>
         </div>
     }
     <p class="pf-c-alert__title">
         <span class="pf-screen-reader">@Color.ToString() alert:</span>
         @Title
     </p>
-    <div class="pf-c-alert__action">
-        <PatternflyButton Color="ButtonColor.Plain"
-                          aria-label="@($"Close alert: {Title}")"
-                          Clicked="CloseAlert">
-            <i class="fas fa-times" aria-hidden="true"></i>
-        </PatternflyButton>
-    </div>
+    @if (Dismissable)
+    {
+        <div class="pf-c-alert__action">
+            <PatternflyButton Color="ButtonColor.Plain"
+                              aria-label="@($"Close alert: {Title}")"
+                              Clicked="CloseAlert">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </PatternflyButton>
+        </div>
+    }
     @if (Description != null || Content != null)
     {
         <div class="pf-c-alert__description">
@@ -37,11 +42,15 @@
 @code {
     [Parameter] public AlertColor Color { get; set; } = AlertColor.Default;
     [Parameter] public string? Icon { get; set; } = null;
+    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.regular;
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+    [Parameter] public bool Inline { get; set; }
     [Parameter] public string? Title { get; set; } = null;
     [Parameter] public string Description { get; set; } = null;
     [Parameter] public RenderFragment? Content { get; set; } = null;
     [Parameter] public RenderFragment? Controls { get; set; }
     [Parameter] public bool Closed { get; set; } = false;
+    [Parameter] public bool Dismissable { get; set; } = true;
 
     protected async Task CloseAlert()
     {
@@ -61,6 +70,11 @@
             case AlertColor.Default:
             default: break;
         }
+        if (Inline)
+        {
+            classes.Add("pf-m-inline");
+        }
+
         return classes;
 
     }
