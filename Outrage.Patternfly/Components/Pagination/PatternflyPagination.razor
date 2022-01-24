@@ -110,7 +110,7 @@
                    min="1"
                    max="@pageCount"
                    value="@(Page + 1)"
-                   @oninput="@((eventArgs) => SelectPage(int.Parse(eventArgs?.Value?.ToString() ?? "1")))" />
+                   @onchange="@((eventArgs) => SelectPage(int.Parse(eventArgs?.Value?.ToString() ?? "1") - 1))" />
                 <span aria-hidden="true">of @(pageCount.ToString("N0"))</span>
             </div>
         }
@@ -119,7 +119,7 @@
                     type="button"
                     aria-label="Go to next page"
                     @onclick="@(() => SelectPage(Page + 1))"
-                    disabled="@(Page >= pageCount -1)">
+                    disabled="@(Page >= pageCount - 1)">
                 <Icon Name="angle-right" aria-hidden="true" />
             </button>
         </div>
@@ -129,8 +129,8 @@
                 <button class="pf-c-button pf-m-plain"
                     type="button"
                     aria-label="Go to last page"
-                    @onclick="@(() => SelectPage(pageCount -1))"
-                    disabled="@(Page >= pageCount -1)">
+                    @onclick="@(() => SelectPage(pageCount - 1))"
+                    disabled="@(Page >= pageCount - 1)">
                     <Icon Name="angle-double-right" aria-hidden="true" />
                 </button>
             </div>
