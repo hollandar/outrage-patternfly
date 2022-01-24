@@ -2,7 +2,7 @@
 
 <CascadingValue Name="FieldName" Value="formGroupId.With(this.Name)">
     <div class="@Classes" @attributes="AdditionalAttributes">
-        @if (Label != null && Help != null)
+        @if (Label != null || Help != null)
         {
             <div class="pf-c-form__group-label">
                 @if (Label != null)
