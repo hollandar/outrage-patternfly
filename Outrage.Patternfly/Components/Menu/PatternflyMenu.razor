@@ -12,7 +12,7 @@
 
 @code {
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
     public bool Scrollable { get; set; } = false;
@@ -47,7 +47,9 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-menu", Class });
+        var classes = new HashSet<string>(new string[] { "pf-c-menu" });
+        if (!string.IsNullOrEmpty(Class))
+            classes.Add(Class);
         if (Scrollable)
             classes.Add("pf-c-menu");
         if (MenuStyle == MenuStyle.Flyout)

@@ -8,14 +8,14 @@ namespace Outrage.Patternfly.Validators
 {
     public class DelegateValidator : ComponentBase
     {
-        private ValidationMessageStore messageStore;
+        private ValidationMessageStore? messageStore;
         private bool valid;
 
         [CascadingParameter]
-        private EditContext CurrentEditContext { get; set; }
+        private EditContext? CurrentEditContext { get; set; }
 
         [Parameter]
-        public EventHandler<ValidationArgs> Validate { get; set; }
+        public EventHandler<ValidationArgs>? Validate { get; set; }
         public bool Valid => valid;
 
         protected override void OnInitialized()
@@ -36,7 +36,8 @@ namespace Outrage.Patternfly.Validators
             {
                 messageStore.Clear();
                 var validationArgs = new ValidationArgs();
-                Validate(this, validationArgs);
+                if (Validate != null)
+                    Validate(this, validationArgs);
                 this.DisplayErrors(validationArgs.Errors);
             };
 
@@ -46,20 +47,26 @@ namespace Outrage.Patternfly.Validators
 
         private void DisplayErrors(IDictionary<string, List<string>> errors)
         {
-            foreach (var err in errors)
+            if (CurrentEditContext != null)
             {
-                messageStore.Add(CurrentEditContext.Field(err.Key), err.Value);
-                valid = false;
-            }
+                if (messageStore == null)
+                    messageStore = new ValidationMessageStore(CurrentEditContext);
 
-            CurrentEditContext.NotifyValidationStateChanged();
+                foreach (var err in errors)
+                {
+                    messageStore.Add(CurrentEditContext.Field(err.Key), err.Value);
+                    valid = false;
+                }
+
+                CurrentEditContext.NotifyValidationStateChanged();
+            }
         }
 
         private void ClearErrors()
         {
-            messageStore.Clear();
+            messageStore?.Clear();
             valid = true;
-            CurrentEditContext.NotifyValidationStateChanged();
+            CurrentEditContext?.NotifyValidationStateChanged();
         }
     }
 

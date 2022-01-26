@@ -9,7 +9,7 @@ namespace Outrage.Patternfly.Components.Table
     {
         List<TableRowWrapper<T>> items = new List<TableRowWrapper<T>>();
 
-        public TablePageModel(int total = 0, IEnumerable<T> items = null)
+        public TablePageModel(int total = 0, IEnumerable<T>? items = null)
         {
             this.Total = total;
             this.items = new List<TableRowWrapper<T>>(ToWrappers(items));
@@ -25,7 +25,7 @@ namespace Outrage.Patternfly.Components.Table
             this.items.AddRange(ToWrappers(items));
         }
 
-        private IEnumerable<TableRowWrapper<T>> ToWrappers(IEnumerable<T> items)
+        private IEnumerable<TableRowWrapper<T>> ToWrappers(IEnumerable<T>? items)
         {
             if (items == null) return Enumerable.Empty<TableRowWrapper<T>>();
             return items.Select(i => new TableRowWrapper<T>(i));
@@ -36,6 +36,6 @@ namespace Outrage.Patternfly.Components.Table
     {
         public int Page { get; set; }
         public int PageSize { get; set; }
-        public TItemKey Id { get; set; }
+        public TItemKey? Id { get; set; }
     }
 }

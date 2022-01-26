@@ -13,13 +13,13 @@
 @code {
 
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
     public ButtonColor Color { get; set; } = ButtonColor.Primary;
 
     [Parameter] 
-    public string Icon { get; set; } = null;
+    public string? Icon { get; set; } = null;
 
     [Parameter]
     public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
@@ -31,14 +31,14 @@
     public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.regular;
 
     [Parameter]
-    public TItem Item { get; set; }
+    public TItem? Item { get; set; }
 
     [Parameter]
     public EventCallback<ItemEventArgs<TItem>> Clicked { get; set; }
 
     async Task ActionClicked(MouseEventArgs e)
     {
-        await this.Clicked.InvokeAsync(new ItemEventArgs<TItem> (e, this.Item));
+        await this.Clicked.InvokeAsync(new ItemEventArgs<TItem>(e, this.Item));
     }
 
     protected override IEnumerable<string> OnIntroduceClasses()

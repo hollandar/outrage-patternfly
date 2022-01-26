@@ -9,7 +9,7 @@
     </div>
 
     <div class="validation-surface">
-        @if (this.validationRequested)
+        @if (EditContext != null && For != null && this.validationRequested)
         {
             if (EditContext.GetValidationMessages(For).Any())
             {
@@ -33,21 +33,24 @@
     bool validationRequested = false;
 
     [Parameter]
-    public Expression<Func<object>> For { get; set; }
+    public Expression<Func<object>>? For { get; set; }
 
     [CascadingParameter]
-    private EditContext EditContext { get; set; }
+    private EditContext? EditContext { get; set; }
 
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
     public bool Prefilled { get; set; } = false;
 
     protected override Task OnInitializedAsync()
     {
-        this.EditContext.OnFieldChanged += OnFieldChanged;
-        this.EditContext.OnValidationStateChanged += OnValidationStateChanged;
+        if (EditContext != null)
+        {
+            this.EditContext.OnFieldChanged += OnFieldChanged;
+            this.EditContext.OnValidationStateChanged += OnValidationStateChanged;
+        }
         return base.OnInitializedAsync();
     }
 
@@ -61,21 +64,23 @@
         base.OnAfterRender(firstRender);
     }
 
-    protected void OnFieldChanged(object sender, FieldChangedEventArgs args)
+    protected void OnFieldChanged(object? sender, FieldChangedEventArgs args)
     {
-        string fieldName = null;
-        var member = this.For.Body;
+        string? fieldName = null;
+        var member = this.For?.Body;
 
         if (member is UnaryExpression)
         {
             var field = member as UnaryExpression;
-            member = field.Operand;
+            if (field != null)
+                member = field.Operand;
         }
 
         if (member is MemberExpression)
         {
             var field = member as MemberExpression;
-            fieldName = field.Member.Name;
+            if (field != null)
+                fieldName = field.Member.Name;
         }
 
         if (fieldName != null && !this.validationRequested && args.FieldIdentifier.FieldName == fieldName)
@@ -85,7 +90,7 @@
         }
     }
 
-    protected void OnValidationStateChanged(object sender, ValidationStateChangedEventArgs args)
+    protected void OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs args)
     {
         this.validationRequested = true;
     }
@@ -98,7 +103,7 @@
 
     protected void Dispose(bool managed = false)
     {
-        if (managed)
+        if (managed && EditContext != null)
         {
             this.EditContext.OnFieldChanged -= OnFieldChanged;
             this.EditContext.OnValidationStateChanged -= OnValidationStateChanged;

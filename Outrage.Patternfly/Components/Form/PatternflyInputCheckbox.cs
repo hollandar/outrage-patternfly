@@ -12,7 +12,7 @@ namespace Outrage.Patternfly.Components.Form
     public class PatternflyInputCheckbox: InputCheckbox
     {
         [Parameter]
-        public string Label { get; set; }
+        public string? Label { get; set; }
 
         [CascadingParameter(Name = "FieldName")]
         public string? FieldName { get; set; }

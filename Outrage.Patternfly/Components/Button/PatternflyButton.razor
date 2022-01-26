@@ -21,7 +21,7 @@
 
 @code {
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
     public ButtonColor Color { get; set; } = ButtonColor.Primary;
@@ -30,7 +30,7 @@
     public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
 
     [Parameter]
-    public string Icon { get; set; } = null;
+    public string? Icon { get; set; } = null;
 
     [Parameter]
     public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.regular;
@@ -43,7 +43,10 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        List<string> classes = new List<string>(new string[] { "pf-c-button", Class });
+        List<string> classes = new List<string>(new string[] { "pf-c-button" });
+
+        if (!string.IsNullOrEmpty(Class))
+            classes.Add(Class);
 
         switch (Color)
         {
@@ -93,7 +96,11 @@
         }
 
         if (!AdditionalAttributes?.ContainsKey("type") ?? false)
-            AdditionalAttributes["type"] = "button";
+        {
+            if (AdditionalAttributes == null)
+                AdditionalAttributes = new Dictionary<string, object>();
+            AdditionalAttributes["type"] = "button";            
+        }
 
         return classes;
     }

@@ -23,7 +23,7 @@
     [CascadingParameter]
     public PatternflyTabs? ContainerTabSet { get; set; }
 
-    [Parameter] public string TabId { get; set; }
+    [Parameter] public string TabId { get; set; } = HtmlId.Create();
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public string? Title { get; set; }
     [Parameter] public string? Icon { get; set; }
@@ -31,7 +31,7 @@
     [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
     [Parameter] public string? PanelCssClass { get; set; }
     [Parameter] public string? TitleCssClass { get; set; }
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
 
 
     private string? tabCssClass => 

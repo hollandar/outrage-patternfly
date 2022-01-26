@@ -13,13 +13,13 @@
 @code {
 
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
     public ButtonColor Color { get; set; } = ButtonColor.Primary;
 
     [Parameter] 
-    public string Icon { get; set; } = null;
+    public string? Icon { get; set; } = null;
 
     [Parameter]
     public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;

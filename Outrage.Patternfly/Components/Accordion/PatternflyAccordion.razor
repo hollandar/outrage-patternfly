@@ -15,11 +15,11 @@
     public string AccordionId { get; set; } = HtmlId.Create();
 
     [Parameter]
-    public string StateId { get; set; } = null;
+    public string StateId { get; set; } = HtmlId.Create();
     protected ElementReference accordionElement;
 
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
     public bool CloseOthers { get; set; }

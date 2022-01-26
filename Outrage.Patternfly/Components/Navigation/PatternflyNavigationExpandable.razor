@@ -30,11 +30,17 @@
 </li>
 
 @code {
-    HtmlId controlsId;
+    HtmlId controlsId = new();
     [Parameter] public string? Text { get; set; } = null;
     [Parameter] public string? Icon { get; set; } = null;
     [Parameter] public RenderFragment? ChildContent { get; set; } = null;
     [Parameter] public bool Expanded { get; set; } = false;
+
+    protected override void OnInitialized()
+    {
+        controlsId = new HtmlId();
+        base.OnInitialized();
+    }
 
     void ToggleExpanded()
     {

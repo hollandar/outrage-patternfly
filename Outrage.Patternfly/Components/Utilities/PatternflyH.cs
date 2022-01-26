@@ -52,7 +52,16 @@ namespace Outrage.Patternfly.Components.Utilities
         }
         protected override IEnumerable<string> OnIntroduceClasses()
         {
-            return new List<string>(new string[] { "pf-c-title", Modifier ?? modifier, Class });
+            var classes = new List<string>(new string[] { "pf-c-title" });
+
+            if (!string.IsNullOrEmpty(Class))
+                classes.Add(Class);
+
+            var modClass = Modifier ?? modifier;
+            if (!string.IsNullOrEmpty(modClass))
+                classes.Add(modClass);
+
+            return classes;
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)

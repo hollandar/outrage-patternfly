@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Outrage.Patternfly.Components.Tabs
 {
@@ -11,7 +6,7 @@ namespace Outrage.Patternfly.Components.Tabs
     {
         string TabId { get; }
         string? PanelCssClass { get; }
-        RenderFragment ChildContent { get; }
+        RenderFragment? ChildContent { get; }
 
         Task ActivateTab();
     }

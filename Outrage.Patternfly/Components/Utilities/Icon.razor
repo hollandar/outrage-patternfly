@@ -39,10 +39,10 @@
     public WeightEnum Weight { get; set; } = WeightEnum.regular;
 
     [Parameter]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
-    public IDictionary<string, object> AdditionalAttributes { get; set; }
+    public IDictionary<string, object>? AdditionalAttributes { get; set; }
 
     public IDictionary<string, object> AdditionalExceptClass => AdditionalAttributes?.Where(r => r.Key != "class").ToDictionary(r => r.Key, r => r.Value) ?? new Dictionary<string, object>();
 

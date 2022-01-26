@@ -23,7 +23,10 @@
                         class="@(UseSelection && row.IsSelected ? "selected":"") @(OnRowClicked.HasDelegate?"selectable":"")" 
                         @key="row" 
                         @onclick="@(async (e)=> { await RowClicked(e, row);})">
-                        @RowTemplate(row.Item)
+                        @if (RowTemplate != null)
+                        {
+                            @RowTemplate(row.Item)
+                        }
                     </tr>
                 }
             }
@@ -36,20 +39,20 @@
 
     @if (TotalCount > PageSize)
     {
-        <GridPaginator Page="@Page" PageSize="@PageSize" TotalCount="@TotalCount" OnSelectPage="SelectPage"></GridPaginator>
+        <PatternflyPaginator Page="@Page" PageSize="@PageSize" TotalCount="@TotalCount" OnSelectPage="SelectPage" />
     }
 
 </CascadingValue>
 
 @code {
 
-    private TItemKey loadedId = default(TItemKey);
+    private TItemKey? loadedId = default(TItemKey);
 
     [Parameter]
     public RenderFragment? Columns { get; set; }
 
     [Parameter]
-    public Func<TItem, object> Key { get; set; } = null;
+    public Func<TItem, object>? Key { get; set; } = null;
 
     [Parameter]
     public RenderFragment<TItem>? RowTemplate { get; set; }
@@ -102,7 +105,7 @@
 
     public async Task RowClicked(MouseEventArgs args, TableRowWrapper<TItem> wrapper)
     {
-        foreach (var row in this.Items.Items)
+        foreach (var row in this.Items?.Items ?? Enumerable.Empty<TableRowWrapper<TItem>>())
         {
             row.IsSelected = row == wrapper;
         }

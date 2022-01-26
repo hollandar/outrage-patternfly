@@ -191,7 +191,9 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        List<string> classes = new List<string>(new string[] { "pf-c-pagination", Class });
+        List<string> classes = new List<string>(new string[] { "pf-c-pagination" });
+        if (!string.IsNullOrEmpty(Class))
+            classes.Add(Class);
 
         if (Position == PaginationPosition.Bottom)
             classes.Add("pf-m-bottom");

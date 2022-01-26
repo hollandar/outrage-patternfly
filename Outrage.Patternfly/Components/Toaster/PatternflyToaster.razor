@@ -22,8 +22,8 @@
     public TimeSpan Expiry { get; set; } = TimeSpan.FromSeconds(5);
 
     IList<ToastMessageModel> messages = new List<ToastMessageModel>();
-    System.Threading.Timer timer;
-    ISubscriber filterSubscriber;
+    System.Threading.Timer? timer;
+    ISubscriber? filterSubscriber;
     System.Threading.SemaphoreSlim listLock = new System.Threading.SemaphoreSlim(1);
 
     protected override Task OnInitializedAsync()
@@ -47,7 +47,7 @@
         }
     }
 
-    public async void MessageTimeout(object state)
+    public async void MessageTimeout(object? state)
     {
         try
         {
@@ -67,6 +67,6 @@
 
     void IDisposable.Dispose()
     {
-        this.timer.Dispose();
+        this.timer?.Dispose();
     }
 }

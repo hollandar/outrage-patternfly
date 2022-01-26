@@ -48,9 +48,9 @@ namespace Outrage.Patternfly.Helpers
             return new HtmlId().Value;
         }
 
-        public string With(string with)
+        public string With(string? with)
         {
-            return $"{this.Value}_{with}";
+            return string.IsNullOrEmpty(with) ? this.Value : $"{this.Value}_{with}";
         }
     }
 }

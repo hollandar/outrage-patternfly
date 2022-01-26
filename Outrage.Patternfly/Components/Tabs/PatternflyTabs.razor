@@ -24,8 +24,8 @@
 
 
 @code {
-    [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public EventCallback<string> OnTabSelected { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public EventCallback<string>? OnTabSelected { get; set; }
 
     public ITab? ActiveTab { get; private set; }
 
@@ -46,7 +46,8 @@
         {
             ActiveTab = tab;
             StateHasChanged();
-            await OnTabSelected.InvokeAsync(tab.TabId);
+            if (OnTabSelected != null)
+                await OnTabSelected.Value.InvokeAsync(tab.TabId);
         }
     }
 
