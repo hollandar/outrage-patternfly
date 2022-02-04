@@ -67,12 +67,13 @@
             await this.InvokeAsync(
                 () => { this.StateHasChanged(); }
             );
+            await this.OnVisibleChanged();
         }
     }
 
-    public void OnVisibleChanged()
+    public Task OnVisibleChanged()
     {
-        this.VisibleChanged.InvokeAsync(this.Visible);
+        return this.VisibleChanged.InvokeAsync(this.Visible);
     }
 
 }
