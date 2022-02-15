@@ -3,18 +3,23 @@
 @inherits Patternfly.Components.Base.PatternflyComponentBase
 
 <button class="@Classes" @onclick="OnClicked" @onclick:stopPropagation @attributes="AdditionalAttributes">
-    @if (Icon != null && IconPosition == IconPosition.Start)
-    {
-        <span class="pf-c-button__icon pf-m-start">
-            <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true" />
-        </span>
+    @if (ChildContent != null) {
+        @if (Icon != null && IconPosition == IconPosition.Start)
+        {
+            <span class="pf-c-button__icon pf-m-start">
+                <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true" />
+            </span>
+        }
+        @ChildContent
+        @if (Icon != null && IconPosition == IconPosition.End)
+        {
+            <span class="pf-c-button__icon pf-m-end">
+                <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true" />
+            </span>
+        }
     }
-    @ChildContent
-    @if (Icon != null && IconPosition == IconPosition.End)
-    {
-        <span class="pf-c-button__icon pf-m-end">
-            <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true" />
-        </span>
+    else {
+        <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true" />
     }
 </button>
 
@@ -40,6 +45,12 @@
 
     [Parameter]
     public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    [Parameter]
+    public string Href { get; set; } = null;
+
+    [Inject]
+    public NavigationManager Nav { get; set; }
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
@@ -99,7 +110,7 @@
         {
             if (AdditionalAttributes == null)
                 AdditionalAttributes = new Dictionary<string, object>();
-            AdditionalAttributes["type"] = "button";            
+            AdditionalAttributes["type"] = "button";
         }
 
         return classes;
@@ -107,6 +118,13 @@
 
     private async Task OnClicked(MouseEventArgs e)
     {
-        await Clicked.InvokeAsync(e);
+        if (!String.IsNullOrWhiteSpace(Href))
+        {
+            Nav.NavigateTo(Href);
+        }
+        else
+        {
+            await Clicked.InvokeAsync(e);
+        }
     }
 }

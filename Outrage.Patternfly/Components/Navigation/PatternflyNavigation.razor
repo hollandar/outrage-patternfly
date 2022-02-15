@@ -8,9 +8,12 @@
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Horizontal { get; set; } = false;
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        return new string[] { "pf-c-nav" };
+        var classes = new System.Collections.Generic.HashSet<string>(new string[] { "pf-c-nav" });
+        if (Horizontal) classes.Add("pf-m-horizontal");
+        return classes;
     }
 }

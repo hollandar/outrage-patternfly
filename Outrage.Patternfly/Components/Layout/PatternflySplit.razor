@@ -9,15 +9,15 @@
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
-    public bool Fill { get; set; } = false;
+    public bool Gutter { get; set; } = true;
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-l-stack__item" });
+        var classes = new HashSet<string>(new string[] { "pf-l-split" });
 
-        if (Fill)
+        if (Gutter)
         {
-            classes.Add("pf-m-fill");
+            classes.Add("pf-m-gutter");
 
         }
 

@@ -92,3 +92,12 @@
 .ou-z-behind {
     z-index:-1;
 }
+
+.ou-avatar-like {
+    width : 4rem;
+    height: 4rem;
+    border-radius: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,44 @@
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="@Classes" @attributes="AdditionalAttributes">
+    <button class="pf-c-dropdown__toggle pf-m-plain"
+            id="@dropdownId"
+            aria-expanded="@Expanded"
+            type="button"
+            aria-label="Actions"
+            @onclick="ToggleDropdown">
+        <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+    </button>
+    @if (Expanded)
+    {
+        <ul class="pf-c-dropdown__menu" aria-labelledby="@dropdownId">
+            @ChildContent
+        </ul>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public bool Expanded { get; set; } = false;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    HtmlId dropdownId = new HtmlId();
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-dropdown" });
+        if (Expanded)
+        {
+            classes.Add("pf-m-expanded");
+        }
+
+        return classes;
+    }
+
+    void ToggleDropdown() {
+        this.Expanded = !this.Expanded;
+        this.StateHasChanged();
+    }
+}
