@@ -1,0 +1,142 @@
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+@typeparam TItem
+@using Outrage.Patternfly.Components.Utilities
+
+<div class="@Classes" @attributes="AdditionalAttributes">
+    <span id="@id.With("select-single-typeahead-expanded-label")" hidden>New</span>
+
+    <div class="pf-c-select__toggle pf-m-typeahead">
+        <div class="pf-c-select__toggle-wrapper">
+            <input class="pf-c-form-control pf-c-select__toggle-typeahead"
+                   type="text"
+                   id="@id.With("select-single-typeahead-expanded-typeahead")"
+                   aria-label="Type to filter"
+                   placeholder="@Placeholder"
+                   @bind-value="this.Text" @bind-value:event="oninput" />
+        </div>
+        @if (ItemCreated.HasDelegate && !String.IsNullOrEmpty(this.text))
+        {
+            <button class="pf-c-button pf-m-plain pf-c-select__toggle-clear"
+                type="button"
+                aria-label="Clear all"
+                @onclick="CreateItem">
+                <Icon Name="check" />
+            </button>
+        }
+        @if (Expanded)
+        {
+            
+            <button class="pf-c-button pf-m-plain pf-c-select__toggle-clear"
+                type="button"
+                aria-label="Clear all"
+                @onclick="ClearSearch">
+                <Icon Name="@ClearIcon" />
+            </button>
+        }
+        <button class="pf-c-button pf-m-plain pf-c-select__toggle-button"
+                type="button"
+                id="@id.With("select-single-typeahead-expanded-toggle")"
+                aria-haspopup="true"
+                aria-expanded="true"
+                aria-labelledby="@id.With("select-single-typeahead-expanded-label") @id.With("select-single-typeahead-expanded-toggle")"
+                aria-label="Select"
+                @onclick="ToggleExpanded">
+            <Icon Name="@CaretIcon" class="pf-c-select__toggle-arrow" />
+        </button>
+    </div>
+
+    <ul class="pf-c-select__menu"
+        aria-labelledby="@id.With("select-single-typeahead-expanded-label")"
+        role="listbox"
+        hidden="@(!Expanded)">
+        @foreach (var item in Items)
+        {
+            var value = item?.ToString();
+            if (value != null)
+            {
+                var mark = value.Substring(0, this.text.Length);
+                var notmark = value.Substring(this.text.Length);
+                <li role="presentation" @key="item">
+                    <button class="pf-c-select__menu-item" role="option" @onclick="() => SelectItem(item)">
+                        <mark class="pf-c-select__menu-item--match">@mark</mark>@notmark
+
+                        <span class="pf-c-select__menu-item-icon">
+                            <i class="fas fa-check" aria-hidden="true"></i>
+                        </span>
+
+                    </button>
+                </li>
+            }
+        }
+    </ul>
+</div>
+
+@code {
+    string text = "";
+
+    [Parameter]
+    public string Text
+    {
+        set
+        {
+            this.text = value;
+            this.SearchItem();
+        }
+        get { return this.text; }
+    }
+
+    [Parameter] public bool Expanded { get; set; } = false;
+    [Parameter] public string Placeholder { get; set; } = "New";
+    [Parameter] public IEnumerable<TItem> Items { get; set; }
+    [Parameter] public IEnumerable<TItem> MatchedItems { get; set; } = Enumerable.Empty<TItem>();
+    [Parameter] public EventCallback<TItem> ItemSelected { get; set; }
+    [Parameter] public EventCallback<string> ItemCreated { get; set; }
+    [Parameter] public string ClearIcon { get; set; } = "times-circle";
+    [Parameter] public string CaretIcon { get; set; } = "caret-down";
+    public HtmlId id = new();
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-select" });
+        if (Expanded)
+        {
+            classes.Add("pf-m-expanded");
+        }
+
+        return classes;
+    }
+
+    public void ClearSearch()
+    {
+        this.text = String.Empty;
+        this.Expanded = false;
+        this.StateHasChanged();
+    }
+
+    public void ToggleExpanded()
+    {
+        this.Expanded = !this.Expanded;
+    }
+
+    public void SearchItem()
+    {
+        this.MatchedItems = this.Items.Where(r => r.ToString().StartsWith(this.text, StringComparison.CurrentCultureIgnoreCase));
+        if (this.MatchedItems.Any())
+            this.Expanded = true;
+        this.StateHasChanged();
+    }
+
+    public async Task SelectItem(TItem item)
+    {
+        await this.ItemSelected.InvokeAsync(item);
+        this.Text = "";
+        this.Expanded = false;
+    }
+
+    public async Task CreateItem()
+    {
+        await this.ItemCreated.InvokeAsync(this.text);
+        this.Text = "";
+        this.Expanded = false;
+    }
+}

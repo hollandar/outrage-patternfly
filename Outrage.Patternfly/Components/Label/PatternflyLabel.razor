@@ -40,17 +40,17 @@
     [Parameter] public string? Text { get; set; } = null;
     [Parameter] public bool Compact { get; set; } = false;
     [Parameter] public bool Outline { get; set; } = false;
-    [Parameter] public EventCallback<MouseEventArgs> Closed { get; set; }
-    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+    [Parameter] public EventCallback<string> Closed { get; set; }
+    [Parameter] public EventCallback<string> Clicked { get; set; }
 
     protected async Task CloseLabel(MouseEventArgs args)
     {
-        await this.Closed.InvokeAsync(args);
+        await this.Closed.InvokeAsync(this.Text);
     }
 
     protected async Task ClickLabel(MouseEventArgs args)
     {
-        await this.Clicked.InvokeAsync(args);
+        await this.Clicked.InvokeAsync(this.Text);
     }
     protected override IEnumerable<string> OnIntroduceClasses()
     {
