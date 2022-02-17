@@ -9,21 +9,17 @@ namespace Outrage.Patternfly.Components.Base
 {
     public class PatternflyComponentBase: ComponentBase
     {
+        private Dictionary<string, object>? additionalAttributes = new Dictionary<string, object>();
+
         [Parameter(CaptureUnmatchedValues = true)]
-        public Dictionary<string, object>? AdditionalAttributes { get; set; } = new Dictionary<string, object>();
+        public Dictionary<string, object>? AdditionalAttributes { get { return DeriveAdditionalAttributes(); } set { this.additionalAttributes = value; } }
 
         [Parameter]
         public string? Class { get; set; } = null;
 
-        protected string classes = "";
-        protected string Classes { get { return classes; } }
-        protected override void OnParametersSet()
-        {
-            AdjustClasses();
-            base.OnParametersSet();
-        }
+        protected string Classes { get { return DeriveClasses(); } }
 
-        protected virtual void AdjustClasses()
+        protected virtual string DeriveClasses()
         {
             var classes = new HashSet<string>();
 
@@ -43,9 +39,12 @@ namespace Outrage.Patternfly.Components.Base
             foreach (var @class in OnIntroduceClasses()) 
                 classes.Add(@class);
 
-            AdditionalAttributes?.Remove("class");
+            return String.Join(" ", classes);
+        }
 
-            this.classes = String.Join(" ", classes);
+        public Dictionary<string, object> DeriveAdditionalAttributes() {
+
+            return this.additionalAttributes?.Where(r => r.Key != "class").ToDictionary(r => r.Key, r => r.Value) ?? new Dictionary<string, object>();
         }
 
         protected virtual IEnumerable<string> OnIntroduceClasses()

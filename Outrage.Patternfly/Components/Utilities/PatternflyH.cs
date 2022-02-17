@@ -67,7 +67,7 @@ namespace Outrage.Patternfly.Components.Utilities
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             builder.OpenElement(0, $"h{level}");
-            builder.AddAttribute(1, "class", String.Join(" ", classes));
+            builder.AddAttribute(1, "class", String.Join(" ", Classes));
             ChildContent?.Invoke(builder);
             builder.CloseElement();
 
