@@ -5,7 +5,7 @@
 
 <div class="@Classes" @attributes="AdditionalAttributes">
     <button class="pf-c-toggle-group__button @(Selected ? "pf-m-selected" : string.Empty)" type="button" @onclick="Clicked">
-        @if (IconPosition == IconPosition.Start)
+        @if (Icon != null && IconPosition == IconPosition.Start)
         {
             <span class="pf-c-toggle-group__icon">
                 <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" aria-hidden="true" />
@@ -15,7 +15,7 @@
         {
             <span class="pf-c-toggle-group__text">@ChildContent</span>            
         }
-        @if (IconPosition == IconPosition.End)
+        @if (Icon != null && IconPosition == IconPosition.End)
         {
             <span class="pf-c-toggle-group__icon">
                 <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" aria-hidden="true" />
