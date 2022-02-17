@@ -87,7 +87,7 @@
 
     [Parameter] public bool Expanded { get; set; } = false;
     [Parameter] public string Placeholder { get; set; } = "New";
-    [Parameter] public IEnumerable<TItem> Items { get; set; }
+    [Parameter] public IEnumerable<TItem> Items { get; set; } = Enumerable.Empty<TItem>();
     [Parameter] public IEnumerable<TItem> MatchedItems { get; set; } = Enumerable.Empty<TItem>();
     [Parameter] public EventCallback<TItem> ItemSelected { get; set; }
     [Parameter] public EventCallback<string> ItemCreated { get; set; }
@@ -120,7 +120,7 @@
 
     public void SearchItem()
     {
-        this.MatchedItems = this.Items.Where(r => r.ToString().StartsWith(this.text, StringComparison.CurrentCultureIgnoreCase));
+        this.MatchedItems = this.Items.Where(r => (r?.ToString() ?? "").StartsWith(this.text, StringComparison.CurrentCultureIgnoreCase));
         if (this.MatchedItems.Any())
             this.Expanded = true;
         this.StateHasChanged();

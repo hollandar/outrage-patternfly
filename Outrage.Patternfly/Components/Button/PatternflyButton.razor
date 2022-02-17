@@ -47,10 +47,10 @@
     public EventCallback<MouseEventArgs> Clicked { get; set; }
 
     [Parameter]
-    public string Href { get; set; } = null;
+    public string? Href { get; set; } = null;
 
     [Inject]
-    public NavigationManager Nav { get; set; }
+    public NavigationManager? Nav { get; set; }
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
@@ -120,7 +120,7 @@
     {
         if (!String.IsNullOrWhiteSpace(Href))
         {
-            Nav.NavigateTo(Href);
+            Nav?.NavigateTo(Href);
         }
         else
         {

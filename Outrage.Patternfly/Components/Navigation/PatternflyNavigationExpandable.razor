@@ -1,6 +1,6 @@
 ﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
 
-<li class="pf-c-nav__item pf-m-expandable @Classes" @attributes="AdditionalAttributes">
+<li class="@Classes" @attributes="AdditionalAttributes">
     <button class="pf-c-nav__link"
             id="@controlsId"
             aria-expanded="@Expanded"
@@ -19,10 +19,9 @@
             </span>
         </span>
     </button>
-    <section class="pf-c-nav__subnav)"
+    <section class="pf-c-nav__subnav"
              aria-labelledby="@controlsId"
-             hidden="@(!Expanded)"
-    >
+             hidden="@(!Expanded)">
         <ul class="pf-c-nav__list">
             @ChildContent
         </ul>
@@ -35,6 +34,7 @@
     [Parameter] public string? Icon { get; set; } = null;
     [Parameter] public RenderFragment? ChildContent { get; set; } = null;
     [Parameter] public bool Expanded { get; set; } = false;
+    [Parameter] public EventCallback OnExpanded { get; set; }
 
     protected override void OnInitialized()
     {
@@ -42,9 +42,22 @@
         base.OnInitialized();
     }
 
-    void ToggleExpanded()
+    async Task ToggleExpanded()
     {
         this.Expanded = !this.Expanded;
-        this.StateHasChanged();
+        if (this.Expanded)
+        {
+            await OnExpanded.InvokeAsync();
+        }
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-nav__item", "pf-m-expandable" });
+        if (this.Expanded)
+            classes.Add("pf-m-expanded");
+
+        return classes;
     }
 }

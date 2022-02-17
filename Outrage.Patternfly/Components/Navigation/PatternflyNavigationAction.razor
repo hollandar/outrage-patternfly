@@ -1,0 +1,37 @@
+﻿@using Outrage.Patternfly.Components.Utilities
+
+@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<a class="@Classes" href="javascript:void(0)" @attributes="AdditionalAttributes" @onclick="ItemClicked">
+    @if (Icon != null)
+    {
+        <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" class="fa-fw pf-u-mr-sm" aria-hidden="true" />
+    }
+    @if (Text != null)
+    {
+        @Text
+    }
+    @if (ChildContent != null)
+    {
+        @ChildContent
+    }
+</a>
+
+@code {
+    [Parameter] public string? Icon { get; set; } = null;
+    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.regular;
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+    [Parameter] public string? Text { get; set; } = null;
+    [Parameter] public RenderFragment? ChildContent { get; set; } = null;
+    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; } 
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        return new string[] { "pf-c-nav__link" };
+    }
+
+    protected async Task ItemClicked(MouseEventArgs args)
+    {
+        await Clicked.InvokeAsync(args);
+    }
+}

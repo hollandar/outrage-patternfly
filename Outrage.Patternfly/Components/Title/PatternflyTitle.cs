@@ -14,7 +14,7 @@ namespace Outrage.Patternfly.Components.Title
         [Parameter] public int HeadingLevel { get; set; } = 1;
         [Parameter] public TitleSize Size { get; set; } = TitleSize.unset;
 
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
