@@ -33,6 +33,9 @@
     [Parameter]
     public EventCallback<MouseEventArgs> Clicked { get; set; }
 
+    [Parameter]
+    public string Type { get; set; } = "button";
+
     async Task ActionClicked(MouseEventArgs e)
     {
         await this.Clicked.InvokeAsync(e);

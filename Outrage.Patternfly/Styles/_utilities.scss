@@ -70,6 +70,23 @@
     width: 100%;
 }
 
+/* HEIGHT */
+.ou-h-full {
+    height: 100%;
+}
+
+.ou-h-vh {
+    height: 80vh;
+}
+
+.ou-fill {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left:0;
+    top: 0;
+}
+
 /* PADDING */
 .ou-p-4 {
     padding: var(--ou-size-4);

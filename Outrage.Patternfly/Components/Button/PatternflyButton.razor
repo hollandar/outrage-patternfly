@@ -2,7 +2,7 @@
 
 @inherits Patternfly.Components.Base.PatternflyComponentBase
 
-<button class="@Classes" @onclick="OnClicked" @onclick:stopPropagation @attributes="AdditionalAttributes">
+<button class="@Classes" @onclick="OnClicked" @onclick:stopPropagation type="@Type" @attributes="AdditionalAttributes">
     @if (ChildContent != null) {
         @if (Icon != null && IconPosition == IconPosition.Start)
         {
@@ -51,6 +51,9 @@
 
     [Inject]
     public NavigationManager? Nav { get; set; }
+
+    [Parameter]
+    public string Type { get; set; } = "button";
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {

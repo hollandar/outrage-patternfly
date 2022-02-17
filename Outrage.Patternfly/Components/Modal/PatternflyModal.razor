@@ -31,7 +31,7 @@
                         </div>
                     }
                 </header>
-                <div class="pf-c-modal-box__body">
+                <div class="pf-c-modal-box__body" style="position:relative">
                     @ModalBody
                 </div>
                 <footer class="pf-c-modal-box__footer">
@@ -65,8 +65,8 @@
 
     private bool HelpShown { get; set; } = false;
 
-    public void Show() { this.Shown = true; this.StateHasChanged(); }
-    public void Hide() { this.Shown = false; this.StateHasChanged(); }
+    public async Task Show() { this.Shown = true; await this.InvokeAsync(StateHasChanged); }
+    public async Task Hide() { this.Shown = false; await this.InvokeAsync(StateHasChanged); }
 
     public void ToggleHelp()
     {
