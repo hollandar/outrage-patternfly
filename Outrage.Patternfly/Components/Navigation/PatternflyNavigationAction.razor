@@ -23,11 +23,17 @@
     [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
     [Parameter] public string? Text { get; set; } = null;
     [Parameter] public RenderFragment? ChildContent { get; set; } = null;
-    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; } 
+    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+    [Parameter] public bool Active { get; set; } = false; 
+
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        return new string[] { "pf-c-nav__link" };
+        var classes = new HashSet<string>( new string[] { "pf-c-nav__link" });
+
+        if (Active) classes.Add("pf-m-current");
+
+        return classes;
     }
 
     protected async Task ItemClicked(MouseEventArgs args)
