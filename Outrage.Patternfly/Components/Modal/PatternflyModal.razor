@@ -65,12 +65,16 @@
 
     private bool HelpShown { get; set; } = false;
 
+    [Parameter]
+    public EventCallback<bool> ShownChanged { get; set; }
+
     public async Task Show() { this.Shown = true; await this.InvokeAsync(StateHasChanged); }
     public async Task Hide() { this.Shown = false; await this.InvokeAsync(StateHasChanged); }
 
-    public void ToggleHelp()
+    public async Task ToggleHelp()
     {
         this.HelpShown = !this.HelpShown;
+        await this.ShownChanged.InvokeAsync(this.HelpShown);
         this.StateHasChanged();
     }
 
