@@ -12,7 +12,7 @@
     </button>
 </h3>
 <div class="pf-c-accordion__expanded-content @(Visible? "pf-m-expanded":string.Empty)" hidden="@(!Visible)">
-    <div class="pf-c-accordion__expanded-content-body">@Content</div>
+    <div class="pf-c-accordion__expanded-content-body">@Body</div>
 </div>
 
 @code {
@@ -23,7 +23,7 @@
     public RenderFragment? Header { get; set; }
 
     [Parameter]
-    public RenderFragment? Content { get; set; }
+    public RenderFragment? Body { get; set; }
 
     [Parameter]
     public bool Visible { get; set; } = false;

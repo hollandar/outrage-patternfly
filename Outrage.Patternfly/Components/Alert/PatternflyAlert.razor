@@ -24,17 +24,17 @@
             </PatternflyButton>
         </div>
     }
-    @if (Description != null || Content != null)
+    @if (Description != null || Body != null)
     {
         <div class="pf-c-alert__description">
             @Description
-            @Content
+            @Body
         </div>
     }
-    @if (Controls != null)
+    @if (Actions != null)
     {
         <div class="pf-c-alert__action-group">
-            @Controls
+            @Actions
         </div>
     }
 </div>
@@ -47,8 +47,8 @@
     [Parameter] public bool Inline { get; set; }
     [Parameter] public string? Title { get; set; } = null;
     [Parameter] public string? Description { get; set; } = null;
-    [Parameter] public RenderFragment? Content { get; set; } = null;
-    [Parameter] public RenderFragment? Controls { get; set; }
+    [Parameter] public RenderFragment? Body { get; set; } = null;
+    [Parameter] public RenderFragment? Actions { get; set; }
     [Parameter] public bool Closed { get; set; } = false;
     [Parameter] public bool Dismissable { get; set; } = true;
 

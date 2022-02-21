@@ -8,7 +8,7 @@
     }
     <div class="pf-c-panel__main">
         <div class="pf-c-panel__main-body">
-            @Main
+            @Body
         </div>
     </div>
     @if (Footer != null)
@@ -25,7 +25,7 @@
     public RenderFragment? Header { get; set; }
 
     [Parameter]
-    public RenderFragment? Main { get; set; }
+    public RenderFragment? Body { get; set; }
 
     [Parameter]
     public RenderFragment? Footer { get; set; }
