@@ -1,8 +1,11 @@
 ﻿@using Outrage.Patternfly.Components.Spinner;
+@using Outrage.Patternfly.Components.Layout;
 
 @if (InProgress)
 {
-    <PatternflySpinner />
+    <PatternflyBullseye>
+        <PatternflySpinner />
+    </PatternflyBullseye>
 }
 else
 {
