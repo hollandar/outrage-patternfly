@@ -4,7 +4,10 @@
 @if (InProgress)
 {
     <PatternflyBullseye>
-        <PatternflySpinner />
+        <PatternflyStack>
+            <PatternflyStackItem Fill="false"><PatternflySpinner /></PatternflyStackItem>
+            <PatternflyStackItem Fill="false">@Message</PatternflyStackItem>
+        </PatternflyStack>
     </PatternflyBullseye>
 }
 else
@@ -16,6 +19,7 @@ else
     [Parameter] public object? Target { get; set; } = null;
     [Parameter] public bool Complete { get; set; } = false;
     [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string Message { get; set; } = "Loading...";
 
     private bool InProgress
     {
