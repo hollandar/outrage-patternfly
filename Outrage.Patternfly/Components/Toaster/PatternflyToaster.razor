@@ -7,12 +7,16 @@
 <ul class="pf-c-alert-group pf-m-toast">
     @foreach (var message in messages.OrderByDescending(message => message.ExpireTime))
     {
-        <li class="pf-c-alert-group__item">
-            <PatternflyAlert hidden="@(message.ExpireTime > DateTimeOffset.UtcNow)"
-                         Color="@message.Message.Color"
-                         Title="@message.Message.Message"
-                         Description="@message.Message.Description" />
-        </li>
+        if (message.ExpireTime > DateTimeOffset.UtcNow && !message.IsDismissed)
+        {
+            <li class="pf-c-alert-group__item" @key="message">
+                <PatternflyAlert
+                             Dismissable="true" OnDismiss="@(() => message.Dismiss())"
+                             Color="@message.Message.Color"
+                             Title="@message.Message.Message"
+                             Description="@message.Message.Description" />
+            </li>
+        }
     }
 </ul>
 

@@ -12,5 +12,11 @@ namespace Outrage.Patternfly.Components.Toaster
 
         public ToastMessage Message { get; }
         public DateTimeOffset ExpireTime { get; }
+        public bool IsDismissed { get; private set; }
+
+        public void Dismiss()
+		{
+            this.IsDismissed = true;
+		}
     }
 }
