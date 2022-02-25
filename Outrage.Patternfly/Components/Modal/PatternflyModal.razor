@@ -2,8 +2,8 @@
 
 @using Outrage.Patternfly.Components.Backdrop
 @using Outrage.Patternfly.Components.Layout
-@if (this.Shown)
-{
+
+<div hidden="@(!this.Shown)">
     <PatternflyBackdrop>
         <PatternflyBullseye>
             <div class="@Classes" @attributes="AdditionalAttributes" aria-modal="true" aria-labelledby="@modalId.With("modal-help-title")" aria-describedby="@modalId.With("modal-help-description")">
@@ -40,7 +40,7 @@
             </div>
         </PatternflyBullseye>
     </PatternflyBackdrop>
-}
+</div>
 
 @code {
     HtmlId modalId = new();
@@ -68,14 +68,27 @@
     [Parameter]
     public EventCallback<bool> ShownChanged { get; set; }
 
-    public async Task Show() { this.Shown = true; await this.InvokeAsync(StateHasChanged); }
-    public async Task Hide() { this.Shown = false; await this.InvokeAsync(StateHasChanged); }
+    public async Task Show() 
+    { 
+        this.Shown = true; 
+        await this.InvokeAsync(StateHasChanged); 
+        if (ShownChanged.HasDelegate)
+            await ShownChanged.InvokeAsync(this.Shown);
+    }
+
+    public async Task Hide() 
+    { 
+        this.Shown = false;
+        await this.InvokeAsync(StateHasChanged); 
+        if (ShownChanged.HasDelegate)
+            await ShownChanged.InvokeAsync(this.Shown);
+    }
 
     public async Task ToggleHelp()
     {
         this.HelpShown = !this.HelpShown;
-        await this.ShownChanged.InvokeAsync(this.HelpShown);
         this.StateHasChanged();
+        await this.ShownChanged.InvokeAsync(this.HelpShown);
     }
 
     protected override IEnumerable<string> OnIntroduceClasses()
