@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "sass --style=compressed ./Styles/patternfly.base.scss:./wwwroot/css/patternfly.base.css"
+    "build": "sass --style=compressed ./Styles/patternfly.base.scss:./wwwroot/css/patternfly.base.css & copyfiles ./node_modules/@patternfly/patternfly/assets/**/* ./wwwroot/css/assets/"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@patternfly/patternfly": "^4.164.2",
     "sass": "^1.46.0"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.1"
   }
 }
