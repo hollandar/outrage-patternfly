@@ -1,0 +1,107 @@
+﻿@typeparam TItemType
+@using Outrage.Patternfly.Components.Modal
+@using Outrage.Patternfly.Components.Layout
+@using Outrage.Patternfly.Components.Actions
+@using Outrage.Patternfly.Components.Button
+@using Outrage.Patternfly.Components.Alert
+@using Outrage.Patternfly.Components.Layout
+
+<PatternflyModal CreateOnShow="true" @ref="modal">
+    <Header>@Header.Invoke(item)</Header>
+    <Body>
+        @Body.Invoke(item)
+    </Body>
+    <Footer>
+        <PatternflyStack>
+            @if (Confirmation != ConfirmationEnum.custom)
+            {
+                <PatternflyStackItem>
+                    @if (Confirmation == ConfirmationEnum.ok || Confirmation == ConfirmationEnum.okcancel)
+                    {
+                        <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">Ok</PatternflyButton>
+                    }
+                    @if (Confirmation == ConfirmationEnum.close)
+                    {
+                        <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">Close</PatternflyButton>
+                    }
+                    @if (Confirmation == ConfirmationEnum.okcancel)
+                    {
+                        <PatternflyButton Color="ButtonColor.Link" Clicked="DoDecline">Cancel</PatternflyButton>
+                    }
+                    @if (Confirmation == ConfirmationEnum.yesno)
+                    {
+                        <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">Yes</PatternflyButton>
+                        <PatternflyButton Color="ButtonColor.Link" Clicked="DoDecline">No</PatternflyButton>
+                    }
+                </PatternflyStackItem>
+            }
+            else
+            {
+                <PatternflyStackItem>
+                    @Footer.Invoke(item)
+                </PatternflyStackItem>
+            }
+
+            @if (message != null)
+            {
+                <PatternflyStackItem>
+                    @message
+                </PatternflyStackItem>
+            }
+        </PatternflyStack>
+    </Footer>
+</PatternflyModal>
+
+@code {
+    PatternflyModal modal;
+    TItemType item;
+    string message = null;
+
+    [Parameter] public RenderFragment<TItemType> Header { get; set; }
+    [Parameter] public RenderFragment<TItemType> Body { get; set; }
+    [Parameter] public RenderFragment<TItemType> Footer { get; set; }
+    [Parameter] public ConfirmationEnum Confirmation { get; set; } = ConfirmationEnum.close;
+    [Parameter] public EventCallback<TItemType> Confirmed { get; set; }
+    [Parameter] public EventCallback<TItemType> Declined { get; set; }
+
+    public async Task Show(TItemType item)
+    {
+        this.message = null;
+        this.item = item;
+        await this.modal.Show();
+    }
+
+    public async Task Hide()
+    {
+        await this.modal.Hide();
+    }
+
+    public async Task DoConfirm(MouseEventArgs args)
+    {
+        try
+        {
+            await this.Confirmed.InvokeAsync(item);
+            await this.modal.Hide();
+        }
+        catch (ActionModalException ex)
+        {
+            this.message = ex.Message;
+            await this.InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public async Task DoDecline(MouseEventArgs args)
+    {
+        try
+        {
+            await this.Declined.InvokeAsync(item);
+            await this.modal.Hide();
+        }
+        catch (ActionModalException ex)
+        {
+            this.message = ex.Message;
+            await this.InvokeAsync(StateHasChanged);
+        }
+    }
+}
+

@@ -1,0 +1,87 @@
+﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+@using Outrage.Patternfly.Components.Utilities;
+
+<li class="@Class" @attributes="AdditionalAttributes"
+    role="treeitem"
+    aria-expanded="@Expanded"
+    tabindex="0">
+    <div class="pf-c-tree-view__content">
+        <button class="pf-c-tree-view__node" @onclick="ToggleExpanded">
+            <div class="pf-c-tree-view__node-container">
+                @if (Children != null)
+                {
+                    <div class="pf-c-tree-view__node-toggle">
+                        <span class="pf-c-tree-view__node-toggle-icon">
+                            @if (Expanded)
+                            {
+                                <Icon Name="angle-down" />
+                            }
+                            else
+                            {
+                                <Icon Name="angle-right" />
+                            }
+                        </span>
+                    </div>
+                }
+                <span class="pf-c-tree-view__node-icon">
+                    @if (Expanded)
+                    {
+                        <Icon Name="@IconOpen" />
+                    }
+                    else
+                    {
+                        <Icon Name="@Icon" />
+                    }
+                </span>
+                <span class="pf-c-tree-view__node-text">
+                    @Text
+                </span>
+            </div>
+        </button>
+        @if (Action != null)
+        {
+            <div class="pf-c-tree-view__action">
+                @Action
+            </div>
+        }
+    </div>
+    @if (Children != null && Expanded)
+    {
+        <ul class="pf-c-tree-view__list" role="group">
+            @Children
+        </ul>
+    }
+</li>
+
+@code {
+    [Parameter] public bool Expanded { get; set; } = false;
+    [Parameter] public RenderFragment? Text { get; set; }
+    [Parameter] public RenderFragment? Children { get; set; }
+    [Parameter] public RenderFragment? Action { get; set; }
+    [Parameter] public string Icon { get; set; } = "folder";
+    [Parameter] public string IconOpen { get; set; } = "folder-open";
+    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-tree-view__list-item" });
+        if (Expanded)
+            classes.Add("pf-m-expanded");
+
+        return classes;
+    }
+
+    protected async Task ToggleExpanded(MouseEventArgs args)
+    {
+
+        if (Children == null)
+        {
+            Expanded = false;
+            await this.Clicked.InvokeAsync(args);
+        }
+        else
+            this.Expanded = !this.Expanded;
+
+        this.StateHasChanged();
+    }
+}
