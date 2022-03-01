@@ -1,5 +1,6 @@
 ﻿@using Outrage.Patternfly.Components.Utilities
-
+@using Outrage.Patternfly.Components.Dropdown
+@using Outrage.Patternfly.Interfaces
 @inherits Patternfly.Components.Base.PatternflyComponentBase
 
 <button class="@Classes" @onclick="OnClicked" @onclick:stopPropagation type="@Type" @attributes="AdditionalAttributes">
@@ -54,6 +55,9 @@
 
     [Parameter]
     public string Type { get; set; } = "button";
+
+    [CascadingParameter(Name = nameof(ICloseOnClick))]
+    public ICloseOnClick? Parent { get; set; } = null;
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
@@ -129,5 +133,8 @@
         {
             await Clicked.InvokeAsync(e);
         }
+
+        if (this.Parent != null)
+            await this.Parent?.CloseAsync();
     }
 }

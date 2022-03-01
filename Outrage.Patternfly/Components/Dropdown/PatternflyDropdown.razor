@@ -1,0 +1,82 @@
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+@using Outrage.Patternfly.Interfaces
+@implements ICloseOnClick
+
+<CascadingValue Name="@nameof(ICloseOnClick)" Value="this">
+    <div class="@Classes" @attributes="AdditionalAttributes">
+        <button class="@DropdownButtonClass"
+                id="@dropdownId"
+                aria-expanded="@Expanded"
+                type="button"
+                aria-label="Actions"
+                @onclick="ToggleDropdown">
+            @if (Style == DropdownStyle.regular)
+            {
+                <span class="pf-c-dropdown__toggle-text">@Text</span>
+                <span class="pf-c-dropdown__toggle-icon">
+                    <i class="fas fa-caret-down" aria-hidden="true"></i>
+                </span>
+            }
+            @if (Style == DropdownStyle.kebab)
+            {
+                <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+            }
+        </button>
+        @if (Expanded)
+        {
+            <ul class="pf-c-dropdown__menu" aria-labelledby="@dropdownId">
+                @ChildContent
+            </ul>
+        }
+    </div>
+</CascadingValue>
+
+@code {
+    [Parameter]
+    public bool Expanded { get; set; } = false;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public DropdownStyle Style { get; set; } = DropdownStyle.regular;
+
+    public string DropdownButtonClass {
+        get
+        {
+            return Style switch
+            {
+                DropdownStyle.regular => "pf-c-dropdown__toggle",
+                DropdownStyle.kebab => "pf-c-dropdown__toggle pf-m-plain"
+            };
+        }
+    }
+
+    [Parameter]
+    public string Text { get; set; } = "Actions";
+
+    HtmlId dropdownId = new HtmlId();
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-dropdown" });
+        if (Expanded)
+        {
+            classes.Add("pf-m-expanded");
+        }
+
+        return classes;
+    }
+
+    void ToggleDropdown()
+    {
+        this.Expanded = !this.Expanded;
+        this.StateHasChanged();
+    }
+
+    public async Task CloseAsync()
+    {
+        this.Expanded = false;
+        await this.InvokeAsync(StateHasChanged);
+    }
+}
