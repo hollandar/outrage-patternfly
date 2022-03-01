@@ -18,20 +18,20 @@
                 <PatternflyStackItem>
                     @if (Confirmation == ConfirmationEnum.ok || Confirmation == ConfirmationEnum.okcancel)
                     {
-                        <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">Ok</PatternflyButton>
+                        <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Ok")</PatternflyButton>
                     }
                     @if (Confirmation == ConfirmationEnum.close)
                     {
-                        <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">Close</PatternflyButton>
+                        <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Close")</PatternflyButton>
                     }
                     @if (Confirmation == ConfirmationEnum.okcancel)
                     {
-                        <PatternflyButton Color="ButtonColor.Link" Clicked="DoDecline">Cancel</PatternflyButton>
+                        <PatternflyButton Color="ButtonColor.Link" Clicked="DoDecline">@(DeclineText ?? "Cancel")</PatternflyButton>
                     }
                     @if (Confirmation == ConfirmationEnum.yesno)
                     {
-                        <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">Yes</PatternflyButton>
-                        <PatternflyButton Color="ButtonColor.Link" Clicked="DoDecline">No</PatternflyButton>
+                        <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Yes")</PatternflyButton>
+                        <PatternflyButton Color="ButtonColor.Link" Clicked="DoDecline">@(DeclineText ?? "No")</PatternflyButton>
                     }
                 </PatternflyStackItem>
             }
@@ -54,8 +54,8 @@
 
 @code {
     PatternflyModal modal;
-    TItemType item;
-    string message = null;
+    TItemType? item;
+    string? message = null;
 
     [Parameter] public RenderFragment<TItemType> Header { get; set; }
     [Parameter] public RenderFragment<TItemType> Body { get; set; }
@@ -63,12 +63,22 @@
     [Parameter] public ConfirmationEnum Confirmation { get; set; } = ConfirmationEnum.close;
     [Parameter] public EventCallback<TItemType> Confirmed { get; set; }
     [Parameter] public EventCallback<TItemType> Declined { get; set; }
+    [Parameter] public string? ConfirmText { get; set; }
+    [Parameter] public string? DeclineText { get; set; }
 
     public async Task Show(TItemType item)
     {
         this.message = null;
         this.item = item;
         await this.modal.Show();
+    }
+
+    public async Task Show(Func<Task<TItemType>> load)
+    {
+        this.message = null;
+        this.item = default(TItemType);
+        await this.modal.Show();
+        this.item = await load();
     }
 
     public async Task Hide()

@@ -1,10 +1,11 @@
-﻿@using Outrage.Patternfly.Components.Button
+﻿@typeparam TValueType
+@using Outrage.Patternfly.Components.Button
 @using Outrage.Patternfly.Components.Utilities
 
 @inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 
 <div class="@Classes" @attributes="AdditionalAttributes">
-    <button class="pf-c-toggle-group__button @(Selected ? "pf-m-selected" : string.Empty)" type="button" @onclick="Clicked">
+    <button class="pf-c-toggle-group__button @(Selected ? "pf-m-selected" : string.Empty)" type="button" @onclick="ToggleClicked">
         @if (Icon != null && IconPosition == IconPosition.Start)
         {
             <span class="pf-c-toggle-group__icon">
@@ -25,17 +26,31 @@
 </div>
 
 @code {
+    public bool Selected { get { return this.Parent?.Value?.Equals(Value) ?? false; } }
     [Parameter] public RenderFragment? ChildContent { get; set; }
-    [Parameter] public bool Selected { get; set; }
     [Parameter] public string? Icon { get; set; }
     [Parameter] public IconPosition IconPosition { get; set; } = IconPosition.Start;
     [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.regular;
     [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
-    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+    [Parameter] public EventCallback<TValueType> Clicked { get; set; }
+    [Parameter] public TValueType? Value { get; set; }
+    [CascadingParameter(Name = "ToggleGroup")] public PatternflyToggleGroup<TValueType>? Parent { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.Parent.AddToggleGroupItem(this);
+        await base.OnInitializedAsync();
+    }
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
         var classes = new HashSet<string>(new string[] { "pf-c-toggle-group__item" });
         return classes;
+    }
+
+    public async Task ToggleClicked()
+    {
+        await this.Parent.SetValue(Value);
+        await this.Clicked.InvokeAsync(Value);
     }
 }

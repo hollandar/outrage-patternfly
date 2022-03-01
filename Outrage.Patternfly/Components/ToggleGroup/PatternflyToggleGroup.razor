@@ -1,14 +1,22 @@
-﻿@using Outrage.Patternfly.Components.Utilities
+﻿@attribute [CascadingTypeParameter(nameof(TValueType))]
+@typeparam TValueType
+
+@using Outrage.Patternfly.Components.Utilities
 
 @inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 
-<div class="@Classes" @attributes="AdditionalAttributes">
-    @ChildContent
-</div>
+<CascadingValue Name="ToggleGroup" Value="this">
+    <div class="@Classes" @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+</CascadingValue>
 
 @code {
+    List<PatternflyToggleGroupItem<TValueType>> toggleGroupItems = new ();
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public bool Compact { get; set; }
+    [Parameter] public TValueType Value { get; set; }
+    [Parameter] public EventCallback<TValueType> ValueChanged { get; set; }
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
@@ -21,5 +29,17 @@
         }
 
         return classes;
+    }
+
+    public void AddToggleGroupItem(PatternflyToggleGroupItem<TValueType> group)
+    {
+        this.toggleGroupItems.Add(group);
+    }
+
+    public async Task SetValue(TValueType value)
+    {
+        this.Value = value;
+        await this.ValueChanged.InvokeAsync(value);
+        await this.InvokeAsync(StateHasChanged);
     }
 }
