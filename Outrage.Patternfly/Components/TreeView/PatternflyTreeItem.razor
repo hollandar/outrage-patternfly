@@ -1,7 +1,7 @@
 ﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 @using Outrage.Patternfly.Components.Utilities;
 
-<li class="@Class" @attributes="AdditionalAttributes"
+<li class="@Classes" @attributes="AdditionalAttributes"
     role="treeitem"
     aria-expanded="@Expanded"
     tabindex="0">
@@ -61,6 +61,8 @@
     [Parameter] public string Icon { get; set; } = "folder";
     [Parameter] public string IconOpen { get; set; } = "folder-open";
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+    [Parameter] public EventCallback OnExpanded { get; set; }
+    [Parameter] public EventCallback OnCollapsed { get; set; }
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
@@ -73,6 +75,11 @@
 
     protected async Task ToggleExpanded(MouseEventArgs args)
     {
+
+        if (Expanded == true)
+            await this.OnCollapsed.InvokeAsync();
+        else
+            await this.OnExpanded.InvokeAsync();
 
         if (Children == null)
         {
