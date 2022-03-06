@@ -1,0 +1,34 @@
+﻿@using Outrage.Patternfly.Components.Utilities
+
+@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="@Classes" @attributes="AdditionalAttributes">
+    <dt class="pf-c-description-list__term">
+        @if (!string.IsNullOrEmpty(Icon))
+        {
+            <span class="pf-c-description-list__term-icon">
+                <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary"/>
+            </span>
+        }
+        <span class="pf-c-description-list__text">@Term</span>
+    </dt>
+    <dd class="pf-c-description-list__description">
+        <div class="pf-c-description-list__text">@Description</div>
+    </dd>
+</div>
+
+@code {
+    [Parameter] public RenderFragment Term { get; set; }
+    [Parameter] public RenderFragment Description { get; set; }
+    [Parameter] public string? Icon { get; set; }
+    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.regular;
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>();
+        classes.Add("pf-c-description-list__group");
+        return classes;
+    }
+
+}

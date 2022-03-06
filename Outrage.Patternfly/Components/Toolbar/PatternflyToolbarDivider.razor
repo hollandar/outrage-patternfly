@@ -3,7 +3,6 @@
 @code {
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-divider", "pf-m-vertical" });
-        return classes;
+        return new string[] { "pf-c-divider", "pf-m-vertical" };
     }
 }

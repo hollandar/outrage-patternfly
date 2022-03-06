@@ -1,0 +1,36 @@
+﻿@using Outrage.Patternfly.Components.Utilities
+
+@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="@Classes" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public bool Horizontal { get; set; }
+    [Parameter] public bool Compact { get; set; }
+    [Parameter] public DescriptionListColumns Columns { get; set; }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>();
+        classes.Add("pf-c-description-list");
+        if (Horizontal)
+            classes.Add("pf-m-horizontal");
+        if (Compact)
+            classes.Add("pf-m-compact");
+
+        switch (Columns)
+        {
+            case DescriptionListColumns.Columns2: classes.Add("pf-m-2-col"); break;
+            case DescriptionListColumns.Columns3OnLg: classes.Add("pf-m-3-col-on-lg"); break;
+            case DescriptionListColumns.Autofit: classes.Add("pf-m-auto-fit"); break;
+            case DescriptionListColumns.Default:
+            default: break;
+        }
+
+        return classes;
+    }
+
+}

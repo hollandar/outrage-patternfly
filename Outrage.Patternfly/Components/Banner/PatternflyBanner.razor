@@ -1,0 +1,28 @@
+﻿@using Outrage.Patternfly.Components.Utilities
+
+@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="@Classes" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public BannerColor Color { get; set; } = BannerColor.Default;
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>();
+        classes.Add("pf-c-banner");
+        switch (Color)
+        {
+            case BannerColor.Info: classes.Add("pf-m-info"); break;
+            case BannerColor.Success: classes.Add("pf-m-success"); break;
+            case BannerColor.Warning: classes.Add("pf-m-warning"); break;
+            case BannerColor.Danger: classes.Add("pf-m-danger"); break;
+            case BannerColor.Default:
+            default: break;
+        }
+        return classes;
+    }
+}
