@@ -91,6 +91,7 @@
         if (this.modal != null)
             await this.modal.Show();
         this.item = await load();
+        await this.InvokeAsync(StateHasChanged);
     }
 
     public async Task Hide()
