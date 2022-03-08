@@ -61,8 +61,19 @@
     [Parameter] public string Icon { get; set; } = "folder";
     [Parameter] public string IconOpen { get; set; } = "folder-open";
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+    [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
     [Parameter] public EventCallback OnExpanded { get; set; }
     [Parameter] public EventCallback OnCollapsed { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        //if (Expanded)
+        //    await this.OnExpanded.InvokeAsync();
+        //else
+        //    await this.OnCollapsed.InvokeAsync();
+
+        await base.OnParametersSetAsync();
+    }
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
@@ -83,11 +94,18 @@
 
         if (Children == null)
         {
+            var wasExpanded = Expanded;
             Expanded = false;
+            if (wasExpanded)
+                await this.ExpandedChanged.InvokeAsync();
+
             await this.Clicked.InvokeAsync(args);
         }
         else
+        {
             this.Expanded = !this.Expanded;
+            await this.ExpandedChanged.InvokeAsync();
+        }
 
         this.StateHasChanged();
     }
