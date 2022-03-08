@@ -24,9 +24,18 @@
         </button>
         @if (Expanded)
         {
-            <ul class="pf-c-dropdown__menu" aria-labelledby="@dropdownId">
-                @ChildContent
-            </ul>
+            if (IsGrouped)
+            {
+                <div class="pf-c-dropdown__menu @(AlignRight ? "pf-m-align-right": string.Empty)" aria-labelledby="@dropdownId">
+                    @ChildContent
+                </div>
+            }
+            else
+            {
+                <ul class="pf-c-dropdown__menu @(AlignRight ? "pf-m-align-right": string.Empty)" aria-labelledby="@dropdownId">
+                    @ChildContent
+                </ul>
+            }
         }
     </div>
 </CascadingValue>
@@ -40,6 +49,12 @@
 
     [Parameter]
     public DropdownStyle Style { get; set; } = DropdownStyle.regular;
+
+    [Parameter]
+    public bool AlignRight { get; set; }
+
+    [Parameter]
+    public bool IsGrouped { get; set; }
 
     public string DropdownButtonClass {
         get

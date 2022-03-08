@@ -1,8 +1,13 @@
 ﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 <hr class="@Classes" @attributes="AdditionalAttributes" />
 @code {
+    [Parameter] public bool Vertical { get; set; }
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        return new string[] { "pf-c-divider", "pf-m-vertical" };
+        var classes = new List<string> { "pf-c-divider" };
+        if (Vertical)
+            classes.Add("pf-m-vertical");
+
+        return classes;
     }
 }

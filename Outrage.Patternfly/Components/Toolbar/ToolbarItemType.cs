@@ -8,6 +8,6 @@ namespace Outrage.Patternfly.Components.Toolbar
 {
     public enum ToolbarItemType
     {
-        none, bulkSelect, overflowMenu, pagination, searchFilter
+        none, bulkSelect, overflowMenu, pagination, searchFilter, label
     }
 }

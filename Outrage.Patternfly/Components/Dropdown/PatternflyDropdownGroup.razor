@@ -1,0 +1,14 @@
+﻿<section class="pf-c-dropdown__group">
+    @if (!string.IsNullOrWhiteSpace(Title))
+    {
+        <h1 class="pf-c-dropdown__group-title">@Title</h1>        
+    }
+    <ul>
+        @ChildContent
+    </ul>
+</section>
+
+@code {
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}
