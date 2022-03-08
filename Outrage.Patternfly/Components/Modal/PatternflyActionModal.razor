@@ -4,12 +4,19 @@
 @using Outrage.Patternfly.Components.Actions
 @using Outrage.Patternfly.Components.Button
 @using Outrage.Patternfly.Components.Alert
-@using Outrage.Patternfly.Components.Layout
 
 <PatternflyModal CreateOnShow="true" @ref="modal">
-    <Header>@Header.Invoke(item)</Header>
+    <Header>
+        @if (item != null) 
+        { 
+            @Header?.Invoke(item)
+        }
+    </Header>
     <Body>
-        @Body.Invoke(item)
+        @if (item != null)
+        {
+            @Body?.Invoke(item)
+        }
     </Body>
     <Footer>
         <PatternflyStack>
@@ -38,7 +45,10 @@
             else
             {
                 <PatternflyStackItem>
-                    @Footer.Invoke(item)
+                    @if (item != null)
+                    {
+                        @Footer?.Invoke(item)
+                    }
                 </PatternflyStackItem>
             }
 
@@ -53,13 +63,13 @@
 </PatternflyModal>
 
 @code {
-    PatternflyModal modal;
+    PatternflyModal? modal;
     TItemType? item;
     string? message = null;
 
-    [Parameter] public RenderFragment<TItemType> Header { get; set; }
-    [Parameter] public RenderFragment<TItemType> Body { get; set; }
-    [Parameter] public RenderFragment<TItemType> Footer { get; set; }
+    [Parameter] public RenderFragment<TItemType>? Header { get; set; }
+    [Parameter] public RenderFragment<TItemType>? Body { get; set; }
+    [Parameter] public RenderFragment<TItemType>? Footer { get; set; }
     [Parameter] public ConfirmationEnum Confirmation { get; set; } = ConfirmationEnum.close;
     [Parameter] public EventCallback<TItemType> Confirmed { get; set; }
     [Parameter] public EventCallback<TItemType> Declined { get; set; }
@@ -70,29 +80,34 @@
     {
         this.message = null;
         this.item = item;
-        await this.modal.Show();
+        if (this.modal != null)
+            await this.modal.Show();
     }
 
     public async Task Show(Func<Task<TItemType>> load)
     {
         this.message = null;
         this.item = default(TItemType);
-        await this.modal.Show();
+        if (this.modal != null)
+            await this.modal.Show();
         this.item = await load();
         await this.InvokeAsync(StateHasChanged);
     }
 
     public async Task Hide()
     {
-        await this.modal.Hide();
+        if (this.modal != null)
+            await this.modal.Hide();
     }
 
     public async Task DoConfirm(MouseEventArgs args)
     {
         try
         {
-            await this.Confirmed.InvokeAsync(item);
-            await this.modal.Hide();
+            if (this.Confirmed.HasDelegate)
+                await this.Confirmed.InvokeAsync(item);
+            if (this.modal != null)
+                await this.modal.Hide();
         }
         catch (ActionModalException ex)
         {
@@ -105,8 +120,10 @@
     {
         try
         {
-            await this.Declined.InvokeAsync(item);
-            await this.modal.Hide();
+            if (this.Declined.HasDelegate)
+                await this.Declined.InvokeAsync(item);
+            if (this.modal != null)
+                await this.modal.Hide();
         }
         catch (ActionModalException ex)
         {

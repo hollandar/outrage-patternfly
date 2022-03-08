@@ -47,7 +47,8 @@
             return Style switch
             {
                 DropdownStyle.regular => "pf-c-dropdown__toggle",
-                DropdownStyle.kebab => "pf-c-dropdown__toggle pf-m-plain"
+                DropdownStyle.kebab => "pf-c-dropdown__toggle pf-m-plain",
+                _ => string.Empty
             };
         }
     }

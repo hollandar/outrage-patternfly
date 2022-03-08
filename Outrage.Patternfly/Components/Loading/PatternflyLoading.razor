@@ -18,7 +18,7 @@ else
 @code {
     [Parameter] public object? Target { get; set; } = null;
     [Parameter] public bool Complete { get; set; } = false;
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string Message { get; set; } = "Loading...";
 
     private bool InProgress

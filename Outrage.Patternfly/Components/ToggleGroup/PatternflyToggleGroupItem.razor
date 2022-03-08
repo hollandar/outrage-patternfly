@@ -38,7 +38,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        this.Parent.AddToggleGroupItem(this);
+        this.Parent?.AddToggleGroupItem(this);
         await base.OnInitializedAsync();
     }
 
@@ -50,7 +50,10 @@
 
     public async Task ToggleClicked()
     {
-        await this.Parent.SetValue(Value);
-        await this.Clicked.InvokeAsync(Value);
+        if (this.Parent != null)
+            await this.Parent.SetValue(Value);
+
+        if (this.Clicked.HasDelegate)
+            await this.Clicked.InvokeAsync(Value);
     }
 }
