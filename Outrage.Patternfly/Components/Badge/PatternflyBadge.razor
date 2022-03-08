@@ -7,7 +7,7 @@
     protected override IEnumerable<string> OnIntroduceClasses()
     {
         var classes = new List<string> { "pf-c-badge" };
-        classes.Add(Read ? "pf-c-m-read" : "pf-c-m-unread");
+        classes.Add(Read ? "pf-m-read" : "pf-m-unread");
         return classes;
     }
 }
