@@ -1,0 +1,68 @@
+﻿@using Outrage.Patternfly.Components.Utilities
+@using Outrage.Patternfly.Components.Dropdown
+@using Outrage.Patternfly.Interfaces
+@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+
+<button class="@Classes" @onclick="OnClicked" @onclick:stopPropagation type="button" disabled="@Disabled" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(Icon))
+    {
+        <span class="pf-c-dropdown__menu-item-icon">
+            <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true" />
+        </span>
+    }
+    @ChildContent
+</button>
+
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+
+    [Parameter]
+    public string? Icon { get; set; } = null;
+
+    [Parameter]
+    public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.regular;
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [CascadingParameter(Name = nameof(ICloseOnClick))]
+    public ICloseOnClick? Parent { get; set; } = null;
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        List<string> classes = new List<string>(new string[] { "pf-c-dropdown__menu-item" });
+
+        if (!string.IsNullOrEmpty(Class))
+            classes.Add(Class);
+
+
+        if (!string.IsNullOrEmpty(Icon))
+            classes.Add("pf-m-icon");
+
+        if (!AdditionalAttributes?.ContainsKey("type") ?? false)
+        {
+            if (AdditionalAttributes == null)
+                AdditionalAttributes = new Dictionary<string, object>();
+            AdditionalAttributes["type"] = "button";
+        }
+
+        return classes;
+    }
+
+    private async Task OnClicked(MouseEventArgs e)
+    {
+        if (Clicked.HasDelegate)
+            await Clicked.InvokeAsync(e);
+
+        if (this.Parent != null)
+            await this.Parent.CloseAsync();
+    }
+}
