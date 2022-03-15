@@ -29,10 +29,10 @@
         </div>
     }
     <main class="pf-c-page__main" tabindex="-1" role="main">
-        <section class="pf-c-page__main-section @(FillMainContent ? "pf-m-fill" : string.Empty)">@Body</section>
+        <section class="page-main-section pf-c-page__main-section @(FillMainContent ? "pf-m-fill" : string.Empty)">@Body</section>
         @if (Footer != null)
         {
-            <section class="pf-c-page__main-section @(StickyFooter ? "pf-m-sticky-bottom" : string.Empty) pf-m-no-fill pf-m-dark-200">@Footer</section>
+            <section class="page-footer-section pf-c-page__main-section @(StickyFooter ? "pf-m-sticky-bottom" : string.Empty) pf-m-no-fill pf-m-dark-200">@Footer</section>
         }
     </main>
 </div>
