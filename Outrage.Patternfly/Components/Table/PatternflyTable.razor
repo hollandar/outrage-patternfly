@@ -20,7 +20,7 @@
                 foreach (var row in Items.Items)
                 {
                     <tr role="row" 
-                        class="@(UseSelection && row.IsSelected ? "selected":"") @(OnRowClicked.HasDelegate?"selectable":"")" 
+                        class="@(UseSelection && row.IsSelected ? "pf-m-selected":"") @(OnRowClicked.HasDelegate?"pf-m-hoverable":"")" 
                         @key="row" 
                         @onclick="@(async (e)=> { await RowClicked(e, row);})">
                         @if (RowTemplate != null)
