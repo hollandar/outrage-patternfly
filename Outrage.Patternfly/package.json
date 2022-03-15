@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "sass --style=compressed ./Styles/patternfly.base.scss:./wwwroot/css/patternfly.base.css & copyfiles ./node_modules/@patternfly/patternfly/assets/**/* ./wwwroot/css/assets/"
+    "build": "sass --style=compressed ./Styles/patternfly.base.scss:./wwwroot/css/patternfly.base.css & copyfiles -u 5 ./node_modules/@patternfly/patternfly/assets/fonts/**/* ./wwwroot/css/assets/fonts/"
   },
   "author": "",
   "license": "ISC",
