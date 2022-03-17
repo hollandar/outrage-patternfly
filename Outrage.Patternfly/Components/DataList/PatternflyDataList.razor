@@ -1,0 +1,53 @@
+﻿@using Outrage.Patternfly.Components.Button
+
+@typeparam TItemModel
+@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<CascadingValue Name="Parent" Value="this">
+    <ul class="@Classes" @attributes="AdditionalAttributes" role="list">
+        @foreach(var item in Items ?? Enumerable.Empty<TItemModel>())
+        {
+            <li class="pf-c-data-list__item @(OnItemClicked.HasDelegate ? "pf-m-selectable" : string.Empty) @(item.Equals(selectedItem) ? "pf-m-selected" : string.Empty)" 
+                    aria-labelledby="@(ItemAriaLabel != null ? ItemAriaLabel(item) : string.Empty)" @onclick="@(() => OnItemSelected(item))" @key="item">
+                @if (ItemTemplate != null)
+                {
+                    @ItemTemplate(item)
+                }
+            </li>
+        }
+    </ul>
+</CascadingValue>
+@code {
+    [Parameter] public bool Compact { get; set; }
+
+    [Parameter] public IEnumerable<TItemModel>? Items { get; set; }
+
+    [Parameter] public EventCallback<TItemModel> OnItemClicked { get; set; }
+
+    [Parameter] public string? AriaLabel { get; set; }
+
+    [Parameter] public Func<TItemModel, string>? ItemAriaLabel { get; set; }
+
+    [Parameter] public RenderFragment<TItemModel>? ItemTemplate { get; set; }
+
+    protected TItemModel? selectedItem;
+
+    protected async Task OnItemSelected(TItemModel item)
+    {
+        selectedItem = item;
+        if (OnItemClicked.HasDelegate)
+        {
+            await OnItemClicked.InvokeAsync(item);
+        }
+    }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-data-list" });
+
+        if (Compact)
+            classes.Add("pf-m-compact");
+
+        return classes;
+    }
+}
