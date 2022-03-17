@@ -1,0 +1,90 @@
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+@typeparam TKey where TKey: IComparable
+@typeparam TValue
+
+<div class="@Classes" @attributes="AdditionalAttributes">
+    <span id="@id.With("label")" hidden>Choose one</span>
+
+    <button class="pf-c-select__toggle"
+            type="button"
+            id="@id.With("toggle")"
+            aria-haspopup="@(this.Options.Any())"
+            aria-expanded="@Expanded"
+            aria-labelledby="@id.With("label") @id.With("toggle")"
+            @onclick="ToggleExpandedAsync">
+        <div class="pf-c-select__toggle-wrapper">
+            <span class="pf-c-select__toggle-text">
+                @GetText()
+            </span>
+        </div>
+        <span class="pf-c-select__toggle-arrow">
+            <i class="fas fa-caret-down" aria-hidden="true"></i>
+        </span>
+    </button>
+
+    <ul class="pf-c-select__menu"
+        role="listbox"
+        aria-labelledby="@id.With("label")"
+        hidden="@(!Expanded)">
+        @foreach (var option in this.Options ?? Enumerable.Empty<KeyValuePair<TKey, TValue>>())
+        {
+            <li role="presentation">
+                <button class="pf-c-select__menu-item pf-m-selected"
+                    role="option"
+                    aria-selected="@(option.Key?.Equals(this.SelectedKey) ?? false)"
+                    @onclick="async () => await ChangeValueAsync(option.Key)">
+                    @option.Value
+                    @if (option.Key?.Equals(SelectedKey) ?? false)
+                    {
+                        <span class="pf-c-select__menu-item-icon">
+                            <i class="fas fa-check" aria-hidden="true"></i>
+                        </span>
+                    }
+                </button>
+            </li>
+        }
+    </ul>
+</div>
+
+@code {
+    HtmlId id = new HtmlId();
+    [Parameter] public bool Expanded { get; set; } = false;
+    [Parameter] public string Text { get; set; } = "Select";
+    [Parameter] public IEnumerable<KeyValuePair<TKey, TValue>>? Options { get; set; }
+    [Parameter] public TKey? SelectedKey { get; set; }
+    [Parameter] public EventCallback<TKey> SelectedKeyChanged { get; set; }
+
+    async Task ToggleExpandedAsync()
+    {
+        this.Expanded = !this.Expanded;
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+    async Task ChangeValueAsync(TKey key)
+    {
+        this.SelectedKey = key;
+        await this.SelectedKeyChanged.InvokeAsync(key);
+
+        this.Expanded = false;
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+    string GetText()
+    {
+        var selectedOption = this.Options?.Where(r => r.Key.Equals(this.SelectedKey)).FirstOrDefault() ?? null;
+        if (selectedOption != null)
+        {
+            var value = selectedOption.Value.Value?.ToString() ?? "";
+            if (!String.IsNullOrWhiteSpace(value))
+                return value;
+        }
+
+        return Text;
+    }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<String> { "pf-c-select" };
+        return classes;
+    }
+}
