@@ -1,0 +1,164 @@
+﻿@using Outrage.Patternfly.Models
+@using Outrage.Patternfly.Services
+@using Outrage.Patternfly.Components.Loading
+@using Outrage.Patternfly.Components.Pagination
+@using Outrage.Patternfly.Components.Toolbar
+
+@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+@typeparam TItem
+@typeparam TItemKey
+
+<CascadingValue Name="Parent" Value="@this">
+    @if (pageModel != null)
+    {
+        <PatternflyLoading Complete="pageModel.IsLoaded">
+            @if (pageModel.TotalRecords > 0)
+            {
+                <PatternflyToolbar>
+                    @ToolbarItems
+
+                    <PatternflyToolbarItem ItemType="ToolbarItemType.pagination">
+                        <PatternflyPagination 
+                        Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords" 
+                        PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
+                        Position="PaginationPosition.Top" Compact="CompactPagination"/>
+                    </PatternflyToolbarItem>
+                </PatternflyToolbar>
+            }
+
+            <PatternflyTable Class="@Class" AdditionalAttributes="@AdditionalAttributes"
+                TItem="TItem" TItemKey="TItemKey" WrappedItems="pageModel.Items"
+                OnRowClicked="@OnRowClicked"
+                Compact="@Compact" Label="@Label"
+                Columns="@Columns"
+                NoItemsMessage="@NoItemsMessage"
+                RowTemplate="@RowTemplate" 
+                Fallback="@Fallback" UseSelection="@UseSelection" />
+
+            @if (pageModel.TotalRecords > 0)
+            {
+                <PatternflyPagination 
+                    Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords" 
+                    PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
+                    Position="PaginationPosition.Bottom" Compact="CompactPagination"/>
+            }
+        </PatternflyLoading>
+    }
+</CascadingValue>
+
+@code {
+    [Parameter] public string? StateId { get; set; }
+
+    [Parameter] public Func<TItem, object>? Key { get; set; } = null;
+
+    [Parameter] public Func<DataPageLoadArgs<TItemKey>, Task<DataPageLoadResult<TItem>?>>? OnLoadItems { get; set; }
+
+    [Parameter] public RenderFragment? ToolbarItems { get; set; }
+
+    [Parameter] public int DefaultPageSize { get; set; } = 20;
+
+    #region PatternflyTable parameters
+
+    [Parameter] public RenderFragment? Columns { get; set; }
+
+    [Parameter] public RenderFragment<TItem>? RowTemplate { get; set; }
+
+    [Parameter] public RenderFragment? NoItemsMessage { get; set; }
+
+    [Parameter] public EventCallback<DataItemWrapperModel<TItem>> OnRowClicked { get; set; }
+
+    [Parameter] public bool UseSelection { get; set; } = true;
+
+    [Parameter] public TableFallbackPoint Fallback { get; set; } = TableFallbackPoint.Medium;
+
+    [Parameter] public string? Label { get; set; } = null;
+
+    [Parameter] public bool Compact { get; set; }
+
+    [Parameter] public bool CompactPagination { get; set; }
+
+    #endregion
+
+
+    [Inject] DataPageModelFactory dataPageModelFactory { get; set; }
+
+    private TItemKey? loadedId = default(TItemKey);
+
+    private DataPageModel<TItem>? pageModel;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        pageModel = await dataPageModelFactory.Create<TItem>(StateId, DefaultPageSize);
+        if (pageModel != null)
+        {
+            await Refresh();
+        }
+    }
+
+    protected async Task SelectPage(int page)
+    {
+        if (pageModel != null && OnLoadItems != null)
+        {
+            var result = await OnLoadItems(new DataPageLoadArgs<TItemKey> { SelectedItemKey = loadedId, Page = page, PageSize = pageModel.PageSize });
+            if (result != null)
+            {
+                await pageModel.Update(result);
+                this.StateHasChanged();
+            }
+        }
+    }
+
+    protected async Task SelectPageSize(int pageSize)
+    {
+        if (pageModel != null && OnLoadItems != null)
+        {
+            var result = await OnLoadItems(new DataPageLoadArgs<TItemKey> { SelectedItemKey = loadedId, Page = 0, PageSize = pageSize });
+            if (result != null)
+            {
+                await pageModel.Update(result);
+                this.StateHasChanged();
+            }
+        }
+    }
+
+    public async Task SelectById(TItemKey id)
+    {
+        this.loadedId = id;
+        await SelectPage(0);
+    }
+
+    public async Task RowClicked(MouseEventArgs args, DataItemWrapperModel<TItem> wrapper)
+    {
+        foreach (var row in this.pageModel?.Items ?? Enumerable.Empty<DataItemWrapperModel<TItem>>())
+        {
+            row.IsSelected = row == wrapper;
+        }
+        if (OnRowClicked.HasDelegate)
+        {
+            await OnRowClicked.InvokeAsync(wrapper);
+        }
+        this.StateHasChanged();
+    }
+
+    public async Task Refresh(bool reset = false)
+    {
+        if (pageModel != null && OnLoadItems != null)
+        {
+            var result = await OnLoadItems(new DataPageLoadArgs<TItemKey> { SelectedItemKey = loadedId, Page = reset ? 0 : pageModel.Page, PageSize = pageModel.PageSize });
+            if (result != null)
+            {
+                await pageModel.Update(result);
+                this.StateHasChanged();
+            }
+        }
+    }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>();
+        return classes;
+    }
+}

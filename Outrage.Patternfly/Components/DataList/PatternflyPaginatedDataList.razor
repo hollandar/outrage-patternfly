@@ -1,0 +1,44 @@
+﻿@using Outrage.Patternfly.Components.Hint
+@using Outrage.Patternfly.Components.Layout
+@using Outrage.Patternfly.Components.Loading
+@using Outrage.Patternfly.Components.Toolbar
+@using Outrage.Patternfly.Components.Pagination
+@typeparam TItemModel
+@typeparam TItemKey
+@inherits Patternfly.Components.Base.PatternflyComponentBase
+@if (pageModel != null)
+{
+    <PatternflyLoading Complete="pageModel.IsLoaded">
+        @if (pageModel.TotalRecords > 0)
+        {
+            <PatternflyToolbar>
+                @ToolbarItems
+
+                <PatternflyToolbarItem ItemType="@ToolbarItemType.pagination">
+                    <PatternflyPagination 
+                        Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords" 
+                        PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
+                        Position="PaginationPosition.Top" Compact="CompactPagination" />
+                </PatternflyToolbarItem>
+            </PatternflyToolbar>
+
+            <PatternflyDataList Compact="Compact" TItemModel="TItemModel" WrappedItems="pageModel.Items" Context="item"
+                    OnItemClicked="OnItemClicked"
+                    AriaLabel="@AriaLabel" ItemAriaLabel="ItemAriaLabel"
+                    ItemTemplate="ItemTemplate"
+                    Class="@Classes" AdditionalAttributes="@AdditionalAttributes">
+            </PatternflyDataList>
+
+            <PatternflyPagination 
+                Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords" 
+                PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
+                Position="PaginationPosition.Bottom" Compact="CompactPagination" />
+        }
+        else if (NoItemsMessage != null)
+        {
+            <PatternflyHint>
+                <Body>@NoItemsMessage</Body>
+            </PatternflyHint>
+        }
+    </PatternflyLoading>
+}

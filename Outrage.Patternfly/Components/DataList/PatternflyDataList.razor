@@ -1,4 +1,6 @@
 ﻿@using Outrage.Patternfly.Components.Button
+@using Outrage.Patternfly.Models
+@using Outrage.Patternfly.Services
 
 @typeparam TItemModel
 @inherits Patternfly.Components.Base.PatternflyComponentBase
@@ -20,7 +22,13 @@
 @code {
     [Parameter] public bool Compact { get; set; }
 
-    [Parameter] public IEnumerable<TItemModel>? Items { get; set; }
+    [Parameter] public IEnumerable<DataItemWrapperModel<TItemModel>>? WrappedItems { get; set; }
+
+    [Parameter] public IEnumerable<TItemModel>? Items
+    {
+        get => WrappedItems?.Select(r => r.Item);
+        set => WrappedItems = value?.Select(r => new DataItemWrapperModel<TItemModel>(r));
+    }
 
     [Parameter] public EventCallback<TItemModel> OnItemClicked { get; set; }
 
