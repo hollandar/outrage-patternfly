@@ -9,7 +9,7 @@
                 aria-expanded="@Expanded"
                 type="button"
                 aria-label="Actions"
-                @onclick="ToggleDropdown">
+                @onclick="ToggleDropdown" @onclick:stopPropagation>
             @if (Style == DropdownStyle.regular)
             {
                 <span class="pf-c-dropdown__toggle-text">@Text</span>

@@ -76,15 +76,15 @@
 
     public async Task RowClicked(MouseEventArgs args, DataItemWrapperModel<TItem> wrapper)
     {
-        foreach (var row in this.WrappedItems ?? Enumerable.Empty<DataItemWrapperModel<TItem>>())
-        {
-            row.IsSelected = row == wrapper;
-        }
         if (OnRowClicked.HasDelegate)
         {
+            foreach (var row in this.WrappedItems ?? Enumerable.Empty<DataItemWrapperModel<TItem>>())
+            {
+                row.IsSelected = row == wrapper;
+            }
             await OnRowClicked.InvokeAsync(wrapper);
+            this.StateHasChanged();
         }
-        this.StateHasChanged();
     }
 
     protected override IEnumerable<string> OnIntroduceClasses()
