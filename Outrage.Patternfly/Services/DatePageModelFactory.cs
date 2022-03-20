@@ -22,7 +22,7 @@ namespace Outrage.Patternfly.Services
             this.localStorageService = serviceProvider.GetService<ILocalStorageService>();
         }
 
-        public async Task<DataPageModel<TItemModel>> Create<TItemModel>(string? stateId, int defaultPageSize = 5)
+        public async Task<DataPageModel<TItemModel>> Create<TItemModel>(string? stateId = null, int defaultPageSize = 5)
         {
             var model = new DataPageModel<TItemModel>(loggerFactory.CreateLogger<DataPageModel<TItemModel>>(), localStorageService, stateId, defaultPageSize);
             await model.Initialize();
