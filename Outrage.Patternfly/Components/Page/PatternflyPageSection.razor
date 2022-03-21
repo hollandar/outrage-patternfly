@@ -1,0 +1,52 @@
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<section class="pf-c-page__main-section pf-m-light"></section>
+
+@code {
+
+    [Parameter] public bool Fill { get; set; } = true;
+    [Parameter] public SectionColor Color { get; set; } = SectionColor.none;
+    [Parameter] public bool OverflowScroll { get; set; } = false;
+    [Parameter] public SectionPosition Shadow { get; set; } = SectionPosition.none;
+    [Parameter] public SectionPosition Sticky { get; set; } = SectionPosition.none;
+    [Parameter] public bool Center { get; set; } = false;
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string> { "pf-c-page__main-section" };
+        if (Fill)
+            classes.Add("pf-m-fill");
+        else
+            classes.Add("pf-m-no-fill");
+
+        switch (Color)
+        {
+            case SectionColor.light: classes.Add("pf-m-light"); break;
+            case SectionColor.dark_100: classes.Add("pf-m-dark-100"); break;
+            case SectionColor.dark_200: classes.Add("pf-m-dark-200"); break;
+            default: break;
+        }
+
+        switch (Shadow)
+        {
+            case SectionPosition.top: classes.Add("pf-m-shadow-top"); break;
+            case SectionPosition.bottom: classes.Add("pf-m-shadow-bottom"); break;
+            default: break;
+        }
+
+        switch (Sticky)
+        {
+            case SectionPosition.top: classes.Add("pf-m-sticky-top"); break;
+            case SectionPosition.bottom: classes.Add("pf-m-sticky-bottom"); break;
+            default: break;
+        }
+
+        if (Center)
+            classes.Add("pf-m-align-center");
+
+        if (OverflowScroll)
+            classes.Add("pf-m-overflow-scroll");
+
+        return classes;
+    }
+        }

@@ -29,7 +29,13 @@
         </div>
     }
     <main class="pf-c-page__main" tabindex="-1" role="main">
-        <section class="page-main-section pf-c-page__main-section @(FillMainContent ? "pf-m-fill" : string.Empty)">@Body</section>
+        @if (Sections != null)
+        {
+            @Sections
+        }
+        @if (Body != null) {
+            <section class="page-main-section pf-c-page__main-section @(FillMainContent ? "pf-m-fill" : string.Empty)">@Body</section>
+        }
         @if (Footer != null)
         {
             <section class="page-footer-section pf-c-page__main-section @(StickyFooter ? "pf-m-sticky-bottom" : string.Empty) pf-m-no-fill pf-m-dark-200">@Footer</section>
@@ -48,6 +54,7 @@
     [Parameter] public RenderFragment? Sidebar { get; set; }
     [Parameter] public RenderFragment? Body { get; set; }
     [Parameter] public RenderFragment? Footer { get; set; }
+    [Parameter] public RenderFragment Sections { get; set; } = default!;
 
     [Parameter] public bool FillMainContent { get; set; }
     [Parameter] public bool StickyFooter { get; set; }
