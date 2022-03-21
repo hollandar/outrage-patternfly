@@ -19,21 +19,21 @@ namespace Outrage.Patternfly.Components.Events
             }
         }
 
-        ChainEventAggregator eventAggregator;
+        ChainEventAggregator? eventAggregator = null;
 
-        ISubscriber subscriber;
+        ISubscriber? subscriber;
 
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment? ChildContent { get; set; }
 
-        [CascadingParameter] public EventChain ParentChain { get; set; }
+        [CascadingParameter] public EventChain? ParentChain { get; set; }
 
-        [Inject] IServiceProvider ServiceProvider { get; set; }
+        [Inject] IServiceProvider? ServiceProvider { get; set; }
 
         [Parameter] public EventCallback<MessageEventArgs> OnMessage { get; set; }
 
         protected override Task OnInitializedAsync()
         {
-            this.eventAggregator = new ChainEventAggregator(this.ServiceProvider);
+            this.eventAggregator = new ChainEventAggregator(this.ServiceProvider!);
 
             this.subscriber = this.eventAggregator.Subscribe(this.MessageSubscriberAsync);
             return base.OnInitializedAsync();
@@ -46,13 +46,13 @@ namespace Outrage.Patternfly.Components.Events
 
             await this.InvokeAsync(async () =>
             {
-                await this.OnMessage.InvokeAsync(new MessageEventArgs { Context = context, Message = message });
+                await this.OnMessage.InvokeAsync(new MessageEventArgs(context, message));
             });
         }
 
         public async Task Publish(IMessage message)
         {
-            await this.eventAggregator.PublishAsync(message);
+            await this.eventAggregator!.PublishAsync(message);
         }
     }
 }

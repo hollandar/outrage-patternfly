@@ -16,15 +16,15 @@ namespace Outrage.Patternfly.Components.DataList
 		[Parameter] public int DefaultPageSize { get; set; } = 5;
 		[Parameter] public Func<DataPageLoadArgs<TItemKey>, Task<DataPageLoadResult<TItemModel>?>>? OnLoadItems { get; set; }
 		[Parameter] public EventCallback<TItemModel> OnItemClicked { get; set; }
-		[Parameter] public Func<TItemModel, string?> ItemAriaLabel { get; set; }
+		[Parameter] public Func<TItemModel, string?>? ItemAriaLabel { get; set; }
 
 		[Parameter] public RenderFragment? NoItemsMessage { get; set; }
 		[Parameter] public RenderFragment? ToolbarItems { get; set; }
 		[Parameter] public RenderFragment<TItemModel>? ItemTemplate { get; set; }
 
-		[Inject] ILogger<PatternflyPaginatedDataList<TItemModel, TItemKey>> logger { get; set; }
-		[Inject] IClientEventBus eventBus { get; set; }
-		[Inject] DataPageModelFactory dataPageModelFactory { get; set; }
+		[Inject] ILogger<PatternflyPaginatedDataList<TItemModel, TItemKey>>? logger { get; set; }
+		[Inject] IClientEventBus? eventBus { get; set; }
+		[Inject] DataPageModelFactory? dataPageModelFactory { get; set; }
 
 		private DataPageModel<TItemModel>? pageModel;
 
@@ -33,7 +33,7 @@ namespace Outrage.Patternfly.Components.DataList
 			await base.OnInitializedAsync();
 			if (pageModel == null || pageModel.StateId != StateId)
 			{
-				pageModel = await dataPageModelFactory.Create<TItemModel>(StateId, DefaultPageSize);
+				pageModel = await dataPageModelFactory!.Create<TItemModel>(StateId, DefaultPageSize);
 			}
 			if (pageModel != null)
 			{

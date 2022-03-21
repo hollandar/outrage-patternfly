@@ -33,7 +33,7 @@
                 Compact="@Compact" Label="@Label"
                 Columns="@Columns"
                 NoItemsMessage="@NoItemsMessage"
-                RowTemplate="@RowTemplate" 
+                RowTemplate="@(RowTemplate)" 
                 Fallback="@Fallback" UseSelection="@UseSelection" />
 
             @if (pageModel.TotalRecords > 0)
@@ -81,7 +81,7 @@
     #endregion
 
 
-    [Inject] DataPageModelFactory dataPageModelFactory { get; set; }
+    [Inject] DataPageModelFactory? dataPageModelFactory { get; set; }
 
     private TItemKey? loadedId = default(TItemKey);
 
@@ -91,7 +91,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        pageModel = await dataPageModelFactory.Create<TItem>(StateId, DefaultPageSize);
+        pageModel = await dataPageModelFactory!.Create<TItem>(StateId, DefaultPageSize);
         if (pageModel != null)
         {
             await Refresh();
@@ -128,19 +128,6 @@
     {
         this.loadedId = id;
         await SelectPage(0);
-    }
-
-    public async Task RowClicked(MouseEventArgs args, DataItemWrapperModel<TItem> wrapper)
-    {
-        foreach (var row in this.pageModel?.Items ?? Enumerable.Empty<DataItemWrapperModel<TItem>>())
-        {
-            row.IsSelected = row == wrapper;
-        }
-        if (OnRowClicked.HasDelegate)
-        {
-            await OnRowClicked.InvokeAsync(wrapper);
-        }
-        this.StateHasChanged();
     }
 
     public async Task Refresh(bool reset = false)
