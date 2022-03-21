@@ -11,6 +11,6 @@ namespace Outrage.Patternfly.Components.Page
         light,
         dark_100,
         dark_200,
-        none
+        normal
     }
 }

@@ -42,11 +42,11 @@
             @Sections
         }
         @if (Body != null) {
-            <section class="page-main-section pf-c-page__main-section @(FillMainContent ? "pf-m-fill" : string.Empty)">@Body</section>
+            <PatternflyPageSection Fill="@FillMainContent" Class="page-main-section">@Body</PatternflyPageSection>
         }
         @if (Footer != null)
         {
-            <section class="page-footer-section pf-c-page__main-section @(StickyFooter ? "pf-m-sticky-bottom" : string.Empty) pf-m-no-fill pf-m-dark-200">@Footer</section>
+            <PatternflyPageSection Class="page-footer-section" Sticky="@(StickyFooter ? SectionPosition.bottom: SectionPosition.none)" Color="SectionColor.dark_200">@Footer</PatternflyPageSection>
         }
     </main>
 </div>

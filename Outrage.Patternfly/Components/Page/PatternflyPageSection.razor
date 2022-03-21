@@ -1,15 +1,18 @@
 ﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
 
-<section class="pf-c-page__main-section pf-m-light"></section>
+<section class="@Classes" @attributes="AdditionalAttributes">
+    @ChildContent
+</section>
 
 @code {
 
-    [Parameter] public bool Fill { get; set; } = true;
-    [Parameter] public SectionColor Color { get; set; } = SectionColor.none;
+    [Parameter] public bool Fill { get; set; } = false;
+    [Parameter] public SectionColor Color { get; set; } = SectionColor.normal;
     [Parameter] public bool OverflowScroll { get; set; } = false;
     [Parameter] public SectionPosition Shadow { get; set; } = SectionPosition.none;
     [Parameter] public SectionPosition Sticky { get; set; } = SectionPosition.none;
     [Parameter] public bool Center { get; set; } = false;
+    [Parameter] public RenderFragment ChildContent { get; set; } = default!;
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
