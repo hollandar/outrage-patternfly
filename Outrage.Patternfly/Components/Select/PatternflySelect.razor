@@ -8,7 +8,7 @@
     <button class="pf-c-select__toggle"
             type="button"
             id="@id.With("toggle")"
-            aria-haspopup="@(this.Options.Any())"
+            aria-haspopup="@(this.Options?.Any() ?? false)"
             aria-expanded="@Expanded"
             aria-labelledby="@id.With("label") @id.With("toggle")"
             @onclick="ToggleExpandedAsync">
