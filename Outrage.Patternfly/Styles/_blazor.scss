@@ -6,3 +6,9 @@
 #app {
     height: 100vh;
 }
+
+body {
+    @extend .pf-m-redhat-updated-font;
+    @extend .pf-m-redhatmono-font;
+    @extend .pf-m-redhatVF-font;
+}
