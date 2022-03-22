@@ -12,9 +12,9 @@
 {
     <PatternflyToolbar>
         <PatternflyToolbarItem ItemType="@ToolbarItemType.pagination">
-            <PatternflyPagination Position="PaginationPosition.Top" Page="@(pageModel.Page)" PageSize="@(pageModel.PageSize)" TotalRecords="@(pageModel.TotalCount)" 
-                PageSelected="PageSelected" 
-                PageSizeSelected="PageSizeSelected"/>
+            <PatternflyPagination Position="PaginationPosition.Top" Page="@(pageModel.Page)" PageSize="@(pageModel.PageSize)" TotalRecords="@(pageModel.TotalCount)"
+                              PageSelected="PageSelected"
+                              PageSizeSelected="PageSizeSelected" />
         </PatternflyToolbarItem>
     </PatternflyToolbar>
     <ul class="pf-c-data-list" role="list" aria-label="Pagination example">
@@ -43,26 +43,28 @@
         }
     </ul>
 
-    <PatternflyPagination Position="PaginationPosition.Bottom" Page="@(pageModel.Page)" PageSize="@(pageModel.PageSize)" TotalRecords="@(pageModel.TotalCount)" 
-        PageSelected="PageSelected" 
-        PageSizeSelected="PageSizeSelected"/>
+    <PatternflyPagination Position="PaginationPosition.Bottom" Page="@(pageModel.Page)" PageSize="@(pageModel.PageSize)" TotalRecords="@(pageModel.TotalCount)"
+                      PageSelected="PageSelected"
+                      PageSizeSelected="PageSizeSelected" />
 }
 @code {
-    class ItemModel {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public decimal Price { get; set; }
+    class ItemModel
+    {
+        public Guid Id { get; set; } = Guid.Empty;
+        public string Name { get; set; } = "";
+        public decimal Price { get; set; } = 0;
     }
 
-    class ItemPageModel {
+    class ItemPageModel
+    {
         public int Page { get; set; }
         public int PageSize { get; set; } = 5;
         public int TotalCount { get; set; }
-        public IEnumerable<ItemModel> Items { get; set; }
+        public IEnumerable<ItemModel> Items { get; set; } = new List<ItemModel>();
     }
 
     private List<ItemModel> allItems = new List<ItemModel>();
-    private ItemPageModel pageModel;
+    private ItemPageModel pageModel = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -70,7 +72,7 @@
         allItems = new List<ItemModel>();
         for (int i = 0; i < 24; i++)
         {
-            allItems.Add(new ItemModel{ Id = Guid.NewGuid(), Name = $"Product #{i+1}", Price =  random.Next() * 10.0m / int.MaxValue});
+            allItems.Add(new ItemModel { Id = Guid.NewGuid(), Name = $"Product #{i + 1}", Price = random.Next() * 10.0m / int.MaxValue });
         }
 
         await LoadPage(0, 5);
@@ -91,12 +93,12 @@
     {
         var startRecord = page * pageSize;
         pageModel = new ItemPageModel
-        {
-            Page = page,
-            PageSize = pageSize,
-            TotalCount = allItems.Count(),
-            Items = allItems.Skip(page * pageSize).Take(pageSize)
-        };
+            {
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = allItems.Count(),
+                Items = allItems.Skip(page * pageSize).Take(pageSize)
+            };
         await Task.CompletedTask;
     }
 }

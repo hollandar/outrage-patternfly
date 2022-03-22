@@ -6,12 +6,12 @@
 
 <PatternflyButton Color="ButtonColor.Primary" Clicked="() => modal.Show()">Show Modal</PatternflyButton>
 <PatternflyModal @ref="modal">
-    <ModalHeader>Title</ModalHeader>
-    <HelpContent>This is help</HelpContent>
-    <ModalBody>The Content</ModalBody>
-    <ModalFooter>Footer Content</ModalFooter>
+    <Header>Title</Header>
+    <Help>This is help</Help>
+    <Body>The Content</Body>
+    <Footer>Footer Content</Footer>
 </PatternflyModal>
 
 @code {
-    PatternflyModal modal;
+    PatternflyModal modal = default!;
 }

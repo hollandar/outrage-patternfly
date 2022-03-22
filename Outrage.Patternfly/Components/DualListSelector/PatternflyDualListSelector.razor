@@ -1,0 +1,306 @@
+﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+@typeparam TKey
+
+<div class="@Classes" @attributes="AdditionalAttributes">
+    <div class="pf-c-dual-list-selector__pane pf-m-available">
+        <div class="pf-c-dual-list-selector__header">
+            <div class="pf-c-dual-list-selector__title">
+                <div class="pf-c-dual-list-selector__title-text">@AvailableHeading</div>
+            </div>
+        </div>
+        <div class="pf-c-dual-list-selector__tools">
+            <div class="pf-c-dual-list-selector__tools-filter">
+                <div class="pf-c-search-input">
+                    <div class="pf-c-search-input__bar">
+                        <span class="pf-c-search-input__text">
+                            <span class="pf-c-search-input__icon">
+                                <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                            </span>
+                            <input class="pf-c-search-input__text-input"
+                                   type="text"
+                                   placeholder="Filter options"
+                                   aria-label="Filter options"
+                                   @bind-value="@availableSearch"
+                                   @bind-value:event="oninput" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="pf-c-dual-list-selector__tools-actions">
+                <button class="pf-c-button pf-m-plain" type="button" aria-label="Sort" @onclick="() => { this.availableAscending = !this.availableAscending; this.StateHasChanged(); }">
+                    <i class="fas @(availableAscending?"fa-sort-amount-down":"fa-sort-amount-up")" aria-hidden="true"></i>
+                </button>
+                @AvailableAction
+            </div>
+        </div>
+        <div class="pf-c-dual-list-selector__status">
+            <span class="pf-c-dual-list-selector__status-text"
+                  id="chosen-item-selected-available-status-text">@(AvailableItems.Where(r => r.IsHighlighted).Count()) of @(AvailableItems.Count()) items selected</span>
+        </div>
+        <div class="pf-c-dual-list-selector__menu">
+            <ul class="pf-c-dual-list-selector__list"
+                role="listbox"
+                aria-labelledby="chosen-item-selected-available-status-text"
+                aria-multiselectable="true"
+                aria-activedescendant="@(AvailableItems.Where(r => r.IsHighlighted).Any())"
+                style="user-select:none">
+                @foreach (var item in this.AvailableItems)
+                {
+                    <li class="pf-c-dual-list-selector__list-item" role="option" @onclick="async (args) => await SelectItem(args, item)">
+                        <div class="pf-c-dual-list-selector__list-item-row @(item.IsHighlighted?"pf-m-selected":"")">
+                            <span class="pf-c-dual-list-selector__item">
+                                <span class="pf-c-dual-list-selector__item-main">
+                                    <span class="pf-c-dual-list-selector__item-text">@item.Value</span>
+                                </span>
+                                @if (item.HasCount)
+                                {
+                                    <span class="pf-c-dual-list-selector__item-count">
+                                        <span class="pf-c-badge pf-m-read">@item.Count</span>
+                                    </span>
+                                }
+                            </span>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="pf-c-dual-list-selector__controls">
+        <div class="pf-c-dual-list-selector__controls-item">
+            <button class="pf-c-button pf-m-plain"
+                    type="button"
+                    disabled="@(!AvailableItems.Where(r => r.IsHighlighted).Any())"
+                    aria-label="Add selected"
+                    @onclick="AddSelectedAsync">
+                <i class="fas fa-fw fa-angle-right"></i>
+            </button>
+        </div>
+        <div class="pf-c-dual-list-selector__controls-item">
+            <button class="pf-c-button pf-m-plain"
+                    type="button"
+                    disabled="@(!AvailableItems.Any())"
+                    aria-label="Add all"
+                    @onclick="AddAllAsync">
+                <i class="fas fa-fw fa-angle-double-right"></i>
+            </button>
+        </div>
+        <div class="pf-c-dual-list-selector__controls-item">
+            <button class="pf-c-button pf-m-plain"
+                    type="button"
+                    disabled="@(!SelectedItems.Any())"
+                    aria-label="Remove all"
+                    @onclick="RemoveAllAsync">
+                <i class="fas fa-fw fa-angle-double-left"></i>
+            </button>
+        </div>
+        <div class="pf-c-dual-list-selector__controls-item">
+            <button class="pf-c-button pf-m-plain"
+                    type="button"
+                    disabled="@(!SelectedItems.Where(r => r.IsHighlighted).Any())"
+                    aria-label="Remove selected"
+                    @onclick="RemoveSelectedAsync">
+                <i class="fas fa-fw fa-angle-left"></i>
+            </button>
+        </div>
+    </div>
+    <div class="pf-c-dual-list-selector__pane pf-m-chosen">
+        <div class="pf-c-dual-list-selector__header">
+            <div class="pf-c-dual-list-selector__title">
+                <div class="pf-c-dual-list-selector__title-text">@SelectedHeading</div>
+            </div>
+        </div>
+        <div class="pf-c-dual-list-selector__tools">
+            <div class="pf-c-dual-list-selector__tools-filter">
+                <div class="pf-c-search-input">
+                    <div class="pf-c-search-input__bar">
+                        <span class="pf-c-search-input__text">
+                            <span class="pf-c-search-input__icon">
+                                <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                            </span>
+                            <input class="pf-c-search-input__text-input"
+                                   type="text"
+                                   placeholder="Filter options"
+                                   aria-label="Filter options"
+                                   @bind-value="@selectedSearch"
+                                   @bind-value:event="oninput" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="pf-c-dual-list-selector__tools-actions">
+                <button class="pf-c-button pf-m-plain" type="button" aria-label="Sort" @onclick="() => { this.selectedAscending = !this.selectedAscending; this.StateHasChanged(); }">
+                    <i class="fas @(selectedAscending?"fa-sort-amount-down":"fa-sort-amount-up")" aria-hidden="true"></i>
+                </button>
+                @SelectedAction
+            </div>
+        </div>
+        <div class="pf-c-dual-list-selector__status">
+            <span class="pf-c-dual-list-selector__status-text"
+                  id="chosen-item-selected-chosen-status-text">@(SelectedItems.Where(r => r.IsHighlighted).Count()) of @(SelectedItems.Count()) items selected</span>
+        </div>
+        <div class="pf-c-dual-list-selector__menu">
+            <ul class="pf-c-dual-list-selector__list"
+                role="listbox"
+                aria-labelledby="chosen-item-selected-chosen-status-text"
+                aria-multiselectable="true"
+                aria-activedescendant="@(SelectedItems.Where(r => r.IsHighlighted).Any())"
+                style="user-select:none">
+                @foreach (var item in SelectedItems)
+                {
+                    <li class="pf-c-dual-list-selector__list-item" role="option" @onclick="async (args) => await this.DeselectItem(args, item)">
+                        <div class="pf-c-dual-list-selector__list-item-row @(item.IsHighlighted?"pf-m-selected":"")">
+                            <span class="pf-c-dual-list-selector__item">
+                                <span class="pf-c-dual-list-selector__item-main">
+                                    <span class="pf-c-dual-list-selector__item-text">@item.Value</span>
+                                </span>
+                                @if (item.HasCount)
+                                {
+                                    <span class="pf-c-dual-list-selector__item-count">
+                                        <span class="pf-c-badge pf-m-read">@item.Count</span>
+                                    </span>
+                                }
+                            </span>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+@code {
+    HtmlId controlId = new HtmlId();
+    string availableSearch = "";
+    string selectedSearch = "";
+    bool availableAscending = true;
+    bool selectedAscending = true;
+
+    [Parameter, EditorRequired] public IEnumerable<DualListItem<TKey>> Items { get; set; } = new List<DualListItem<TKey>>();
+    [Parameter] public EventCallback SelectedItemsChanged { get; set; }
+    [Parameter] public RenderFragment AvailableAction { get; set; } = default!;
+    [Parameter] public RenderFragment SelectedAction { get; set; } = default!;
+    [Parameter] public string AvailableHeading { get; set; } = "Available options";
+    [Parameter] public string SelectedHeading { get; set; } = "Chosen options";
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>() { "pf-c-dual-list-selector" };
+        return classes;
+    }
+
+    public IEnumerable<DualListItem<TKey>> AvailableItems
+    {
+        get
+        {
+            var availableItems = Items.Where(r => !r.IsSelected);
+            if (!String.IsNullOrWhiteSpace(availableSearch))
+                availableItems = availableItems.Where(r => r.Value?.Contains(availableSearch) ?? true);
+
+            if (availableAscending)
+                availableItems = availableItems.OrderBy(r => r.Value);
+            else
+                availableItems = availableItems.OrderByDescending(r => r.Value);
+
+            return availableItems;
+        }
+    }
+
+    public IEnumerable<DualListItem<TKey>> SelectedItems
+    {
+        get
+        {
+            var availableItems = Items.Where(r => r.IsSelected);
+            if (!String.IsNullOrWhiteSpace(selectedSearch))
+                availableItems = availableItems.Where(r => r.Value?.Contains(selectedSearch) ?? true);
+
+            if (selectedAscending)
+                availableItems = availableItems.OrderBy(r => r.Value);
+            else
+                availableItems = availableItems.OrderByDescending(r => r.Value);
+
+            return availableItems;
+        }
+    }
+
+    public async Task SelectItem(MouseEventArgs mouseEventArgs, DualListItem<TKey> item)
+    {
+        if (mouseEventArgs.ShiftKey)
+        {
+            item.IsHighlighted = true;
+        }
+        else
+        {
+            item.IsSelected = true;
+            item.IsHighlighted = false;
+        }
+        await this.SelectedItemsChanged.InvokeAsync();
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+    public async Task DeselectItem(MouseEventArgs mouseEventArgs, DualListItem<TKey> item)
+    {
+        if (mouseEventArgs.ShiftKey)
+        {
+            item.IsHighlighted = true;
+        }
+        else
+        {
+            item.IsSelected = false;
+            item.IsHighlighted = false;
+        }
+
+        await this.SelectedItemsChanged.InvokeAsync();
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+    public async Task AddSelectedAsync()
+    {
+        @foreach (var item in AvailableItems.Where(r => r.IsHighlighted && !r.IsSelected).ToList())
+        {
+            item.IsSelected = true;
+            item.IsHighlighted = false;
+        }
+
+        await this.SelectedItemsChanged.InvokeAsync();
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+    public async Task RemoveSelectedAsync()
+    {
+        @foreach (var item in SelectedItems.Where(r => r.IsHighlighted && r.IsSelected).ToList())
+        {
+            item.IsSelected = false;
+            item.IsHighlighted = false;
+        }
+
+        await this.SelectedItemsChanged.InvokeAsync();
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+    public async Task AddAllAsync()
+    {
+        @foreach (var item in AvailableItems.ToList())
+        {
+            item.IsSelected = true;
+            item.IsHighlighted = false;
+        }
+
+        await this.SelectedItemsChanged.InvokeAsync();
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+    public async Task RemoveAllAsync()
+    {
+        @foreach (var item in SelectedItems.ToList())
+        {
+            item.IsSelected = false;
+            item.IsHighlighted = false;
+        }
+
+        await this.SelectedItemsChanged.InvokeAsync();
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+
+}
+

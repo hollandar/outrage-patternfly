@@ -6,7 +6,7 @@
 <h1>Form</h1>
 <PatternflyPanel>
     <Header>Edit Product</Header>
-    <Main>
+    <Body>
         <PatternflyEditForm Model="value" OnValidSubmit="SetComplete" Horizontal="true">
             <PatternflyFieldGroup Label="Id" IsRequired="false" Name="id">
                 <Help>The product id</Help>
@@ -64,7 +64,7 @@
                 <PatternflyAction type="submit">Save</PatternflyAction>
             </PatternflyActionList>
         </PatternflyEditForm>
-    </Main>
+    </Body>
 </PatternflyPanel>
 
 <p>
@@ -81,16 +81,16 @@
             Active = false,
             Type = "product"
         };
-    string completeResult;
+    string completeResult = "";
 
     class TableModel
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
         public decimal Price { get; set; }
-        public string Description { get; set; }
+        public string Description { get; set; } = "";
         public bool Active { get; set; }
-        public string Type { get; set; }
+        public string Type { get; set; } = "";
     }
 
     protected override void OnInitialized()

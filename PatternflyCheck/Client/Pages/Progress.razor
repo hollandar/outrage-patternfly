@@ -17,7 +17,7 @@
     <PatternflyAction Clicked="MarkComplete">Complete</PatternflyAction>
 </PatternflyActionList>
 @code {
-    PatternflyProgress progress;
+    PatternflyProgress progress = default!;
     async Task SetZero()
     {
         await progress.SetProgress(0);

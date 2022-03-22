@@ -16,24 +16,25 @@
 </PatternflyTable>
 
 @code {
-    TablePageModel<TableModel> values;
+    List<TableModel> values = default!;
     class TableModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public decimal Price { get; set; }
+
+        public int Id { get; set; } = 0;
+        public string Name { get; set; } = "";
+        public decimal Price { get; set; } = 0;
     }
 
     protected override void OnInitialized()
     {
-        values = new TablePageModel<TableModel>(5, new TableModel[]
+        values = new List<TableModel>
                 {
             new TableModel { Id = 1, Name = "Coffee Cup", Price = 5.0m },
             new TableModel { Id = 1, Name = "Prescription Glasses", Price = 310.0m },
             new TableModel { Id = 1, Name = "Computer Monitor", Price = 199.0m },
             new TableModel { Id = 1, Name = "Camper", Price = 11000.0m },
             new TableModel { Id = 1, Name = "Small House", Price = 199000.0m },
-                });
+                };
 
         base.OnInitialized();
     }

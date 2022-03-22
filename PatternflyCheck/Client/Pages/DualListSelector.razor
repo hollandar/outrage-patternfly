@@ -1,0 +1,25 @@
+﻿@using Outrage.Patternfly.Components.DualListSelector;
+@page "/duallist"
+
+<PageTitle>Dual List Selector</PageTitle>
+
+<h1>Dual List Selector</h1>
+
+<PatternflyDualListSelector Items="@values" />
+@code {
+    IEnumerable<DualListItem<string>> values = default!;
+
+    protected override void OnInitialized()
+    {
+        values = new List<DualListItem<string>>
+                    {
+            new DualListItem<string> ("one", "One", 1),
+            new DualListItem<string> ("two", "Two", 4),
+            new DualListItem<string> ("three", "Three"),
+            new DualListItem<string> ("four", "Four", 9),
+            new DualListItem<string> ("five", "Five", 7),
+                };
+
+        base.OnInitialized();
+    }
+}
