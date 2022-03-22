@@ -194,7 +194,7 @@
         {
             var availableItems = Items.Where(r => !r.IsSelected);
             if (!String.IsNullOrWhiteSpace(availableSearch))
-                availableItems = availableItems.Where(r => r.Value?.Contains(availableSearch) ?? true);
+                availableItems = availableItems.Where(r => r.Value?.ToLower().Contains(availableSearch.ToLower()) ?? true);
 
             if (availableAscending)
                 availableItems = availableItems.OrderBy(r => r.Value);
@@ -211,7 +211,7 @@
         {
             var availableItems = Items.Where(r => r.IsSelected);
             if (!String.IsNullOrWhiteSpace(selectedSearch))
-                availableItems = availableItems.Where(r => r.Value?.Contains(selectedSearch) ?? true);
+                availableItems = availableItems.Where(r => r.Value?.ToLower().Contains(selectedSearch.ToLower()) ?? true);
 
             if (selectedAscending)
                 availableItems = availableItems.OrderBy(r => r.Value);
