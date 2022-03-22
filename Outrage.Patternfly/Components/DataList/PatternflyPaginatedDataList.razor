@@ -11,17 +11,22 @@
     <PatternflyLoading Complete="pageModel.IsLoaded">
         @if (pageModel.TotalRecords > 0)
         {
-            <PatternflyToolbar>
-                @ToolbarItems
+            @if (ToolbarItems != null || ShowPagination == DataListPaginationPosition.Top || ShowPagination == DataListPaginationPosition.TopAndBottom)
+            {
+                <PatternflyToolbar>
+                    @ToolbarItems
 
-                <PatternflyToolbarItem ItemType="@ToolbarItemType.pagination">
-                    <PatternflyPagination 
-                        Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords" 
-                        PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
-                        Position="PaginationPosition.Top" Compact="CompactPagination" />
-                </PatternflyToolbarItem>
-            </PatternflyToolbar>
-
+                    @if (ShowPagination == DataListPaginationPosition.Top || ShowPagination == DataListPaginationPosition.TopAndBottom)
+                    {
+                        <PatternflyToolbarItem ItemType="@ToolbarItemType.pagination">
+                            <PatternflyPagination 
+                            Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords" 
+                            PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
+                            Position="PaginationPosition.Top" Compact="CompactPagination" />
+                        </PatternflyToolbarItem>
+                    }
+                </PatternflyToolbar>
+            }
             <PatternflyDataList Compact="Compact" TItemModel="TItemModel" WrappedItems="pageModel.Items" Context="item"
                     OnItemClicked="OnItemClicked"
                     AriaLabel="@AriaLabel" ItemAriaLabel="ItemAriaLabel"
@@ -29,16 +34,17 @@
                     Class="@Classes" AdditionalAttributes="@AdditionalAttributes">
             </PatternflyDataList>
 
-            <PatternflyPagination 
-                Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords" 
-                PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
-                Position="PaginationPosition.Bottom" Compact="CompactPagination" />
+            @if (ShowPagination == DataListPaginationPosition.Bottom || ShowPagination == DataListPaginationPosition.TopAndBottom)
+            {
+                <PatternflyPagination 
+                    Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords" 
+                    PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
+                    Position="PaginationPosition.Bottom" Compact="CompactPagination" />
+            }
         }
         else if (NoItemsMessage != null)
         {
-            <PatternflyHint>
-                <Body>@NoItemsMessage</Body>
-            </PatternflyHint>
+            @NoItemsMessage
         }
     </PatternflyLoading>
 }

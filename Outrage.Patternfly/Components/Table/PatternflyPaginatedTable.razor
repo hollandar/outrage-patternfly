@@ -13,17 +13,20 @@
     @if (pageModel != null)
     {
         <PatternflyLoading Complete="pageModel.IsLoaded">
-            @if (pageModel.TotalRecords > 0)
+            @if (ToolbarItems != null || ShowPagination == TablePaginationPosition.Top || ShowPagination == TablePaginationPosition.TopAndBottom)
             {
                 <PatternflyToolbar>
                     @ToolbarItems
 
-                    <PatternflyToolbarItem ItemType="ToolbarItemType.pagination">
-                        <PatternflyPagination 
-                        Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords" 
-                        PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
-                        Position="PaginationPosition.Top" Compact="CompactPagination"/>
-                    </PatternflyToolbarItem>
+                    @if (ShowPagination == TablePaginationPosition.Top || ShowPagination == TablePaginationPosition.TopAndBottom)
+                    {
+                        <PatternflyToolbarItem ItemType="ToolbarItemType.pagination">
+                            <PatternflyPagination 
+                                Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords" 
+                                PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
+                                Position="PaginationPosition.Top" Compact="CompactPagination"/>
+                        </PatternflyToolbarItem>
+                    }
                 </PatternflyToolbar>
             }
 
@@ -36,7 +39,7 @@
                 RowTemplate="@(RowTemplate)" 
                 Fallback="@Fallback" UseSelection="@UseSelection" />
 
-            @if (pageModel.TotalRecords > 0)
+            @if (ShowPagination == TablePaginationPosition.Bottom || ShowPagination == TablePaginationPosition.TopAndBottom)
             {
                 <PatternflyPagination 
                     Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords" 
@@ -58,6 +61,11 @@
 
     [Parameter] public int DefaultPageSize { get; set; } = 20;
 
+    [Parameter] public bool CompactPagination { get; set; }
+
+    [Parameter] public TablePaginationPosition ShowPagination { get; set; } = TablePaginationPosition.TopAndBottom;
+
+
     #region PatternflyTable parameters
 
     [Parameter] public RenderFragment? Columns { get; set; }
@@ -76,12 +84,10 @@
 
     [Parameter] public bool Compact { get; set; }
 
-    [Parameter] public bool CompactPagination { get; set; }
-
     #endregion
 
 
-    [Inject] DataPageModelFactory? dataPageModelFactory { get; set; }
+    [Inject] DataPageModelFactory DataPageModelFactory { get; set; } = default!;
 
     private TItemKey? loadedId = default(TItemKey);
 
@@ -91,7 +97,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        pageModel = await dataPageModelFactory!.Create<TItem>(StateId, DefaultPageSize);
+        pageModel = await DataPageModelFactory.Create<TItem>(StateId, DefaultPageSize);
         if (pageModel != null)
         {
             await Refresh();

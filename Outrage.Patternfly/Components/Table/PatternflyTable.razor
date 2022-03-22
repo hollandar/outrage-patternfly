@@ -51,6 +51,8 @@
 @code {
     [Parameter] public bool Compact { get; set; }
 
+    [Parameter] public bool Striped { get; set; }
+
     [Parameter] public TableFallbackPoint Fallback { get; set; } = TableFallbackPoint.Medium;
 
     [Parameter] public string? Label { get; set; } = null;
@@ -101,6 +103,10 @@
         if (Compact)
         {
             classes.Add("pf-m-compact");
+        }
+        if (Striped)
+        {
+            classes.Add("pf-m-striped");
         }
         return classes;
     }
