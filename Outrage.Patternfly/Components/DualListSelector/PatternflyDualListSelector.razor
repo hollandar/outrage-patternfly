@@ -228,6 +228,20 @@
         {
             item.IsHighlighted = true;
         }
+        else if (mouseEventArgs.ShiftKey)
+        {
+            var availableList = AvailableItems.ToList();
+            var firstHighlighted = availableList.FirstOrDefault(r => r.IsHighlighted);
+            if (firstHighlighted != null)
+            {
+                var firstIndex = availableList.IndexOf(firstHighlighted);
+                var lastIndex = availableList.IndexOf(item);
+                if (firstIndex > -1 && lastIndex > -1) for (var i = firstIndex; i <= lastIndex; i++)
+                {
+                    availableList[i].IsHighlighted = true;
+                }
+            }
+        }
         else
         {
             item.IsSelected = true;
@@ -242,6 +256,20 @@
         if (mouseEventArgs.CtrlKey)
         {
             item.IsHighlighted = true;
+        }
+        else if (mouseEventArgs.ShiftKey)
+        {
+            var availableList = SelectedItems.ToList();
+            var firstHighlighted = availableList.FirstOrDefault(r => r.IsHighlighted);
+            if (firstHighlighted != null)
+            {
+                var firstIndex = availableList.IndexOf(firstHighlighted);
+                var lastIndex = availableList.IndexOf(item);
+                if (firstIndex > -1 && lastIndex > -1) for (var i = firstIndex; i <= lastIndex; i++)
+                {
+                    availableList[i].IsHighlighted = true;
+                }
+            }
         }
         else
         {
