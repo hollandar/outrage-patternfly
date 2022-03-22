@@ -224,7 +224,7 @@
 
     public async Task SelectItem(MouseEventArgs mouseEventArgs, DualListItem<TKey> item)
     {
-        if (mouseEventArgs.ShiftKey)
+        if (mouseEventArgs.CtrlKey)
         {
             item.IsHighlighted = true;
         }
@@ -239,7 +239,7 @@
 
     public async Task DeselectItem(MouseEventArgs mouseEventArgs, DualListItem<TKey> item)
     {
-        if (mouseEventArgs.ShiftKey)
+        if (mouseEventArgs.CtrlKey)
         {
             item.IsHighlighted = true;
         }
