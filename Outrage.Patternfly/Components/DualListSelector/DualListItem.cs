@@ -12,11 +12,12 @@ namespace Outrage.Patternfly.Components.DualListSelector
         string value;
         int? count;
 
-        public DualListItem(TKey key, string value, int? count = null)
+        public DualListItem(TKey key, string value, int? count = null, bool isSelected = false)
         {
             this.key = key;
             this.value = value;
             this.count = count;
+            this.IsSelected = isSelected;
         }
 
         public bool IsHighlighted { get; set; } = false;
