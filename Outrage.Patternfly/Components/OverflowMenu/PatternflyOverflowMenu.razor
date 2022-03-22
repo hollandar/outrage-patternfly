@@ -1,0 +1,26 @@
+﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+<div class="@Classes" @attributes="AdditionalAttributes">
+    @if (Control != null)
+    {
+        <div class="pf-c-overflow-menu__control">
+            @Control
+        </div>
+    }
+    else if (Content != null)
+    {
+        <div class="pf-c-overflow-menu__content">
+            @Content
+        </div>
+    }
+</div>
+@code {
+    [Parameter] public RenderFragment? Control { get; set; }
+    [Parameter] public RenderFragment? Content { get; set; }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new List<string> { "pf-c-overflow-menu" };
+        return classes;
+
+    }
+}
