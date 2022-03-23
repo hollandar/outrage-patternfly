@@ -14,7 +14,7 @@
             @if (Logo != null)
             {
                 <div class="pf-l-split__item">
-                    <a href="#" @onclick="@(() => NavigateHome())" class="pf-c-page__header-brand-link">
+                    <a href="#" @onclick="NavigateHome" class="pf-c-page__header-brand-link">
                         @Logo
                     </a>
                 </div>
@@ -57,6 +57,7 @@
 
     [Parameter] public RenderFragment? Toggle { get; set; }
     [Parameter] public RenderFragment? Logo { get; set; }
+    [Parameter] public string LogoLinkUrl { get; set; } = "";
     [Parameter] public RenderFragment? Header { get; set; }
     [Parameter] public RenderFragment? Tools { get; set; }
     [Parameter] public RenderFragment? Sidebar { get; set; }
@@ -80,6 +81,6 @@
 
     protected virtual void NavigateHome()
     {
-        this.Nav.NavigateTo("");
+        this.Nav.NavigateTo(LogoLinkUrl);
     }
 }
