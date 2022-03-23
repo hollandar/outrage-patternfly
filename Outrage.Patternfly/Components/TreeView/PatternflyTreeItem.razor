@@ -55,20 +55,15 @@
 
 @code {
     [Parameter] public bool Expanded { get; set; } = false;
+    [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
     [Parameter] public RenderFragment? Text { get; set; }
     [Parameter] public RenderFragment? Children { get; set; }
     [Parameter] public RenderFragment? Action { get; set; }
     [Parameter] public string Icon { get; set; } = "folder";
     [Parameter] public string IconOpen { get; set; } = "folder-open";
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
-    [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
     [Parameter] public EventCallback OnExpanded { get; set; }
     [Parameter] public EventCallback OnCollapsed { get; set; }
-
-    protected override async Task OnParametersSetAsync()
-    {
-        await base.OnParametersSetAsync();
-    }
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
@@ -99,9 +94,9 @@
         else
         {
             this.Expanded = !this.Expanded;
-            await this.ExpandedChanged.InvokeAsync();
+            await this.ExpandedChanged.InvokeAsync(this.Expanded);
         }
 
-        this.StateHasChanged();
+        await this.InvokeAsync(StateHasChanged);
     }
 }
