@@ -54,7 +54,7 @@
     public string? Href { get; set; } = null;
 
     [Inject]
-    NavigationManager? Nav { get; set; }
+    NavigationManager Nav { get; set; } = default!;
 
     [Parameter]
     public string Type { get; set; } = "button";
