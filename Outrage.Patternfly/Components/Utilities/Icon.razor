@@ -2,26 +2,38 @@
 {
     case LibraryEnum.fontawesome:
         {
+            string size = String.Empty;
+            switch (Size) {
+                case SizeEnum.xs: size = "fa-xs"; break;
+                case SizeEnum.sm: size = "fa-sm"; break;
+                case SizeEnum.regular: break;
+                case SizeEnum.lg: size = "fa-lg"; break;
+                case SizeEnum.x2: size = "fa-2x"; break;
+                case SizeEnum.x3: size = "fa-3x"; break;
+                case SizeEnum.x5: size = "fa-5x"; break;
+                case SizeEnum.x7: size = "fa-7x"; break;
+                case SizeEnum.x10: size = "fa-10x"; break;
+            }
             switch (Weight)
             {
                 case WeightEnum.light:
                     {
-                        <i @attributes="AdditionalExceptClass" class="fal fa-@Name @PassedClass"></i>
+                        <i @attributes="AdditionalExceptClass" class="fal fa-@Name @PassedClass @size"></i>
                         break;
                     }
                 case WeightEnum.regular:
                     {
-                        <i @attributes="AdditionalExceptClass" class="far fa-@Name @PassedClass"></i>
+                        <i @attributes="AdditionalExceptClass" class="far fa-@Name @PassedClass @size"></i>
                         break;
                     }
                 case WeightEnum.solid:
                     {
-                        <i @attributes="AdditionalExceptClass" class="fas fa-@Name @PassedClass"></i>
+                        <i @attributes="AdditionalExceptClass" class="fas fa-@Name @PassedClass @size"></i>
                         break;
                     }
                 case WeightEnum.duotone:
                     {
-                        <i @attributes="AdditionalExceptClass" class="fad fa-@Name @PassedClass"></i>
+                        <i @attributes="AdditionalExceptClass" class="fad fa-@Name @PassedClass @size"></i>
                         break;
                     }
             }
@@ -35,8 +47,14 @@
     public LibraryEnum Library { get; set; } = LibraryEnum.fontawesome;
 
     public enum WeightEnum { light, regular, solid, duotone }
+
     [Parameter]
     public WeightEnum Weight { get; set; } = WeightEnum.regular;
+
+    public enum SizeEnum { xs, sm, regular, lg, x2, x3, x5, x7, x10 }
+
+    [Parameter]
+    public SizeEnum Size { get; set; } = SizeEnum.regular;
 
     [Parameter]
     public string? Name { get; set; }

@@ -8,19 +8,19 @@
         @if (Icon != null && IconPosition == IconPosition.Start)
         {
             <span class="pf-c-button__icon pf-m-start">
-                <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true" />
+                <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" Size="@IconSize" aria-hidden="true" />
             </span>
         }
         @ChildContent
         @if (Icon != null && IconPosition == IconPosition.End)
         {
             <span class="pf-c-button__icon pf-m-end">
-                <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true" />
+                <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" Size="@IconSize" aria-hidden="true" />
             </span>
         }
     }
     else {
-        <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true" />
+        <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" Size="@IconSize" aria-hidden="true" />
     }
 </button>
 
@@ -40,6 +40,9 @@
 
     [Parameter]
     public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.regular;
+
+    [Parameter]
+    public Icon.SizeEnum IconSize { get; set; } = Utilities.Icon.SizeEnum.regular;
 
     [Parameter]
     public IconPosition IconPosition { get; set; } = IconPosition.Start;
