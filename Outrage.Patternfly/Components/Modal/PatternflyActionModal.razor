@@ -63,7 +63,7 @@
 </PatternflyModal>
 
 @code {
-    PatternflyModal? modal;
+    PatternflyModal modal = default!;
     TItemType? item;
     string? message = null;
 
@@ -80,24 +80,24 @@
     {
         this.message = null;
         this.item = item;
-        if (this.modal != null)
-            await this.modal.Show();
+
+        await this.modal.Show();
     }
 
     public async Task Show(Func<Task<TItemType>> load)
     {
         this.message = null;
         this.item = default(TItemType);
-        if (this.modal != null)
-            await this.modal.Show();
+
+        await this.modal.Show();
+
         this.item = await load();
         await this.InvokeAsync(StateHasChanged);
     }
 
     public async Task Hide()
     {
-        if (this.modal != null)
-            await this.modal.Hide();
+        await this.modal.Hide();
     }
 
     public async Task DoConfirm(MouseEventArgs args)
@@ -106,8 +106,7 @@
         {
             if (this.Confirmed.HasDelegate)
                 await this.Confirmed.InvokeAsync(item);
-            if (this.modal != null)
-                await this.modal.Hide();
+            await this.modal.Hide();
         }
         catch (ActionModalException ex)
         {
@@ -122,8 +121,7 @@
         {
             if (this.Declined.HasDelegate)
                 await this.Declined.InvokeAsync(item);
-            if (this.modal != null)
-                await this.modal.Hide();
+            await this.modal.Hide();
         }
         catch (ActionModalException ex)
         {
