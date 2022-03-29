@@ -5,21 +5,16 @@
 <div class="@Classes" @attributes="AdditionalAttributes">
     <header class="pf-c-page__header" role="banner">
         <div class="pf-c-page__header-brand">
-            <div class="pf-l-split pf-m-gutter">
-            @if (Toggle != null) {
-                <div class="pf-l-split__item">
-                    <div class="pf-c-page__header-brand-toggle u-cursor-pointer" @onclick="ToggleSidebar" aria-controls="@controlsId">@Toggle</div>
-                </div>
+            @if (Toggle != null)
+            {
+                <div class="pf-c-page__header-brand-toggle u-cursor-pointer" @onclick="ToggleSidebar" aria-controls="@controlsId">@Toggle</div>
             }
             @if (Logo != null)
             {
-                <div class="pf-l-split__item">
-                    <a href="#" @onclick="NavigateHome" class="pf-c-page__header-brand-link">
-                        @Logo
-                    </a>
-                </div>
+                <a href="#" @onclick="NavigateHome" class="pf-c-page__header-brand-link">
+                    @Logo
+                </a>
             }
-            </div>
         </div>
         @if (Header != null)
         {
@@ -41,7 +36,8 @@
         {
             @Sections
         }
-        @if (Body != null) {
+        @if (Body != null)
+        {
             <PatternflyPageSection Fill="@FillMainContent" Class="page-main-section">@Body</PatternflyPageSection>
         }
         @if (Footer != null)
