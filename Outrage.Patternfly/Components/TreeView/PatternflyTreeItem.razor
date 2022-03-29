@@ -5,7 +5,14 @@
     role="treeitem"
     aria-expanded="@Expanded"
     tabindex="0">
-    <div class="pf-c-tree-view__content">
+    <div class="pf-c-tree-view__content @dropClass"
+         draggable="@(OnDragStart.HasDelegate?"true": "false")"
+         @ondragstart="DragStart"
+         ondragover="event.preventDefault();"
+         @ondragenter="DragEnter"
+         @ondragleave="DragLeave"
+         @ondrop="Drop">
+
         <button class="pf-c-tree-view__node" @onclick="ToggleExpanded">
             <div class="pf-c-tree-view__node-container">
                 @if (Children != null)
@@ -54,6 +61,7 @@
 </li>
 
 @code {
+    string dropClass = "";
     [Parameter] public bool Expanded { get; set; } = false;
     [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
     [Parameter] public RenderFragment? Text { get; set; }
@@ -64,6 +72,10 @@
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
     [Parameter] public EventCallback OnExpanded { get; set; }
     [Parameter] public EventCallback OnCollapsed { get; set; }
+    [Parameter] public EventCallback OnDragStart { get; set; }
+    [Parameter] public EventCallback OnDrop { get; set; }
+    [Parameter] public EventCallback OnDragEnter { get; set; }
+    [Parameter] public EventCallback OnDragLeave { get; set; }
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
@@ -98,5 +110,27 @@
         }
 
         await this.InvokeAsync(StateHasChanged);
+    }
+
+    public async Task DragStart()
+    {
+        await this.OnDragStart.InvokeAsync();
+    }
+
+    public async Task Drop()
+    {
+        await this.OnDrop.InvokeAsync();
+    }
+
+    public async Task DragEnter()
+    {
+        dropClass = "ou-drop-target";
+        await this.OnDragEnter.InvokeAsync();
+    }
+
+    public async Task DragLeave()
+    {
+        dropClass = "";
+        await this.OnDragLeave.InvokeAsync();
     }
 }
