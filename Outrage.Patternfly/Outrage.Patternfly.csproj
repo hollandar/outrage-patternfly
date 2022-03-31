@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <Content Remove="Components\Form\PatternflyInputFile.razor" />
+    <Content Remove="package-lock.json" />
+    <Content Remove="package.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,9 +37,14 @@
     <Folder Include="wwwroot\css\assets\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="package-lock.json" />
+    <None Include="package.json" />
+  </ItemGroup>
+
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="yarn install" />
-    <Exec Command="yarn build" />
+    <Exec Command="npm install" />
+    <Exec Command="npm run build" />
   </Target>
 
 </Project>
