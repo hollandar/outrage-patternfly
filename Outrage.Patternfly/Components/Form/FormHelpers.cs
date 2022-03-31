@@ -8,14 +8,19 @@ namespace Outrage.Patternfly.Components.Form
 {
     internal static class FormHelpers
     {
-        public static Dictionary<string, object> PatternflyAugment(IReadOnlyDictionary<string, object>? initialAdditionalAttributes, string className, string? controlName, Action<IDictionary<string, object>>? update = null) {
-            var classes = className;
+        public static Dictionary<string, object> PatternflyAugment(IReadOnlyDictionary<string, object>? initialAdditionalAttributes, string className, string? controlName = null, Action<IDictionary<string, object>>? update = null) {
             var additionalAttributes = new Dictionary<string, object>(initialAdditionalAttributes ?? new Dictionary<string, object>());
+            List<string> classes = new List<string>(className.Split(" ", StringSplitOptions.RemoveEmptyEntries));
             if (additionalAttributes.ContainsKey("class"))
             {
-                classes += " " + additionalAttributes["class"];
+                var additionalClasses = new List<string>((additionalAttributes["class"]?.ToString() ?? String.Empty).Split(" ", StringSplitOptions.RemoveEmptyEntries).Reverse());
+                foreach (var c in additionalClasses)
+                {
+                    if (!classes.Contains(c))
+                        classes.Insert(0, c);
+                }
             }
-            additionalAttributes["class"] = classes;
+            additionalAttributes["class"] = String.Join(" ", classes);
 
             var name = controlName;
             if (additionalAttributes.ContainsKey("name"))
