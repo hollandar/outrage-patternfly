@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <Content Remove="Components\Form\PatternflyInputFile.razor" />
-    <Content Remove="package-lock.json" />
+    <Content Remove="yarn.lock" />
     <Content Remove="package.json" />
   </ItemGroup>
 
@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="package-lock.json" />
+    <None Include="yarn.lock" />
     <None Include="package.json" />
   </ItemGroup>
 
