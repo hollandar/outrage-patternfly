@@ -43,8 +43,8 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="npm install" />
-    <Exec Command="npm run build" />
+    <Exec Command="yarn install" />
+    <Exec Command="yarn run build" />
   </Target>
 
 </Project>
