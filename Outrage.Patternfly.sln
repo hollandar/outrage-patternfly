@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternflyCheck.Server", "PatternflyCheck\Server\PatternflyCheck.Server.csproj", "{2502A21F-AC6E-49AD-9559-C9C4A79BEA77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternflyCheck.Server", "src/PatternflyCheck\Server\PatternflyCheck.Server.csproj", "{2502A21F-AC6E-49AD-9559-C9C4A79BEA77}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternflyCheck.Client", "PatternflyCheck\Client\PatternflyCheck.Client.csproj", "{02E7CE1A-823E-43DA-9457-AE59C1BDDEB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternflyCheck.Client", "src/PatternflyCheck\Client\PatternflyCheck.Client.csproj", "{02E7CE1A-823E-43DA-9457-AE59C1BDDEB3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternflyCheck.Shared", "PatternflyCheck\Shared\PatternflyCheck.Shared.csproj", "{DE6A5BC7-8E25-4217-9390-DD2F32196A72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternflyCheck.Shared", "src/PatternflyCheck\Shared\PatternflyCheck.Shared.csproj", "{DE6A5BC7-8E25-4217-9390-DD2F32196A72}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outrage.Patternfly", "Outrage.Patternfly\Outrage.Patternfly.csproj", "{66E02D89-D70C-47AC-83E2-E6E9E1E71A1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outrage.Patternfly", "src/Outrage.Patternfly\Outrage.Patternfly.csproj", "{66E02D89-D70C-47AC-83E2-E6E9E1E71A1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
