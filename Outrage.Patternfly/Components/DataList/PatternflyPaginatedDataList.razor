@@ -9,7 +9,7 @@
 @if (pageModel != null)
 {
     <PatternflyLoading Complete="pageModel.IsLoaded">
-        @if (ToolbarItems != null || ShowPagination == DataListPaginationPosition.Top || ShowPagination == DataListPaginationPosition.TopAndBottom)
+        @if (ToolbarItems != null || pageModel.TotalRecords > 0 && (ShowPagination == DataListPaginationPosition.Top || ShowPagination == DataListPaginationPosition.TopAndBottom))
         {
             <PatternflyToolbar>
                 @ToolbarItems
