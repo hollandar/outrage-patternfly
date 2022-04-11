@@ -4,12 +4,10 @@
     "noEmitOnError": true,
     "removeComments": false,
     "sourceMap": true,
-    "target": "es5",
-    "outFile": "styles.js",
+    "target": "es6",
     "esModuleInterop": true
   },
   "exclude": [
-    "node_modules",
-    "wwwroot"
+    "node_modules"
   ]
 }

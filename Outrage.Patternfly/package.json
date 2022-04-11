@@ -10,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "@patternfly/patternfly": "^4.164.2",
-    "sass": "^1.46.0"
+    "sass": "^1.46.0",
+    "typescript": "^4.6.3"
   },
   "devDependencies": {
     "copyfiles": "^2.4.1"
