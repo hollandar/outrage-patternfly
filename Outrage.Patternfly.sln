@@ -11,12 +11,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternflyCheck.Shared", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outrage.Patternfly", "src/Outrage.Patternfly\Outrage.Patternfly.csproj", "{66E02D89-D70C-47AC-83E2-E6E9E1E71A1C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{5259B262-16ED-4CF6-A79E-E8B83DD91AD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5259B262-16ED-4CF6-A79E-E8B83DD91AD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5259B262-16ED-4CF6-A79E-E8B83DD91AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2502A21F-AC6E-49AD-9559-C9C4A79BEA77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2502A21F-AC6E-49AD-9559-C9C4A79BEA77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2502A21F-AC6E-49AD-9559-C9C4A79BEA77}.Release|Any CPU.ActiveCfg = Release|Any CPU
