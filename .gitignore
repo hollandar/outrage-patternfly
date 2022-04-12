@@ -6,3 +6,4 @@ src/Outrage.Patternfly/wwwroot/css/
 src/Outrage.Patternfly/wwwroot/js/
 .nuke/
 output/
+src/styles/
