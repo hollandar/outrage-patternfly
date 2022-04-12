@@ -24,7 +24,10 @@ class Build : NukeBuild
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
-    public static int Main () => Execute<Build>(x => x.Compile);
+    const string semVer = "1.0.0";
+    const string suffixVer = "rc03";
+
+    public static int Main() => Execute<Build>(x => x.Compile);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
@@ -35,6 +38,8 @@ class Build : NukeBuild
     AbsolutePath SourceDirectory => RootDirectory / "source";
     AbsolutePath TestsDirectory => RootDirectory / "tests";
     AbsolutePath OutputDirectory => RootDirectory / "output";
+    AbsolutePath NugetDirectory => OutputDirectory / "nuget";
+
 
     Target Clean => _ => _
         .Before(Restore)
@@ -61,5 +66,45 @@ class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .EnableNoRestore());
         });
+
+    Target Pack => _ => _
+           .DependsOn(Compile)
+           .Executes(() =>
+           {
+               EnsureCleanDirectory(NugetDirectory);
+               foreach (var project in Solution.AllProjects)
+               {
+                   if (project.GetProperty<bool>("IsPackable"))
+                   {
+                       DotNetPack(s => s
+                           .EnableNoBuild()
+                           .SetProject(project)
+                           .SetVersionPrefix(semVer)
+                           .SetVersionSuffix(suffixVer)
+                           .SetOutputDirectory(NugetDirectory)
+                       );
+                   }
+               }
+           });
+
+    Target Push => _ => _
+    .DependsOn(Pack)
+    .Executes(() =>
+    {
+        foreach (var nugetPackage in GlobFiles(NugetDirectory, "*.nupkg"))
+        {
+            Console.WriteLine(nugetPackage);
+            DotNetNuGetPush(s => s
+                .SetTargetPath(nugetPackage)
+                .When(Configuration != Configuration.Release, s => s
+                    .SetSource("outrage")
+                    .SetProcessArgumentConfigurator(a => a.Add("-k {0}", "nfXXE3qZye2xayvG"))
+                )
+                .When(Configuration == Configuration.Release, s => s
+                    .SetSource("nuget.org")
+                )
+            );
+        }
+    });
 
 }
