@@ -23,7 +23,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-		<PackageReference Include="Outrage.EventBus" Version="0.0.6" />
+		<PackageReference Include="Outrage.EventBus" Version="1.0.0-rc03" />
 	</ItemGroup>
 
 	<ItemGroup>
