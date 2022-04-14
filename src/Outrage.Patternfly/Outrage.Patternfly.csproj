@@ -5,12 +5,14 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<IsPackable>true</IsPackable>
+		<IncludeContentInPack>false</IncludeContentInPack>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Remove="Components\Form\PatternflyInputFile.razor" />
 		<Content Remove="yarn.lock" />
 		<Content Remove="package.json" />
+		<None Include="yarn.lock" />
+		<None Include="package.json" />
 	</ItemGroup>
 
 
@@ -24,11 +26,6 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Outrage.EventBus" Version="1.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="yarn.lock" />
-		<None Include="package.json" />
 	</ItemGroup>
 
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
