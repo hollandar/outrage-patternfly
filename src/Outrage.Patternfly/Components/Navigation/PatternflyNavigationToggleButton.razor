@@ -1,4 +1,5 @@
-﻿<button id="nav-toggle" aria-expanded="true" aria-disabled="false" aria-label="@Label" class="pf-c-button pf-m-plain" type="button"><i class="far fa-bars" /></button>
+﻿@using Outrage.Patternfly.Components.Utilities
+<button id="nav-toggle" aria-expanded="true" aria-disabled="false" aria-label="@Label" class="pf-c-button pf-m-plain" type="button"><Icon Name="bars" /></button>
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = default!;
 }
