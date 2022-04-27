@@ -1,16 +1,13 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Outrage.Patternfly.Components.Form;
-public class PatternflyInputText : InputText
-{
+﻿@inherits InputText
+<input @attributes="@AdditionalAttributes" @bind-value="CurrentValueAsString" @bind-value:event="@(BindEvent)" />
+@code {
     [CascadingParameter(Name = "FieldName")]
     public string? FieldName { get; set; }
+
+    [Parameter]
+    public bool BindOnInput { get; set; } = false;
+
+    protected string BindEvent => BindOnInput ? "oninput" : "onchange";
 
     protected override void OnParametersSet()
     {
