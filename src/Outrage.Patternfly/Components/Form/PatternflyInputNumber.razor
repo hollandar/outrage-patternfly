@@ -1,0 +1,21 @@
+﻿@inherits InputNumber<TValue>
+@typeparam TValue
+<input @attributes="@AdditionalAttributes" @bind-value="CurrentValueAsString" @bind-value:event="@(BindEvent)" />
+@code {
+    [CascadingParameter(Name = "FieldName")]
+    public string? FieldName { get; set; }
+
+    [Parameter]
+    public bool BindOnInput { get; set; } = false;
+
+    protected string BindEvent => BindOnInput ? "oninput" : "onchange";
+
+    protected override void OnParametersSet()
+    {
+        this.AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "pf-c-form-control", this.FieldName, (a) =>
+        {
+            a["type"] = "text";
+        }) ?? null;
+        base.OnParametersSet();
+    }
+}
