@@ -223,6 +223,6 @@
     {
         Page = Math.Max(0, Math.Min(pageNumber, pageCount - 1));
 
-        await PageSelected.InvokeAsync(pageNumber);
+        await PageSelected.InvokeAsync(Page);
     }
 }
