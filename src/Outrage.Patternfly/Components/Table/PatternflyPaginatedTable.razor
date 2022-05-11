@@ -21,36 +21,36 @@
                     @if (ShowPagination == TablePaginationPosition.Top || ShowPagination == TablePaginationPosition.TopAndBottom)
                     {
                         <PatternflyToolbarItem ItemType="ToolbarItemType.pagination">
-                            <PatternflyPagination 
-                                Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords" 
-                                PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
-                                Position="PaginationPosition.Top" Compact="CompactPagination"/>
+                            <PatternflyPagination Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords"
+                                      PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
+                                      Position="PaginationPosition.Top" Compact="CompactPagination" />
                         </PatternflyToolbarItem>
                     }
                 </PatternflyToolbar>
             }
 
-            <PatternflyTable Class="@Class" AdditionalAttributes="@AdditionalAttributes"
-                TItem="TItem" TItemKey="TItemKey" WrappedItems="pageModel.Items"
-                OnRowClicked="@OnRowClicked"
-                Compact="@Compact" Label="@Label"
-                Columns="@Columns"
-                NoItemsMessage="@NoItemsMessage"
-                RowTemplate="@(RowTemplate)" 
-                Fallback="@Fallback" UseSelection="@UseSelection" />
+            <PatternflyTable @ref="innerTable" Class="@Class" AdditionalAttributes="@AdditionalAttributes"
+                         TItem="TItem" TItemKey="TItemKey" WrappedItems="pageModel.Items"
+                         OnRowClicked="@OnRowClicked"
+                         Compact="@Compact" Label="@Label"
+                         Columns="@Columns"
+                         NoItemsMessage="@NoItemsMessage"
+                         RowTemplate="@(RowTemplate)"
+                         Fallback="@Fallback" UseSelection="@UseSelection" />
 
             @if (ShowPagination == TablePaginationPosition.Bottom || ShowPagination == TablePaginationPosition.TopAndBottom)
             {
-                <PatternflyPagination 
-                    Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords" 
-                    PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
-                    Position="PaginationPosition.Bottom" Compact="CompactPagination"/>
+                <PatternflyPagination Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords"
+                              PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
+                              Position="PaginationPosition.Bottom" Compact="CompactPagination" />
             }
         </PatternflyLoading>
     }
 </CascadingValue>
 
 @code {
+    PatternflyTable<TItem, TItemKey> innerTable = default!;
+
     [Parameter] public string? StateId { get; set; }
 
     [Parameter] public Func<TItem, object>? Key { get; set; } = null;
@@ -89,6 +89,9 @@
 
     [Inject] DataPageModelFactory DataPageModelFactory { get; set; } = default!;
 
+    public bool HasSelection { get { return this.innerTable?.HasSelection ?? false; } }
+
+
     private TItemKey? loadedId = default(TItemKey);
 
     private DataPageModel<TItem>? pageModel;
@@ -112,7 +115,7 @@
             if (result != null)
             {
                 await pageModel.Update(result);
-                this.StateHasChanged();
+                await this.InvokeAsync(StateHasChanged);
             }
         }
     }
@@ -125,7 +128,7 @@
             if (result != null)
             {
                 await pageModel.Update(result);
-                this.StateHasChanged();
+                await this.InvokeAsync(StateHasChanged);
             }
         }
     }
@@ -144,7 +147,7 @@
             if (result != null)
             {
                 await pageModel.Update(result);
-                this.StateHasChanged();
+                await this.InvokeAsync(StateHasChanged);
             }
         }
     }

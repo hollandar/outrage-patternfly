@@ -75,6 +75,8 @@
 
     [Parameter] public bool UseSelection { get; set; } = true;
 
+    public bool HasSelection {get { return this.WrappedItems?.Any(r => r.IsSelected) ?? false; }}
+
 
     public async Task RowClicked(MouseEventArgs args, DataItemWrapperModel<TItem> wrapper)
     {

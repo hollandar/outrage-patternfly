@@ -1,0 +1,135 @@
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+@using Outrage.Patternfly.Components.Backdrop
+@using Outrage.Patternfly.Components.Layout
+
+<div hidden="@(!this.Shown)">
+    @if (!this.CreateOnShow || (this.CreateOnShow && this.Shown))
+    {
+        <PatternflyBackdrop>
+            <PatternflyBullseye>
+                <EditForm Model="@Model" OnValidSubmit="ValidSubmit" OnInvalidSubmit="OnInvalidSubmit">
+                    @if (Annotations != null)
+                    {
+                        @Annotations
+                    }
+                    <div class="@Classes" style="max-height: 80vh;" @attributes="AdditionalAttributes" aria-modal="true" aria-labelledby="@modalId.With("modal-help-title")" aria-describedby="@modalId.With("modal-help-description")">
+                        <button class="pf-c-button pf-m-plain" type="button" aria-label="Close" @onclick="Hide">
+                            <i class="fas fa-times" aria-hidden="true"></i>
+                        </button>
+                        <header class="pf-c-modal-box__header pf-m-help">
+                            <div class="pf-c-modal-box__header-main">
+                                <h1 class="pf-c-modal-box__title" id="@modalId.With("modal-help-title")">
+                                    @Header
+                                </h1>
+                                @if (Help != null)
+                                {
+                                    <div class="pf-c-modal-box__description" id="@modalId.With("modal-help-description")" hidden="@(!HelpShown)">
+                                        @Help
+                                    </div>
+                                }
+                            </div>
+                            @if (Help != null)
+                            {
+                                <div class="pf-c-modal-box__header-help">
+                                    <button class="pf-c-button pf-m-plain" type="button" aria-label="Help" @onclick="ToggleHelp">
+                                        <i class="fas fa-question-circle" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            }
+                        </header>
+                        <div class="pf-c-modal-box__body pf-c-form" style="position:relative; overflow:auto;">
+                            @Body
+                        </div>
+                        <footer class="pf-c-modal-box__footer">
+                            @Footer
+                        </footer>
+                    </div>
+                </EditForm>
+            </PatternflyBullseye>
+        </PatternflyBackdrop>
+    }
+</div>
+@code {
+    HtmlId modalId = new();
+
+    [Parameter]
+    public RenderFragment? Header { get; set; }
+
+    [Parameter]
+    public RenderFragment? Body { get; set; }
+
+    [Parameter]
+    public RenderFragment? Annotations { get; set; }
+
+    [Parameter]
+    public bool CreateOnShow { get; set; } = false;
+
+    [Parameter]
+    public RenderFragment? Footer { get; set; }
+
+    [Parameter]
+    public RenderFragment? Help { get; set; }
+
+    [Parameter]
+    public ModalSize Size { get; set; } = ModalSize.Medium;
+
+    [Parameter]
+    public bool Shown { get; set; } = false;
+
+    [Parameter]
+    public object Model { get; set; } = default!;
+
+    private bool HelpShown { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<bool> ShownChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<EditContext> OnValidSubmit { get; set; }
+
+    [Parameter]
+    public EventCallback<EditContext> OnInvalidSubmit { get; set; }
+
+    public async Task Show()
+    {
+        this.Shown = true;
+        await this.InvokeAsync(StateHasChanged);
+        if (ShownChanged.HasDelegate)
+            await ShownChanged.InvokeAsync(this.Shown);
+    }
+
+    public async Task Hide()
+    {
+        this.Shown = false;
+        await this.InvokeAsync(StateHasChanged);
+        if (ShownChanged.HasDelegate)
+            await ShownChanged.InvokeAsync(this.Shown);
+    }
+
+    public async Task ToggleHelp()
+    {
+        this.HelpShown = !this.HelpShown;
+        this.StateHasChanged();
+        await this.ShownChanged.InvokeAsync(this.HelpShown);
+    }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-modal-box" });
+        if (Size == ModalSize.Small)
+            classes.Add("pf-m-sm");
+        if (Size == ModalSize.Medium)
+            classes.Add("pf-m-md");
+        if (Size == ModalSize.Large)
+            classes.Add("pf-m-lg");
+
+        return classes;
+    }
+
+    public async Task ValidSubmit(EditContext editContext)
+    {
+        await this.Hide();
+        await this.OnValidSubmit.InvokeAsync(editContext);
+    }
+}

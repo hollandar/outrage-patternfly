@@ -7,7 +7,9 @@
         <div class="pf-c-page__header-brand">
             @if (Toggle != null)
             {
-                <div class="pf-c-page__header-brand-toggle u-cursor-pointer" @onclick="ToggleSidebar" aria-controls="@controlsId">@Toggle</div>
+                <div class="pf-c-page__header-brand-toggle">
+                    <button class="pf-c-button pf-c-plain" type="button" aria-expanded="false" aria-disabled="false" aria-label="Global navigation" @onclick="ToggleSidebar">@Toggle</button>
+                </div>
             }
             @if (Logo != null)
             {

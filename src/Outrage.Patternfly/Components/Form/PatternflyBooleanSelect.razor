@@ -1,13 +1,11 @@
-﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
-
-<InputSelect class="@Classes" @attributes="AdditionalAttributes" Value="@this.StringValue" ValueExpression="@(() => this.StringValue)" ValueChanged="@(async (string value) => { await MapBoundValue(value); })">
+﻿<PatternflyInputSelect @attributes="AdditionalAttributes" Value="@this.StringValue" ValueExpression="@(() => this.StringValue)" ValueChanged="@(async (string value) => { await MapBoundValue(value); })">
     <option value="True">@WhenTrue</option>
     <option value="False">@WhenFalse</option>
-</InputSelect>
+</PatternflyInputSelect>
 
 @code {
 
-    string? StringValue { get; set; }
+    string StringValue { get; set; }
 
     [Parameter]
     public bool Value { get; set; }
@@ -16,10 +14,13 @@
     public EventCallback<bool> ValueChanged { get; set; }
 
     [Parameter]
-    public RenderFragment? WhenTrue { get;set; }
+    public RenderFragment WhenTrue { get;set; }
 
     [Parameter]
-    public RenderFragment? WhenFalse { get; set; }
+    public RenderFragment WhenFalse { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> AdditionalAttributes { get; set; }
 
     protected override void OnInitialized()
     {
