@@ -4,8 +4,7 @@
 </PatternflyInputSelect>
 
 @code {
-
-    string StringValue { get; set; }
+    string StringValue { get; set; } = String.Empty;
 
     [Parameter]
     public bool Value { get; set; }
@@ -14,13 +13,13 @@
     public EventCallback<bool> ValueChanged { get; set; }
 
     [Parameter]
-    public RenderFragment WhenTrue { get;set; }
+    public RenderFragment WhenTrue { get; set; } = default!;
 
     [Parameter]
-    public RenderFragment WhenFalse { get; set; }
+    public RenderFragment WhenFalse { get; set; } = default!;
 
     [Parameter(CaptureUnmatchedValues = true)]
-    public IDictionary<string, object> AdditionalAttributes { get; set; }
+    public IDictionary<string, object> AdditionalAttributes { get; set; } = default!;
 
     protected override void OnInitialized()
     {
