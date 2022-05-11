@@ -36,7 +36,7 @@
             {
                 var pageSize = i;
                 <li>
-                    <button class="pf-c-options-menu__menu-item" type="button" @onclick="@(() => SelectPageSize(pageSize))">
+                    <button class="pf-c-options-menu__menu-item" type="button" @onclick="@(async () => await SelectPageSize(pageSize))">
                         @(pageSize) per page
                         @if (PageSize == pageSize)
                         {
@@ -51,7 +51,7 @@
             {
                 var pageSize = i;
                 <li>
-                    <button class="pf-c-options-menu__menu-item" type="button" @onclick="@(() => SelectPageSize(pageSize))">
+                    <button class="pf-c-options-menu__menu-item" type="button" @onclick="@(async () => await SelectPageSize(pageSize))">
                         @(pageSize) per page
                         @if (PageSize == pageSize)
                         {
@@ -66,7 +66,7 @@
             {
                 var pageSize = i;
                 <li>
-                    <button class="pf-c-options-menu__menu-item" type="button" @onclick="@(() => SelectPageSize(pageSize))">
+                    <button class="pf-c-options-menu__menu-item" type="button" @onclick="@(async () => await SelectPageSize(pageSize))">
                         @(pageSize) per page
                         @if (PageSize == pageSize)
                         {
@@ -86,7 +86,7 @@
                 <button class="pf-c-button pf-m-plain"
                     type="button"
                     aria-label="Go to first page"
-                    @onclick="@(() => SelectPage(0))"
+                    @onclick="@(async () => await SelectPage(0))"
                     disabled="@(Page <= 0)">
                     <Icon Name="angle-double-left" aria-hidden="true" />
                 </button>
@@ -96,29 +96,29 @@
             <button class="pf-c-button pf-m-plain"
                     type="button"
                     aria-label="Go to previous page"
-                    @onclick="@(() => SelectPage(Page - 1))"
+                    @onclick="@(async () => await SelectPage(Page - 1))"
                     disabled="@(Page <= 0)">
                 <Icon Name="angle-left" aria-hidden="true" />
             </button>
         </div>
         @if (!Compact)
         {
-            <div class="pf-c-pagination__nav-page-select">
-                <input class="pf-c-form-control"
-                   aria-label="Current page"
-                   type="number"
-                   min="1"
-                   max="@pageCount"
-                   value="@(Page + 1)"
-                   @onchange="@((eventArgs) => SelectPage(int.Parse(eventArgs?.Value?.ToString() ?? "1") - 1))" />
-                <span aria-hidden="true">of @(pageCount.ToString("N0"))</span>
-            </div>
+            <form @onsubmit="@(async () => await SelectPage(selectedPage - 1))">
+                <div class="pf-c-pagination__nav-page-select">
+                    <input class="pf-c-form-control"
+                       aria-label="Current page"
+                       type="number"
+                       min="1"
+                       @bind-value="@(selectedPage)" />
+                    <span aria-hidden="true">of @(pageCount.ToString("N0"))</span>
+                </div>
+            </form>
         }
         <div class="pf-c-pagination__nav-control pf-m-next">
             <button class="pf-c-button pf-m-plain"
                     type="button"
                     aria-label="Go to next page"
-                    @onclick="@(() => SelectPage(Page + 1))"
+                    @onclick="@(async () => await SelectPage(Page + 1))"
                     disabled="@(Page >= pageCount - 1)">
                 <Icon Name="angle-right" aria-hidden="true" />
             </button>
@@ -129,7 +129,7 @@
                 <button class="pf-c-button pf-m-plain"
                     type="button"
                     aria-label="Go to last page"
-                    @onclick="@(() => SelectPage(pageCount - 1))"
+                    @onclick="@(async () => await SelectPage(pageCount - 1))"
                     disabled="@(Page >= pageCount - 1)">
                     <Icon Name="angle-double-right" aria-hidden="true" />
                 </button>
@@ -159,23 +159,25 @@
 
     private int pageCount = 0;
 
+    // selected page number (1-based)
+    private int selectedPage;
+
     private int FirstRecord => Page * PageSize + 1;
     private int LastRecord => Math.Min(FirstRecord + PageSize - 1, TotalRecords);
 
     private bool showPageSizeSelector = false;
 
-    private Guid componentId;
+    private Guid componentId = Guid.NewGuid();
 
     protected override async Task OnInitializedAsync()
     {
-        componentId = Guid.NewGuid();
         await base.OnInitializedAsync();
     }
 
     protected override async Task OnParametersSetAsync()
     {
         RefreshPageCount();
-
+        selectedPage = Page + 1;
         await base.OnParametersSetAsync();
     }
 
@@ -222,7 +224,7 @@
     private async Task SelectPage(int pageNumber)
     {
         Page = Math.Max(0, Math.Min(pageNumber, pageCount - 1));
-
-        await PageSelected.InvokeAsync(pageNumber);
+        selectedPage = Page + 1;
+        await PageSelected.InvokeAsync(Page);
     }
 }
