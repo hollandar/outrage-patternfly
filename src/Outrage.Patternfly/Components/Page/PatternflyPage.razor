@@ -33,25 +33,30 @@
             <div class="pf-c-page__sidebar-body">@Sidebar</div>
         </div>
     }
-    <main class="pf-c-page__main" tabindex="-1" role="main">
-        @if (Sections != null)
-        {
-            @Sections
-        }
-        @if (Body != null)
-        {
-            <PatternflyPageSection Fill="@FillMainContent" Class="page-main-section">@Body</PatternflyPageSection>
-        }
-        @if (Footer != null)
-        {
-            <PatternflyPageSection Class="page-footer-section" Sticky="@(StickyFooter ? SectionPosition.bottom: SectionPosition.none)" Color="SectionColor.dark_200">@Footer</PatternflyPageSection>
-        }
-    </main>
+    <CascadingValue Name="PatternflyParentPage" Value="this">
+        <main class="pf-c-page__main" tabindex="-1" role="main">
+            @if (Sections != null)
+            {
+                @Sections
+            }
+            @if (Body != null)
+            {
+                <PatternflyPageSection Fill="@FillMainContent" Class="page-main-section">@Body</PatternflyPageSection>
+            }
+            @if (Footer != null)
+            {
+                <PatternflyPageSection Class="page-footer-section" Sticky="@(StickyFooter ? SectionPosition.bottom: SectionPosition.none)" Color="SectionColor.dark_200">@Footer</PatternflyPageSection>
+            }
+        </main>
+    </CascadingValue>
+    @onPageContent
 </div>
 
 @code {
     public bool sidebar = true;
     public HtmlId controlsId = new();
+    RenderFragment? onPageContent => onPage?.ChildContent;
+    PatternflyOnPage? onPage;
 
     [Parameter] public RenderFragment? Toggle { get; set; }
     [Parameter] public RenderFragment? Logo { get; set; }
@@ -81,4 +86,23 @@
     {
         this.Nav.NavigateTo(LogoLinkUrl);
     }
+
+    public void SetOnPage(PatternflyOnPage? onPage)
+    {
+        if (this.onPage != null)
+            this.onPage.OnChange -= StateHasChanged;
+
+        if (onPage == null)
+        {
+            this.onPage = null;
+            return;
+        }
+        else
+        {
+            this.onPage = onPage;
+            this.onPage.OnChange += StateHasChanged;
+        }
+    }
+
+    public bool IsSetOnPage(PatternflyOnPage onPage) => this.onPage == onPage;
 }
