@@ -1,0 +1,25 @@
+﻿@page "/patternfly-alert"
+@using Outrage.Patternfly.Components.Alert
+
+<PageTitle>Patternfly Alert</PageTitle>
+
+<PatternflyTitle>Patternfly Alert</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyAlert Class="pf-u-m-md" Icon="crow" Title="Something happened" Dismissable="false"></PatternflyAlert> 
+        <PatternflyAlert Class="pf-u-m-md" Icon="bell" Title="Success happens" Color="AlertColor.Success">
+            <Body>This one needs more description, clearly.</Body>
+        </PatternflyAlert> 
+        <PatternflyAlert Class="pf-u-m-md" Icon="exclaimation" Title="Something bad happened" Color="AlertColor.Danger">
+            <Body>This one needs more description, clearly.</Body>
+            <Actions><PatternflyButton Color="ButtonColor.InlineLink">Action</PatternflyButton></Actions>
+</PatternflyAlert> 
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-alert.md"></Markdown>
+
+@code {
+
+}

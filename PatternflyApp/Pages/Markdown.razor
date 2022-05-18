@@ -1,0 +1,26 @@
+﻿@inject NavigationManager Nav
+@inject HttpClient Http
+
+<PatternflyPanel Class="pf-u-my-lg">
+    <Body>
+        <PatternflyContent>
+            @(new MarkupString(Markdig.Markdown.ToHtml(this.Content)))
+        </PatternflyContent>
+    </Body>
+</PatternflyPanel>
+
+@code {
+    [Parameter] public string Content { get; set; } = String.Empty;
+    [Parameter] public string Href { get; set; } = String.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!String.IsNullOrWhiteSpace(this.Href))
+        {
+            var markdown = await this.Http.GetStringAsync(this.Href);
+            this.Content = markdown;
+        }
+
+        await base.OnInitializedAsync();
+    }
+}

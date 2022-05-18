@@ -6,11 +6,11 @@
 @inherits Patternfly.Components.Base.PatternflyComponentBase
 
 <CascadingValue Name="Parent" Value="this">
-    <ul class="@Classes" @attributes="AdditionalAttributes" role="list">
+    <ul class="@Classes" @attributes="AdditionalAttributes" role="list" aria-label="@AriaLabel">
         @foreach(var item in Items ?? Enumerable.Empty<TItemModel>())
         {
             <li class="pf-c-data-list__item @(OnItemClicked.HasDelegate ? "pf-m-selectable" : string.Empty) @(item.Equals(selectedItem) ? "pf-m-selected" : string.Empty)" 
-                    aria-labelledby="@(ItemAriaLabel != null ? ItemAriaLabel(item) : string.Empty)" @onclick="@(() => OnItemSelected(item))" @key="item">
+                    aria-labelledby="@(ItemAriaLabel != null ? ItemAriaLabel(item) : String.Empty)" @onclick="@(() => OnItemSelected(item))" @key="item">
                 @if (ItemTemplate != null)
                 {
                     @ItemTemplate(item)
@@ -19,6 +19,7 @@
         }
     </ul>
 </CascadingValue>
+
 @code {
     [Parameter] public bool Compact { get; set; }
 

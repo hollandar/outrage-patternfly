@@ -1,0 +1,41 @@
+﻿@inherits LayoutComponentBase
+
+<PatternflyPage FillMainContent="true">
+    <Toggle>
+        <svg style="vertical-align:-0.125em" fill="currentColor" height="1em" width="1em" viewBox="0 0 448 512" aria-hidden="true" role="img"><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path></svg>
+    </Toggle>
+    <Logo>
+        <img class="pf-c-brand pf-u-display-block pf-u-display-none-on-md ou-h-16" src="/images/icon_only.svg" alt="Patternfly">
+        <img class="pf-c-brand pf-u-display-none pf-u-display-block-on-md ou-h-16" src="/images/icon.svg" alt="Patternfly">
+    </Logo>
+    <Header>
+        <PatternflyNavigation Horizontal="true">
+            <PatternflyNavigationLink Href="" Match="NavLinkMatch.All">Home</PatternflyNavigationLink>
+            <PatternflyNavigationLink Href="/license">License</PatternflyNavigationLink>
+        </PatternflyNavigation>
+    </Header>
+    <Sections>
+        <PatternflyPageSection Fill="true" Color="SectionColor.normal">
+            @Body
+        </PatternflyPageSection>
+        <PatternflyPageSection Color="SectionColor.dark_200">
+            Sculpt is Copyright (C) Webefinity Pty. Ltd. 2022.
+        </PatternflyPageSection>
+    </Sections>
+    <Sidebar>
+        <PatternflyNavigation>
+            <PatternflyNavigationLink Href="getting-started" Icon="play">Getting Started</PatternflyNavigationLink>
+            <PatternflyNavigationLink Href="patternfly-page" Icon="newspaper">Page</PatternflyNavigationLink>
+            <PatternflyNavigationLink Href="patternfly-accordion" Icon="square">Accordion</PatternflyNavigationLink>
+            <PatternflyNavigationLink Href="patternfly-actionlist" Icon="exclamation">Actions</PatternflyNavigationLink>
+            <PatternflyNavigationLink Href="patternfly-alert" Icon="bell">Alerts</PatternflyNavigationLink>
+            <PatternflyNavigationLink Href="patternfly-backdrop" Icon="lock">Backdrop</PatternflyNavigationLink>
+            <PatternflyNavigationLink Href="patternfly-badge" Icon="check">Badge</PatternflyNavigationLink>
+            <PatternflyNavigationLink Href="patternfly-banner" Icon="flag">Banner</PatternflyNavigationLink>
+            <PatternflyNavigationLink Href="patternfly-button" Icon="mouse-pointer">Button</PatternflyNavigationLink>
+            <PatternflyNavigationLink Href="patternfly-card" Icon="id-card">Card</PatternflyNavigationLink>
+            <PatternflyNavigationLink Href="patternfly-content" Icon="align-justify">Content</PatternflyNavigationLink>
+            <PatternflyNavigationLink Href="patternfly-datalist" Icon="list">Data List</PatternflyNavigationLink>
+        </PatternflyNavigation>
+    </Sidebar>
+</PatternflyPage>

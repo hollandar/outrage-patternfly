@@ -1,8 +1,9 @@
 ﻿@implements IDisposable
+@using Microsoft.Extensions.DependencyInjection
 @using Outrage.EventBus
 @using Outrage.Patternfly.Components.Alert
 @using Outrage.Patternfly.Messages
-@inject IClientEventBus Bus
+@using Outrage.Patternfly.Services
 
 <ul class="pf-c-alert-group pf-m-toast">
     @foreach (var message in messages.OrderByDescending(message => message.ExpireTime))
@@ -30,11 +31,19 @@
     ISubscriber? filterSubscriber;
     System.Threading.SemaphoreSlim listLock = new System.Threading.SemaphoreSlim(1);
 
+    [Inject] IServiceProvider ServiceProvider { get; set; } = default!;
+
     protected override Task OnInitializedAsync()
     {
+        var clientEventBus = this.ServiceProvider.GetService<IClientEventBus>();
+        var rootEventBus = this.ServiceProvider.GetService<IRootEventBus>();
+        var toastService = this.ServiceProvider.GetService<ToasterService>();
+        var bus = clientEventBus ?? rootEventBus ?? toastService?.Bus ?? null;
+        ArgumentNullException.ThrowIfNull(bus, "No event bus is defined and the ToasterService is not registered");
+
         if (this.filterSubscriber == null)
         {
-            this.filterSubscriber = this.Bus.Subscribe<ToastMessage>(HandleToastMessage);
+            this.filterSubscriber = bus.Subscribe<ToastMessage>(HandleToastMessage);
         }
         if (this.timer == null)
         {

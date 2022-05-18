@@ -1,0 +1,34 @@
+﻿@page "/patternfly-actionlist"
+@using Outrage.Patternfly.Components.Actions
+@using Outrage.Patternfly.Components.Button
+
+<PageTitle>Patternfly Actions</PageTitle>
+
+<PatternflyTitle>Patternfly Actions</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+    <PatternflyActionList>
+        
+        <PatternflyAction Color="ButtonColor.Primary" Icon="home"Clicked="ActionClicked">Save</PatternflyAction>
+        <PatternflyAction Color="ButtonColor.Secondary" Icon="cogs" Clicked="ActionClicked">Cancel</PatternflyAction>
+        <PatternflyActionItem TItem="string" Item="@item" Color="ButtonColor.Danger" Icon="cogs" Clicked="ItemClicked">Delete</PatternflyActionItem>
+
+    </PatternflyActionList>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-actionlist.md"></Markdown>
+
+@code {
+    string item = "someItem";
+    async Task ActionClicked()
+    {
+        Console.WriteLine("Action was clicked");
+    }
+
+    async Task ItemClicked(ItemEventArgs<string> item)
+    {
+        Console.WriteLine($"{item.Value} was clicked.");
+    }
+}

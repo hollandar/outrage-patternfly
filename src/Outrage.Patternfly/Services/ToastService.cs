@@ -1,4 +1,5 @@
 ﻿using Outrage.EventBus;
+using Outrage.EventBus.Predefined;
 using Outrage.Patternfly.Components.Alert;
 using Outrage.Patternfly.Messages;
 using System;
@@ -9,13 +10,26 @@ using System.Threading.Tasks;
 
 namespace Outrage.Patternfly.Services
 {
-    public class ToastService
+    public class ToasterService
     {
-        private readonly IClientEventBus clientEventBus;
-        public ToastService(IClientEventBus clientEventBus)
+        private readonly IEventAggregator clientEventBus;
+
+        public ToasterService(IClientEventBus clientEventBus)
         {
             this.clientEventBus = clientEventBus;
         }
+
+        public ToasterService(IRootEventBus clientEventBus)
+        {
+            this.clientEventBus = clientEventBus;
+        }
+
+        public ToasterService(IServiceProvider serviceProvider)
+        {
+            this.clientEventBus = new RootEventBus(serviceProvider);
+        }
+
+        public IEventAggregator Bus => clientEventBus;
 
         public async Task Publish(ToastMessage toastMessage)
         {

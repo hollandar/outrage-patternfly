@@ -1,0 +1,24 @@
+﻿@page "/patternfly-card"
+@using Outrage.Patternfly.Components.Card
+
+<PageTitle>Patternfly Card</PageTitle>
+
+<PatternflyTitle>Patternfly Card</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+    <PatternflyCard>
+        <Header>I'm in the header</Header>
+        <Actions><PatternflyButton Color="ButtonColor.InlineLink">Action</PatternflyButton></Actions>
+        <Title>A card with a title</Title>
+        <Body><p>Content in the body of the card</p></Body>
+        <Footer>Closing content, buttons or whatever</Footer>
+    </PatternflyCard>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-card.md"></Markdown>
+
+@code {
+
+}

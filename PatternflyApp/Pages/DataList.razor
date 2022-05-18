@@ -1,0 +1,86 @@
+﻿@page "/patternfly-datalist"
+@using Outrage.Patternfly.Components.DataList
+@using Outrage.Patternfly.Models
+
+<PageTitle>Patternfly DataList</PageTitle>
+
+<PatternflyTitle>Patternfly DataList</PatternflyTitle>
+
+<PatternflyPanel>
+    <Header><PatternflyTitle HeadingLevel="2">A normal list (unpaginated)</PatternflyTitle></Header>
+    <Body>
+        <PatternflyDataList Items="this.Items">
+            <ItemTemplate>
+                <div class="pf-c-data-list__item-row">
+                    <div class="pf-c-data-list__item-content">
+                        <div class="pf-c-data-list__cell">
+                            @context.Flower
+                        </div>
+                        <div class="pf-c-data-list__cell">
+                            @context.Color
+                        </div>
+                        <div class="pf-c-data-list__cell">
+                            @context.Height
+                        </div>
+                    </div>
+                </div>
+            </ItemTemplate>
+        </PatternflyDataList>
+    </Body>
+</PatternflyPanel>
+
+<PatternflyPanel>
+    <Header><PatternflyTitle HeadingLevel="2">A paginated list</PatternflyTitle></Header>
+    <Body>
+        <PatternflyPaginatedDataList TItemKey="Guid" TItemModel="Item" OnLoadItems="LoadItems" DefaultPageSize="2">
+            <ItemTemplate>
+                <div class="pf-c-data-list__item-row">
+                    <div class="pf-c-data-list__item-content">
+                        <div class="pf-c-data-list__cell">
+                            @context.Flower
+                        </div>
+                        <div class="pf-c-data-list__cell">
+                            @context.Color
+                        </div>
+                        <div class="pf-c-data-list__cell">
+                            @context.Height
+                        </div>
+                    </div>
+                </div>
+            </ItemTemplate>
+        </PatternflyPaginatedDataList>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-datalist.md"></Markdown>
+
+@code {
+    public class Item
+    {
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public string Flower { get; set; }
+        public string Height { get; set; }
+        public string Color { get; set; }
+    }
+
+    public Item[] Items { get; } = new Item[]
+    {
+        new Item { Flower="Daisy", Height = "30 centimeters", Color = "Yellow" },
+        new Item { Flower="Correa", Height = "60 centimeters", Color = "Red/Green" },
+        new Item { Flower="Sunflower", Height = "1 meter", Color = "Yellow" },
+        new Item { Flower="Protea", Height = "3 meters", Color = "Red/Green" }
+    };
+
+    public Task<DataPageLoadResult<Item>> LoadItems(DataPageLoadArgs<Guid> args)
+    {
+        var items = Items.Skip(args.Page * args.PageSize).Take(args.PageSize);
+
+        return Task.FromResult(new DataPageLoadResult<Item>()
+            {
+                Page = args.Page,
+                PageSize = args.PageSize,
+                Items = items,
+                TotalRecords = Items.Count()
+            });
+    }
+}

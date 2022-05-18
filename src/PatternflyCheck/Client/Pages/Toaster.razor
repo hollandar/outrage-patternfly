@@ -14,7 +14,7 @@
 @* NOTE! RootEventBus and UIEventBus classes are implemented in PatternflyCheck.Client.EventBus and registered in Program.cs *@
 
 @code {
-    [Inject] public IClientEventBus? EventBus { get; set; }
+    [Inject] public IRootEventBus? EventBus { get; set; }
 
     private Task Toast(MouseEventArgs eventArgs)
     {
