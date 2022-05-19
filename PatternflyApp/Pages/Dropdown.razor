@@ -1,0 +1,26 @@
+﻿@page "/patternfly-dropdown"
+@using Outrage.Patternfly.Components.Dropdown
+
+<PageTitle>Patternfly Dropdown</PageTitle>
+
+<PatternflyTitle>Patternfly Dropdown</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyDropdown Text="Actions">
+            <PatternflyDropdownButton>Link</PatternflyDropdownButton>
+            <PatternflyDropdownButton>Action</PatternflyDropdownButton>
+            <PatternflyDropdownButton Disabled="true">Disabled link</PatternflyDropdownButton>
+            <PatternflyDropdownButton Disabled="true">Disabled action</PatternflyDropdownButton>
+            <PatternflyDropdownDivider />
+            <PatternflyDropdownButton>Separated link</PatternflyDropdownButton>
+            <PatternflyDropdownButton>Separated action</PatternflyDropdownButton>
+        </PatternflyDropdown>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-dropdown.md"></Markdown>
+
+@code {
+
+}

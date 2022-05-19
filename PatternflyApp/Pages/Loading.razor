@@ -1,0 +1,34 @@
+﻿@page "/patternfly-loading"
+@using Outrage.Patternfly.Components.Loading
+
+<PageTitle>Patternfly Loading</PageTitle>
+
+<PatternflyTitle>Patternfly Loading</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+    <PatternflyLoading @ref="patternflyLoading" Message="Still loading...  Forever?">
+    	<p>I'm visible once loading is complete</p>
+    </PatternflyLoading>
+
+    <PatternflyButton Color="ButtonColor.Tertiary" Clicked="ToggleComplete">Toggle complete</PatternflyButton>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-loading.md"></Markdown>
+
+@code {
+    PatternflyLoading patternflyLoading = default!;
+
+    async Task ToggleComplete()
+    {
+        if (patternflyLoading.Complete)
+        {
+            await patternflyLoading.SetLoading();
+        }
+        else
+        {
+            await patternflyLoading.SetComplete();
+        }
+    }
+}

@@ -1,0 +1,27 @@
+﻿@page "/patternfly-menu"
+@using Outrage.Patternfly.Components.Menu
+
+<PageTitle>Patternfly Menu</PageTitle>
+
+<PatternflyTitle>Patternfly Menu</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyMenu>
+            <PatternflyMenuItem Text="Action 1"></PatternflyMenuItem>
+            <PatternflyMenuItem Text="Action 2"></PatternflyMenuItem>
+            <PatternflyMenuDivider />
+            <PatternflyMenuItem Text="Action 3">
+                <Actions>
+                    <PatternflyMenuAction Icon="bell"></PatternflyMenuAction>
+                </Actions>
+            </PatternflyMenuItem>
+        </PatternflyMenu>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-menu.md"></Markdown>
+
+@code {
+
+}

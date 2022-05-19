@@ -1,0 +1,28 @@
+﻿@page "/patternfly-duallistselector"
+@using Outrage.Patternfly.Components.DualListSelector
+
+<PageTitle>Patternfly Dual List Selector</PageTitle>
+
+<PatternflyTitle>Patternfly Dual List Selector</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyDualListSelector TKey="int" Items="Items"></PatternflyDualListSelector>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-duallistselector.md"></Markdown>
+
+@code {
+    public IEnumerable<DualListItem<int>> Items { get; } = new DualListItem<int>[]
+        {
+        new (1, "one", 10),
+        new (2, "two"),
+        new (3, "three", 30, true),
+        new (4, "four"),
+        new (5, "five"),
+        new (6, "six"),
+        new (7, "seven"),
+        new (8, "eight"),
+        };
+}

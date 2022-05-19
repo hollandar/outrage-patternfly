@@ -45,6 +45,11 @@
         await this.InvokeAsync(StateHasChanged);
     }
 
+    public async Task InvokeStateHasChanged()
+    {
+        await this.InvokeAsync(StateHasChanged);
+    }
+
     protected override IEnumerable<string> OnIntroduceClasses()
     {
         var classes = new HashSet<string>(new string[] { "pf-c-menu" });

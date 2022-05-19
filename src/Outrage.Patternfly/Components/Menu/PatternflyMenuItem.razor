@@ -13,7 +13,7 @@
             <span class="pf-c-menu__item-text">
                 @Text
             </span>
-            @if (ChildContent != null)
+            @if (Menus != null)
             {
                 <span class="pf-c-menu__item-toggle-icon">
                     <i class="fas fa-angle-right"></i>
@@ -25,9 +25,15 @@
             <span class="pf-c-menu__item-description">@Description</span>
         }
     </button>
-    @if (Expanded)
+    @if (Actions != null)
     {
-        @ChildContent
+        @Actions
+    }
+    @if (Menus != null)
+    {
+        <CascadingValue Name="MenuParentItem" Value="this">
+            @Menus
+        </CascadingValue>
     }
 </li>
 
@@ -45,7 +51,9 @@
     public bool Expanded { get; set; } = false;
 
     [Parameter]
-    public RenderFragment? ChildContent { get; set; }
+    public RenderFragment? Actions { get; set; }
+    [Parameter]
+    public RenderFragment? Menus { get; set; }
 
     [Parameter]
     public EventCallback<MouseEventArgs> Clicked { get; set; }
@@ -61,10 +69,11 @@
 
     async Task OnClicked(MouseEventArgs e)
     {
-        if (this.ChildContent == null)
+        if (this.Menus == null)
         {
             await this.Clicked.InvokeAsync(e);
-        } else
+        }
+        else
         {
             if (this.Menu != null)
                 await this.Menu.ResetExpanded();
@@ -73,8 +82,11 @@
         }
     }
 
-    public void ResetExpanded()
+    public async Task ResetExpanded()
     {
         this.Expanded = false;
+        await this.InvokeAsync(StateHasChanged);
+        if (this.Menu != null)
+            await this.Menu.InvokeStateHasChanged();
     }
 }

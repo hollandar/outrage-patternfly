@@ -1,0 +1,38 @@
+﻿@inherits Base.PatternflyComponentBase
+@using Outrage.Patternfly.Components.Utilities;
+<button class="@Classes"
+        type="button"
+        aria-label="Actions"
+        @onclick="OnClicked" 
+        @onclick:stopPropagation>
+    <span class="pf-c-menu__item-action-icon">
+        <Icon Name="@Icon" Weight="@IconWeight" Size="@IconSize" Library="@IconLibrary" />
+    </span>
+</button>
+
+@code {
+    [Parameter, EditorRequired]
+    public string? Icon { get; set; }
+
+    [Parameter]
+    public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.solid;
+
+    [Parameter]
+    public Icon.SizeEnum IconSize { get; set; } = Utilities.Icon.SizeEnum.sm;
+
+    [Parameter]
+    public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        return new string[] { "pf-c-menu__item-action" };
+    }
+
+    protected async Task OnClicked(MouseEventArgs args)
+    {
+        await Clicked.InvokeAsync(args);
+    }
+}

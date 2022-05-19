@@ -40,7 +40,7 @@
         return classes;
     }
 
-    protected async Task ToggleExpanded()
+    public async Task ToggleExpanded()
     {
         this.Expanded = !this.Expanded;
         await this.InvokeAsync(this.StateHasChanged);

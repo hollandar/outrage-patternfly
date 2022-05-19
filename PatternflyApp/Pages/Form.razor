@@ -1,0 +1,52 @@
+﻿@page "/patternfly-form"
+@using Outrage.Patternfly.Components.Form
+@using Outrage.Patternfly.Components.Actions
+@using System.ComponentModel.DataAnnotations
+
+<PageTitle>Patternfly Form</PageTitle>
+
+<PatternflyTitle>Patternfly Form</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyEditForm Model="formModel" OnValidSubmit="SubmitForm">
+            <DataAnnotationsValidator />
+            <PatternflyFieldGroup Label="Name">
+                <Help>Your name</Help>
+                <Editors>
+                    <PatternflyInputText @bind-Value="formModel.Name"/>
+                    <ValidationMessage For="() => formModel.Name"/>
+                </Editors>
+            </PatternflyFieldGroup>
+            <PatternflyFieldGroup Label="Age">
+                <Help>Your age</Help>
+                <Editors>
+                    <PatternflyInputNumber @bind-Value="formModel.Age"/>
+                    <ValidationMessage For="() => formModel.Age"/>
+                </Editors>
+            </PatternflyFieldGroup>
+            <PatternflyActionGroup>
+                <PatternflyButton Type="submit">Save</PatternflyButton>
+            </PatternflyActionGroup>
+        </PatternflyEditForm>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-form.md"></Markdown>
+
+@code {
+    class FormModel
+    {
+        [Required]
+        public string Name { get; set; } = string.Empty;
+        public int Age { get; set; } = 35;
+    }
+
+    FormModel formModel = new();
+
+    Task SubmitForm(EditContext exitContext)
+    {
+        Console.WriteLine("Form submitted.");
+        return Task.CompletedTask;
+    }
+}

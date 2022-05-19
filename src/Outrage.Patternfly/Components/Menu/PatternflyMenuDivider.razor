@@ -1,0 +1,8 @@
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+<hr class="@Classes" @attributes="AdditionalAttributes" />
+@code {
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        return new string[] { "pf-c-divider" };
+    }
+}

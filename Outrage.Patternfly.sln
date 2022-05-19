@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outrage.Patternfly", "src\O
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{5259B262-16ED-4CF6-A79E-E8B83DD91AD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatternflyApp", "PatternflyApp\PatternflyApp.csproj", "{14BD98B3-F4B4-4927-8229-0E3F4E216AEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternflyApp", "PatternflyApp\PatternflyApp.csproj", "{14BD98B3-F4B4-4927-8229-0E3F4E216AEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
