@@ -7,7 +7,7 @@
 
 <PatternflyPanel>
     <Body>
-        <PatternflyMenu>
+        <PatternflyMenu MenuStyle="MenuStyle.DrillDown">
             <PatternflyMenuItem Text="Action 1"></PatternflyMenuItem>
             <PatternflyMenuItem Text="Action 2"></PatternflyMenuItem>
             <PatternflyMenuDivider />
@@ -15,6 +15,15 @@
                 <Actions>
                     <PatternflyMenuAction Icon="bell"></PatternflyMenuAction>
                 </Actions>
+            </PatternflyMenuItem>
+            <PatternflyMenuItem Text="Submenu">
+                <Menus>
+                    <PatternflyMenu>
+                        <PatternflyMenuBack></PatternflyMenuBack>
+                        <PatternflyMenuDivider></PatternflyMenuDivider>
+                        <PatternflyMenuItem Text="Do something"></PatternflyMenuItem>
+                    </PatternflyMenu>
+                </Menus>
             </PatternflyMenuItem>
         </PatternflyMenu>
     </Body>

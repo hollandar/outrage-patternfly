@@ -14,25 +14,26 @@
                    placeholder="@Placeholder"
                    @bind-value="this.Text" @bind-value:event="oninput" />
         </div>
-        @if (ItemCreated.HasDelegate && !String.IsNullOrEmpty(this.text))
+        @if (OnItemCreated.HasDelegate && !String.IsNullOrEmpty(this.text))
         {
             <button class="pf-c-button pf-m-plain pf-c-select__toggle-clear"
                 type="button"
                 aria-label="Clear all"
                 @onclick="CreateItem">
-                <Icon Name="check" />
+                <Icon Name="@CheckIcon" Size="@IconSize" Weight="@IconWeight" Library="@IconLibrary" />
             </button>
         }
-        @if (Expanded)
+
+        @if (!String.IsNullOrEmpty(this.text))
         {
-            
             <button class="pf-c-button pf-m-plain pf-c-select__toggle-clear"
                 type="button"
                 aria-label="Clear all"
                 @onclick="ClearSearch">
-                <Icon Name="@ClearIcon" />
+                <Icon Name="@ClearIcon" Size="@IconSize" Weight="@IconWeight" Library="@IconLibrary" />
             </button>
         }
+
         <button class="pf-c-button pf-m-plain pf-c-select__toggle-button"
                 type="button"
                 id="@id.With("select-single-typeahead-expanded-toggle")"
@@ -41,7 +42,7 @@
                 aria-labelledby="@id.With("select-single-typeahead-expanded-label") @id.With("select-single-typeahead-expanded-toggle")"
                 aria-label="Select"
                 @onclick="ToggleExpanded">
-            <Icon Name="@CaretIcon" class="pf-c-select__toggle-arrow" />
+            <Icon Name="@CaretIcon" class="pf-c-select__toggle-arrow" Size="@IconSize" Weight="@IconWeight" Library="@IconLibrary" />
         </button>
     </div>
 
@@ -49,20 +50,23 @@
         aria-labelledby="@id.With("select-single-typeahead-expanded-label")"
         role="listbox"
         hidden="@(!Expanded)">
-        @foreach (var item in Items)
+        @foreach (var item in MatchedItems)
         {
             var value = item?.ToString();
             if (value != null)
             {
-                var mark = value.Substring(0, this.text.Length);
-                var notmark = value.Substring(this.text.Length);
+                var mark = value.Substring(0, Math.Min(this.text.Length, value.Length));
+                var notmark = value.Substring(Math.Min(value.Length, this.text.Length));
                 <li role="presentation" @key="item">
                     <button class="pf-c-select__menu-item" role="option" @onclick="() => SelectItem(item)">
                         <mark class="pf-c-select__menu-item--match">@mark</mark>@notmark
 
-                        <span class="pf-c-select__menu-item-icon">
-                            <i class="fas fa-check" aria-hidden="true"></i>
-                        </span>
+                        @if (item.Selected)
+                        {
+                            <span class="pf-c-select__menu-item-icon">
+                                <Icon Name="@CheckIcon" Size="@IconSize" Weight="@IconWeight" Library="@IconLibrary" />
+                            </span>
+                        }
 
                     </button>
                 </li>
@@ -72,7 +76,9 @@
 </div>
 
 @code {
+
     string text = "";
+    IEnumerable<TypeaheadItem<TItem>> MatchedItems { get; set; } = Enumerable.Empty<TypeaheadItem<TItem>>();
 
     [Parameter]
     public string Text
@@ -87,12 +93,19 @@
 
     [Parameter] public bool Expanded { get; set; } = false;
     [Parameter] public string Placeholder { get; set; } = "New";
-    [Parameter] public IEnumerable<TItem> Items { get; set; } = Enumerable.Empty<TItem>();
-    [Parameter] public IEnumerable<TItem> MatchedItems { get; set; } = Enumerable.Empty<TItem>();
-    [Parameter] public EventCallback<TItem> ItemSelected { get; set; }
-    [Parameter] public EventCallback<string> ItemCreated { get; set; }
+    [Parameter] public IEnumerable<TypeaheadItem<TItem>> Items { get; set; } = Enumerable.Empty<TypeaheadItem<TItem>>();
+    [Parameter] public EventCallback<TypeaheadItem<TItem>> OnItemSelected { get; set; }
+    [Parameter] public EventCallback<TypeaheadItem<TItem>> OnItemCleared { get; set; }
+    [Parameter] public EventCallback<string> OnItemCreated { get; set; }
+    [Parameter] public string CheckIcon { get; set; } = "check";
     [Parameter] public string ClearIcon { get; set; } = "times-circle";
     [Parameter] public string CaretIcon { get; set; } = "caret-down";
+    [Parameter] public Icon.SizeEnum IconSize { get; set; } = Icon.SizeEnum.regular;
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Icon.LibraryEnum.fontawesome;
+    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Icon.WeightEnum.solid;
+
+    public IEnumerable<TypeaheadItem<TItem>> SelectedItems => Items.Where(r => r.Selected);
+
     public HtmlId id = new();
 
     protected override IEnumerable<string> OnIntroduceClasses()
@@ -106,36 +119,56 @@
         return classes;
     }
 
-    public void ClearSearch()
+    public async void ClearSearch()
     {
+        await OnItemCleared.InvokeAsync();
+        this.ClearSelections();
         this.text = String.Empty;
         this.Expanded = false;
         this.StateHasChanged();
     }
 
-    public void ToggleExpanded()
+    public Task ToggleExpanded()
     {
         this.Expanded = !this.Expanded;
+        if (this.Expanded)
+            this.SearchItem();
+
+        return Task.CompletedTask;
     }
 
     public void SearchItem()
     {
-        this.MatchedItems = this.Items.Where(r => (r?.ToString() ?? "").StartsWith(this.text, StringComparison.CurrentCultureIgnoreCase));
+        this.MatchedItems = this.Items;
+        if (!String.IsNullOrEmpty(this.text))
+            this.MatchedItems = this.Items.Where(r => (r?.ToString() ?? "").StartsWith(this.text, StringComparison.CurrentCultureIgnoreCase));
+
         if (this.MatchedItems.Any())
             this.Expanded = true;
+
         this.StateHasChanged();
     }
 
-    public async Task SelectItem(TItem item)
+    protected void ClearSelections()
     {
-        await this.ItemSelected.InvokeAsync(item);
-        this.Text = "";
+        foreach (var resetItem in this.Items)
+        {
+            resetItem.Selected = false;
+        }
+    }
+
+    protected async Task SelectItem(TypeaheadItem<TItem> item)
+    {
+        this.ClearSelections();
+        await this.OnItemSelected.InvokeAsync(item);
+        item.Selected = true;
+        this.Text = item.ToString();
         this.Expanded = false;
     }
 
     public async Task CreateItem()
     {
-        await this.ItemCreated.InvokeAsync(this.text);
+        await this.OnItemCreated.InvokeAsync(this.text);
         this.Text = "";
         this.Expanded = false;
     }

@@ -1,0 +1,31 @@
+﻿@page "/patternfly-progress"
+@using Outrage.Patternfly.Components.Progress
+@using Outrage.Patternfly.Components.Actions
+
+<PageTitle>Patternfly Progress</PageTitle>
+
+<PatternflyTitle>Patternfly Progress</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyProgress ValueMin="0" ValueMax="100" Value="0" Description="No progress"/>
+        <PatternflyProgress ValueMin="0" ValueMax="100" Value="50" Description="50%"/>
+        <PatternflyProgress ValueMin="50" ValueMax="150" Value="100" Description="50%"/>
+        <PatternflyProgress ValueMin="0" ValueMax="100" Value="100" Description="100%"/>
+
+        <PatternflyProgress @ref="progress" ValueMin="0" ValueMax="100" Value="0" Description="100%"/>
+        <PatternflyActionList>
+            <PatternflyAction Clicked="() => progress.SetProgress(0)">0</PatternflyAction>
+            <PatternflyAction Clicked="() => progress.SetProgress(50)">50</PatternflyAction>
+            <PatternflyAction Clicked="() => progress.SetProgress(100)">100</PatternflyAction>
+            <PatternflyAction Clicked="() => progress.MarkComplete()">Complete</PatternflyAction>
+        </PatternflyActionList>
+
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-progress.md"></Markdown>
+
+@code {
+    PatternflyProgress? progress = default!;
+}

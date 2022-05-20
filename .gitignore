@@ -7,3 +7,5 @@ src/Outrage.Patternfly/wwwroot/js/
 .nuke/
 output/
 src/styles/
+# Local Netlify folder
+.netlify

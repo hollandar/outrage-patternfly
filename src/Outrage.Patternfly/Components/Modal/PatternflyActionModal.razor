@@ -23,7 +23,7 @@
             @if (Confirmation != ConfirmationEnum.custom)
             {
                 <PatternflyStackItem>
-                    @if (Confirmation == ConfirmationEnum.ok || Confirmation == ConfirmationEnum.okcancel)
+                    @if (Confirmation == ConfirmationEnum.ok || Confirmation == ConfirmationEnum.okcancel || Confirmation == ConfirmationEnum.custom)
                     {
                         <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Ok")</PatternflyButton>
                     }
@@ -31,7 +31,7 @@
                     {
                         <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Close")</PatternflyButton>
                     }
-                    @if (Confirmation == ConfirmationEnum.okcancel)
+                    @if (Confirmation == ConfirmationEnum.okcancel || Confirmation == ConfirmationEnum.custom)
                     {
                         <PatternflyButton Color="ButtonColor.Link" Clicked="DoDecline">@(DeclineText ?? "Cancel")</PatternflyButton>
                     }
@@ -39,7 +39,7 @@
                     {
                         <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Yes")</PatternflyButton>
                         <PatternflyButton Color="ButtonColor.Link" Clicked="DoDecline">@(DeclineText ?? "No")</PatternflyButton>
-                    }
+                    } 
                 </PatternflyStackItem>
             }
             else

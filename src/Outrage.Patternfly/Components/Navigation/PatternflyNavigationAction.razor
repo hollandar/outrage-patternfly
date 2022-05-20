@@ -2,20 +2,22 @@
 
 @inherits Patternfly.Components.Base.PatternflyComponentBase
 
-<a class="@Classes" href="javascript:void(0)" @attributes="AdditionalAttributes" @onclick="ItemClicked">
-    @if (Icon != null)
-    {
-        <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" class="fa-fw pf-u-mr-sm" aria-hidden="true" />
-    }
-    @if (Text != null)
-    {
-        @Text
-    }
-    @if (ChildContent != null)
-    {
-        @ChildContent
-    }
-</a>
+<PatternflyNavigationItem>
+    <a class="@Classes" href="javascript:void(0)" @attributes="AdditionalAttributes" @onclick="ItemClicked">
+        @if (Icon != null)
+        {
+            <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" class="fa-fw pf-u-mr-sm" aria-hidden="true" />
+        }
+        @if (Text != null)
+        {
+            @Text
+        }
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+    </a>
+</PatternflyNavigationItem>
 
 @code {
     [Parameter] public string? Icon { get; set; } = null;
@@ -24,12 +26,12 @@
     [Parameter] public string? Text { get; set; } = null;
     [Parameter] public RenderFragment? ChildContent { get; set; } = null;
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
-    [Parameter] public bool Active { get; set; } = false; 
+    [Parameter] public bool Active { get; set; } = false;
 
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>( new string[] { "pf-c-nav__link" });
+        var classes = new HashSet<string>(new string[] { "pf-c-nav__link" });
 
         if (Active) classes.Add("pf-m-current");
 

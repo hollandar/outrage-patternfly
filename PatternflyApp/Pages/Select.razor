@@ -1,0 +1,39 @@
+﻿@page "/patternfly-select"
+@using Outrage.Patternfly.Components.Select
+
+<PageTitle>Patternfly Select</PageTitle>
+
+<PatternflyTitle>Patternfly Select</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyTitle HeadingLevel="2">Select</PatternflyTitle>
+        <PatternflySelect TKey="int" TValue="string" Options="values" Text="Select a number" />
+
+        <PatternflyTitle HeadingLevel="2">Select with typeahead</PatternflyTitle>
+        <PatternflySelectTypeahead TItem="string" Items="typeaheads" Placeholder="Select a country" />
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-select.md"></Markdown>
+
+@code {
+    IEnumerable<KeyValuePair<int, string>> values = new KeyValuePair<int, string>[]
+        {
+        new KeyValuePair<int, string>(1, "One"),
+        new KeyValuePair<int, string>(2, "Two"),
+        new KeyValuePair<int, string>(3, "Thre"),
+        new KeyValuePair<int, string>(4, "Four"),
+
+        };
+
+    IEnumerable<TypeaheadItem<string>> typeaheads = new TypeaheadItem<string>[]
+    {
+        new ("Switzerland"),
+        new ("Norway"),
+        new ("Italy"),
+        new ("Germany"),
+        new ("Belgium"),
+        new ("France")
+    };
+}

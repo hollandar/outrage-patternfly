@@ -1,4 +1,5 @@
 ﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+@using Outrage.Patternfly.Components.Utilities
 
 <li class="pf-c-menu__list-item @(Expanded && this.Menu?.MenuStyle == MenuStyle.DrillDown? "pf-m-current-path":"") @Classes" @attributes="AdditionalAttributes">
     <button class="pf-c-menu__item" type="button" @onclick="OnClicked">
@@ -7,6 +8,7 @@
             {
                 <span class="pf-c-menu__item-icon">
                     <i class="@Icon" aria-hidden="true"></i>
+                    <Icon Name="@Icon" Size="@IconSize" Weight="@IconWeight" Library="@IconLibrary" />
                     &nbsp;
                 </span>
             }
@@ -16,7 +18,7 @@
             @if (Menus != null)
             {
                 <span class="pf-c-menu__item-toggle-icon">
-                    <i class="fas fa-angle-right"></i>
+                    <Icon Name="@IconCaret" Size="@IconSize" Weight="@IconWeight" Library="@IconLibrary" />
                 </span>
             }
         </span>
@@ -43,6 +45,18 @@
 
     [Parameter]
     public string? Icon { get; set; }
+
+    [Parameter]
+    public string? IconCaret { get; set; } = "angle-right";
+
+    [Parameter]
+    public Icon.SizeEnum IconSize { get; set; } = Utilities.Icon.SizeEnum.regular;
+
+    [Parameter]
+    public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.solid;
+
+    [Parameter]
+    public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
 
     [Parameter]
     public string? Description { get; set; }

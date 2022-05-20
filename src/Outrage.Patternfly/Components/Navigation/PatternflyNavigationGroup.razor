@@ -1,0 +1,32 @@
+﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+
+@if (Title != null)
+{
+    <section class="@Classes" @attributes="AdditionalAttributes" aria-labelledby="@id.Value">
+        <h2 class="pf-c-nav__section-title" id="@id.Value">@Title</h2>
+        <ul class="pf-c-nav__list">
+            @ChildContent
+        </ul>
+    </section>
+}
+else
+{
+    <ul class="pf-c-nav__list">
+        @ChildContent
+    </ul>
+}
+
+@code {
+    HtmlId id = new();
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-c-nav__section" });
+
+        if (Title == null)
+            classes.Add("pg-m-no-title");
+        return classes;
+    }
+}

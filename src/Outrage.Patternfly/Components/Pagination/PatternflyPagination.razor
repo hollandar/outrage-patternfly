@@ -145,7 +145,7 @@
 
     [Parameter] public int PageSize { get; set; } = 5;
 
-    [Parameter] public int TotalRecords { get; set; }
+    [Parameter, EditorRequired] public int TotalRecords { get; set; }
 
     [Parameter] public EventCallback<int> PageSizeSelected { get; set; }
 
@@ -155,7 +155,7 @@
 
     [Parameter] public bool Compact { get; set; }
 
-    [Parameter] public PaginationPosition Position { get; set; }
+    [Parameter] public PaginationPosition Position { get; set; } = PaginationPosition.Top;
 
     private int pageCount = 0;
 

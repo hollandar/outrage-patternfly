@@ -1,4 +1,5 @@
 ﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+@using Outrage.Patternfly.Components.Utilities
 
 <li class="@Classes" @attributes="AdditionalAttributes">
     <button class="pf-c-nav__link"
@@ -7,7 +8,7 @@
             @onclick="ToggleExpanded">
         @if (Icon != null)
         {
-            <span class="@Icon"></span>
+            <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight"/>
         }
         @if (Text != null)
         {
@@ -15,7 +16,13 @@
         }
         <span class="pf-c-nav__toggle">
             <span class="pf-c-nav__toggle-icon">
-                <i class="fas @(Expanded?"fa-angle-down":"fa-angle-right")" aria-hidden="true"></i>
+                @if (Expanded)
+                {
+                    <Icon Name="@IconExpanded" Library="@IconLibrary" Weight="@IconWeight"/>
+                } else
+                {
+                    <Icon Name="@IconCollapsed" Library="@IconLibrary" Weight="@IconWeight"/>
+                }
             </span>
         </span>
     </button>
@@ -32,9 +39,13 @@
     HtmlId controlsId = new();
     [Parameter] public string? Text { get; set; } = null;
     [Parameter] public string? Icon { get; set; } = null;
+    [Parameter] public string? IconExpanded { get; set; } = "fa-angle-down";
+    [Parameter] public string? IconCollapsed { get; set; } = "fa-angle-right";
+    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.solid;
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
     [Parameter] public RenderFragment? ChildContent { get; set; } = null;
     [Parameter] public bool Expanded { get; set; } = false;
-    [Parameter] public EventCallback OnExpanded { get; set; }
+    [Parameter] public EventCallback<bool> OnExpanded { get; set; }
 
     protected override void OnInitialized()
     {
@@ -47,7 +58,7 @@
         this.Expanded = !this.Expanded;
         if (this.Expanded)
         {
-            await OnExpanded.InvokeAsync();
+            await OnExpanded.InvokeAsync(Expanded);
         }
         await this.InvokeAsync(this.StateHasChanged);
     }

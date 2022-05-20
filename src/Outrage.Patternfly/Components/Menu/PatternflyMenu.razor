@@ -1,8 +1,10 @@
 ﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 
 <CascadingValue Name="Menu" Value="this">
     <div class="@Classes" @attributes="AdditionalAttributes">
-        <div class="pf-c-menu__content">
+        <div @ref="menuContentReference" class="pf-c-menu__content">
             <ul class="pf-c-menu__list">
                 @ChildContent
             </ul>
@@ -11,6 +13,8 @@
 </CascadingValue>
 
 @code {
+    IJSObjectReference module;
+    ElementReference menuContentReference;
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -18,7 +22,19 @@
     public bool Scrollable { get; set; } = false;
 
     [Parameter]
+    public int? MaxHeightPx { get; set; } = null;
+
+    [Parameter]
     public MenuStyle MenuStyle { get; set; } = MenuStyle.Normal;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Outrage.Patternfly/scripts/components/menu/PatternflyMenu.js");
+
+        await base.OnAfterRenderAsync(firstRender);
+
+        await module.InvokeVoidAsync("PatternflyMenu.resizeMenuContent", menuContentReference);
+    }
 
     public bool IsDrilledIn
     {
@@ -39,7 +55,7 @@
     {
         foreach (var item in items)
         {
-            item.ResetExpanded();
+            await item.ResetExpanded();
         }
 
         await this.InvokeAsync(StateHasChanged);
@@ -56,7 +72,7 @@
         if (!string.IsNullOrEmpty(Class))
             classes.Add(Class);
         if (Scrollable)
-            classes.Add("pf-c-menu");
+            classes.Add("pf-m-scrollable");
         if (MenuStyle == MenuStyle.Flyout)
             classes.Add("pf-m-flyout");
         if (MenuStyle == MenuStyle.DrillDown)
@@ -69,4 +85,17 @@
         return classes;
     }
 
+    public override Dictionary<string, object> DeriveAdditionalAttributes(Dictionary<string, object> additionalAttributes)
+    {
+        if (Scrollable && MaxHeightPx != null)
+            additionalAttributes["style"] = $"--pf-c-menu__content--MaxHeight: {MaxHeightPx}px;";
+
+        return base.DeriveAdditionalAttributes(additionalAttributes);
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module != null)
+            await module.DisposeAsync();
+    }
 }

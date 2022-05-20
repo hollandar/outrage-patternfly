@@ -6,7 +6,7 @@
     id="@progressId.With("description")"
   >@Description</div>
   <div class="pf-c-progress__status" aria-hidden="true">
-    <span class="pf-c-progress__measure">@(Progress.ToString("P"))</span>
+    <span class="pf-c-progress__measure">@(Progress.ToString("##0.%"))</span>
   </div>
   <div
     class="pf-c-progress__bar"
