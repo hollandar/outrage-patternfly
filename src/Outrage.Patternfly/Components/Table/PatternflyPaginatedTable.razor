@@ -107,7 +107,7 @@
         }
     }
 
-    protected async Task SelectPage(int page)
+    public async Task SelectPage(int page)
     {
         if (pageModel != null && OnLoadItems != null)
         {
@@ -120,7 +120,7 @@
         }
     }
 
-    protected async Task SelectPageSize(int pageSize)
+    public async Task SelectPageSize(int pageSize)
     {
         if (pageModel != null && OnLoadItems != null)
         {

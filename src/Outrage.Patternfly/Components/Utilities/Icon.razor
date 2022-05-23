@@ -36,6 +36,11 @@
                         <i @attributes="AdditionalExceptClass" class="fad fa-@Name @PassedClass @size"></i>
                         break;
                     }
+                case WeightEnum.brand:
+                    {
+                        <i @attributes="AdditionalExceptClass" class="fab fa-@Name @PassedClass @size"></i>
+                        break;
+                    }
             }
             break;
         }
@@ -46,7 +51,7 @@
     [Parameter]
     public LibraryEnum Library { get; set; } = LibraryEnum.fontawesome;
 
-    public enum WeightEnum { light, regular, solid, duotone }
+    public enum WeightEnum { light, regular, solid, duotone, brand }
 
     [Parameter]
     public WeightEnum Weight { get; set; } = WeightEnum.solid;

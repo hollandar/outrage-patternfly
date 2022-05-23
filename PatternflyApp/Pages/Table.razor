@@ -1,0 +1,102 @@
+﻿@page "/patternfly-table"
+@using Outrage.Patternfly.Components.Table
+@using Outrage.Patternfly.Models
+
+<PageTitle>Patternfly Table</PageTitle>
+
+<PatternflyTitle>Patternfly Table</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyTitle HeadingLevel="2">Table</PatternflyTitle>
+        <PatternflyTable TItemKey="Guid" TItem="Item" Items="Items">
+            <Columns>
+                <TableColumn style="width:25%">Id</TableColumn>
+                <TableColumn style="width:25%">Flower</TableColumn>
+                <TableColumn style="width:25%">Height</TableColumn>
+                <TableColumn>Color</TableColumn>
+            </Columns>
+            <RowTemplate>
+                <TableCell>@context.Id</TableCell>
+                <TableCell>@context.Flower</TableCell>
+                <TableCell>@context.Height</TableCell>
+                <TableCell>@context.Color</TableCell>
+            </RowTemplate>
+        </PatternflyTable>
+
+        <PatternflyTitle HeadingLevel="2">List Table</PatternflyTitle>
+        <PatternflyListTable>
+            <Columns>
+                <TableColumn style="width:33%">Make</TableColumn>
+                <TableColumn style="width:33%">Model</TableColumn>
+                <TableColumn>Color</TableColumn>
+            </Columns>
+            <Rows>
+                <TableRow>
+                    <TableCell>Toyota</TableCell>
+                    <TableCell>FJ Cruiser</TableCell>
+                    <TableCell>Red</TableCell>
+                </TableRow>
+                <TableRow>
+                    <TableCell>Nissan</TableCell>
+                    <TableCell>Leaf</TableCell>
+                    <TableCell>Blue</TableCell>
+                </TableRow>
+                <TableRow>
+                    <TableCell>Mazda</TableCell>
+                    <TableCell>6</TableCell>
+                    <TableCell>Black</TableCell>
+                </TableRow>
+            </Rows>
+        </PatternflyListTable>
+
+        <PatternflyTitle HeadingLevel="2">Paginated Table</PatternflyTitle>
+        <PatternflyPaginatedTable TItemKey="Guid" TItem="Item" OnLoadItems="LoadItems" DefaultPageSize="2">
+            <Columns>
+                <TableColumn style="width:25%">Id</TableColumn>
+                <TableColumn style="width:25%">Flower</TableColumn>
+                <TableColumn style="width:25%">Height</TableColumn>
+                <TableColumn>Color</TableColumn>
+            </Columns>
+            <RowTemplate>
+                <TableCell>@context.Id</TableCell>
+                <TableCell>@context.Flower</TableCell>
+                <TableCell>@context.Height</TableCell>
+                <TableCell>@context.Color</TableCell>
+            </RowTemplate>
+        </PatternflyPaginatedTable>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-table.md"></Markdown>
+
+@code {
+    public class Item
+    {
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public string Flower { get; set; }
+        public string Height { get; set; }
+        public string Color { get; set; }
+    }
+
+    public Item[] Items { get; } = new Item[]
+    {
+        new Item { Flower="Daisy", Height = "30 centimeters", Color = "Yellow" },
+        new Item { Flower="Correa", Height = "60 centimeters", Color = "Red/Green" },
+        new Item { Flower="Sunflower", Height = "1 meter", Color = "Yellow" },
+        new Item { Flower="Protea", Height = "3 meters", Color = "Red/Green" }
+    };
+
+    public Task<DataPageLoadResult<Item>> LoadItems(DataPageLoadArgs<Guid> args)
+    {
+        var items = Items.Skip(args.Page * args.PageSize).Take(args.PageSize);
+
+        return Task.FromResult(new DataPageLoadResult<Item>()
+            {
+                Page = args.Page,
+                PageSize = args.PageSize,
+                Items = items,
+                TotalRecords = Items.Count()
+            });
+    }
+}

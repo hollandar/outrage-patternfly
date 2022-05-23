@@ -1,4 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@using Outrage.Patternfly.Components.Toaster
+@using static Outrage.Patternfly.Components.Utilities.Icon
+@inherits LayoutComponentBase
+
+<PatternflyToaster></PatternflyToaster>
 
 <PatternflyPage FillMainContent="true">
     <Toggle>
@@ -57,7 +61,17 @@
                 <PatternflyNavigationLink Href="patternfly-panel" Icon="square-full">Panel</PatternflyNavigationLink>
                 <PatternflyNavigationLink Href="patternfly-progress" Icon="percent">Progress</PatternflyNavigationLink>
                 <PatternflyNavigationLink Href="patternfly-select" Icon="check">Select</PatternflyNavigationLink>
+                <PatternflyNavigationLink Href="patternfly-spinner" Icon="circle-notch">Spinner</PatternflyNavigationLink>
+                <PatternflyNavigationLink Href="patternfly-table" Icon="table">Table</PatternflyNavigationLink>
+                <PatternflyNavigationLink Href="patternfly-tabs" Icon="folder">Tabs</PatternflyNavigationLink>
+                <PatternflyNavigationLink Href="patternfly-title" Icon="heading">Title</PatternflyNavigationLink>
+                <PatternflyNavigationLink Href="patternfly-toaster" Icon="bread-slice">Toaster</PatternflyNavigationLink>
+                <PatternflyNavigationLink Href="patternfly-togglegroup" Icon="dot-circle">Toggle Group</PatternflyNavigationLink>
+                <PatternflyNavigationLink Href="patternfly-toolbar" Icon="tools">Toolbar</PatternflyNavigationLink>
+                <PatternflyNavigationLink Href="patternfly-treeview" Icon="tree">Tree View</PatternflyNavigationLink>
+                <PatternflyNavigationLink Href="icon" Icon="font-awesome" IconWeight="WeightEnum.brand">Icon</PatternflyNavigationLink>
             </PatternflyNavigationGroup>
         </PatternflyNavigation>
     </Sidebar>
 </PatternflyPage>
+

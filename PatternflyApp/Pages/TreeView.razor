@@ -1,0 +1,50 @@
+﻿@page "/patternfly-treeview"
+@using Outrage.Patternfly.Components.TreeView
+
+<PageTitle>Patternfly Tree View</PageTitle>
+
+<PatternflyTitle>Patternfly Tree View</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyTreeView>
+            <PatternflyTreeItem>
+                <Text>Root</Text>
+                <Children>
+                    <PatternflyTreeItem>
+                        <Text>Leaf with Action</Text>
+                        <Action>
+                            <PatternflyButton Color="ButtonColor.Plain" Icon="cog"></PatternflyButton>
+                        </Action>
+                    </PatternflyTreeItem>
+                    <PatternflyTreeItem>
+                        <Text>Branch</Text>
+                        <Children>
+                            <PatternflyTreeItem>
+                                <Text>Leaf</Text>
+                            </PatternflyTreeItem>
+                            <PatternflyTreeItem>
+                                <Text>Leaf</Text>
+                            </PatternflyTreeItem>
+                            <PatternflyTreeItem>
+                                <Text>Leaf</Text>
+                            </PatternflyTreeItem>
+                        </Children>
+                    </PatternflyTreeItem>
+                    <PatternflyTreeItem>
+                        <Text>Leaf</Text>
+                    </PatternflyTreeItem>
+                    <PatternflyTreeItem>
+                        <Text>Leaf</Text>
+                    </PatternflyTreeItem>
+                </Children>
+            </PatternflyTreeItem>
+        </PatternflyTreeView>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-treeview.md"></Markdown>
+
+@code {
+
+}

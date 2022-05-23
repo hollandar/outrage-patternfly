@@ -16,4 +16,10 @@
     <ProjectReference Include="..\src\Outrage.Patternfly\Outrage.Patternfly.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Pages\Spinner.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
 </Project>

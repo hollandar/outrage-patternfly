@@ -1,0 +1,54 @@
+﻿@page "/patternfly-toaster"
+@using Outrage.Patternfly.Components.Actions
+@using Outrage.Patternfly.Components.Alert
+@using Outrage.Patternfly.Components.Toaster
+@using Outrage.Patternfly.Components.Form
+@using Outrage.Patternfly.Services
+@inject ToasterService Toast
+<PageTitle>Patternfly Toaster</PageTitle>
+
+<PatternflyTitle>Patternfly Toaster</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyEditForm Model="model" OnValidSubmit="RaiseToast">
+            <PatternflyFieldGroup Label="Text">
+                <Editors>
+                    <PatternflyInputText @bind-Value="model.Text"/>
+                </Editors>
+            </PatternflyFieldGroup>
+            <PatternflyFieldGroup Label="Level">
+                <Editors>
+                    <PatternflyInputSelect @bind-Value="model.Level">
+                        <option value="@AlertColor.Default">Default</option>
+                        <option value="@AlertColor.Info">Info</option>
+                        <option value="@AlertColor.Success">Success</option>
+                        <option value="@AlertColor.Warning">Warning</option>
+                        <option value="@AlertColor.Danger">Danger</option>
+                    </PatternflyInputSelect>
+                </Editors>
+            </PatternflyFieldGroup>
+            <PatternflyActionList>
+                <PatternflyAction Type="submit">Post!</PatternflyAction>
+            </PatternflyActionList>
+        </PatternflyEditForm>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-toaster.md"></Markdown>
+
+@code {
+    public class ToastModel
+    {
+        public string Text { get; set; } = "A toast message.";
+        public AlertColor Level { get; set; }
+    }
+
+    ToastModel model = new();
+
+    protected async Task RaiseToast()
+    {
+        await this.Toast.Publish(model.Text, model.Level);
+        model = new ToastModel();
+    }
+}
