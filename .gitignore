@@ -9,4 +9,4 @@ output/
 src/styles/
 # Local Netlify folder
 .netlify
-./publish/
+publish/

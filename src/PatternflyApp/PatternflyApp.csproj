@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Outrage.Patternfly\Outrage.Patternfly.csproj" />
+    <ProjectReference Include="..\Outrage.Patternfly\Outrage.Patternfly.csproj" />
   </ItemGroup>
 
   <ItemGroup>
