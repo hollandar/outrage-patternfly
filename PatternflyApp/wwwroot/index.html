@@ -13,7 +13,25 @@
 </head>
 
 <body>
-    <div id="app">Loading...</div>
+    <div id="app">
+        <div class="pf-l-bullseye">
+            <div class="pf-l-bullseye__item">
+                <div class="pf-l-flex pf-m-column">
+                    <div class="pf-l-flex__item pf-m-align-self-center">
+                        <svg class="pf-c-spinner pf-m-xl" style="margin: 0 auto"
+                             role="progressbar"
+                             viewBox="0 0 100 100"
+                             aria-label="Loading...">
+                            <circle class="pf-c-spinner__path" cx="50" cy="50" r="45" fill="none" />
+                        </svg>
+                    </div>
+                    <div class="pf-l-flex__item pf-m-align-self-center">
+                        <h1 class="pf-c-title pf-m-4xl">Loading</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.
