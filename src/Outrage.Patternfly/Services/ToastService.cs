@@ -14,19 +14,18 @@ namespace Outrage.Patternfly.Services
     {
         private readonly IEventAggregator clientEventBus;
 
-        public ToasterService(IClientEventBus clientEventBus)
-        {
-            this.clientEventBus = clientEventBus;
-        }
-
-        public ToasterService(IRootEventBus clientEventBus)
-        {
-            this.clientEventBus = clientEventBus;
-        }
-
         public ToasterService(IServiceProvider serviceProvider)
         {
-            this.clientEventBus = new RootEventBus(serviceProvider);
+            IEventAggregator? eventBus = (IEventAggregator?) serviceProvider.GetService(typeof(IRootEventBus));
+            if (eventBus == null)
+            {
+                eventBus = (IEventAggregator?)serviceProvider.GetService(typeof(IClientEventBus));
+            }
+            if (eventBus == null)
+            {
+                eventBus = new RootEventBus(serviceProvider);
+            }
+            this.clientEventBus = eventBus;
         }
 
         public IEventAggregator Bus => clientEventBus;

@@ -58,10 +58,10 @@
                 var mark = value.Substring(0, Math.Min(this.text.Length, value.Length));
                 var notmark = value.Substring(Math.Min(value.Length, this.text.Length));
                 <li role="presentation" @key="item">
-                    <button class="pf-c-select__menu-item" role="option" @onclick="() => SelectItem(item)">
+                    <button class="pf-c-select__menu-item" role="option" @onclick="() => SelectItem(item!)">
                         <mark class="pf-c-select__menu-item--match">@mark</mark>@notmark
 
-                        @if (item.Selected)
+                        @if (item?.Selected ?? false)
                         {
                             <span class="pf-c-select__menu-item-icon">
                                 <Icon Name="@CheckIcon" Size="@IconSize" Weight="@IconWeight" Library="@IconLibrary" />
