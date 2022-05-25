@@ -1,55 +1,80 @@
 ﻿
 
-# Patternfly 
+# Patternfly Select
 
-link: [Patternfly Accordion](https://www.patternfly.org/v4/components/accordion)
+link: [Patternfly Select](https://www.patternfly.org/v4/components/select)
 
-namespace: Outrage.Patternfly.Components.Accordion
+namespace: Outrage.Patternfly.Components.Select
+
+# PatternflySelect
 
 ## Example usage
-```
-<PatternflyHint Title="Do more with blazor">
-    <Body>
-        Do you want more assistance to get started?
-    </Body>
-    <Footer>
-        <PatternflyButton Color="ButtonColor.Link">Get started</PatternflyButton>
-    </Footer>
-</PatternflyHint>
-```
-## Sections
 
-* *Body* : Body content for the hint.
-* *Footer* : Footer content for the hint.
-* *Actions* : Actions in the top right, consider a kebab dropdown if there are multiple actions
+```
+<PatternflySelect TKey="int" TValue="string" Options="values" Text="Select a number" />
+```
+
+Refer to the following for items for selection:
+```
+IEnumerable<KeyValuePair<int, string>> values = new KeyValuePair<int, string>[]
+{
+	new KeyValuePair<int, string>(1, "One"),
+	new KeyValuePair<int, string>(2, "Two"),
+	new KeyValuePair<int, string>(3, "Thre"),
+	new KeyValuePair<int, string>(4, "Four"),
+};
+```
 
 ## Attributes
 
-* *AccordionId* : A unique html id for this accordion. Default RNG. (optional)
-* *StateId* : An id used to track the state of the accordion. Default RNG. (optional)
-* *CloseOthers* : Should opening one panel close all others? Default false. (optional)
-* *UseSavedState* : Should the state of the accordion for this StateId be saved within the current session? Default false. (optional)
+* *TKey* : The type of the item key.
+* *TValue* : The value presented in the select.
+* *Expanded* : Is the select dropped down? Default false.
+* *Text* : The text to show with no selection. Default "Select".
+* *Options* : KeyValuePair<TKey, TValue>'s of items to be selected from.
+* *SelectedKey* : The value of the selected item, by its key.
+* *IconLibrary* *IconWeight* : See [Icon](/icon).
+* *IconCaretDown* : Icon to use for a dropdown. Default "caret-down".
+* *IconCheck* : Icon to show for the checked item. Default "check".
 
-## Methods
+## Events 
 
-* *CloseAll* : `async Task CloseAll()` : Close up all accordion panels.
+* *SelectedKeyChanged* : `EventCallback<TKey>` : Callback when a new selection is made.
 
-# PatternflyAccordionPanel
+# PatternflySelectTypeahead
 
-## Sections
+## Example usage
 
-* *Header* : The content for the accordion panel/tab.
-* *Body* : The content of the accordion panel.
+```
+<PatternflySelectTypeahead TItem="string" Items="typeaheads" Placeholder="Select a country" />
+```
+
+Refer to the following for items for selection:
+```
+IEnumerable<TypeaheadItem<string>> typeaheads = new TypeaheadItem<string>[]
+    {
+        new ("Switzerland"),
+        new ("Norway"),
+        new ("Italy"),
+        new ("Germany"),
+        new ("Belgium"),
+        new ("France")
+    };
+```
 
 ## Attributes
 
-* *Visible* : Is the accordion panel shown by default? Default false.
+* *TItem* : The type of the items being selected from.
+* *Expanded* : Is the select dropped down? Default false.
+* *Items* : An enumerable list of the items.
+* *IconLibrary* *IconWeight* : See [Icon](/icon).
+* *IconCheck* : Icon to show for the checked item. Default "check".
+* *IconCaret* : Icon to use for a dropdown. Default "caret-down".
+* *IconClear* : Icon to use to clear current selection. Default "times-circle".
 
-## Methods
+## Events 
 
-* *Show* : `async Task Show()` : Shows the panel (closing others).
-* *SetVisible* : `async Task SetVisible(bool visible)` : Closes or opens the panel independently.
+* *OnItemSelected* : `EventCallback<TKey>` : Callback when a new selection is made.
+* *OnItemCleared* : `EventCallback<TKey>` : Callback when the current selection is cleared.
+* *OnItemCreated* : `EventCallback<string>` : Callback when a new item is to be created, pwith the entered value.
 
-## Events
-
-* *VisibleChanged* : `EventCallback<bool>` : A notification that the panel visibility has changed, passes the new visibility state.

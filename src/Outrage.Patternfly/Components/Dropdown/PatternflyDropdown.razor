@@ -1,5 +1,6 @@
 ﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
 @using Outrage.Patternfly.Interfaces
+@using Outrage.Patternfly.Components.Utilities
 @implements ICloseOnClick
 
 <CascadingValue Name="@nameof(ICloseOnClick)" Value="this">
@@ -14,12 +15,12 @@
             {
                 <span class="pf-c-dropdown__toggle-text">@Text</span>
                 <span class="pf-c-dropdown__toggle-icon">
-                    <i class="fas fa-caret-down" aria-hidden="true"></i>
+                    <Icon Name="@IconCaretDown" Library="@IconLibrary" Weight="@IconWeight" />
                 </span>
             }
             @if (Style == DropdownStyle.kebab)
             {
-                <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                <Icon Name="@IconElipsis" Library="@IconLibrary" Weight="@IconWeight" />
             }
         </button>
         @if (Expanded)
@@ -56,7 +57,13 @@
     [Parameter]
     public bool IsGrouped { get; set; }
 
-    public string DropdownButtonClass {
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Icon.LibraryEnum.fontawesome;
+    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Icon.WeightEnum.solid;
+    [Parameter] public string IconCaretDown { get; set; } = "caret-down";
+    [Parameter] public string IconElipsis { get; set; } = "ellipsis-v";
+
+    public string DropdownButtonClass
+    {
         get
         {
             return Style switch

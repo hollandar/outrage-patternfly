@@ -24,6 +24,13 @@ namespace: Outrage.Patternfly.Components.Tabs
 
 Child content.  A number of PatternflyTab's
 
+## Attributes
+
+* *IconLibrary* *IconWeight* : See [Icon](/icon).
+* *IconLeft* : Icon to move list of tabs left. Default "angle-left".
+* *IconRight* : Icon to move list of tabs right. Default "angle-right".
+
+
 ## Events
 
 * *OnTabSelected* : `EventCallback<string>` : A callback that occurs when a tab is selected, passed the TabId of the tab.

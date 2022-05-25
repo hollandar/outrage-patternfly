@@ -1,10 +1,11 @@
-﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+﻿@using Outrage.Patternfly.Components.Utilities
+@inherits Patternfly.Components.Base.PatternflyComponentBase
 
 @namespace Outrage.Patternfly.Components.Tabs
 
 <nav class="@Classes" @attributes="AdditionalAttributes">
   <button class="pf-c-tabs__scroll-button" disabled aria-hidden="true" aria-label="Scroll left"> 
-    <i class="fas fa-angle-left" aria-hidden="true"></i>
+    <Icon Name="@IconLeft" Library="@IconLibrary" Weight="@IconWeight" />
   </button>
 
   <CascadingValue Value="@this">
@@ -14,7 +15,7 @@
   </CascadingValue>
   
   <button class="pf-c-tabs__scroll-button" disabled aria-hidden="true" aria-label="Scroll right" >
-    <i class="fas fa-angle-right" aria-hidden="true"></i>
+    <Icon Name="@IconRight" Library="@IconLibrary" Weight="@IconWeight" />
   </button>
 </nav>
 
@@ -26,7 +27,10 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public EventCallback<string> OnTabSelected { get; set; }
-
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Icon.LibraryEnum.fontawesome;
+    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Icon.WeightEnum.solid;
+    [Parameter] public string IconLeft { get; set; } = "angle-right";
+    [Parameter] public string IconRight { get; set; } = "angle-left";
     public ITab? ActiveTab { get; private set; }
 
     private List<ITab> tabs = new List<ITab>();

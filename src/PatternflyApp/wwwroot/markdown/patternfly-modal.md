@@ -93,6 +93,9 @@ If you are using PatternflyPage, put the modal withing a PatternflyOnPage elemen
 * *CreateOnShow* : If this is true, the dialog html does not exist until it is shown; when false it is simply hidden. Default false.
 * *Size* : The size of the modal? [Small, Medium (default), Large, Full]
 * *Shown* : Is the dialog visible (including initially visible)? Default false.
+* *IconLibrary* *IconWeight* : See [Icon](/icon).
+* *IconHelp* : Icon to get help. Default "question-circle".
+* *IconClose* : Icon to show for close. Default "times".
 
 ## Events
 
@@ -146,6 +149,9 @@ If you are using PatternflyPage, put the modal withing a PatternflyOnPage elemen
 * *Size* : The size of the modal? [Small, Medium (default), Large, Full]
 * *Shown* : Is the dialog visible (including initially visible)? Default false.
 * *Model* : The model to edit using the EditForm.
+* *IconLibrary* *IconWeight* : See [Icon](/icon).
+* *IconHelp* : Icon to get help. Default "question-circle".
+* *IconClose* : Icon to show for close. Default "times".
 
 ## Events
 

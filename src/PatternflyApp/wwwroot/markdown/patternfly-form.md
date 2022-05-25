@@ -77,6 +77,8 @@ Show a field with one or more editors for it.  Handles label and help sections f
 * *Label* : The label for the field. (optional)
 * *Name* : The Html name of the field. (optional)
 * *Stack* : Show space between the editors in a stack. Default false.
+* *IconLibrary* *IconWeight* : See [Icon](/icon).
+* *IconHelp* : Icon to show for access to help. Default "question-circle".
 
 # PatternflyBooleanSelect
 

@@ -1,4 +1,5 @@
-﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+﻿@using Outrage.Patternfly.Components.Utilities
+@inherits Patternfly.Components.Base.PatternflyComponentBase
 
 <CascadingValue Name="FieldName" Value="formGroupId.With(this.Name)">
     <div class="@Classes" @attributes="AdditionalAttributes">
@@ -18,7 +19,7 @@
                 @if (Help != null)
                 {
                     <button type="button" class="pf-c-form__group-label-help" aria-label="More info" @onclick="ToggleHelp">
-                            <i class="fas fa-question-circle" aria-hidden="true"></i>
+                        <Icon Name="@IconHelp" Library="@IconLibrary" Weight="@IconWeight" />
                     </button>
                 }
             </div>
@@ -27,9 +28,7 @@
             @Editors
             @if (Help != null && showHelp)
             {
-                <p class="pf-c-form__helper-text"
-                   id="@formGroupId.With("helptext")"
-                   aria-live="polite">@Help</p>
+                <p class="pf-c-form__helper-text" id="@formGroupId.With("helptext")" aria-live="polite">@Help</p>
             }
         </div>
     </div>
@@ -55,6 +54,10 @@
 
     [Parameter]
     public RenderFragment? Editors { get; set; }
+
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Icon.LibraryEnum.fontawesome;
+    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Icon.WeightEnum.solid;
+    [Parameter] public string IconHelp { get; set; } = "question-circle";
 
     bool showHelp = false;
 
