@@ -42,7 +42,17 @@
                             @Body
                         </div>
                         <footer class="pf-c-modal-box__footer">
-                            @Footer
+                            <PatternflyStack>
+                                <PatternflyStackItem>
+                                    @Footer
+                                </PatternflyStackItem>
+                                @if (messages != null)
+                                {
+                                    <PatternflyStackItem>
+                                        <span class="action-messages">@messages</span>
+                                    </PatternflyStackItem>
+                                }
+                            </PatternflyStack>
                         </footer>
                     </div>
                 </EditForm>
@@ -52,6 +62,7 @@
 </div>
 @code {
     HtmlId modalId = new();
+    string messages = null;
 
     [Parameter]
     public RenderFragment? Header { get; set; }
@@ -131,7 +142,14 @@
 
     public async Task ValidSubmit(EditContext editContext)
     {
-        await this.Hide();
-        await this.OnValidSubmit.InvokeAsync(editContext);
+        try
+        {
+            await this.OnValidSubmit.InvokeAsync(editContext);
+            await this.Hide();
+        } 
+        catch (ActionModalException ex)
+        {
+            this.messages = ex.Message;
+        }
     }
 }
