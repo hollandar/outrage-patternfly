@@ -14,31 +14,35 @@
                 case SizeEnum.x7: size = "fa-7x"; break;
                 case SizeEnum.x10: size = "fa-10x"; break;
             }
+
+            string fafw = String.Empty;
+            if (FixedWidth) { fafw = "fa-fw"; }
+
             switch (Weight)
             {
                 case WeightEnum.light:
                     {
-                        <i @attributes="AdditionalExceptClass" class="fal fa-@Name @PassedClass @size"></i>
+                        <i @attributes="AdditionalExceptClass" class="fal fa-@Name @PassedClass @size @fafw"></i>
                         break;
                     }
                 case WeightEnum.regular:
                     {
-                        <i @attributes="AdditionalExceptClass" class="far fa-@Name @PassedClass @size"></i>
+                        <i @attributes="AdditionalExceptClass" class="far fa-@Name @PassedClass @size @fafw"></i>
                         break;
                     }
                 case WeightEnum.solid:
                     {
-                        <i @attributes="AdditionalExceptClass" class="fas fa-@Name @PassedClass @size"></i>
+                        <i @attributes="AdditionalExceptClass" class="fas fa-@Name @PassedClass @size @fafw"></i>
                         break;
                     }
                 case WeightEnum.duotone:
                     {
-                        <i @attributes="AdditionalExceptClass" class="fad fa-@Name @PassedClass @size"></i>
+                        <i @attributes="AdditionalExceptClass" class="fad fa-@Name @PassedClass @size @fafw"></i>
                         break;
                     }
                 case WeightEnum.brand:
                     {
-                        <i @attributes="AdditionalExceptClass" class="fab fa-@Name @PassedClass @size"></i>
+                        <i @attributes="AdditionalExceptClass" class="fab fa-@Name @PassedClass @size @fafw"></i>
                         break;
                     }
             }
@@ -63,6 +67,9 @@
 
     [Parameter]
     public string? Name { get; set; }
+
+    [Parameter]
+    public bool FixedWidth { get; set; } = false;
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IDictionary<string, object>? AdditionalAttributes { get; set; }
