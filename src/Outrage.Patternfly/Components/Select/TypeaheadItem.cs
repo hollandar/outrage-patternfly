@@ -18,7 +18,7 @@ namespace Outrage.Patternfly.Components.Select
 
         public override string ToString()
         {
-            return Item.ToString();
+            return Item?.ToString() ?? string.Empty;
         }
     }
 }
