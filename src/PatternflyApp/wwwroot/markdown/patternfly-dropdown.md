@@ -28,6 +28,9 @@ Child content.
 * *Style* :Dropdown style. [ regular (default), kebab]
 * *AlignRight* : Right align the dropdown elements? Default false.
 * *IsGrouped* : Handle a dropdown list containing groups? Default false.
+* *IconLibrary* *IconWeight* : See [Icon](/icon).
+* *IconCaretDown* : Icon to use for a dropdown. Default "caret-down".
+* *IconElipsis* : Icon to show when using the kebab style. Default "elipsis-v".
 
 ## Methods
 

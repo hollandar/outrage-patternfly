@@ -32,6 +32,9 @@ Child content.
 * *StateId* : An id used to track the state of the accordion. Default RNG. (optional)
 * *CloseOthers* : Should opening one panel close all others? Default false. (optional)
 * *UseSavedState* : Should the state of the accordion for this StateId be saved within the current session? Default false. (optional)
+* *IconLibrary* *IconWeight* : See [Icon](/icon).
+* *IconCollapsed* : Icon to show when collapsed. Default "angle-right".
+* *IconExpanded* : Icon to show when expanded. Default "angle-down".
 
 ## Methods
 

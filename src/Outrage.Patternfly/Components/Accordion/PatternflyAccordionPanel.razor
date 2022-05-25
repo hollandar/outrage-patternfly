@@ -1,4 +1,5 @@
 ﻿@inject IJSRuntime jsRuntime
+@using Outrage.Patternfly.Components.Utilities
 
 <h3>
     <button class="pf-c-accordion__toggle @(Visible? "pf-m-expanded":string.Empty)" type="button" aria-expanded="@Visible" @onclick="Show">
@@ -7,7 +8,7 @@
         </span>
 
         <span class="pf-c-accordion__toggle-icon">
-            <i class="fas @(Visible?"fa-angle-down":"fa-angle-right")" aria-hidden="true"></i>
+            <Icon Name="@(Visible?IconExpanded:IconCollapsed)" Library="@IconLibrary" Weight="@IconWeight" />
         </span>
     </button>
 </h3>
@@ -33,6 +34,11 @@
 
     [CascadingParameter(Name = "Accordion")]
     public PatternflyAccordion? Accordion { get; set; }
+
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Icon.LibraryEnum.fontawesome;
+    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Icon.WeightEnum.solid;
+    [Parameter] public string IconCollapsed { get; set; } = "angle-right";
+    [Parameter] public string IconExpanded { get; set; } = "angle-down";
 
     protected override async Task OnInitializedAsync()
     {

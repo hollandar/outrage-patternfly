@@ -20,7 +20,7 @@
             <PatternflyButton Color="ButtonColor.Plain"
                               aria-label="@($"Close alert: {Title}")"
                               Clicked="CloseAlert">
-                <i class="fas fa-times" aria-hidden="true"></i>
+                <Icon Name="@IconClose" Library="@IconLibrary" Weight="@IconWeight" />
             </PatternflyButton>
         </div>
     }
@@ -42,6 +42,7 @@
 @code {
     [Parameter] public AlertColor Color { get; set; } = AlertColor.Default;
     [Parameter] public string? Icon { get; set; } = null;
+    [Parameter] public string IconClose { get; set; } = "times";
     [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.solid;
     [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
     [Parameter] public bool Inline { get; set; }

@@ -1,4 +1,5 @@
 ﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+@using Outrage.Patternfly.Components.Utilities
 @typeparam TKey
 
 <div class="@Classes" @attributes="AdditionalAttributes">
@@ -14,7 +15,7 @@
                     <div class="pf-c-search-input__bar">
                         <span class="pf-c-search-input__text">
                             <span class="pf-c-search-input__icon">
-                                <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                                <Icon Name="@IconSearch" FixedWidth="true" Library="@IconLibrary" Weight="@IconWeight" />
                             </span>
                             <input class="pf-c-search-input__text-input"
                                    type="text"
@@ -28,7 +29,7 @@
             </div>
             <div class="pf-c-dual-list-selector__tools-actions">
                 <button class="pf-c-button pf-m-plain" type="button" aria-label="Sort" @onclick="() => { this.availableAscending = !this.availableAscending; this.StateHasChanged(); }">
-                    <i class="fas @(availableAscending?"fa-sort-amount-down":"fa-sort-amount-up")" aria-hidden="true"></i>
+                    <Icon Name="@(availableAscending?IconSortDown:IconSortUp)" Weight="@IconWeight" Library="@IconLibrary"></Icon>
                 </button>
                 @AvailableAction
             </div>
@@ -72,7 +73,7 @@
                     disabled="@(!AvailableItems.Where(r => r.IsHighlighted).Any())"
                     aria-label="Add selected"
                     @onclick="AddSelectedAsync">
-                <i class="fas fa-fw fa-angle-right"></i>
+                <Icon Name="@IconRight" FixedWidth="true" Library="@IconLibrary" Weight="@IconWeight" />
             </button>
         </div>
         <div class="pf-c-dual-list-selector__controls-item">
@@ -81,7 +82,7 @@
                     disabled="@(!AvailableItems.Any())"
                     aria-label="Add all"
                     @onclick="AddAllAsync">
-                <i class="fas fa-fw fa-angle-double-right"></i>
+                <Icon Name="@IconRightAll" FixedWidth="true" Library="@IconLibrary" Weight="@IconWeight" />
             </button>
         </div>
         <div class="pf-c-dual-list-selector__controls-item">
@@ -90,7 +91,7 @@
                     disabled="@(!SelectedItems.Any())"
                     aria-label="Remove all"
                     @onclick="RemoveAllAsync">
-                <i class="fas fa-fw fa-angle-double-left"></i>
+                <Icon Name="@IconLeftAll" FixedWidth="true" Library="@IconLibrary" Weight="@IconWeight" />
             </button>
         </div>
         <div class="pf-c-dual-list-selector__controls-item">
@@ -99,7 +100,7 @@
                     disabled="@(!SelectedItems.Where(r => r.IsHighlighted).Any())"
                     aria-label="Remove selected"
                     @onclick="RemoveSelectedAsync">
-                <i class="fas fa-fw fa-angle-left"></i>
+                <Icon Name="@IconLeft" FixedWidth="true" Library="@IconLibrary" Weight="@IconWeight" />
             </button>
         </div>
     </div>
@@ -115,7 +116,7 @@
                     <div class="pf-c-search-input__bar">
                         <span class="pf-c-search-input__text">
                             <span class="pf-c-search-input__icon">
-                                <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                                <Icon Name="@IconSearch" FixedWidth="true" Library="@IconLibrary" Weight="@IconWeight" />
                             </span>
                             <input class="pf-c-search-input__text-input"
                                    type="text"
@@ -129,7 +130,7 @@
             </div>
             <div class="pf-c-dual-list-selector__tools-actions">
                 <button class="pf-c-button pf-m-plain" type="button" aria-label="Sort" @onclick="() => { this.selectedAscending = !this.selectedAscending; this.StateHasChanged(); }">
-                    <i class="fas @(selectedAscending?"fa-sort-amount-down":"fa-sort-amount-up")" aria-hidden="true"></i>
+                    <Icon Name="@(selectedAscending?IconSortDown:IconSortUp)" Weight="@IconWeight" Library="@IconLibrary"></Icon>
                 </button>
                 @SelectedAction
             </div>
@@ -181,6 +182,16 @@
     [Parameter] public RenderFragment SelectedAction { get; set; } = default!;
     [Parameter] public string AvailableHeading { get; set; } = "Available options";
     [Parameter] public string SelectedHeading { get; set; } = "Chosen options";
+
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Icon.LibraryEnum.fontawesome;
+    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Icon.WeightEnum.solid;
+    [Parameter] public string IconSearch { get; set; } = "search";
+    [Parameter] public string IconSortUp { get; set; } = "sort-amount-up";
+    [Parameter] public string IconSortDown { get; set; } = "sort-amount-down";
+    [Parameter] public string IconRight { get; set; } = "angle-right";
+    [Parameter] public string IconLeft { get; set; } = "angle-left";
+    [Parameter] public string IconRightAll { get; set; } = "angle-double-right";
+    [Parameter] public string IconLeftAll { get; set; } = "angle-double-left";
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {

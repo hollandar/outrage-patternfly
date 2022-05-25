@@ -21,6 +21,8 @@ Child content.
 * *ShowMore* : The text do display when the list is collapsed. Default "Show more".
 * *ShowLess* : The text do display when the list is expanded. Default "Show less".
 * *Expanded* : Is the section expanded? default false.
+* *IconLibrary* *IconWeight* : See [Icon](/icon).
+* *IconExpand* : Icon to show for section expansion. Default "angle-right".
 
 ## Methods
 

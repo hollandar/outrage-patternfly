@@ -27,6 +27,7 @@ namespace: Outrage.Patternfly.Components.Alert
 * *Title* : Title to show on the alert. (optional)
 * *Description* : Text to show in the body of the alert. (optional)
 * *Icon* : Icon to show next to the title. (optional)
+* *IconClose* : Icon to use for close button. Default "times".
 * *IconWeight*, *IconLibrary* : See [Icon](/icon)
 * *Inline* : Show the inline variant? Default false. (optional)
 * *Dismissable* : Can the alert be dismissed?  Default true.
