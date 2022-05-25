@@ -12,9 +12,10 @@
                    id="@id.With("select-single-typeahead-expanded-typeahead")"
                    aria-label="Type to filter"
                    placeholder="@Placeholder"
-                   @bind-value="this.Text" @bind-value:event="oninput" />
+                   @bind-value="this.Text" @bind-value:event="oninput"
+                   @onkeydown="HandleEnterKey" />
         </div>
-        @if (OnItemCreated.HasDelegate && !String.IsNullOrEmpty(this.text))
+        @if (OnItemCreated.HasDelegate && !String.IsNullOrEmpty(this.Text))
         {
             <button class="pf-c-button pf-m-plain pf-c-select__toggle-clear"
                 type="button"
@@ -24,7 +25,7 @@
             </button>
         }
 
-        @if (!String.IsNullOrEmpty(this.text))
+        @if (!String.IsNullOrEmpty(this.Text))
         {
             <button class="pf-c-button pf-m-plain pf-c-select__toggle-clear"
                 type="button"
@@ -55,8 +56,8 @@
             var value = item?.ToString();
             if (value != null)
             {
-                var mark = value.Substring(0, Math.Min(this.text.Length, value.Length));
-                var notmark = value.Substring(Math.Min(value.Length, this.text.Length));
+                var mark = value.Substring(0, Math.Min(this.Text.Length, value.Length));
+                var notmark = value.Substring(Math.Min(value.Length, this.Text.Length));
                 <li role="presentation" @key="item">
                     <button class="pf-c-select__menu-item" role="option" @onclick="() => SelectItem(item!)">
                         <mark class="pf-c-select__menu-item--match">@mark</mark>@notmark
@@ -86,7 +87,8 @@
         set
         {
             this.text = value;
-            this.SearchItem();
+            if (!String.IsNullOrWhiteSpace(this.text))
+                this.SearchItem();
         }
         get { return this.text; }
     }
@@ -123,30 +125,28 @@
     {
         await OnItemCleared.InvokeAsync();
         this.ClearSelections();
-        this.text = String.Empty;
+        this.Text = String.Empty;
         this.Expanded = false;
-        this.StateHasChanged();
+        await this.InvokeAsync(StateHasChanged);
     }
 
-    public Task ToggleExpanded()
+    public async Task ToggleExpanded()
     {
         this.Expanded = !this.Expanded;
         if (this.Expanded)
-            this.SearchItem();
-
-        return Task.CompletedTask;
+            await this.SearchItem();
     }
 
-    public void SearchItem()
+    public async Task SearchItem()
     {
         this.MatchedItems = this.Items;
-        if (!String.IsNullOrEmpty(this.text))
+        if (!String.IsNullOrEmpty(this.Text))
             this.MatchedItems = this.Items.Where(r => (r?.ToString() ?? "").StartsWith(this.text, StringComparison.CurrentCultureIgnoreCase));
 
         if (this.MatchedItems.Any())
             this.Expanded = true;
 
-        this.StateHasChanged();
+        await this.InvokeAsync(StateHasChanged);
     }
 
     protected void ClearSelections()
@@ -160,16 +160,25 @@
     protected async Task SelectItem(TypeaheadItem<TItem> item)
     {
         this.ClearSelections();
-        await this.OnItemSelected.InvokeAsync(item);
         item.Selected = true;
         this.Text = item.ToString();
         this.Expanded = false;
+        await this.OnItemSelected.InvokeAsync(item);
     }
 
     public async Task CreateItem()
     {
-        await this.OnItemCreated.InvokeAsync(this.text);
+        var createText = this.Text;
         this.Text = "";
         this.Expanded = false;
+        await this.OnItemCreated.InvokeAsync(createText);
+    }
+
+    public async Task HandleEnterKey(KeyboardEventArgs args)
+    {
+        if (args.Code == "Enter")
+        {
+            await this.CreateItem();
+        }
     }
 }
