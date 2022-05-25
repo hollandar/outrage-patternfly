@@ -37,4 +37,4 @@ You wont need links to bootstrap any longer, so clean those up.  You can also re
 
 ## Whats Next?
 
-Start my adjusting your layout, the best place to begin is with the standard [PatternflyPage](/patternfly-page), the next topic.
+Start by adjusting your layout, the best place to begin is with the standard [PatternflyPage](/patternfly-page).
