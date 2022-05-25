@@ -25,7 +25,7 @@ class Build : NukeBuild
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
     const string semVer = "1.0.0";
-    const string suffixVer = "rc04";
+    const string suffixVer = "rc05";
 
     public static int Main() => Execute<Build>(x => x.Compile);
 

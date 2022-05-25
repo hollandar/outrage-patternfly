@@ -39,8 +39,8 @@
     HtmlId controlsId = new();
     [Parameter] public string? Text { get; set; } = null;
     [Parameter] public string? Icon { get; set; } = null;
-    [Parameter] public string? IconExpanded { get; set; } = "fa-angle-down";
-    [Parameter] public string? IconCollapsed { get; set; } = "fa-angle-right";
+    [Parameter] public string? IconExpanded { get; set; } = "angle-down";
+    [Parameter] public string? IconCollapsed { get; set; } = "angle-right";
     [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.solid;
     [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
     [Parameter] public RenderFragment? ChildContent { get; set; } = null;

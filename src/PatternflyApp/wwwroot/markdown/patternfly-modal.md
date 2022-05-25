@@ -153,6 +153,10 @@ If you are using PatternflyPage, put the modal withing a PatternflyOnPage elemen
 * *OnValidSubmit* : `EventCallback<EditContext>` : The form is submitted validly.  Handle the submission in this callback.
 * *OnInvalidSubmit* : `EventCallback<EditContext>` : The form is submitted in an invalid way.
 
+### Handling errors in OnValidSubmit
+
+In OnValidSubmit, if a subsequent validation error or submission error occurs that you want to show on the modal, throw an ActionModalException with a UI friendly message.
+
 ## Methods
 
 * *Show* : `async Task Show()` : Show the modal.
