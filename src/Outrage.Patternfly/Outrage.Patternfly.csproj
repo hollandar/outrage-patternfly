@@ -19,7 +19,7 @@ Api documentation and component demonstrations can be found at https://patternfl
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="LICENSE.txt" Pack="true" PackagePath="" />	
+		<None Include="LICENSE.md" Pack="true" PackagePath="" />	
 	</ItemGroup>
 	
 	<ItemGroup>
@@ -42,7 +42,7 @@ Api documentation and component demonstrations can be found at https://patternfl
 	</ItemGroup>
 
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-		<Copy SourceFiles="../../LICENSE.txt" DestinationFolder="." />
+		<Copy SourceFiles="../../LICENSE.md" DestinationFolder="." />
 		<Exec Command="yarn install" />
 		<Exec Command="yarn run build" />
 	</Target>
