@@ -1,0 +1,53 @@
+﻿@page "/fetchdata"
+@inject HttpClient Http
+
+<PageTitle>Weather forecast</PageTitle>
+
+<PatternflyPanel>
+    <Header>
+        <PatternflyTitle>Weather forecast</PatternflyTitle>
+        <p>This component demonstrates fetching data from the server.</p>
+    </Header>
+    <Body>
+        <PatternflyLoading Target="forecasts">
+            <PatternflyTable TItemKey="Guid" TItem="WeatherForecast" Items="forecasts">
+                <Columns>
+                    <TableColumn>Date</TableColumn>
+                    <TableColumn>Temp (C)</TableColumn>
+                    <TableColumn>Temp (F)</TableColumn>
+                    <TableColumn>Summary</TableColumn>
+                </Columns>
+                <RowTemplate>
+                    <TableCell>@context.Date.ToShortDateString()</TableCell>
+                    <TableCell>@context.TemperatureC</TableCell>
+                    <TableCell>@context.TemperatureF</TableCell>
+                    <TableCell>@context.Summary</TableCell>
+                </RowTemplate>
+            </PatternflyTable>
+        </PatternflyLoading>
+    </Body>
+</PatternflyPanel>
+
+
+
+@code {
+    private WeatherForecast[]? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+    }
+
+    public class WeatherForecast
+    {
+        public Guid Id { get; set; } = Guid.NewGuid();
+
+        public DateTime Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public string? Summary { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    }
+}

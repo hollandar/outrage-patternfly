@@ -1,0 +1,25 @@
+﻿@page "/counter"
+
+<PageTitle>Counter</PageTitle>
+
+<PatternflyPanel>
+    <Header>
+        <PatternflyTitle>Counter</PatternflyTitle>
+    </Header>
+    <Body>
+        <div role="status">Current count: @currentCount</div>
+    </Body>
+    <Footer>
+        <PatternflyButton Color="ButtonColor.Primary" Clicked="IncrementCount">Click me</PatternflyButton>
+    </Footer>
+</PatternflyPanel>
+
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

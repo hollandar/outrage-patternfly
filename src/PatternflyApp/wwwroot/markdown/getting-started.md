@@ -2,7 +2,13 @@
 
 Welcome to Patternfly for Blazor.
 
+## A Preconfigured App
+
+If you dont want to start with your own project, you can clone the WebAssemblyClient project at [https://www.github.com/hollandar/outrage-patternfly/main/src/WebassemblyClient](https://www.github.com/hollandar/outrage-patternfly/main/src/WebassemblyClient)
+
 ## Install the Nuget Package
+
+Rather modify an existing app to integrate Patternfly?
 
 Install the latest package Outrage.Patternfly in your project from Nuget.
 
@@ -19,7 +25,7 @@ Both of these items are optional, they can be included from a CDN or from your p
 
 ## Register the Toaster service
 
-In your services setup, call AddPatternflyToaster:
+In your services setup, call AddPatternflyToaster and AddPatternflyPagedModelFactory:
 
 ```
 using Outrage.Patternfly;
