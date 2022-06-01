@@ -4,7 +4,7 @@ Welcome to Patternfly for Blazor.
 
 ## A Preconfigured App
 
-If you dont want to start with your own project, you can clone the WebAssemblyClient project at [https://www.github.com/hollandar/outrage-patternfly/main/src/WebassemblyClient](https://www.github.com/hollandar/outrage-patternfly/main/src/WebassemblyClient)
+If you dont want to start with your own project, you can copy the WebAssemblyClient project at [https://www.github.com/hollandar/outrage-patternfly/tree/main/src/WebassemblyClient](https://www.github.com/hollandar/outrage-patternfly/main/src/WebassemblyClient)
 
 ## Install the Nuget Package
 
