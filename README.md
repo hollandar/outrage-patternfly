@@ -14,7 +14,7 @@ A component demo and documentation is published atat [Outrage Patternfly](https:
 
 ## License and Contributions
 
-See [LICENSE.txt](LICENSE.txt) for more information.
+See [LICENSE.md](LICENSE.md) for more information.
 If you do decide to contribute new components, fixes or improvements; please open a PR as when you start planning.
 
 ## Issues
