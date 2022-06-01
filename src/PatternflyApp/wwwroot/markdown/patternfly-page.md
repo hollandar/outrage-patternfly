@@ -17,7 +17,9 @@ Encapsulates the Page component from Patternfly
     </Logo>
     <Header>
         <PatternflyNavigation Horizontal="true">
-            <PatternflyNavigationLink Href="" Match="NavLinkMatch.All">Home</PatternflyNavigationLink>
+            <PatternflyNavigationGroup>
+                <PatternflyNavigationLink Href="" Match="NavLinkMatch.All">Home</PatternflyNavigationLink>
+            </PatternflyNavigationGroup>
         </PatternflyNavigation>
     </Header>
     <Sections>
@@ -30,9 +32,11 @@ Encapsulates the Page component from Patternfly
     </Sections>
     <Sidebar>
         <PatternflyNavigation>
-            <PatternflyNavigationLink Href="getting-started" Icon="play">Getting Started</PatternflyNavigationLink>
-            <PatternflyNavigationLink Href="patternfly-page" Icon="newspaper">Patternfly Page</PatternflyNavigationLink>
-            ...
+            <PatternflyNavigationGroup>
+                <PatternflyNavigationLink Href="getting-started" Icon="play">Getting Started</PatternflyNavigationLink>
+                <PatternflyNavigationLink Href="patternfly-page" Icon="newspaper">Patternfly Page</PatternflyNavigationLink>
+                ...
+            </PatternflyNavigationGroup>
         </PatternflyNavigation>
     </Sidebar>
 </PatternflyPage>
