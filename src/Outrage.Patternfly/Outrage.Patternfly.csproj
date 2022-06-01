@@ -14,7 +14,7 @@ Api documentation and component demonstrations can be found at https://patternfl
 		<Copyright>2021-2022, Webefinity Pty Ltd</Copyright>
 		<PackageTags>Blazor;WASM;Components;Styles;Controls;App;UI;Presentation</PackageTags>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<PackageProjectUrl>https://github.com/hollandar/outrage-patternfly</PackageProjectUrl>
 	</PropertyGroup>
 
@@ -45,6 +45,13 @@ Api documentation and component demonstrations can be found at https://patternfl
 		<Copy SourceFiles="../../LICENSE.md" DestinationFolder="." />
 		<Exec Command="yarn install" />
 		<Exec Command="yarn run build" />
+	</Target>
+
+	<Target Name="RemovePackContent" BeforeTargets="Pack">
+		<ItemGroup>
+			<!-- Remove items that are static web assets from the content collection -->
+			<Content Remove="wwwroot/**/*" />
+		</ItemGroup>
 	</Target>
 
 </Project>

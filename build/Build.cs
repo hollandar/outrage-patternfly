@@ -25,7 +25,7 @@ class Build : NukeBuild
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
     const string semVer = "1.0.0";
-    const string suffixVer = "rc08";
+    const string suffixVer = "rc10";
 
     public static int Main() => Execute<Build>(x => x.Compile);
 
@@ -68,7 +68,6 @@ class Build : NukeBuild
         });
 
     Target Pack => _ => _
-           .DependsOn(Compile)
            .Executes(() =>
            {
                EnsureCleanDirectory(NugetDirectory);
@@ -77,7 +76,6 @@ class Build : NukeBuild
                    if (project.GetProperty<bool>("IsPackable"))
                    {
                        DotNetPack(s => s
-                           .EnableNoBuild()
                            .SetProject(project)
                            .SetVersionPrefix(semVer)
                            .SetVersionSuffix(suffixVer)

@@ -1,35 +1,36 @@
 ﻿# Outrage Patternfly
 
-Outrage Patternfly is a collection of components for [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) that make use of the [Patternfly 4](https://www.patternfly.org/v4/).
+Outrage Patternfly is a collection of components for [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) that make use of the [Patternfly 4](https://www.patternfly.org/v4/) component library.
 
 ## Why?
 
 Bootstrap is great, but so is Patternfly, and especially so for building apps on blazor.
 
-It looks great (your are looking at it right now).  And it namespaces its css classes really well, so your styles wont collide with it.
+It looks great (your are looking at it right now).  And it namespaces css classes really well, so your styles wont collide with it.
 
 ## Why Outrage Patternfly?
 
 We are building our own apps for us, and for our customers.  We found that we spent a lot of time fighting with other control libraries:
 
 * They are not just blazor
-* They arent well namespaced
+* The CSS they use is not well namespaced
 * And, they still need extra styling
 
 So, Outrage Patternfly is:
 
-* Just components for Patternfly
+* Just components built over Patternfly
 * Built only as Blazor components
 * Has no Javascript dependencies
 
 ## Want more
 
-Because Patternfly is modified using CSS variables, so it Outrage Patternfly
+Because Patternfly is modified using CSS variables, so too can Outrage Patternfly.
 
+See the patternfly web site for more information.
 
 ## Standard attributes
 
-Unless mentioned otherwise, all patternfly elements support the following:
+All our components support the following:
 
 * *Class* : Custom css classes to be passed.
 * Additional attributes : Attributes that do not map to parameters on the patternfly object are passed as html attributes into the underlying HTML.
@@ -42,9 +43,11 @@ Outrage Patternfly (the Blazor components) are Copyright (C) Webefinity Pty. Ltd
 
 If you find it useful in your business, you must purchase a low cost commercial license; this covers some of our support costs and helps us grow the library.
 
+For license information please email sales at webefinity.com.
+
 ## Patternfly itself
 
-You may, but need not, make use of the embedded version of the patternfly library.  You can also use these components using patternfly included via your own custom build process.
+You may (but need not) make use of the embedded version of the patternfly library.  You can also use these components using patternfly included via your own custom build process.
 See [Patternfly Getting Started](https://www.patternfly.org/v4/get-started/about) for more information.
 
 ## Contributions
