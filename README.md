@@ -10,7 +10,7 @@ You may use the pre-built version of patternfly which is included in the nuget p
 
 ## Demonstration and API specification
 
-A component demo and documentation is published atat [Outrage Patternfly](https://patternfly.outrage.net.au).  This Blazor WASM app provides examples of all the current components, and documents the API for each.
+A component demo and documentation is published at [Outrage Patternfly](https://patternfly.outrage.net.au).  This Blazor WASM app provides examples of all the current components, and documents the API for each.
 
 ## License and Contributions
 
