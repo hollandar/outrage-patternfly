@@ -5,28 +5,29 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<IsPackable>true</IsPackable>
-		<IncludeContentInPack>false</IncludeContentInPack>
 		<Authors>Adrian Holland, Andrew Tie</Authors>
 		<Company>Webfinity Pty. Ltd.</Company>
 		<Description>
-			A collection of Blazor controls for server and wasm, the API is kept as close to standard blazor as possible.
-			The library makes use of the Patternfly styles, published at https://www.patternfly.org/v4/; which are well designed and very easy to customize using CSS variables.
-			Api documentation and component demonstrations can be found at https://patternfly.outrage.net.au.</Description>
+A collection of Blazor UI components for both blazor server and blazor wasm projects, the API is kept as close to standard blazor as possible.
+The library makes use of the Patternfly styles, published at https://www.patternfly.org/v4/; which are well designed and very easy to customize using CSS variables.
+Api documentation and component demonstrations can be found at https://patternfly.outrage.net.au.</Description>
 		<Copyright>2021-2022, Webefinity Pty Ltd</Copyright>
 		<PackageTags>Blazor;WASM;Components;Styles;Controls;App;UI;Presentation</PackageTags>
-		<RepositoryUrl>https://github.com/hollandar/outrage-patternfly</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageProjectUrl>https://github.com/hollandar/outrage-patternfly</PackageProjectUrl>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<None Include="LICENSE.txt" Pack="true" PackagePath="" />	
+	</ItemGroup>
+	
 	<ItemGroup>
 		<Content Remove="yarn.lock" />
 		<Content Remove="package.json" />
 		<None Include="yarn.lock" />
 		<None Include="package.json" />
-		<None Include="../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
-
 
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />
@@ -41,6 +42,7 @@
 	</ItemGroup>
 
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+		<Copy SourceFiles="../../LICENSE.txt" DestinationFolder="." />
 		<Exec Command="yarn install" />
 		<Exec Command="yarn run build" />
 	</Target>

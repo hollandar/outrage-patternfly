@@ -134,10 +134,15 @@
     {
         this.Expanded = !this.Expanded;
         if (this.Expanded)
-            await this.SearchItem();
+            await this.SearchItemAsync();
     }
 
-    public async Task SearchItem()
+    public async Task SearchItemAsync()
+    {
+        await this.InvokeAsync(SearchItem);
+    }
+
+    public void SearchItem()
     {
         this.MatchedItems = this.Items;
         if (!String.IsNullOrEmpty(this.Text))
@@ -146,7 +151,7 @@
         if (this.MatchedItems.Any())
             this.Expanded = true;
 
-        await this.InvokeAsync(StateHasChanged);
+        this.StateHasChanged();
     }
 
     protected void ClearSelections()
