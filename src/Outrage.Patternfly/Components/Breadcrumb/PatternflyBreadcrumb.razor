@@ -1,0 +1,155 @@
+﻿@inherits Base.PatternflyComponentBase
+@using Outrage.Patternfly.Components.Utilities
+@using Outrage.Patternfly.Components.Panel
+@using Outrage.Patternfly.Services
+@using static Outrage.Patternfly.Components.Utilities.Icon
+@inject BreadcrumbService BreadcrumbService
+@inject NavigationManager Nav
+@inject IJSRuntime JS
+@implements IDisposable
+
+<PatternflyPanel>
+    <Body>
+        <nav class="@Classes" @attributes="AdditionalAttributes" aria-label="breadcrumb">
+            <ol class="pf-c-breadcrumb__list">
+
+                @if (this.breadcrumbs != null && this.breadcrumbs.Count() > 1)
+                {
+                    @foreach (var breadcrumb in this.breadcrumbs.Take(Math.Min(Length, this.breadcrumbs.Count() - 1)))
+                    {
+                        <li class="pf-c-breadcrumb__item">
+                            <span class="pf-c-breadcrumb__item-divider">
+                                <Icon Name="@IconDivider" Weight="@IconWeight" Library="@IconLibrary" FixedWidth="true" />
+                            </span>
+                            <a href="@breadcrumb.Href" class="pf-c-breadcrumb__link">@breadcrumb.Name</a>
+                        </li>
+                    }
+
+                    if (this.breadcrumbs.Count() - 1 - Length > 0)
+                    {
+                        <li class="pf-c-breadcrumb__item">
+                            <span class="pf-c-breadcrumb__item-divider">
+                                <i class="fas fa-angle-right" aria-hidden="true"></i>
+                            </span>
+                            <span class="pf-c-breadcrumb__dropdown">
+                                <div class="pf-c-dropdown pf-m-expanded">
+                                    <button class="pf-c-dropdown__toggle pf-m-plain"
+                                    id="dropdown-badge-toggle-button"
+                                    aria-expanded="true"
+                                    type="button"
+                                    @onclick="ToggleDropdown">
+                                        <span class="pf-c-badge pf-m-read">
+                                            @(this.breadcrumbs.Count() - 1 - Length)
+                                            <span class="pf-c-dropdown__toggle-icon">
+                                                <Icon Name="@(droppedDown? IconOpen: IconClosed)" Weight="@IconWeight" Library="@IconLibrary" FixedWidth="true" />
+                                            </span>
+                                        </span>
+                                    </button>
+                                    @if (droppedDown)
+                                    {
+                                        <ul class="pf-c-dropdown__menu" aria-labelledby="dropdown-badge-toggle-button">
+                                            @foreach (var breadcrumb in this.breadcrumbs.Skip(Length).Take(this.breadcrumbs.Count() - 1 - Length))
+                                            {
+                                                var currentBreadcrumb = breadcrumb;
+                                                <li>
+                                                    <button class="pf-c-dropdown__menu-item" type="button" @onclick="() => Nav.NavigateTo(currentBreadcrumb.Href)">
+                                                        @breadcrumb.Name
+                                                    </button>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </span>
+                        </li>
+                    }
+                }
+
+                @if (this.breadcrumbs != null && this.breadcrumbs.Count() > 0)
+                {
+                    var lastBreadcrumb = this.breadcrumbs.Last();
+                    <li class="pf-c-breadcrumb__item">
+                        <span class="pf-c-breadcrumb__item-divider">
+                            <Icon Name="@IconDivider" Weight="@IconWeight" Library="@IconLibrary" FixedWidth="true" />
+                        </span>
+                        <a href="#"
+                       class="pf-c-breadcrumb__link pf-m-current"
+                       aria-current="page">@lastBreadcrumb.Name</a>
+                    </li>
+                }
+
+            </ol>
+        </nav>
+    </Body>
+</PatternflyPanel>
+
+@code {
+
+    IJSObjectReference module = default!;
+    IEnumerable<Breadcrumb> breadcrumbs = default!;
+    [Parameter] public string IconDivider { get; set; } = "angle-right";
+    [Parameter] public string IconClosed { get; set; } = "caret-right";
+    [Parameter] public string IconOpen { get; set; } = "caret-down";
+    [Parameter] public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
+    [Parameter] public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
+    [Parameter] public int Length { get; set; } = 2;
+    [Parameter] public bool HandleVisits { get; set; } = true;
+
+    bool droppedDown = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Outrage.Patternfly/scripts/components/breadcrumb/PatternflyBreadcrumb.js");
+
+        await base.OnInitializedAsync();
+        Nav.LocationChanged += PageChanged;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var title = await module.InvokeAsync<string>("PatternflyBreadcrumb.getPageTitle");
+        if (title != null && HandleVisits)
+        {
+            this.breadcrumbs = await this.BreadcrumbService.VisitAsync(Nav.Uri, title);
+        }
+        else
+        {
+            this.breadcrumbs = await this.BreadcrumbService.GetAsync();
+        }
+
+        await base.OnParametersSetAsync();
+    }
+
+    protected async void PageChanged(object? sender, LocationChangedEventArgs args)
+    {
+        this.droppedDown = false;
+        var title = await module.InvokeAsync<string>("PatternflyBreadcrumb.getPageTitle");
+        if (title != null && HandleVisits)
+        {
+            this.breadcrumbs = await this.BreadcrumbService.VisitAsync(Nav.Uri, title);
+        }
+        else
+        {
+            this.breadcrumbs = await this.BreadcrumbService.GetAsync();
+        }
+
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task ToggleDropdown()
+    {
+        this.droppedDown = !this.droppedDown;
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        return new string[] { "pf-c-breadcrumb" };
+    }
+
+    public void Dispose()
+    {
+        Nav.LocationChanged -= PageChanged;
+    }
+
+}

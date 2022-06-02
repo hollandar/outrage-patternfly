@@ -1,5 +1,6 @@
 ﻿@using Outrage.Patternfly.Components.Toaster
 @using static Outrage.Patternfly.Components.Utilities.Icon
+@using Outrage.Patternfly.Components.Breadcrumb
 @inherits LayoutComponentBase
 
 <PatternflyToaster></PatternflyToaster>
@@ -24,6 +25,7 @@
     </Header>
     <Sections>
         <PatternflyPageSection Fill="true" Color="SectionColor.normal">
+            <PatternflyBreadcrumb/>
             @Body
         </PatternflyPageSection>
         <PatternflyPageSection Color="SectionColor.dark_200">
@@ -42,6 +44,7 @@
                 <PatternflyNavigationLink Href="patternfly-backdrop" Icon="lock">Backdrop</PatternflyNavigationLink>
                 <PatternflyNavigationLink Href="patternfly-badge" Icon="check">Badge</PatternflyNavigationLink>
                 <PatternflyNavigationLink Href="patternfly-banner" Icon="flag">Banner</PatternflyNavigationLink>
+                <PatternflyNavigationLink Href="patternfly-breadcrumb" Icon="ellipsis-h">Breadcrumb</PatternflyNavigationLink>
                 <PatternflyNavigationLink Href="patternfly-button" Icon="mouse-pointer">Button</PatternflyNavigationLink>
                 <PatternflyNavigationLink Href="patternfly-card" Icon="id-card">Card</PatternflyNavigationLink>
                 <PatternflyNavigationLink Href="patternfly-content" Icon="align-justify">Content</PatternflyNavigationLink>
