@@ -25,12 +25,15 @@ class Build : NukeBuild
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
     const string semVer = "1.0.0";
-    const string suffixVer = "rc10";
+    const string suffixVer = "rc14";
 
     public static int Main() => Execute<Build>(x => x.Compile);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
+
+    [Parameter("Nuget API Key")]
+    readonly string ApiKey = null;
 
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
@@ -96,10 +99,11 @@ class Build : NukeBuild
                 .SetTargetPath(nugetPackage)
                 .When(Configuration != Configuration.Release, s => s
                     .SetSource("outrage")
-                    .SetProcessArgumentConfigurator(a => a.Add("-k {0}", "nfXXE3qZye2xayvG"))
+                    .SetProcessArgumentConfigurator(a => a.Add("-k {0}", ApiKey))
                 )
                 .When(Configuration == Configuration.Release, s => s
                     .SetSource("nuget.org")
+                    .SetProcessArgumentConfigurator(a => a.Add("-k {0}", ApiKey))
                 )
             );
         }

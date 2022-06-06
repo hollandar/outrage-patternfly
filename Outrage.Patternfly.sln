@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.cspr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternflyApp", "src\PatternflyApp\PatternflyApp.csproj", "{14BD98B3-F4B4-4927-8229-0E3F4E216AEA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebassemblyClient", "..\..\..\Users\holla\Documents\cm\outrage\outrage-patternfly\src\WebassemblyClient\WebassemblyClient.csproj", "{BD510185-4D1F-4184-9EED-61A3066389F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebassemblyClient", "src\WebassemblyClient\WebassemblyClient.csproj", "{BD510185-4D1F-4184-9EED-61A3066389F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
