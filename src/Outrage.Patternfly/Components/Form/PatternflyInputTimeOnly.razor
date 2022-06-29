@@ -1,0 +1,39 @@
+﻿@using System.Diagnostics.CodeAnalysis
+@inherits InputBase<TimeOnly>
+<input @attributes="@AdditionalAttributes" @bind-value="CurrentValueAsString" @bind-value:event="@(BindEvent)" />
+@code {
+    [CascadingParameter(Name = "FieldName")]
+    public string? FieldName { get; set; }
+
+    [Parameter]
+    public bool BindOnInput { get; set; } = false;
+
+    protected string BindEvent => BindOnInput ? "oninput" : "onchange";
+
+    protected override void OnParametersSet()
+    {
+        this.AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "pf-c-form-control", this.FieldName, (a) =>
+        {
+            a["type"] = "time";
+        }
+        ) ?? null;
+        base.OnParametersSet();
+    }
+
+    protected override string FormatValueAsString(TimeOnly value)
+    {
+        return value.ToString("HH:mm");
+    }
+
+    protected override bool TryParseValueFromString(string value, [MaybeNullWhen(false)] out TimeOnly result, [NotNullWhen(false)] out string validationErrorMessage)
+    {
+        validationErrorMessage = null;
+        if (!TimeOnly.TryParse(value, out result))
+        {
+            validationErrorMessage = $"Could not parse a date from {value}.";
+            return false;
+        }
+
+        return true;
+    }
+}
