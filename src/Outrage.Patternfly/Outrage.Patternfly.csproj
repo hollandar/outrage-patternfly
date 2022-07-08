@@ -19,6 +19,10 @@ Api documentation and component demonstrations can be found at https://patternfl
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Components\Page\PatternflyOnPage.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Include="LICENSE.md" Pack="true" PackagePath="" />	
 	</ItemGroup>
 	
