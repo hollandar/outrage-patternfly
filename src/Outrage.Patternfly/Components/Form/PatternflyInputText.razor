@@ -13,7 +13,8 @@
     {
         this.AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "pf-c-form-control", this.FieldName, (a) =>
         {
-            a["type"] = "text";
+            if (!a.ContainsKey("type"))
+                a["type"] = "text";
         }
         ) ?? null;
         base.OnParametersSet();
