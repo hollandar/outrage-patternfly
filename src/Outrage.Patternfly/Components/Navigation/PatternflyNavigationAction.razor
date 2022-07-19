@@ -6,11 +6,11 @@
     <a class="@Classes" href="javascript:void(0)" @attributes="AdditionalAttributes" @onclick="ItemClicked">
         @if (Icon != null)
         {
-            <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" FixedWidth="true" class="pf-u-mr-sm" aria-hidden="true" />
+            <span><Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" FixedWidth="true" class="pf-u-mr-sm" aria-hidden="true" /></span>
         }
         @if (Text != null)
         {
-            @Text
+            <span>@Text</span>
         }
         @if (ChildContent != null)
         {

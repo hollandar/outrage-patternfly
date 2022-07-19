@@ -1,7 +1,7 @@
 ﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
 
 <div class="@Classes" @attributes="AdditionalAttributes">
-    @if (Header != null)
+    @if (Header != null || Actions != null)
     {
         <div class="pf-c-card__header">
             @if (Header != null)
@@ -9,17 +9,22 @@
                 <div class="pf-c-card__header-main">
                     @Header
                 </div>
-                @if (Actions != null)
+            }
+            @if (Actions != null)
+            {
+                if (Header == null && Title != null)
                 {
-                    <div class="pf-c-card__actions">
-                        @Actions
-                    </div>
+                    <div class="pf-c-card__title">@Title</div>
                 }
+
+                <div class="pf-c-card__actions @(ActionsNoOffset ? "pf-m-no-offset" : string.Empty)">
+                    @Actions
+                </div>
             }
         </div>
     }
 
-    @if (Title != null)
+    @if (Header != null && Title != null)
     {
         <div class="pf-c-card__title">@Title</div>
     }
@@ -42,6 +47,9 @@
 
     [Parameter]
     public RenderFragment? Actions { get; set; }
+
+    [Parameter]
+    public bool ActionsNoOffset { get; set; }
 
     [Parameter]
     public RenderFragment? Title { get; set; }

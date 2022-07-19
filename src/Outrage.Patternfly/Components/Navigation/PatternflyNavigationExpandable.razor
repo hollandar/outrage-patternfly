@@ -8,17 +8,17 @@
             @onclick="ToggleExpanded">
         @if (Icon != null)
         {
-            <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight"/>
+            <span><Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" FixedWidth="true" class="pf-u-mr-sm" aria-hidden="true" /></span>
         }
         @if (Text != null)
         {
-            @Text
+            <span>@Text</span>
         }
         <span class="pf-c-nav__toggle">
             <span class="pf-c-nav__toggle-icon">
                 @if (Expanded)
                 {
-                    <span><Icon Name="@IconExpanded" Library="@IconLibrary" Weight="@IconWeight"/></span>
+                    <span><Icon Name="@IconExpanded" Library="@IconLibrary" Weight="@IconWeight" FixedWidth="true" aria-hidden="true"/></span>
                 } else
                 {
                     <span><Icon Name="@IconCollapsed" Library="@IconLibrary" Weight="@IconWeight"/></span>
