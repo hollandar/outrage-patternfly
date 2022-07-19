@@ -7,7 +7,7 @@
 @implements ITab
 
 <li class="@(Classes) @(tabCssClass)" id="@(TabId)_tab" @attributes="AdditionalAttributes">
-    <button class="pf-c-tabs__link" type="button" disabled="@(Disabled)" id="default-example-users-link" title="@(Title)" @onclick="ActivateTab">
+    <button class="pf-c-tabs__link" type="button" disabled="@(Disabled)" title="@(Title)" @onclick="ActivateTab">
         @if (!string.IsNullOrEmpty(Icon))
         {
             <span class="pf-c-tabs__item-icon" aria-hidden="true">
