@@ -1,0 +1,38 @@
+﻿@page "/patternfly-fileupload"
+@using Outrage.Patternfly.Components.Form
+
+<PageTitle>Patternfly - File Upload</PageTitle>
+
+<PatternflyTitle>Patternfly File Upload</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyFileDropZone OnChange="FilesUploaded"/>
+        @foreach (var uploadedFile in uploadedFiles)
+        {
+            <div @key="uploadedFile">@uploadedFile</div>
+        }
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-fileupload.md"></Markdown>
+
+@code {
+    List<String> uploadedFiles = new();
+
+    public async Task FilesUploaded(InputFileChangeEventArgs args)
+    {
+        uploadedFiles.Clear();
+        try
+        {
+            foreach (var file in args.GetMultipleFiles())
+            {
+                uploadedFiles.Add(file.Name);
+            }
+        } catch (Exception ex)
+        {
+            uploadedFiles.Add(ex.Message);
+        }
+        await this.InvokeAsync(StateHasChanged);
+    }
+}

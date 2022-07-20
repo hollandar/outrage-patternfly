@@ -1,0 +1,45 @@
+﻿@using Outrage.Patternfly.Components.Utilities
+
+<InputFileDropZone @ref="inputFileDropZone" OnChange="RaiseChange">
+    <div class="pf-c-multiple-file-upload">
+        <div class="pf-c-multiple-file-upload__main">
+            <div class="pf-c-multiple-file-upload__title">
+                <div class="pf-c-multiple-file-upload__title-icon">
+                    <Icon Name="upload" />
+                </div>
+                <div class="pf-c-multiple-file-upload__title-text">
+                    @if (Title != null)
+                    {
+                        @Title
+                    } else {
+                        <div>Drag and drop files here</div>
+                        <div class="pf-c-multiple-file-upload__title-text-separator">or</div>
+                    }
+                </div>
+            </div>
+            <div class="pf-c-multiple-file-upload__upload">
+                <button class="pf-c-button pf-m-secondary" type="button" @onclick="Browse">Upload</button>
+            </div>
+            <div class="pf-c-multiple-file-upload__info">
+                Accepted file types: @AllowedTypes
+            </div>
+        </div>
+    </div>
+</InputFileDropZone>
+
+@code {
+    InputFileDropZone inputFileDropZone = default!;
+    [Parameter] public EventCallback<InputFileChangeEventArgs> OnChange { get; set; }
+    [Parameter] public RenderFragment? Title { get; set; }
+    [Parameter] public string AllowedTypes {get;set;} = "Any";
+
+    public async Task RaiseChange(InputFileChangeEventArgs args)
+    {
+        await this.OnChange.InvokeAsync(args);
+    }
+
+    public async Task Browse()
+    {
+        await this.inputFileDropZone.Browse();
+    }
+}

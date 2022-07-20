@@ -1,0 +1,197 @@
+﻿@inject IJSRuntime JS
+
+@if (supported) {
+    <div @ref="dropZone" class="input-file-dropzone">
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+        else
+        {
+            <button @onclick="Browse">Upload</button>
+        }
+        <input type="file" style="display: none" />
+    </div>
+} else
+{
+    <InputFile OnChange="UnsupportedOnChange" />
+}
+
+
+@code {
+    IJSObjectReference module = default!;
+    IJSObjectReference dropZoneManager = default!;
+    ElementReference dropZone = default!;
+    bool supported = true;
+
+    [Parameter] public RenderFragment ChildContent { get; set; } = default!;
+    [Parameter] public EventCallback<InputFileChangeEventArgs> OnChange { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (this.module == null)
+            {
+                this.module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Outrage.Patternfly/scripts/components/form/InputFileDropZoneManager.js");
+                this.supported = await this.module.InvokeAsync<bool>("InputFileDropZoneManager.supported");
+            }
+            var instanceRef = DotNetObjectReference.Create(this);
+            this.dropZoneManager = await this.module.InvokeAsync<IJSObjectReference>("InputFileDropZoneManager.attach", dropZone, instanceRef);
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    public async Task Clear()
+    {
+        await this.dropZoneManager.InvokeVoidAsync("clear");
+    }
+
+    public async Task Browse()
+    {
+        await this.dropZoneManager.InvokeVoidAsync("browse");
+    }
+
+    [JSInvokable]
+    public async Task Complete(BrowserFile[] files)
+    {
+        var args = new InputFileChangeEventArgs(files);
+        await OnChange.InvokeAsync(args);
+    }
+
+    public async Task UnsupportedOnChange(InputFileChangeEventArgs args)
+    {
+        await OnChange.InvokeAsync(args);
+    }
+
+    public sealed class BrowserFile : IBrowserFile
+    {
+        public string Name { get; set; } = string.Empty;
+        public long LastModifiedMs { get; set; } = 0;
+        public IJSStreamReference? File { get; set; }
+
+        public long Size { get; set; } = -1;
+
+        public string ContentType { get; set; } = string.Empty;
+
+        public DateTimeOffset LastModified => DateTimeOffset.FromUnixTimeMilliseconds(LastModifiedMs);
+
+        public Stream OpenReadStream(long maxAllowedSize = 512000, CancellationToken cancellationToken = default)
+        {
+            if (this.File == null)
+                throw new NullReferenceException($"No IJSStreamReference is available for the file {Name}.");
+
+            return new BrowserFileStream(this.File, maxAllowedSize, cancellationToken);
+        }
+    }
+
+    internal sealed class BrowserFileStream : Stream
+    {
+        private long _position;
+        private readonly IJSStreamReference _streamReference;
+        private readonly long _maxAllowedSize;
+        private readonly CancellationTokenSource _openReadStreamCts;
+        private readonly ValueTask<Stream> OpenReadStreamTask;
+
+        private bool _isDisposed;
+        private CancellationTokenSource? _copyFileDataCts;
+
+        public BrowserFileStream(
+            IJSStreamReference streamReference,
+            long maxAllowedSize,
+            CancellationToken cancellationToken)
+        {
+            _streamReference = streamReference;
+            _maxAllowedSize = maxAllowedSize;
+            _openReadStreamCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+
+            OpenReadStreamTask = _streamReference.OpenReadStreamAsync(_maxAllowedSize, _openReadStreamCts.Token);
+        }
+
+        public override bool CanRead => true;
+
+        public override bool CanSeek => false;
+
+        public override bool CanWrite => false;
+
+        public override long Length => this._streamReference.Length;
+
+        public override long Position
+        {
+            get => _position;
+            set => throw new NotSupportedException();
+        }
+
+        public override void Flush()
+            => throw new NotSupportedException();
+
+        public override int Read(byte[] buffer, int offset, int count)
+            => throw new NotSupportedException("Synchronous reads are not supported.");
+
+        public override long Seek(long offset, SeekOrigin origin)
+            => throw new NotSupportedException();
+
+        public override void SetLength(long value)
+            => throw new NotSupportedException();
+
+        public override void Write(byte[] buffer, int offset, int count)
+            => throw new NotSupportedException();
+
+        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+            => ReadAsync(new Memory<byte>(buffer, offset, count), cancellationToken).AsTask();
+
+        public override async ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
+        {
+            var bytesAvailableToRead = Length - Position;
+            var maxBytesToRead = (int)Math.Min(bytesAvailableToRead, buffer.Length);
+            if (maxBytesToRead <= 0)
+            {
+                return 0;
+            }
+
+            var bytesRead = await CopyFileDataIntoBuffer(buffer.Slice(0, maxBytesToRead), cancellationToken);
+
+            _position += bytesRead;
+
+            return bytesRead;
+        }
+
+        private async ValueTask<int> CopyFileDataIntoBuffer(Memory<byte> destination, CancellationToken cancellationToken)
+        {
+            var stream = await OpenReadStreamTask;
+            _copyFileDataCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            return await stream.ReadAsync(destination, _copyFileDataCts.Token);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+            {
+                return;
+            }
+
+            _openReadStreamCts.Cancel();
+            _copyFileDataCts?.Cancel();
+
+            // and reclaim the memory. If the browser connection is already gone, there's no way for the
+            // notification to get through, but we don't want to fail the .NET-side disposal process for this.
+            try
+            {
+                _ = _streamReference?.DisposeAsync().Preserve();
+            }
+            catch
+            {
+            }
+
+            _isDisposed = true;
+
+            base.Dispose(disposing);
+        }
+    }
+
+}
