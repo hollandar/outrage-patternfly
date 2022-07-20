@@ -49,14 +49,18 @@
             }
         </main>
     </CascadingValue>
-    @onPageContent
+
+    @foreach (var onPageContent in onPageComponents.Values.Select(r => r.ChildContent))
+    {
+        @onPageContent
+    }
 </div>
 
 @code {
     public bool sidebar = true;
     public HtmlId controlsId = new();
-    RenderFragment? onPageContent => onPage?.ChildContent;
-    PatternflyOnPage? onPage;
+
+    Dictionary<Guid, PatternflyOnPage> onPageComponents = new ();
 
     [Parameter] public RenderFragment? Toggle { get; set; }
     [Parameter] public RenderFragment? Logo { get; set; }
@@ -87,22 +91,42 @@
         this.Nav.NavigateTo(LogoLinkUrl);
     }
 
-    public void SetOnPage(PatternflyOnPage? onPage)
+    // This flag prevents a render loop with OnPage components triggering a re-render of the parent page.
+    // It is set when RenderOnPage is first called and StateHasChanged is first invoked.
+    // Once rendering is complete, the flag is reset in OnAfterRenderAsync.
+    private bool isRendering = false;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (this.onPage != null)
-            this.onPage.OnChange -= StateHasChanged;
+        isRendering = false;
+        await base.OnAfterRenderAsync(firstRender);
+    }
 
-        if (onPage == null)
+    public void RenderOnPage()
+    {
+        if (!isRendering)
         {
-            this.onPage = null;
-            return;
-        }
-        else
-        {
-            this.onPage = onPage;
-            this.onPage.OnChange += StateHasChanged;
+            isRendering = true;
+            StateHasChanged();
         }
     }
 
-    public bool IsSetOnPage(PatternflyOnPage onPage) => this.onPage == onPage;
+    public void AddOnPage(PatternflyOnPage onPage)
+    {
+        if (this.onPageComponents.ContainsKey(onPage.Id))
+        {
+            this.onPageComponents[onPage.Id].OnChange -= RenderOnPage;
+        }
+
+        this.onPageComponents.Add(onPage.Id, onPage);
+        this.onPageComponents[onPage.Id].OnChange += RenderOnPage;
+    }
+
+    public void RemoveOnPage(PatternflyOnPage onPage)
+    {
+        if (this.onPageComponents.ContainsKey(onPage.Id))
+        {
+            this.onPageComponents[onPage.Id].OnChange -= RenderOnPage;
+            this.onPageComponents.Remove(onPage.Id);
+        }
+    }
 }

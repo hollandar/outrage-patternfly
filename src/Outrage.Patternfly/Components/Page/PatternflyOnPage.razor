@@ -8,12 +8,15 @@
     [CascadingParameter(Name = "PatternflyParentPage")] public PatternflyPage? ParentPage { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
+    private Guid id = Guid.NewGuid();
+    public Guid Id => id;
+
     public event Action OnChange = default!;
     protected override void OnInitialized()
     {
         if (ParentPage != null)
         {
-            ParentPage.SetOnPage(this);
+            ParentPage.AddOnPage(this);
         }
         
         Update();
@@ -39,9 +42,6 @@
 
     public void Dispose()
     {
-        if (ParentPage?.IsSetOnPage(this) ?? false)
-        {
-            ParentPage?.SetOnPage(null);
-        }
+        ParentPage?.RemoveOnPage(this);
     }
 }
