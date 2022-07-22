@@ -1,0 +1,33 @@
+﻿@using System.Linq.Expressions
+@using Microsoft.AspNetCore.Components.Forms;
+
+@typeparam TValue
+@implements IDisposable
+
+@foreach (var message in EditContext.GetValidationMessages(_fieldIdentifier))
+{
+    <p class="pf-c-form__helper-text pf-m-error" aria-live="polite">@message</p>         
+}
+
+@code {
+    [CascadingParameter] private EditContext EditContext { get; set; } = default!;
+
+    [Parameter]
+    [EditorRequired]
+    public Expression<Func<TValue>> For { get; set; } = default!;
+
+    private FieldIdentifier _fieldIdentifier;
+
+    protected override void OnInitialized()
+    {
+        _fieldIdentifier = FieldIdentifier.Create(For);
+        EditContext.OnValidationStateChanged += HandleValidationStateChanged;
+    }
+
+    private void HandleValidationStateChanged(object? o, ValidationStateChangedEventArgs args) => StateHasChanged();
+
+    public void Dispose()
+    {
+        EditContext.OnValidationStateChanged -= HandleValidationStateChanged;
+    }
+}
