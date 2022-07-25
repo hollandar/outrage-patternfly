@@ -14,43 +14,52 @@
     @if (pageModel != null)
     {
         <PatternflyLoading Complete="pageModel.IsLoaded">
-            @if (ToolbarItems != null || ShowPagination == TablePaginationPosition.Top || ShowPagination == TablePaginationPosition.TopAndBottom)
-            {
-                <PatternflyToolbar>
-                    @ToolbarItems
+            <PatternflyStack Gutter="true">
+                @if (ToolbarItems != null || (pageModel.TotalRecords > pageModel.PageSize && (ShowPagination == TablePaginationPosition.Top || ShowPagination == TablePaginationPosition.TopAndBottom)))
+                {
+                    <PatternflyStackItem>
+                        <PatternflyToolbar>
+                            @ToolbarItems
 
-                    @if (pageModel.TotalRecords > pageModel.PageSize && (ShowPagination == TablePaginationPosition.Top || ShowPagination == TablePaginationPosition.TopAndBottom))
-                    {
-                        <PatternflyToolbarItem ItemType="ToolbarItemType.pagination">
-                            <PatternflyPagination Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords"
+                            @if (pageModel.TotalRecords > pageModel.PageSize && (ShowPagination == TablePaginationPosition.Top || ShowPagination == TablePaginationPosition.TopAndBottom))
+                            {
+                                <PatternflyToolbarItem ItemType="ToolbarItemType.pagination">
+                                    <PatternflyPagination Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords"
+                                              PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
+                                              Position="PaginationPosition.Top" Compact="CompactPagination" />
+                                </PatternflyToolbarItem>
+                            }
+                        </PatternflyToolbar>
+                    </PatternflyStackItem>
+                }
+
+                @if (pageModel.TotalRecords == 0)
+                {
+                    @NoItemsMessage
+                }
+                else
+                {
+                    <PatternflyStackItem>
+                        <PatternflyFlex Column="@Column">
+                            @foreach (var item in pageModel.Items)
+                            {
+                                <PatternflyFlexItem @key="(Key != null? Key(item.Item): item)">
+                                    @RowTemplate(item.Item)
+                                </PatternflyFlexItem>
+                            }
+                        </PatternflyFlex>
+                    </PatternflyStackItem>
+                }
+
+                @if (pageModel.TotalRecords > pageModel.PageSize && (ShowPagination == TablePaginationPosition.Bottom || ShowPagination == TablePaginationPosition.TopAndBottom))
+                {
+                    <PatternflyStackItem>
+                        <PatternflyPagination Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords"
                                       PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
-                                      Position="PaginationPosition.Top" Compact="CompactPagination" />
-                        </PatternflyToolbarItem>
-                    }
-                </PatternflyToolbar>
-            }
-
-            @if (pageModel.TotalRecords == 0)
-            {
-                @NoItemsMessage
-            } else
-            {
-                <PatternflyFlex Column="@Column">
-                    @foreach (var item in pageModel.Items)
-                    {
-                        <PatternflyFlexItem @key="(Key != null? Key(item.Item): item)">
-                            @RowTemplate(item.Item)
-                        </PatternflyFlexItem>
-                    }
-                </PatternflyFlex>
-            }
-
-            @if (pageModel.TotalRecords > pageModel.PageSize && (ShowPagination == TablePaginationPosition.Bottom || ShowPagination == TablePaginationPosition.TopAndBottom))
-            {
-                <PatternflyPagination Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords"
-                              PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
-                              Position="PaginationPosition.Bottom" Compact="CompactPagination" />
-            }
+                                      Position="PaginationPosition.Bottom" Compact="CompactPagination" />
+                    </PatternflyStackItem>
+                }
+            </PatternflyStack>
         </PatternflyLoading>
     }
 </CascadingValue>
