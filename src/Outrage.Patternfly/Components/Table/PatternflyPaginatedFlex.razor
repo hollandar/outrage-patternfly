@@ -1,0 +1,148 @@
+﻿@using Outrage.Patternfly.Components.Layout
+@using Outrage.Patternfly.Models
+@using Outrage.Patternfly.Services
+@using Outrage.Patternfly.Components.Loading
+@using Outrage.Patternfly.Components.Pagination
+@using Outrage.Patternfly.Components.Toolbar
+
+@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+@typeparam TItem
+@typeparam TItemKey
+
+<CascadingValue Name="Parent" Value="@this">
+    @if (pageModel != null)
+    {
+        <PatternflyLoading Complete="pageModel.IsLoaded">
+            @if (ToolbarItems != null || ShowPagination == TablePaginationPosition.Top || ShowPagination == TablePaginationPosition.TopAndBottom)
+            {
+                <PatternflyToolbar>
+                    @ToolbarItems
+
+                    @if (pageModel.TotalRecords > pageModel.PageSize && (ShowPagination == TablePaginationPosition.Top || ShowPagination == TablePaginationPosition.TopAndBottom))
+                    {
+                        <PatternflyToolbarItem ItemType="ToolbarItemType.pagination">
+                            <PatternflyPagination Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords"
+                                      PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
+                                      Position="PaginationPosition.Top" Compact="CompactPagination" />
+                        </PatternflyToolbarItem>
+                    }
+                </PatternflyToolbar>
+            }
+
+            @if (pageModel.TotalRecords == 0)
+            {
+                @NoItemsMessage
+            } else
+            {
+                <PatternflyFlex Column="@Column">
+                    @foreach (var item in pageModel.Items)
+                    {
+                        <PatternflyFlexItem @key="(Key != null? Key(item.Item): item)">
+                            @RowTemplate(item.Item)
+                        </PatternflyFlexItem>
+                    }
+                </PatternflyFlex>
+            }
+
+            @if (pageModel.TotalRecords > pageModel.PageSize && (ShowPagination == TablePaginationPosition.Bottom || ShowPagination == TablePaginationPosition.TopAndBottom))
+            {
+                <PatternflyPagination Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords"
+                              PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
+                              Position="PaginationPosition.Bottom" Compact="CompactPagination" />
+            }
+        </PatternflyLoading>
+    }
+</CascadingValue>
+
+@code {
+    [Parameter] public string? StateId { get; set; }
+
+    [Parameter] public Func<TItem, object>? Key { get; set; } = null;
+
+    [Parameter] public Func<DataPageLoadArgs<TItemKey>, Task<DataPageLoadResult<TItem>?>>? OnLoadItems { get; set; }
+
+    [Parameter] public RenderFragment? ToolbarItems { get; set; }
+
+    [Parameter] public int DefaultPageSize { get; set; } = 20;
+
+    [Parameter] public bool CompactPagination { get; set; }
+
+    [Parameter] public TablePaginationPosition ShowPagination { get; set; } = TablePaginationPosition.TopAndBottom;
+
+    [Parameter] public bool Column { get; set; } = false;
+
+    [Parameter] public RenderFragment<TItem>? RowTemplate { get; set; }
+
+    [Parameter] public RenderFragment? NoItemsMessage { get; set; }
+
+    [Parameter] public bool Compact { get; set; }
+
+    [Inject] DataPageModelFactory DataPageModelFactory { get; set; } = default!;
+
+    private TItemKey? loadedId = default(TItemKey);
+
+    private DataPageModel<TItem>? pageModel;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        pageModel = await DataPageModelFactory.Create<TItem>(StateId, DefaultPageSize);
+        if (pageModel != null)
+        {
+            await Refresh();
+        }
+    }
+
+    public async Task SelectPage(int page)
+    {
+        if (pageModel != null && OnLoadItems != null)
+        {
+            var result = await OnLoadItems(new DataPageLoadArgs<TItemKey> { SelectedItemKey = loadedId, Page = page, PageSize = pageModel.PageSize });
+            if (result != null)
+            {
+                await pageModel.Update(result);
+                await this.InvokeAsync(StateHasChanged);
+            }
+        }
+    }
+
+    public async Task SelectPageSize(int pageSize)
+    {
+        if (pageModel != null && OnLoadItems != null)
+        {
+            var result = await OnLoadItems(new DataPageLoadArgs<TItemKey> { SelectedItemKey = loadedId, Page = 0, PageSize = pageSize });
+            if (result != null)
+            {
+                await pageModel.Update(result);
+                await this.InvokeAsync(StateHasChanged);
+            }
+        }
+    }
+
+    public async Task SelectById(TItemKey id)
+    {
+        this.loadedId = id;
+        await SelectPage(0);
+    }
+
+    public async Task Refresh(bool reset = false)
+    {
+        if (pageModel != null && OnLoadItems != null)
+        {
+            var result = await OnLoadItems(new DataPageLoadArgs<TItemKey> { SelectedItemKey = loadedId, Page = reset ? 0 : pageModel.Page, PageSize = pageModel.PageSize });
+            if (result != null)
+            {
+                await pageModel.Update(result);
+                await this.InvokeAsync(StateHasChanged);
+            }
+        }
+    }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>();
+        return classes;
+    }
+}
