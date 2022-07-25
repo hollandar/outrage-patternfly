@@ -194,7 +194,7 @@ public Task<DataPageLoadResult<Item>> LoadItems(DataPageLoadArgs<Guid> args)
 * *OnLoadItems* : `Func<DataPageLoadArgs<TItemKey>, Task<DataPageLoadResult<TItem>?>>? OnLoadItems` : A function that returns rows based on the current page.
 * *OnRowClicked* : `EventCallback<TItem>` : An event when the row is clicked.
 
-# PatternflyPaginatedTable
+# PatternflyPaginatedFlex
 
 A table that makes use of a table loader, and is able to paginate its content.
 
@@ -205,7 +205,7 @@ A table that makes use of a table loader, and is able to paginate its content.
     <RowTemplate>
         Row content
     </RowTemplate>
-</PatternflyPaginatedTable>
+</PatternflyPaginatedFlex>
 ```
 
 OnLoadItems definiton, uses the data from previous examples.
@@ -238,6 +238,64 @@ public Task<DataPageLoadResult<Item>> LoadItems(DataPageLoadArgs<Guid> args)
 * *Compact* : Render the compact version of the table. Default false.
 * *CompactPagination* : Use a compact paginator. Default false.
 * *Key* : A Func which returns the key from an item.  Default null.
+
+## Methods
+
+* *SelectPage* : `Task SelectPage(int page)` : Switch to a new page.  Page is zero based.
+* *SelectPageSize* : `Task SelectPageSize(int pageSize)` : Change the current page size.
+* *Refresh* : `Task Refresh(bool reset = false)` : Refresh the current page, and optionally return to page 0 (reset == true).
+* *SelectById* : `Task SelectById(TItemKey id)` : Select a row in the table.
+
+## Events
+
+* *OnLoadItems* : `Func<DataPageLoadArgs<TItemKey>, Task<DataPageLoadResult<TItem>?>>? OnLoadItems` : A function that returns rows based on the current page.
+
+# PatternflyPaginatedGallery
+
+A gallery that makes use of a table loader, and is able to paginate its content.
+
+## Example usage
+
+```
+<PatternflyPaginatedGallery TItemKey="Guid" TItem="Item" OnLoadItems="LoadItems" DefaultPageSize="2">
+    <RowTemplate>
+        Row content
+    </RowTemplate>
+</PatternflyPaginatedGallery>
+```
+
+OnLoadItems definiton, uses the data from previous examples.
+```
+public Task<DataPageLoadResult<Item>> LoadItems(DataPageLoadArgs<Guid> args)
+{
+    var items = Items.Skip(args.Page * args.PageSize).Take(args.PageSize);
+
+    return Task.FromResult(new DataPageLoadResult<Item>()
+        {
+            Page = args.Page,
+            PageSize = args.PageSize,
+            Items = items,
+            TotalRecords = Items.Count()
+        });
+}
+```
+
+## Sections
+
+* *RowTemplate* : A template for the row containing table cell data
+* *NoItemsMessage* : The messages when there are no rows in the table.
+* *ToolbarItems* : A location for toolbar items, to the left of the pagination controls.
+
+## Attributes
+
+* *StateId* : An id used to track the page state of the table between visits.  Default RNG.
+* *DefaultPageSize* : The default size of pages. Default 20.
+* *ShowPagination* : Position to display pagination controls. [Top, Bottom, TopAndBottom (default)]
+* *Compact* : Render the compact version of the table. Default false.
+* *CompactPagination* : Use a compact paginator. Default false.
+* *Key* : A Func which returns the key from an item.  Default null.
+* *Gutter* : Use a gutter spacer between items? Default true.
+* *GalleryStyle* : Override the style property on the galaery to set CSS values. Default "".
 
 ## Methods
 
