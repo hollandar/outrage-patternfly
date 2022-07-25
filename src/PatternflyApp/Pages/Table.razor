@@ -1,4 +1,5 @@
 ﻿@page "/patternfly-table"
+@using Outrage.Patternfly.Components.Card
 @using Outrage.Patternfly.Components.Table
 @using Outrage.Patternfly.Models
 
@@ -65,6 +66,34 @@
                 <TableCell>@context.Color</TableCell>
             </RowTemplate>
         </PatternflyPaginatedTable>
+
+        <PatternflyTitle HeadingLevel="2">Flex Paginated Table</PatternflyTitle>
+        <PatternflyPaginatedFlex TItemKey="Guid" TItem="Item" OnLoadItems="LoadItems" DefaultPageSize="4" Key="(item) => item.Id" ShowPagination="TablePaginationPosition.Bottom">
+            <NoItemsMessage>No items</NoItemsMessage>
+            <RowTemplate>
+                <PatternflyCard>
+                    <Header><PatternflyTitle HeadingLevel="3">@context.Flower</PatternflyTitle></Header>
+                    <Body>
+                        Height: @context.Height<br/>
+                        Color: @context.Color<br/>
+                    </Body>
+                </PatternflyCard>
+            </RowTemplate>
+        </PatternflyPaginatedFlex>
+
+        <PatternflyTitle HeadingLevel="2">Gallery Paginated Table</PatternflyTitle>
+        <PatternflyPaginatedGallery TItemKey="Guid" TItem="Item" OnLoadItems="LoadItems" DefaultPageSize="4" Key="(item) => item.Id" ShowPagination="TablePaginationPosition.Bottom">
+            <NoItemsMessage>No items</NoItemsMessage>
+            <RowTemplate>
+                <PatternflyCard>
+                    <Header><PatternflyTitle HeadingLevel="3">@context.Flower</PatternflyTitle></Header>
+                    <Body>
+                        Height: @context.Height<br/>
+                        Color: @context.Color<br/>
+                    </Body>
+                </PatternflyCard>
+            </RowTemplate>
+        </PatternflyPaginatedGallery>
     </Body>
 </PatternflyPanel>
 

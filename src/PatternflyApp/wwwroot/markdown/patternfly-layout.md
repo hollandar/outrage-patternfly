@@ -64,6 +64,27 @@ Arranges items in a grid.
 
 * *Gutter* : Show gutters around items in the grid? Default false.
 
+# PatternflyGallery, PatternflyGalleryItem
+
+link: [Patternfly Gallery](https://www.patternfly.org/v4/layouts/grid)
+
+namespace: Outrage.Patternfly.Components.Layouts
+
+Arranges items in a gallery.
+
+## Example usage
+
+```
+<PatternflyGallery>
+	<PatternflyGalleryItem></PatternflyGalleryItem>
+</PatternflyGallery>
+
+```
+
+## Gallery attributes
+
+* *Gutter* : Show gutters around items in the gallery? Default false.
+
 # PatternflySplit, PlatternflySplitItem
 
 link: [Patternfly Split](https://www.patternfly.org/v4/layouts/split)
