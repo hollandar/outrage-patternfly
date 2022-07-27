@@ -50,17 +50,19 @@
         </main>
     </CascadingValue>
 
-    @foreach (var onPageContent in onPageComponents.Values.Where(r => r.Uri == Nav.Uri).Select(r => r.ChildContent))
+    @foreach (var onPageContent in onPageComponents)
     {
-        @onPageContent
+        if (onPageContent.TryGetTarget(out var onPage))
+        {
+            @onPage.ChildContent
+        } 
     }
 </div>
 
 @code {
     public bool sidebar = true;
     public HtmlId controlsId = new();
-
-    Dictionary<string, PatternflyOnPage> onPageComponents = new ();
+    List<WeakReference<PatternflyOnPage>> onPageComponents = new ();
 
     [Parameter] public RenderFragment? Toggle { get; set; }
     [Parameter] public RenderFragment? Logo { get; set; }
@@ -91,41 +93,26 @@
         this.Nav.NavigateTo(LogoLinkUrl);
     }
 
-    // This flag prevents a render loop with OnPage components triggering a re-render of the parent page.
-    // It is set when RenderOnPage is first called and StateHasChanged is first invoked.
-    // Once rendering is complete, the flag is reset in OnAfterRenderAsync.
-    private HashSet<string> renderingIds = new();
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    public void RenderOnPage()
     {
-        renderingIds.Clear();
-        await base.OnAfterRenderAsync(firstRender);
-    }
-
-    public void RenderOnPage(string id)
-    {
-        if (!renderingIds.Contains(id))
-        {
-            renderingIds.Add(id);
-            StateHasChanged();
-        }
+        StateHasChanged();
     }
 
     public void AddOnPage(PatternflyOnPage onPage)
     {
-        if (this.onPageComponents.ContainsKey(onPage.Id))
-        {
-            this.onPageComponents[onPage.Id].OnChange -= RenderOnPage;
-        }
-        this.onPageComponents[onPage.Id] = onPage;
-        this.onPageComponents[onPage.Id].OnChange += RenderOnPage;
+        CleanupReferences();
+        this.onPageComponents.Add(new WeakReference<PatternflyOnPage>(onPage));
     }
 
-    public void RemoveOnPage(PatternflyOnPage onPage)
+    private void CleanupReferences()
     {
-        if (this.onPageComponents.Values.Contains(onPage))
+        for (int i = 0; i < onPageComponents.Count; i++)
         {
-            this.onPageComponents[onPage.Id].OnChange -= RenderOnPage;
-            this.onPageComponents.Remove(onPage.Id);
+            var reference = onPageComponents[i];
+            if (!reference.TryGetTarget(out var target))
+            {
+                onPageComponents.Remove(reference);
+            }
         }
     }
 }
