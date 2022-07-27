@@ -1,0 +1,116 @@
+﻿@using Outrage.Patternfly.Components.Utilities
+
+@inherits Patternfly.Components.Base.PatternflyComponentBase
+@implements IDisposable
+
+@{
+    var validationMessages = Model is null ?
+        CurrentEditContext.GetValidationMessages() :
+        CurrentEditContext.GetValidationMessages(new FieldIdentifier(Model, string.Empty));
+}
+@if (validationMessages.Any())
+{
+    <div class="@Classes" @attributes="AdditionalAttributes">
+        @if (!string.IsNullOrEmpty(Icon))
+        {
+            <div class="pf-c-alert__icon">
+                <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" Size="@IconSize" />
+            </div>
+        }
+        @if (validationMessages.Count() == 1)
+        {
+            <p class="pf-c-alert__title">@validationMessages.First()</p>        
+        }
+        else if (!string.IsNullOrEmpty(Title))
+        {
+            <p class="pf-c-alert__title">@Title</p>
+        }
+
+        @if (validationMessages.Count() > 1)
+        {
+            <div class="pf-c-alert__description">
+                @foreach (var error in validationMessages)
+                {
+                    <p>@error</p>
+                }
+            </div>
+        }
+    </div>
+}
+@code {
+    protected EditContext? _previousEditContext;
+    protected EventHandler<ValidationStateChangedEventArgs>? ValidationStateChangedHandler { get; set; }
+
+    /// <summary>
+    /// Gets or sets the model to produce the list of validation messages for.
+    /// When specified, this lists all errors that are associated with the model instance.
+    /// </summary>
+    [Parameter] 
+    public object? Model { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; } = "Fields on the form require your attention:";
+
+    [Parameter]
+    public string? Icon { get; set; } = "exclamation-circle";
+
+    [Parameter]
+    public Utilities.Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+
+    [Parameter]
+    public Utilities.Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.solid;
+
+    [Parameter]
+    public Utilities.Icon.SizeEnum IconSize { get; set; } = Utilities.Icon.SizeEnum.regular;
+
+
+    [CascadingParameter] 
+    protected EditContext CurrentEditContext { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        ValidationStateChangedHandler = (sender, eventArgs) => StateHasChanged();
+        base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (CurrentEditContext == null)
+        {
+            throw new InvalidOperationException($"{nameof(ValidationSummary)} requires a cascading parameter " +
+                $"of type {nameof(EditContext)}. For example, you can use {nameof(ValidationSummary)} inside " +
+                $"an {nameof(EditForm)}.");
+        }
+
+        if (CurrentEditContext != _previousEditContext)
+        {
+            DetachValidationStateChangedListener();
+            CurrentEditContext.OnValidationStateChanged += ValidationStateChangedHandler;
+            _previousEditContext = CurrentEditContext;
+        }
+    }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new List<string>(new string[] { "pf-c-alert", "pf-m-danger", "pf-m-inline" });
+        return classes;
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+    }
+
+    void IDisposable.Dispose()
+    {
+        DetachValidationStateChangedListener();
+        Dispose(disposing: true);
+    }
+
+    private void DetachValidationStateChangedListener()
+    {
+        if (_previousEditContext != null)
+        {
+            _previousEditContext.OnValidationStateChanged -= ValidationStateChangedHandler;
+        }
+    }
+}
