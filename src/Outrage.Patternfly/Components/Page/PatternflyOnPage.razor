@@ -7,13 +7,17 @@
 @code {
     [CascadingParameter(Name = "PatternflyParentPage")] public PatternflyPage? ParentPage { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    private Guid id = Guid.NewGuid();
-    public Guid Id => id;
+    [Inject] NavigationManager NavigationManager { get; set; } = default!;
 
-    public event Action OnChange = default!;
+    public string Uri { get; private set; } = string.Empty;
+
+    public event Action<string> OnChange = default!;
     protected override void OnInitialized()
     {
+        Uri = NavigationManager.Uri;
+
         if (ParentPage != null)
         {
             ParentPage.AddOnPage(this);
@@ -25,7 +29,7 @@
 
     public void Update()
     {
-        OnChange?.Invoke();
+        OnChange?.Invoke(Id);
     }
 
     protected override bool ShouldRender()

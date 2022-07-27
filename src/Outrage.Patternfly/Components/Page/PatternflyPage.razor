@@ -50,7 +50,7 @@
         </main>
     </CascadingValue>
 
-    @foreach (var onPageContent in onPageComponents.Values.Select(r => r.ChildContent))
+    @foreach (var onPageContent in onPageComponents.Values.Where(r => r.Uri == Nav.Uri).Select(r => r.ChildContent))
     {
         @onPageContent
     }
@@ -60,7 +60,7 @@
     public bool sidebar = true;
     public HtmlId controlsId = new();
 
-    Dictionary<Guid, PatternflyOnPage> onPageComponents = new ();
+    Dictionary<string, PatternflyOnPage> onPageComponents = new ();
 
     [Parameter] public RenderFragment? Toggle { get; set; }
     [Parameter] public RenderFragment? Logo { get; set; }
@@ -94,18 +94,18 @@
     // This flag prevents a render loop with OnPage components triggering a re-render of the parent page.
     // It is set when RenderOnPage is first called and StateHasChanged is first invoked.
     // Once rendering is complete, the flag is reset in OnAfterRenderAsync.
-    private bool isRendering = false;
+    private HashSet<string> renderingIds = new();
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        isRendering = false;
+        renderingIds.Clear();
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    public void RenderOnPage()
+    public void RenderOnPage(string id)
     {
-        if (!isRendering)
+        if (!renderingIds.Contains(id))
         {
-            isRendering = true;
+            renderingIds.Add(id);
             StateHasChanged();
         }
     }
@@ -116,14 +116,13 @@
         {
             this.onPageComponents[onPage.Id].OnChange -= RenderOnPage;
         }
-
-        this.onPageComponents.Add(onPage.Id, onPage);
+        this.onPageComponents[onPage.Id] = onPage;
         this.onPageComponents[onPage.Id].OnChange += RenderOnPage;
     }
 
     public void RemoveOnPage(PatternflyOnPage onPage)
     {
-        if (this.onPageComponents.ContainsKey(onPage.Id))
+        if (this.onPageComponents.Values.Contains(onPage))
         {
             this.onPageComponents[onPage.Id].OnChange -= RenderOnPage;
             this.onPageComponents.Remove(onPage.Id);
