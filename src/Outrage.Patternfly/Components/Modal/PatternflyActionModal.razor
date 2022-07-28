@@ -4,66 +4,63 @@
 @using Outrage.Patternfly.Components.Actions
 @using Outrage.Patternfly.Components.Button
 @using Outrage.Patternfly.Components.Alert
-@using Outrage.Patternfly.Components.Page
 
-<PatternflyOnPage>
-    <PatternflyModal CreateOnShow="true" @ref="modal" Size="@Size">
-        <Header>
-            @if (item != null)
+<PatternflyModal CreateOnShow="true" @ref="modal" Size="@Size">
+    <Header>
+        @if (item != null)
+        {
+            @Header?.Invoke(item)
+        }
+    </Header>
+    <Body>
+        @if (item != null)
+        {
+            @Body?.Invoke(item)
+        }
+    </Body>
+    <Footer>
+        <PatternflyStack>
+            @if (Confirmation != ConfirmationEnum.custom)
             {
-                @Header?.Invoke(item)
+                <PatternflyStackItem>
+                    @if (Confirmation == ConfirmationEnum.ok || Confirmation == ConfirmationEnum.okcancel || Confirmation == ConfirmationEnum.custom)
+                    {
+                        <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Ok")</PatternflyButton>
+                    }
+                    @if (Confirmation == ConfirmationEnum.close)
+                    {
+                        <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Close")</PatternflyButton>
+                    }
+                    @if (Confirmation == ConfirmationEnum.okcancel || Confirmation == ConfirmationEnum.custom)
+                    {
+                        <PatternflyButton Color="ButtonColor.Link" Clicked="DoDecline">@(DeclineText ?? "Cancel")</PatternflyButton>
+                    }
+                    @if (Confirmation == ConfirmationEnum.yesno)
+                    {
+                        <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Yes")</PatternflyButton>
+                        <PatternflyButton Color="ButtonColor.Link" Clicked="DoDecline">@(DeclineText ?? "No")</PatternflyButton>
+                    }
+                </PatternflyStackItem>
             }
-        </Header>
-        <Body>
-            @if (item != null)
+            else
             {
-                @Body?.Invoke(item)
+                <PatternflyStackItem>
+                    @if (item != null)
+                    {
+                        @Footer?.Invoke(item)
+                    }
+                </PatternflyStackItem>
             }
-        </Body>
-        <Footer>
-            <PatternflyStack>
-                @if (Confirmation != ConfirmationEnum.custom)
-                {
-                    <PatternflyStackItem>
-                        @if (Confirmation == ConfirmationEnum.ok || Confirmation == ConfirmationEnum.okcancel || Confirmation == ConfirmationEnum.custom)
-                        {
-                            <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Ok")</PatternflyButton>
-                        }
-                        @if (Confirmation == ConfirmationEnum.close)
-                        {
-                            <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Close")</PatternflyButton>
-                        }
-                        @if (Confirmation == ConfirmationEnum.okcancel || Confirmation == ConfirmationEnum.custom)
-                        {
-                            <PatternflyButton Color="ButtonColor.Link" Clicked="DoDecline">@(DeclineText ?? "Cancel")</PatternflyButton>
-                        }
-                        @if (Confirmation == ConfirmationEnum.yesno)
-                        {
-                            <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Yes")</PatternflyButton>
-                            <PatternflyButton Color="ButtonColor.Link" Clicked="DoDecline">@(DeclineText ?? "No")</PatternflyButton>
-                        }
-                    </PatternflyStackItem>
-                }
-                else
-                {
-                    <PatternflyStackItem>
-                        @if (item != null)
-                        {
-                            @Footer?.Invoke(item)
-                        }
-                    </PatternflyStackItem>
-                }
 
-                @if (message != null)
-                {
-                    <PatternflyStackItem>
-                        @message
-                    </PatternflyStackItem>
-                }
-            </PatternflyStack>
-        </Footer>
-    </PatternflyModal>
-</PatternflyOnPage>
+            @if (message != null)
+            {
+                <PatternflyStackItem>
+                    @message
+                </PatternflyStackItem>
+            }
+        </PatternflyStack>
+    </Footer>
+</PatternflyModal>
 
 @code {
     PatternflyModal modal = default!;

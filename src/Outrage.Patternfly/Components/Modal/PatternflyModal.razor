@@ -2,51 +2,48 @@
 @using Outrage.Patternfly.Components.Utilities
 @using Outrage.Patternfly.Components.Backdrop
 @using Outrage.Patternfly.Components.Layout
-@using Outrage.Patternfly.Components.Page
 
-<PatternflyOnPage>
-    <div hidden="@(!this.Shown)">
-        @if (!this.CreateOnShow || (this.CreateOnShow && this.Shown))
-        {
-            <PatternflyBackdrop>
-                <PatternflyBullseye>
-                    <div class="@Classes" style="max-height: 80vh;" @attributes="AdditionalAttributes" aria-modal="true" aria-labelledby="@modalId.With("modal-help-title")" aria-describedby="@modalId.With("modal-help-description")">
-                        <button class="pf-c-button pf-m-plain" type="button" aria-label="Close" @onclick="Hide">
-                            <Icon Name="@IconClose" Library="@IconLibrary" Weight="@IconWeight" />
-                        </button>
-                        <header class="pf-c-modal-box__header pf-m-help">
-                            <div class="pf-c-modal-box__header-main">
-                                <h1 class="pf-c-modal-box__title" id="@modalId.With("modal-help-title")">
-                                    @Header
-                                </h1>
-                                @if (Help != null)
-                                {
-                                    <div class="pf-c-modal-box__description" id="@modalId.With("modal-help-description")" hidden="@(!HelpShown)">
-                                        @Help
-                                    </div>
-                                }
-                            </div>
+<div hidden="@(!this.Shown)">
+    @if (!this.CreateOnShow || (this.CreateOnShow && this.Shown))
+    {
+        <PatternflyBackdrop>
+            <PatternflyBullseye>
+                <div class="@Classes" style="max-height: 80vh;" @attributes="AdditionalAttributes" aria-modal="true" aria-labelledby="@modalId.With("modal-help-title")" aria-describedby="@modalId.With("modal-help-description")">
+                    <button class="pf-c-button pf-m-plain" type="button" aria-label="Close" @onclick="Hide">
+                        <Icon Name="@IconClose" Library="@IconLibrary" Weight="@IconWeight" />
+                    </button>
+                    <header class="pf-c-modal-box__header pf-m-help">
+                        <div class="pf-c-modal-box__header-main">
+                            <h1 class="pf-c-modal-box__title" id="@modalId.With("modal-help-title")">
+                                @Header
+                            </h1>
                             @if (Help != null)
                             {
-                                <div class="pf-c-modal-box__header-help">
-                                    <button class="pf-c-button pf-m-plain" type="button" aria-label="Help" @onclick="ToggleHelp">
-                                        <Icon Name="@IconHelp" Library="@IconLibrary" Weight="@IconWeight" />
-                                    </button>
+                                <div class="pf-c-modal-box__description" id="@modalId.With("modal-help-description")" hidden="@(!HelpShown)">
+                                    @Help
                                 </div>
                             }
-                        </header>
-                        <div class="pf-c-modal-box__body" style="position:relative; overflow:auto;">
-                            @Body
                         </div>
-                        <footer class="pf-c-modal-box__footer">
-                            @Footer
-                        </footer>
+                        @if (Help != null)
+                        {
+                            <div class="pf-c-modal-box__header-help">
+                                <button class="pf-c-button pf-m-plain" type="button" aria-label="Help" @onclick="ToggleHelp">
+                                    <Icon Name="@IconHelp" Library="@IconLibrary" Weight="@IconWeight" />
+                                </button>
+                            </div>
+                        }
+                    </header>
+                    <div class="pf-c-modal-box__body" style="position:relative; overflow:auto;">
+                        @Body
                     </div>
-                </PatternflyBullseye>
-            </PatternflyBackdrop>
-        }
-    </div>
-</PatternflyOnPage>
+                    <footer class="pf-c-modal-box__footer">
+                        @Footer
+                    </footer>
+                </div>
+            </PatternflyBullseye>
+        </PatternflyBackdrop>
+    }
+</div>
 
 @code {
     HtmlId modalId = new();

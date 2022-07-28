@@ -34,7 +34,7 @@
         </div>
     }
 
-    <PatternflyOnPageTarget @ref="onPageTarget" />
+    @RenderPageTarget()
 
     <CascadingValue Name="PatternflyParentPage" Value="this.onPageTarget">
         <main class="pf-c-page__main" tabindex="-1" role="main">
@@ -52,12 +52,23 @@
             }
         </main>
     </CascadingValue>
+
 </div>
 
 @code {
-    PatternflyOnPageTarget onPageTarget = default!;
+    PatternflyOnPageTarget? onPageTarget = null;
     public bool sidebar = true;
     public HtmlId controlsId = new();
+
+    RenderFragment RenderPageTarget()
+    {
+        return new RenderFragment(builder =>
+        {
+            builder.OpenComponent<PatternflyOnPageTarget>(0);
+            builder.AddComponentReferenceCapture(1, inst => { onPageTarget = (PatternflyOnPageTarget)inst; });
+            builder.CloseComponent();
+        });
+    }
 
     [Parameter] public RenderFragment? Toggle { get; set; }
     [Parameter] public RenderFragment? Logo { get; set; }
