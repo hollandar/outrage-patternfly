@@ -9,10 +9,10 @@
     [CascadingParameter(Name = "PatternflyParentPage")] public PatternflyOnPageTarget? ParentPage { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
         ParentPage?.Add(this);
-        base.OnInitialized();
+        base.OnParametersSet();
     }
 
     protected override bool ShouldRender()

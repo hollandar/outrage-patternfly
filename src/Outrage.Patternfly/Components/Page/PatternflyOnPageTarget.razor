@@ -1,7 +1,9 @@
-﻿@foreach (var onPage in onPageComponents)
-{
-    @onPage.ChildContent
-}
+﻿<div class="patternfly-page-target">
+    @foreach (var onPage in onPageComponents)
+    {
+        @onPage.ChildContent
+    }
+</div>
 
 
 @code {
@@ -24,8 +26,7 @@
 
     public void RenderOnPage()
     {
-        lock (lockObject)
-        {
+        lock(lockObject) {
             if (rerenderCount == 0)
                 StateHasChanged();
             rerenderCount++;
@@ -35,15 +36,12 @@
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
-        lock (lockObject)
+        lock(lockObject)
         {
-            if (rerenderCount > 1)
-            {
-                StateHasChanged();
-            }
-            if (rerenderCount > 0)
-            {
+            rerenderCount--;
+            if (rerenderCount > 0) {
                 rerenderCount = 0;
+                StateHasChanged();
             }
         }
     }
