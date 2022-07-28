@@ -1,0 +1,26 @@
+﻿@foreach (var onPage in onPageComponents)
+{
+    @onPage.ChildContent
+}
+
+
+@code {
+    HashSet<PatternflyOnPage> onPageComponents = new();
+
+    public void Add(PatternflyOnPage onPage)
+    {
+        this.onPageComponents.Add(onPage);
+        this.StateHasChanged();
+    }
+
+    public void Remove(PatternflyOnPage onPage)
+    {
+        this.onPageComponents.Remove(onPage);
+        this.StateHasChanged();
+    }
+
+    public void RenderOnPage()
+    {
+        StateHasChanged();
+    }
+}

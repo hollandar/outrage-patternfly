@@ -33,7 +33,10 @@
             <div class="pf-c-page__sidebar-body">@Sidebar</div>
         </div>
     }
-    <CascadingValue Name="PatternflyParentPage" Value="this">
+
+    <PatternflyOnPageTarget @ref="onPageTarget" />
+
+    <CascadingValue Name="PatternflyParentPage" Value="this.onPageTarget">
         <main class="pf-c-page__main" tabindex="-1" role="main">
             @if (Sections != null)
             {
@@ -49,20 +52,12 @@
             }
         </main>
     </CascadingValue>
-
-    @foreach (var onPageContent in onPageComponents)
-    {
-        if (onPageContent.TryGetTarget(out var onPage))
-        {
-            @onPage.ChildContent
-        } 
-    }
 </div>
 
 @code {
+    PatternflyOnPageTarget onPageTarget = default!;
     public bool sidebar = true;
     public HtmlId controlsId = new();
-    List<WeakReference<PatternflyOnPage>> onPageComponents = new ();
 
     [Parameter] public RenderFragment? Toggle { get; set; }
     [Parameter] public RenderFragment? Logo { get; set; }
@@ -93,26 +88,9 @@
         this.Nav.NavigateTo(LogoLinkUrl);
     }
 
-    public void RenderOnPage()
-    {
-        StateHasChanged();
-    }
+    
 
-    public void AddOnPage(PatternflyOnPage onPage)
-    {
-        CleanupReferences();
-        this.onPageComponents.Add(new WeakReference<PatternflyOnPage>(onPage));
-    }
+    
 
-    private void CleanupReferences()
-    {
-        for (int i = 0; i < onPageComponents.Count; i++)
-        {
-            var reference = onPageComponents[i];
-            if (!reference.TryGetTarget(out var target))
-            {
-                onPageComponents.Remove(reference);
-            }
-        }
-    }
+    
 }

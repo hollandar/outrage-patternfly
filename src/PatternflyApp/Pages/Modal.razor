@@ -8,28 +8,25 @@
 
 <PatternflyPanel>
     <Body>
-        <PatternflyOnPage>
-            <PatternflyActionModal @ref="okCancelModal" TItemType="string" Confirmation="ConfirmationEnum.okcancel" Confirmed="OkCancelConfirmed">
-                <Header>Please confirm or decline</Header>
-                <Body>
-                    Clicking ok or cancel will close the dialog, Confirmed or Declined callbacks will be called.
-                </Body>
-            </PatternflyActionModal>
-        </PatternflyOnPage>
-        <PatternflyOnPage>
-            <PatternflyModal @ref="patternflyModal">
-                <Header>Modal</Header>
-                <Help>A standard modal, with help.</Help>
-                <Body>
-                    The body of the modal.
-                </Body>
-                <Footer>
-                    <PatternflyActionList>
-                        <PatternflyAction Clicked="() => patternflyModal.Hide()">Close</PatternflyAction>
-                    </PatternflyActionList>
-                </Footer>
-            </PatternflyModal>
-        </PatternflyOnPage>
+        <PatternflyActionModal @ref="okCancelModal" TItemType="string" Confirmation="ConfirmationEnum.okcancel" Confirmed="OkCancelConfirmed">
+            <Header>Please confirm or decline</Header>
+            <Body>
+                Clicking ok or cancel will close the dialog, Confirmed or Declined callbacks will be called.
+            </Body>
+        </PatternflyActionModal>
+
+        <PatternflyModal @ref="patternflyModal">
+            <Header>Modal</Header>
+            <Help>A standard modal, with help.</Help>
+            <Body>
+                The body of the modal.
+            </Body>
+            <Footer>
+                <PatternflyActionList>
+                    <PatternflyAction Clicked="() => patternflyModal.Hide()">Close</PatternflyAction>
+                </PatternflyActionList>
+            </Footer>
+        </PatternflyModal>
 
         <PatternflyActionList>
             <PatternflyAction Clicked="ShowOkCancel">Show OK Cancel Action Modal</PatternflyAction>

@@ -3,64 +3,68 @@
 @using Outrage.Patternfly.Components.Utilities
 @using Outrage.Patternfly.Components.Backdrop
 @using Outrage.Patternfly.Components.Layout
+@using Outrage.Patternfly.Components.Page
 
-<div hidden="@(!this.Shown)">
-    @if (!this.CreateOnShow || (this.CreateOnShow && this.Shown))
-    {
-        <PatternflyBackdrop>
-            <PatternflyBullseye>
-                <EditForm Model="@Model" OnValidSubmit="ValidSubmit" OnInvalidSubmit="OnInvalidSubmit">
-                    @if (Annotations != null)
-                    {
-                        @Annotations
-                    }
-                    <div class="@Classes" style="max-height: 80vh;" @attributes="AdditionalAttributes" aria-modal="true" aria-labelledby="@modalId.With("modal-help-title")" aria-describedby="@modalId.With("modal-help-description")">
-                        <button class="pf-c-button pf-m-plain" type="button" aria-label="Close" @onclick="Hide">
-                            <Icon Name="@IconClose" Library="@IconLibrary" Weight="@IconWeight" />
-                        </button>
-                        <header class="pf-c-modal-box__header pf-m-help">
-                            <div class="pf-c-modal-box__header-main">
-                                <h1 class="pf-c-modal-box__title" id="@modalId.With("modal-help-title")">
-                                    @Header
-                                </h1>
+<PatternflyOnPage>
+    <div hidden="@(!this.Shown)">
+        @if (!this.CreateOnShow || (this.CreateOnShow && this.Shown))
+        {
+            <PatternflyBackdrop>
+                <PatternflyBullseye>
+                    <EditForm Model="@Model" OnValidSubmit="ValidSubmit" OnInvalidSubmit="OnInvalidSubmit">
+                        @if (Annotations != null)
+                        {
+                            @Annotations
+                        }
+                        <div class="@Classes" style="max-height: 80vh;" @attributes="AdditionalAttributes" aria-modal="true" aria-labelledby="@modalId.With("modal-help-title")" aria-describedby="@modalId.With("modal-help-description")">
+                            <button class="pf-c-button pf-m-plain" type="button" aria-label="Close" @onclick="Hide">
+                                <Icon Name="@IconClose" Library="@IconLibrary" Weight="@IconWeight" />
+                            </button>
+                            <header class="pf-c-modal-box__header pf-m-help">
+                                <div class="pf-c-modal-box__header-main">
+                                    <h1 class="pf-c-modal-box__title" id="@modalId.With("modal-help-title")">
+                                        @Header
+                                    </h1>
+                                    @if (Help != null)
+                                    {
+                                        <div class="pf-c-modal-box__description" id="@modalId.With("modal-help-description")" hidden="@(!HelpShown)">
+                                            @Help
+                                        </div>
+                                    }
+                                </div>
                                 @if (Help != null)
                                 {
-                                    <div class="pf-c-modal-box__description" id="@modalId.With("modal-help-description")" hidden="@(!HelpShown)">
-                                        @Help
+                                    <div class="pf-c-modal-box__header-help">
+                                        <button class="pf-c-button pf-m-plain" type="button" aria-label="Help" @onclick="ToggleHelp">
+                                            <Icon Name="@IconHelp" Library="@IconLibrary" Weight="@IconWeight" />
+                                        </button>
                                     </div>
                                 }
+                            </header>
+                            <div class="pf-c-modal-box__body" style="position:relative; overflow:auto;">
+                                @Body
                             </div>
-                            @if (Help != null)
-                            {
-                                <div class="pf-c-modal-box__header-help">
-                                    <button class="pf-c-button pf-m-plain" type="button" aria-label="Help" @onclick="ToggleHelp">
-                                        <Icon Name="@IconHelp" Library="@IconLibrary" Weight="@IconWeight" />
-                                    </button>
-                                </div>
-                            }
-                        </header>
-                        <div class="pf-c-modal-box__body" style="position:relative; overflow:auto;">
-                            @Body
-                        </div>
-                        <footer class="pf-c-modal-box__footer">
-                            <PatternflyStack>
-                                <PatternflyStackItem>
-                                    @Footer
-                                </PatternflyStackItem>
-                                @if (messages != null)
-                                {
+                            <footer class="pf-c-modal-box__footer">
+                                <PatternflyStack>
                                     <PatternflyStackItem>
-                                        <span class="action-messages">@messages</span>
+                                        @Footer
                                     </PatternflyStackItem>
-                                }
-                            </PatternflyStack>
-                        </footer>
-                    </div>
-                </EditForm>
-            </PatternflyBullseye>
-        </PatternflyBackdrop>
-    }
-</div>
+                                    @if (messages != null)
+                                    {
+                                        <PatternflyStackItem>
+                                            <span class="action-messages">@messages</span>
+                                        </PatternflyStackItem>
+                                    }
+                                </PatternflyStack>
+                            </footer>
+                        </div>
+                    </EditForm>
+                </PatternflyBullseye>
+            </PatternflyBackdrop>
+        }
+    </div>
+</PatternflyOnPage>
+
 @code {
     HtmlId modalId = new();
     string? messages = null;
@@ -103,7 +107,7 @@
     [Parameter]
     public EventCallback<EditContext> OnInvalidSubmit { get; set; }
 
-        [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Icon.LibraryEnum.fontawesome;
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Icon.LibraryEnum.fontawesome;
     [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Icon.WeightEnum.solid;
     [Parameter] public string IconHelp { get; set; } = "question-circle";
     [Parameter] public string IconClose { get; set; } = "times";
@@ -152,7 +156,7 @@
         {
             await this.OnValidSubmit.InvokeAsync(editContext);
             await this.Hide();
-        } 
+        }
         catch (ActionModalException ex)
         {
             this.messages = ex.Message;

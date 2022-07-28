@@ -1,22 +1,18 @@
-﻿@if (ParentPage == null)
+﻿@implements IDisposable
+
+@if (ParentPage == null)
 {
     @ChildContent
 }
 
 @code {
-    [CascadingParameter(Name = "PatternflyParentPage")] public PatternflyPage? ParentPage { get; set; }
+    [CascadingParameter(Name = "PatternflyParentPage")] public PatternflyOnPageTarget? ParentPage { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
-
-    [Inject] NavigationManager NavigationManager { get; set; } = default!;
 
     protected override void OnInitialized()
     {
+        ParentPage?.Add(this);
         base.OnInitialized();
-        if (ParentPage != null)
-        {
-            ParentPage.AddOnPage(this);
-            ParentPage.RenderOnPage();
-        }
     }
 
     protected override bool ShouldRender()
@@ -28,5 +24,10 @@
         }
 
         return shouldRender;
+    }
+
+    public void Dispose()
+    {
+        ParentPage?.Remove(this);
     }
 }
