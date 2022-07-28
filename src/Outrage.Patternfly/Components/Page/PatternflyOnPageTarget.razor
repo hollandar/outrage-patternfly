@@ -8,41 +8,57 @@
 
 @code {
     HashSet<PatternflyOnPage> onPageComponents = new();
+
     object lockObject = new();
-    int rerenderCount = 0;
+    bool rendering = false;
+    bool continueRender = false;
 
 
     public void Add(PatternflyOnPage onPage)
     {
-        this.onPageComponents.Add(onPage);
-        this.RenderOnPage();
+        if (!this.onPageComponents.Contains(onPage))
+        {
+            this.onPageComponents.Add(onPage);
+            this.RenderOnPage();
+        }
     }
 
     public void Remove(PatternflyOnPage onPage)
     {
-        this.onPageComponents.Remove(onPage);
-        this.RenderOnPage();
+        if (this.onPageComponents.Contains(onPage))
+        {
+            this.onPageComponents.Remove(onPage);
+            this.RenderOnPage();
+        }
     }
 
     public void RenderOnPage()
     {
-        lock(lockObject) {
-            if (rerenderCount == 0)
-                StateHasChanged();
-            rerenderCount++;
+        lock (lockObject)
+        {
+            if (rendering == false)
+            {
+                this.StateHasChanged();
+                rendering = true;
+            }
+            else
+            {
+                continueRender = true;
+            }
         }
     }
 
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
-        lock(lockObject)
+        lock (lockObject)
         {
-            rerenderCount--;
-            if (rerenderCount > 0) {
-                rerenderCount = 0;
-                StateHasChanged();
+            rendering = false;
+            if (continueRender)
+            {
+                this.StateHasChanged();
             }
+            continueRender = false;
         }
     }
-}
+    }
