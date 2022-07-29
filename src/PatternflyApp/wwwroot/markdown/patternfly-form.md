@@ -15,16 +15,17 @@ namespace: Outrage.Patternfly.Components.Form
         <Help>Your name</Help>
         <Editors>
             <PatternflyInputText @bind-Value="formModel.Name"/>
-            <ValidationMessage For="() => formModel.Name"/>
+            <PatternflyValidationMessage For="() => formModel.Name"/>
         </Editors>
     </PatternflyFieldGroup>
     <PatternflyFieldGroup Label="Age">
         <Help>Your age</Help>
         <Editors>
             <PatternflyInputText @bind-Value="formModel.Age"/>
-            <ValidationMessage For="() => formModel.Age"/>
+            <PatternflyValidationMessage For="() => formModel.Age"/>
         </Editors>
     </PatternflyFieldGroup>
+    <PatternflyValidationSummary/>
     <PatternflyActionGroup>
         <PatternflyButton Type="submit">Save</PatternflyButton>
     </PatternflyActionGroup>
@@ -116,5 +117,24 @@ These controls follow the standard Blazor controls.
 * PatternflyInputRadio
 * PatternflyInputSelect
 * PatternflyInputCheckbox
+
+# PatternflyValidationMessage
+
+Display the validation message for a field
+
+## Attributes
+
+* *For* : An expression that references the field for which the message is displayed.
+
+# PatternflyValidationSummary
+
+## Attributes
+
+* *Model* : The model to validate.  In the default scenario the EditContext will be used. Default null.
+* *Title* : The title to show if there are more than one errors.  If there is one error, it will be shown as the title. Default "Fields on the form require your attention:".
+* *Icon* : Icon to show in the alert header. Default exclamation-circle.
+* *IconLibrary* *IconWeight* *IconSize* : See [Icon](/icon).
+
+
 
 

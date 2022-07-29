@@ -3,7 +3,7 @@
 @using Outrage.Patternfly.Components.Layout
 @implements IDisposable
 
-<CascadingValue Name="ViewManager" Value="this">
+<CascadingValue Name="@Name" Value="this">
     <PatternflyStack class="view-manager" data-viewpath="@CurrentView" Gutter="true">
         @if (ShowView)
         {
@@ -39,6 +39,7 @@
     string? homeView = null;
     HashSet<IView> innerViews { get; } = new();
     string Error { get; set; } = string.Empty;
+    [Parameter] public string Name { get; set; } = "ViewManager";
     [Parameter, EditorRequired] public string CurrentView { get; set; } = default!;
     [Parameter] public RenderFragment Views { get; set; } = default!;
     [Parameter] public EventCallback<string> CurrentViewChanged { get; set; } = default!;
