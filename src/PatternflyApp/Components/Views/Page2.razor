@@ -1,0 +1,13 @@
+﻿@using Outrage.Patternfly.Components.View
+<PatternflyH3>Page2 (@Id)</PatternflyH3>
+<PatternflyButton Clicked="Page1">Page 1</PatternflyButton>
+
+@code {
+    [CascadingParameter(Name = "ViewManager")] public PatternflyViewManager ViewManager { get; set; } = default!;
+    [Parameter] public int Id { get; set; }
+
+    public async Task Page1()
+    {
+        await this.ViewManager.NavigateTo("/pages/page1/1");
+    }
+}

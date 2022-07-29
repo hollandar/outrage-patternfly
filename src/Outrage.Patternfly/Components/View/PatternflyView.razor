@@ -1,0 +1,84 @@
+﻿@using System.Text.RegularExpressions
+@implements IDisposable
+@implements IView
+@typeparam TComponent where TComponent: IComponent
+
+@if (Visible)
+{
+    @RenderViewTarget()
+}
+
+@code {
+    private Regex? matchRegex = null;
+    private IDictionary<string, string>? attributes = null;
+    [CascadingParameter(Name = "ViewManager")] public PatternflyViewManager ViewManager { get; set; } = default!;
+    [Parameter] public string Route { get; set; } = default!;
+    [Parameter] public bool Visible { get; set; } = false;
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; } = default!;
+
+    RenderFragment RenderViewTarget()
+    {
+        return new RenderFragment(builder =>
+        {
+            int sequence = 0;
+            builder.OpenComponent<TComponent>(sequence++);
+            if (attributes != null)
+            {
+                foreach (var parameter in typeof(TComponent).GetProperties().Where(r => r.GetCustomAttributes(typeof(ParameterAttribute), true) != null))
+                {
+                    var name = parameter.Name;
+                    if (attributes.ContainsKey(name))
+                    {
+                        var type = parameter.PropertyType;       
+                        builder.AddAttribute(sequence++, name, Convert.ChangeType(attributes[name], type));
+                    }
+                }
+            }
+            builder.CloseComponent();
+        });
+    }
+
+    protected override void OnParametersSet()
+    {
+        this.ViewManager.AddView(this);
+        var pattern = Regex.Replace(Route, "{(?<attribute>.*?)}", (match) =>
+        {
+            return $"(?<{match.Groups["attribute"].Value}>[^/]*?)";
+        });
+        this.matchRegex = new Regex($"^{pattern}$", RegexOptions.Compiled);
+        base.OnParametersSet();
+    }
+
+    public bool Matches(string path)
+    {
+        return matchRegex.IsMatch(path);
+    }
+
+    public void Hide()
+    {
+        if (Visible)
+        {
+            this.Visible = false;
+            this.VisibleChanged.InvokeAsync(this.Visible);
+            this.StateHasChanged();
+        }
+    }
+
+    public void Show(string path)
+    {
+        var match = matchRegex.Match(path);
+
+        if (match.Success)
+        {
+            this.attributes = match.Groups.Keys.ToDictionary(r => r, r => match.Groups[r].Value);
+            this.Visible = true;
+            this.VisibleChanged.InvokeAsync(this.Visible);
+            this.StateHasChanged();
+        }
+    }
+
+    public void Dispose()
+    {
+        this.ViewManager.RemoveView(this);
+    }
+}

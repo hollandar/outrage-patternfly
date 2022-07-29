@@ -1,0 +1,109 @@
+﻿@using Outrage.Patternfly.Components.Alert
+@using Outrage.Patternfly.Components.Button
+@using Outrage.Patternfly.Components.Layout
+@implements IDisposable
+
+<CascadingValue Name="ViewManager" Value="this">
+    <PatternflyStack class="view-manager" data-viewpath="@CurrentView" Gutter="true">
+        @if (ShowView)
+        {
+            <PatternflyStackItem class="view-manager-current">
+                <input type="text" value="@CurrentView" @onchange="(args) => NavigateTo(args.Value?.ToString())" />
+            </PatternflyStackItem>
+        }
+
+        <PatternflyStackItem>
+            @Views
+        </PatternflyStackItem>
+
+        @if (!String.IsNullOrWhiteSpace(Error))
+        {
+            <PatternflyStackItem>
+                <PatternflyAlert Icon="exclamation-triangle" Color="AlertColor.Warning" Title="Route not found.">
+                    <Body>
+                        @Error
+                    </Body>
+                    <Actions>
+                        @if (homeView != null) {
+                            <PatternflyButton Color="ButtonColor.InlineLink" Clicked="() => NavigateTo(homeView)">Home</PatternflyButton>
+                        }
+                    </Actions>
+                </PatternflyAlert>
+            </PatternflyStackItem>
+        }
+    </PatternflyStack>
+</CascadingValue>
+
+
+@code {
+    string? homeView = null;
+    HashSet<IView> innerViews { get; } = new();
+    string Error { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public string CurrentView { get; set; } = default!;
+    [Parameter] public RenderFragment Views { get; set; } = default!;
+    [Parameter] public EventCallback<string> CurrentViewChanged { get; set; } = default!;
+    [Parameter] public bool ShowView { get; set; } = false;
+    protected override void OnParametersSet()
+    {
+        this.homeView = CurrentView;
+        base.OnParametersSet();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ResolveView(CurrentView);
+        }
+        base.OnAfterRender(firstRender);
+    }
+
+    private void ResolveView(string targetView)
+    {
+        var foundMatch = false;
+        foreach (var view in innerViews)
+        {
+            if (view.Matches(targetView))
+            {
+                view.Show(targetView);
+                foundMatch = true;
+            }
+            else
+            {
+                view.Hide();
+            }
+        }
+
+        if (!foundMatch)
+        {
+            this.Error = $"No view matches the view path {targetView}.";
+        }
+        else
+        {
+            Error = String.Empty;
+        }
+        this.StateHasChanged();
+    }
+
+    public void AddView(IView view)
+    {
+        this.innerViews.Add(view);
+    }
+
+    public void RemoveView(IView view)
+    {
+        this.innerViews.Remove(view);
+    }
+
+    public async Task NavigateTo(string path)
+    {
+        this.CurrentView = path;
+        await this.CurrentViewChanged.InvokeAsync(this.CurrentView);
+
+        ResolveView(CurrentView);
+    }
+
+    public void Dispose()
+    {
+    }
+}

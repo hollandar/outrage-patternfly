@@ -1,0 +1,25 @@
+﻿@page "/patternfly-view"
+@using Outrage.Patternfly.Components.Accordion
+@using Outrage.Patternfly.Components.View
+@using PatternflyApp.Components.Views
+
+<PageTitle>Patternfly - View</PageTitle>
+
+<PatternflyTitle>Patternfly View</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+    <PatternflyViewManager CurrentView="/pages/page1/1" ShowView="true">
+        <Views>
+            <PatternflyView TComponent="Page1" Route="/pages/page1/{Id}"/>
+            <PatternflyView TComponent="Page2" Route="/pages/page2/{Id}"/>
+        </Views>
+    </PatternflyViewManager>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-view.md"></Markdown>
+
+@code {
+
+}
