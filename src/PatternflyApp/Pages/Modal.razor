@@ -8,48 +8,15 @@
 
 <PatternflyPanel>
     <Body>
-        <PatternflyOnPage>
-            <PatternflyActionModal @ref="okCancelModal" TItemType="string" Confirmation="ConfirmationEnum.okcancel" Confirmed="OkCancelConfirmed">
-                <Header>Please confirm or decline</Header>
-                <Body>
-                    Clicking ok or cancel will close the dialog, Confirmed or Declined callbacks will be called.
-                </Body>
-            </PatternflyActionModal>
-            <PatternflyModal @ref="patternflyModal">
-                <Header>Modal</Header>
-                <Help>A standard modal, with help.</Help>
-                <Body>
-                    The body of the modal.
-                </Body>
-                <Footer>
-                    <PatternflyActionList>
-                        <PatternflyAction Clicked="() => patternflyModal.Hide()">Close</PatternflyAction>
-                    </PatternflyActionList>
-                </Footer>
-            </PatternflyModal>
-        </PatternflyOnPage>
-
-        <PatternflyActionList>
-            <PatternflyAction Clicked="ShowOkCancel">Show OK Cancel Action Modal</PatternflyAction>
-            <PatternflyAction Clicked="() => patternflyModal.Show()">Show Standard Modal</PatternflyAction>
-        </PatternflyActionList>
+        <ModalDialogs />
+        <ModalDialogs />
+        <ModalDialogs />
+        <ModalDialogs />
+        <ModalDialogs />
     </Body>
 </PatternflyPanel>
 
 <Markdown Href="/markdown/patternfly-modal.md"></Markdown>
 
 @code {
-    PatternflyActionModal<string> okCancelModal;
-    PatternflyModal patternflyModal;
-
-    public async Task ShowOkCancel()
-    {
-        await okCancelModal.Show("Hello");
-    }
-
-    public Task OkCancelConfirmed(string item)
-    {
-        Console.WriteLine(item);
-        return Task.CompletedTask;
-    }
 }

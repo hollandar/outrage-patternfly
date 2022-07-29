@@ -7,8 +7,8 @@
 
 <PatternflyModal CreateOnShow="true" @ref="modal" Size="@Size">
     <Header>
-        @if (item != null) 
-        { 
+        @if (item != null)
+        {
             @Header?.Invoke(item)
         }
     </Header>
@@ -39,7 +39,7 @@
                     {
                         <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Yes")</PatternflyButton>
                         <PatternflyButton Color="ButtonColor.Link" Clicked="DoDecline">@(DeclineText ?? "No")</PatternflyButton>
-                    } 
+                    }
                 </PatternflyStackItem>
             }
             else

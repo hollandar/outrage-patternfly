@@ -1,35 +1,18 @@
 ﻿@implements IDisposable
+
 @if (ParentPage == null)
 {
     @ChildContent
 }
 
 @code {
-    [CascadingParameter(Name = "PatternflyParentPage")] public PatternflyPage? ParentPage { get; set; }
+    [CascadingParameter(Name = "PatternflyParentPage")] public PatternflyOnPageTarget? ParentPage { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
-    [Parameter] public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    [Inject] NavigationManager NavigationManager { get; set; } = default!;
-
-    public string Uri { get; private set; } = string.Empty;
-
-    public event Action<string> OnChange = default!;
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
-        Uri = NavigationManager.Uri;
-
-        if (ParentPage != null)
-        {
-            ParentPage.AddOnPage(this);
-        }
-        
-        Update();
-        base.OnInitialized();
-    }
-
-    public void Update()
-    {
-        OnChange?.Invoke(Id);
+        ParentPage?.Add(this);
+        base.OnParametersSet();
     }
 
     protected override bool ShouldRender()
@@ -37,15 +20,14 @@
         var shouldRender = base.ShouldRender();
         if (shouldRender)
         {
-            this.Update();
+            ParentPage?.RenderOnPage();
         }
 
         return shouldRender;
     }
 
-
     public void Dispose()
     {
-        ParentPage?.RemoveOnPage(this);
+        ParentPage?.Remove(this);
     }
 }

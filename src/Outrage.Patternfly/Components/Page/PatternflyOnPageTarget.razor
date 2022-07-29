@@ -1,0 +1,64 @@
+﻿<div class="patternfly-page-target">
+    @foreach (var onPage in onPageComponents)
+    {
+        @onPage.ChildContent
+    }
+</div>
+
+
+@code {
+    HashSet<PatternflyOnPage> onPageComponents = new();
+
+    object lockObject = new();
+    bool rendering = false;
+    bool continueRender = false;
+
+
+    public void Add(PatternflyOnPage onPage)
+    {
+        if (!this.onPageComponents.Contains(onPage))
+        {
+            this.onPageComponents.Add(onPage);
+            this.RenderOnPage();
+        }
+    }
+
+    public void Remove(PatternflyOnPage onPage)
+    {
+        if (this.onPageComponents.Contains(onPage))
+        {
+            this.onPageComponents.Remove(onPage);
+            this.RenderOnPage();
+        }
+    }
+
+    public void RenderOnPage()
+    {
+        lock (lockObject)
+        {
+            if (rendering == false)
+            {
+                this.StateHasChanged();
+                rendering = true;
+            }
+            else
+            {
+                continueRender = true;
+            }
+        }
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        lock (lockObject)
+        {
+            rendering = false;
+            if (continueRender)
+            {
+                this.StateHasChanged();
+            }
+            continueRender = false;
+        }
+    }
+    }

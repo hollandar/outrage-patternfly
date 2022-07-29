@@ -4,7 +4,8 @@
 @using Outrage.Patternfly.Components.Layout
 
 <div hidden="@(!this.Shown)">
-    @if (!this.CreateOnShow || (this.CreateOnShow && this.Shown)) {
+    @if (!this.CreateOnShow || (this.CreateOnShow && this.Shown))
+    {
         <PatternflyBackdrop>
             <PatternflyBullseye>
                 <div class="@Classes" style="max-height: 80vh;" @attributes="AdditionalAttributes" aria-modal="true" aria-labelledby="@modalId.With("modal-help-title")" aria-describedby="@modalId.With("modal-help-description")">
@@ -43,6 +44,7 @@
         </PatternflyBackdrop>
     }
 </div>
+
 @code {
     HtmlId modalId = new();
 
@@ -72,7 +74,7 @@
     [Parameter]
     public EventCallback<bool> ShownChanged { get; set; }
 
-            [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Icon.LibraryEnum.fontawesome;
+    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Icon.LibraryEnum.fontawesome;
     [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Icon.WeightEnum.solid;
     [Parameter] public string IconHelp { get; set; } = "question-circle";
     [Parameter] public string IconClose { get; set; } = "times";
