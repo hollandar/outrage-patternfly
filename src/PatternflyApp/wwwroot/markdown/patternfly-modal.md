@@ -34,7 +34,9 @@ If you are using PatternflyPage, put the modal withing a PatternflyOnPage elemen
 * *TItemType* : The type of the item that will be passed through show.
 * *Confirmation* : The confirmation type. [ok, close (default), okcancel, yesno, custom]
 * *ConfirmText* : Override the confirmation button text. (optional)
-* *DeclineText* : Override the confirmation button text. (optional)
+* *ConfirmButtonColor* : Override the confirmation button color. (optional)
+* *DeclineText* : Override the decline button text. (optional)
+* *DeclineButtonColor* : Override the decline button color. (optional)
 * *Size* : The size of the modal? [Small, Medium (default), Large, Full]
 
 ## Events

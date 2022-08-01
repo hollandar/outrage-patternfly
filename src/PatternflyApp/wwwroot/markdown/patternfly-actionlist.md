@@ -12,9 +12,14 @@ namespace: Outrage.Patternfly.Components.Actions
     @{
         string item = "someItem";
     }
-    <PatternflyAction Color="ButtonColor.Primary" Icon="home"Clicked="ActionClicked">Save</PatternflyAction>
-    <PatternflyAction Color="ButtonColor.Secondary" Icon="cogs" Clicked="ActionClicked">Cancel</PatternflyAction>
-    <PatternflyActionItem TItem="string" Item="@item" Color="ButtonColor.Danger" Icon="cogs" Clicked="ItemClicked">Delete</PatternflyActionItem>
+    <PatternflyActionListGroup>
+        <PatternflyAction Color="ButtonColor.Primary" Icon="home"Clicked="ActionClicked">Save</PatternflyAction>
+        <PatternflyAction Color="ButtonColor.Secondary" Icon="cogs" Clicked="ActionClicked">Cancel</PatternflyAction>
+    </PatternflyActionListGroup>
+
+    <PatternflyActionListGroup>
+        <PatternflyActionItem TItem="string" Item="@item" Color="ButtonColor.Danger" Icon="cogs" Clicked="ItemClicked">Delete</PatternflyActionItem>
+    </PatternflyActionListGroup>
 
 </PatternflyActionList>
 ```
@@ -46,6 +51,27 @@ None.
 ## Events
 
 * *Clicked* : `EventCallback` : An event callback when the button is clicked.
+
+# PatternflyActionListGroup
+
+Groups action items together and enforces spacing between controls.
+
+## Sections
+
+Child content. Add PatternflyActionItems here.
+
+## Attributes
+
+None.
+
+## Methods
+
+None.
+
+## Events
+
+None.
+
 
 # PatternflyActionItem
 
