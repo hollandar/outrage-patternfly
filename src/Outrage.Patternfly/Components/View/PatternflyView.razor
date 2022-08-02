@@ -29,8 +29,15 @@
                     var name = parameter.Name;
                     if (attributes.ContainsKey(name))
                     {
-                        var type = parameter.PropertyType;       
-                        builder.AddAttribute(sequence++, name, Convert.ChangeType(attributes[name], type));
+                        var type = parameter.PropertyType;
+                        if (type.IsAssignableFrom(typeof(Guid)))
+                        {
+                            builder.AddAttribute(sequence++, name, Guid.Parse(attributes[name].ToString()));
+                        }
+                        else
+                        {
+                            builder.AddAttribute(sequence++, name, Convert.ChangeType(attributes[name], type));
+                        }
                     }
                 }
             }
