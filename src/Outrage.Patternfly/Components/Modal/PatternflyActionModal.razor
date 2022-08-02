@@ -23,33 +23,38 @@
             @if (Confirmation != ConfirmationEnum.custom)
             {
                 <PatternflyStackItem>
-                    @if (Confirmation == ConfirmationEnum.ok || Confirmation == ConfirmationEnum.okcancel || Confirmation == ConfirmationEnum.custom)
-                    {
-                        <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Ok")</PatternflyButton>
-                    }
-                    @if (Confirmation == ConfirmationEnum.close)
-                    {
-                        <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Close")</PatternflyButton>
-                    }
-                    @if (Confirmation == ConfirmationEnum.okcancel || Confirmation == ConfirmationEnum.custom)
-                    {
-                        <PatternflyButton Color="ButtonColor.Link" Clicked="DoDecline">@(DeclineText ?? "Cancel")</PatternflyButton>
-                    }
-                    @if (Confirmation == ConfirmationEnum.yesno)
-                    {
-                        <PatternflyButton Color="ButtonColor.Primary" Clicked="DoConfirm">@(ConfirmText ?? "Yes")</PatternflyButton>
-                        <PatternflyButton Color="ButtonColor.Link" Clicked="DoDecline">@(DeclineText ?? "No")</PatternflyButton>
-                    }
+                    <PatternflyActionList>
+                        @if (Confirmation == ConfirmationEnum.ok || Confirmation == ConfirmationEnum.okcancel || Confirmation == ConfirmationEnum.custom)
+                        {
+                            <PatternflyAction Color="@ConfirmButtonColor" Clicked="DoConfirm">@(ConfirmText ?? "Ok")</PatternflyAction>
+                        }
+                        @if (Confirmation == ConfirmationEnum.close)
+                        {
+                            <PatternflyAction Color="@ConfirmButtonColor" Clicked="DoConfirm">@(ConfirmText ?? "Close")</PatternflyAction>
+                        }
+                        @if (Confirmation == ConfirmationEnum.okcancel || Confirmation == ConfirmationEnum.custom)
+                        {
+                            <PatternflyAction Color="@DeclineButtonColor" Clicked="DoDecline">@(DeclineText ?? "Cancel")</PatternflyAction>
+                        }
+                        @if (Confirmation == ConfirmationEnum.yesno)
+                        {
+                            <PatternflyAction Color="@ConfirmButtonColor" Clicked="DoConfirm" >@(ConfirmText ?? "Yes")</PatternflyAction>
+                            <PatternflyAction Color="@DeclineButtonColor" Clicked="DoDecline">@(DeclineText ?? "No")</PatternflyAction>
+                        }
+                    </PatternflyActionList>
                 </PatternflyStackItem>
             }
             else
             {
-                <PatternflyStackItem>
-                    @if (item != null)
-                    {
-                        @Footer?.Invoke(item)
-                    }
-                </PatternflyStackItem>
+                @if (Footer != null)
+                {
+                    <PatternflyStackItem>
+                        @if (item != null)
+                        {
+                            @Footer?.Invoke(item)
+                        }
+                    </PatternflyStackItem>
+                }
             }
 
             @if (message != null)
@@ -74,7 +79,9 @@
     [Parameter] public EventCallback<TItemType> Confirmed { get; set; }
     [Parameter] public EventCallback<TItemType> Declined { get; set; }
     [Parameter] public string? ConfirmText { get; set; }
+    [Parameter] public ButtonColor ConfirmButtonColor { get; set; } = ButtonColor.Primary;
     [Parameter] public string? DeclineText { get; set; }
+    [Parameter] public ButtonColor DeclineButtonColor { get; set; } = ButtonColor.Link;
     [Parameter] public ModalSize Size { get; set; } = ModalSize.Medium;
 
     public async Task Show(TItemType item)
