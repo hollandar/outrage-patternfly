@@ -4,7 +4,7 @@
 
 @code {
     [CascadingParameter(Name = "ViewManager")] public PatternflyViewManager ViewManager { get; set; } = default!;
-    [Parameter] public int Id { get; set; }
+    [Parameter] public Guid Id { get; set; }
 
     public async Task Page1()
     {
