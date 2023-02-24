@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Outrage.Patternfly.Validators
+namespace Outrage.Patternfly.Validation
 {
     public class DelegateValidator : ComponentBase
     {
@@ -38,7 +38,7 @@ namespace Outrage.Patternfly.Validators
                 var validationArgs = new ValidationArgs();
                 if (Validate != null)
                     Validate(this, validationArgs);
-                this.DisplayErrors(validationArgs.Errors);
+                DisplayErrors(validationArgs.Errors);
             };
 
             CurrentEditContext.OnFieldChanged += (s, e) =>
