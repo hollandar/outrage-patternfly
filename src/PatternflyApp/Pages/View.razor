@@ -9,8 +9,7 @@
 
 <PatternflyPanel>
     <Body>
-    
-        <PatternflyViewManager CurrentView="/pages/page1/4D774361-6D8B-4B4E-8F68-9BB9B1A55A33" ShowView="true">
+        <PatternflyViewManager CurrentView="@currentView" ShowView="true">
             <Views>
                 <PatternflyView TComponent="Page1" Route="/pages/page1/{Id}"/>
                 <PatternflyView TComponent="Page2" Route="/pages/page2/{Id}"/>
@@ -23,5 +22,11 @@
 <Markdown Href="/markdown/patternfly-view.md"></Markdown>
 
 @code {
+    string? currentView = null;
 
+    protected override void OnInitialized()
+    {
+        this.currentView = "/pages/page1/4D774361-6D8B-4B4E-8F68-9BB9B1A55A33";
+        base.OnInitialized();
+    }
 }

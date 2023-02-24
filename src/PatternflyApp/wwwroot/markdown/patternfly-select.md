@@ -67,6 +67,7 @@ IEnumerable<TypeaheadItem<string>> typeaheads = new TypeaheadItem<string>[]
 * *TItem* : The type of the items being selected from.
 * *Expanded* : Is the select dropped down? Default false.
 * *Items* : An enumerable list of the items.
+* *LoadItems* : A function call that should return a list of potential items.  Overrides Items.
 * *IconLibrary* *IconWeight* : See [Icon](/icon).
 * *IconCheck* : Icon to show for the checked item. Default "check".
 * *IconCaret* : Icon to use for a dropdown. Default "caret-down".

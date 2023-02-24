@@ -18,8 +18,8 @@
         @if (OnItemCreated.HasDelegate && !String.IsNullOrEmpty(this.Text))
         {
             <button class="pf-c-button pf-m-plain pf-c-select__toggle-clear"
-                type="button"
-                aria-label="Clear all"
+                    type="button"
+                    aria-label="Clear all"
                 @onclick="CreateItem">
                 <Icon Name="@IconCheck" Size="@IconSize" Weight="@IconWeight" Library="@IconLibrary" />
             </button>
@@ -28,8 +28,8 @@
         @if (!String.IsNullOrEmpty(this.Text))
         {
             <button class="pf-c-button pf-m-plain pf-c-select__toggle-clear"
-                type="button"
-                aria-label="Clear all"
+                    type="button"
+                    aria-label="Clear all"
                 @onclick="ClearSearch">
                 <Icon Name="@IconClear" Size="@IconSize" Weight="@IconWeight" Library="@IconLibrary" />
             </button>
@@ -54,12 +54,26 @@
         @foreach (var item in MatchedItems)
         {
             var value = item?.ToString();
+            if (ItemToString != null && item != null)
+            {
+                value = ItemToString(item.Item);
+            }
             if (value != null)
             {
-                var mark = value.Substring(0, Math.Min(this.Text.Length, value.Length));
-                var notmark = value.Substring(Math.Min(value.Length, this.Text.Length));
+                string mark = string.Empty;
+                string notmark = string.Empty;
+                if (Highlight)
+                {
+                    mark = value.Substring(0, Math.Min(this.Text.Length, value.Length));
+                    notmark = value.Substring(Math.Min(value.Length, this.Text.Length));
+                }
+                else
+                {
+                    notmark = value;
+                }
+
                 <li role="presentation" @key="item">
-                    <button class="pf-c-select__menu-item" role="option" @onclick="() => SelectItem(item!)">
+                    <button type="button" class="pf-c-select__menu-item" role="option" @onclick="() => SelectItem(item!)">
                         <mark class="pf-c-select__menu-item--match">@mark</mark>@notmark
 
                         @if (item?.Selected ?? false)
@@ -78,11 +92,11 @@
 
 @code {
 
-    string text = "";
+    string? text = "";
     IEnumerable<TypeaheadItem<TItem>> MatchedItems { get; set; } = Enumerable.Empty<TypeaheadItem<TItem>>();
 
     [Parameter]
-    public string Text
+    public string? Text
     {
         set
         {
@@ -90,12 +104,17 @@
             if (!String.IsNullOrWhiteSpace(this.text))
                 this.SearchItem();
         }
-        get { return this.text; }
+        get
+        {
+            return this.text ?? String.Empty;
+        }
     }
 
+    [Parameter] public TItem? Item { get; set; } = default(TItem);
     [Parameter] public bool Expanded { get; set; } = false;
     [Parameter] public string Placeholder { get; set; } = "New";
     [Parameter] public IEnumerable<TypeaheadItem<TItem>> Items { get; set; } = Enumerable.Empty<TypeaheadItem<TItem>>();
+    [Parameter] public Func<string, Task<IEnumerable<TypeaheadItem<TItem>>>>? LoadItems { get; set; }
     [Parameter] public EventCallback<TypeaheadItem<TItem>> OnItemSelected { get; set; }
     [Parameter] public EventCallback<TypeaheadItem<TItem>> OnItemCleared { get; set; }
     [Parameter] public EventCallback<string> OnItemCreated { get; set; }
@@ -105,10 +124,18 @@
     [Parameter] public Icon.SizeEnum IconSize { get; set; } = Icon.SizeEnum.regular;
     [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Icon.LibraryEnum.fontawesome;
     [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Icon.WeightEnum.solid;
+    [Parameter] public Func<TItem, string>? ItemToString { get; set; } = null;
+    [Parameter] public bool Highlight { get; set; } = true;
 
     public IEnumerable<TypeaheadItem<TItem>> SelectedItems => Items.Where(r => r.Selected);
 
     public HtmlId id = new();
+
+    protected override void OnInitialized()
+    {
+        if (Item != null && ItemToString != null)
+            text = ItemToString(Item);
+    }
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
@@ -142,11 +169,21 @@
         await this.InvokeAsync(SearchItem);
     }
 
-    public void SearchItem()
+    public async Task SearchItem()
     {
-        this.MatchedItems = this.Items;
+        var items = this.Items;
         if (!String.IsNullOrEmpty(this.Text))
-            this.MatchedItems = this.Items.Where(r => (r?.ToString() ?? "").StartsWith(this.text, StringComparison.CurrentCultureIgnoreCase));
+        {
+            if (this.LoadItems != null)
+            {
+                this.MatchedItems = await LoadItems(this.Text);
+            }
+            else
+            {
+                this.MatchedItems = items.Where(r => (r?.ToString() ?? "").StartsWith(this.text, StringComparison.CurrentCultureIgnoreCase));
+            }
+        }
+
 
         if (this.MatchedItems.Any())
             this.Expanded = true;
@@ -166,7 +203,15 @@
     {
         this.ClearSelections();
         item.Selected = true;
-        this.Text = item.ToString();
+        if (ItemToString != null)
+        {
+            this.Text = ItemToString(item.Item);
+        }
+        else
+        {
+            this.Text = item.ToString();
+        }
+
         this.Expanded = false;
         await this.OnItemSelected.InvokeAsync(item);
     }
@@ -174,7 +219,7 @@
     public async Task CreateItem()
     {
         var createText = this.Text;
-        this.Text = "";
+        this.Text = null;
         this.Expanded = false;
         await this.OnItemCreated.InvokeAsync(createText);
     }

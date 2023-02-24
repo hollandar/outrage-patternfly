@@ -11,7 +11,7 @@
         <PatternflySelect TKey="int" TValue="string" Options="values" Text="Select a number" />
 
         <PatternflyTitle HeadingLevel="2">Select with typeahead</PatternflyTitle>
-        <PatternflySelectTypeahead TItem="string" Items="typeaheads" Placeholder="Select a country" />
+        <PatternflySelectTypeahead TItem="string" LoadItems="LoadItems" Placeholder="Select a country" />
     </Body>
 </PatternflyPanel>
 
@@ -36,4 +36,9 @@
         new ("Belgium"),
         new ("France")
     };
+
+    public Task<IEnumerable<TypeaheadItem<string>>> LoadItems(string txt)
+    {
+        return Task.FromResult(typeaheads.Where(r => r.Item.StartsWith(txt)));
+    }
 }

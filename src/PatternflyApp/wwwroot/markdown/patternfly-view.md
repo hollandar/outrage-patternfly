@@ -8,7 +8,7 @@ Provides two controls that provider inner routing and attribute passing between 
 
 ## Example usage
 ```
-<PatternflyViewManager CurrentView="/pages/page1/1" ShowView="true">
+<PatternflyViewManager CurrentView="/pages/page1/4D774361-6D8B-4B4E-8F68-9BB9B1A55A33" ShowView="true">
     <Views>
         <PatternflyView TComponent="Page1" Route="/pages/page1/{Id}"/>
         <PatternflyView TComponent="Page2" Route="/pages/page2/{Id}"/>
@@ -27,12 +27,12 @@ Where Page1 is a component:
     [Parameter] public int Id { get; set; }
     public async Task Page2()
     {
-        await this.ViewManager.NavigateTo("/pages/page2/2");
+        await this.ViewManager.NavigateTo("/pages/page2/B8A33B15-495D-44A1-B807-A71739A65282");
     }
     
     public async Task Page3()
     {
-        await this.ViewManager.NavigateTo("/pages/page3/3");
+        await this.ViewManager.NavigateTo("/pages/page3/04033D80-B568-44AB-AABB-355451BBA38A");
     }
 }
 ```

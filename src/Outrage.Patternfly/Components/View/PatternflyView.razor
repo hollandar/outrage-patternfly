@@ -30,13 +30,22 @@
                     if (attributes.ContainsKey(name))
                     {
                         var type = parameter.PropertyType;
-                        if (type.IsAssignableFrom(typeof(Guid)))
+                        if (attributes[name] != null)
                         {
-                            builder.AddAttribute(sequence++, name, Guid.Parse(attributes[name].ToString()));
-                        }
-                        else
-                        {
-                            builder.AddAttribute(sequence++, name, Convert.ChangeType(attributes[name], type));
+                            try
+                            {
+                                if (type.IsAssignableFrom(typeof(Guid)) && Guid.TryParse(attributes[name]?.ToString() ?? String.Empty, out var id))
+                                {
+                                    builder.AddAttribute(sequence++, name, id);
+                                }
+                                else
+                                {
+                                    builder.AddAttribute(sequence++, name, Convert.ChangeType(attributes[name], type));
+                                }
+                            } catch (Exception e)
+                            {
+                                Console.WriteLine($"Could not map {attributes[name]} into {type.FullName} for property {name}, {e.Message}.");
+                            }
                         }
                     }
                 }
