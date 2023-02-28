@@ -3,7 +3,7 @@
 @inherits Patternfly.Components.Base.PatternflyComponentBase
 
 <PatternflyNavigationItem>
-    <NavLink class="@Classes" ActiveClass="pf-m-current" Match="@Match" href="@(Href ?? "#")" @attributes="AdditionalAttributes">
+    <NavLink class="@Classes" ActiveClass="pf-m-current" Match="@Match" href="@(mergedHref)" @attributes="AdditionalAttributes">
         @if (Icon != null)
         {
             <span><Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" FixedWidth="true" class="pf-u-mr-sm" aria-hidden="true" /></span>
@@ -20,16 +20,38 @@
 </PatternflyNavigationItem>
 
 @code {
+    string mergedHref = string.Empty;
+
     [Parameter] public NavLinkMatch Match { get; set; } = NavLinkMatch.Prefix;
     [Parameter] public string? Icon { get; set; } = null;
     [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.solid;
     [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
-    [Parameter] public string? Href { get; set; } = null;
+    [Parameter] public string Href { get; set; } = "#";
     [Parameter] public string? Text { get; set; } = null;
     [Parameter] public RenderFragment? ChildContent { get; set; } = null;
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
         return new string[] { "pf-c-nav__link" };
+    }
+
+    protected override void OnParametersSet()
+    {
+        MergeValues();
+        base.OnParametersSet();
+    }
+
+    private void MergeValues()
+    {
+        mergedHref = Href;
+        foreach (var att in AdditionalAttributes)
+        {
+            var key = $"{{{att.Key}}}";
+            if (mergedHref.Contains(key) && !String.IsNullOrEmpty(att.Value?.ToString()))
+            {
+                mergedHref = mergedHref.Replace(key, att.Value.ToString());
+                AdditionalAttributes.Remove(key);
+            }
+        }
     }
 }
