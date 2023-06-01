@@ -55,13 +55,13 @@
     public string? Icon { get; set; } = "exclamation-circle";
 
     [Parameter]
-    public Utilities.Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+    public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
 
     [Parameter]
-    public Utilities.Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.solid;
+    public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
 
     [Parameter]
-    public Utilities.Icon.SizeEnum IconSize { get; set; } = Utilities.Icon.SizeEnum.regular;
+    public SizeEnum IconSize { get; set; } = SizeEnum.regular;
 
 
     [CascadingParameter] 

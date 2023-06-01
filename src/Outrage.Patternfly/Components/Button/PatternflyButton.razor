@@ -1,4 +1,5 @@
-﻿@using Outrage.Patternfly.Components.Utilities
+﻿@using Outrage.Patternfly.Components.Button;
+@using Outrage.Patternfly.Components.Utilities
 @using Outrage.Patternfly.Components.Dropdown
 @using Outrage.Patternfly.Interfaces
 @inherits Patternfly.Components.Base.PatternflyComponentBase
@@ -33,16 +34,16 @@
     public ButtonColor Color { get; set; } = ButtonColor.Primary;
 
     [Parameter]
-    public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+    public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
 
     [Parameter]
     public string? Icon { get; set; } = null;
 
     [Parameter]
-    public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.solid;
+    public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
 
     [Parameter]
-    public Icon.SizeEnum IconSize { get; set; } = Utilities.Icon.SizeEnum.regular;
+    public SizeEnum IconSize { get; set; } = SizeEnum.regular;
 
     [Parameter]
     public IconPosition IconPosition { get; set; } = IconPosition.Start;

@@ -121,9 +121,9 @@
     [Parameter] public string IconCheck { get; set; } = "check";
     [Parameter] public string IconClear { get; set; } = "times-circle";
     [Parameter] public string IconCaret { get; set; } = "caret-down";
-    [Parameter] public Icon.SizeEnum IconSize { get; set; } = Icon.SizeEnum.regular;
-    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Icon.LibraryEnum.fontawesome;
-    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Icon.WeightEnum.solid;
+    [Parameter] public SizeEnum IconSize { get; set; } = SizeEnum.regular;
+    [Parameter] public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
+    [Parameter] public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
     [Parameter] public Func<TItem, string>? ItemToString { get; set; } = null;
     [Parameter] public bool Highlight { get; set; } = true;
 

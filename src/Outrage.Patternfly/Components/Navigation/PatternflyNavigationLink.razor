@@ -24,8 +24,8 @@
 
     [Parameter] public NavLinkMatch Match { get; set; } = NavLinkMatch.Prefix;
     [Parameter] public string? Icon { get; set; } = null;
-    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.solid;
-    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+    [Parameter] public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
+    [Parameter] public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
     [Parameter] public string Href { get; set; } = "#";
     [Parameter] public string? Text { get; set; } = null;
     [Parameter] public RenderFragment? ChildContent { get; set; } = null;

@@ -1,19 +1,74 @@
-﻿<th role="columnheader" scope="col" @attributes="AdditionalAttributes">
-    @if (String.IsNullOrWhiteSpace(Title))
+﻿@using Microsoft.Extensions.DependencyInjection;
+@using Outrage.EventBus;
+@using Outrage.Patternfly.Components.Utilities;
+
+<th role="columnheader" scope="col" @attributes="AdditionalAttributes">
+    @if (this.Sortable)
+    {
+        <button class="pf-c-table__button" @onclick="_clicked">
+            <div class="pf-c-table__button-content">
+                <span class="pf-c-table__text">
+                    @ChildContent
+                    @Title
+                </span>
+                @if (Selected)
+                {
+                    <span class="pf-c-table__sort-indicator">
+                        <Icon Library="@IconLibrary" Weight="IconWeight" Name="SortIcon"></Icon>
+                    </span>
+                }
+            </div>
+        </button>
+    }
+    else
     {
         @ChildContent
-    } else { 
         @Title
     }
 </th>
 
+
 @code {
+    [Inject] IServiceProvider ServiceProvider { get; set; } = default!;
+
+    [Parameter]
+    public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
+
+    [Parameter]
+    public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
+
+    [Parameter]
+    public SizeEnum IconSize { get; set; } = SizeEnum.regular;
+
+    [Parameter]
+    public string? Icon { get; set; } = "long-arrow-alt-up";
+
     [Parameter]
     public string Title { get; set; } = "";
 
     [Parameter]
-    public RenderFragment? ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; } = null;
+
+    [Parameter]
+    public bool Sortable { get; set; } = false;
+
+    [Parameter]
+    public bool Selected { get; set; } = false;
+
+    [Parameter]
+    public string SortOrder { get; set; } = string.Empty;
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    [Parameter]
+    public EventCallback<string> Changed { get; set; }
+
+    void _clicked()
+    {
+        if (this.Sortable)
+        {
+            Changed.InvokeAsync(this.SortOrder);
+        }
+    }
 }

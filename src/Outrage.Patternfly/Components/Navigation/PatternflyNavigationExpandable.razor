@@ -41,8 +41,8 @@
     [Parameter] public string? Icon { get; set; } = null;
     [Parameter] public string? IconExpanded { get; set; } = "angle-right";
     [Parameter] public string? IconCollapsed { get; set; } = "angle-right";
-    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.solid;
-    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+    [Parameter] public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
+    [Parameter] public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
     [Parameter] public RenderFragment? ChildContent { get; set; } = null;
     [Parameter] public bool Expanded { get; set; } = false;
     [Parameter] public EventCallback<bool> OnExpanded { get; set; }

@@ -55,8 +55,8 @@
     [Parameter] public IEnumerable<KeyValuePair<TKey, TValue>>? Options { get; set; }
     [Parameter] public TKey? SelectedKey { get; set; }
     [Parameter] public EventCallback<TKey> SelectedKeyChanged { get; set; }
-    [Parameter] public Icon.LibraryEnum IconLibrary { get; set; } = Icon.LibraryEnum.fontawesome;
-    [Parameter] public Icon.WeightEnum IconWeight { get; set; } = Icon.WeightEnum.solid;
+    [Parameter] public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
+    [Parameter] public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
     [Parameter] public string IconCaretDown { get; set; } = "caret-down";
     [Parameter] public string IconCheck { get; set; } = "check";
 

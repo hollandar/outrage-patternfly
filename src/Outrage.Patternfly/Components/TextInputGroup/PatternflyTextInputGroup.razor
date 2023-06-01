@@ -1,0 +1,68 @@
+﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+@using Outrage.Patternfly.Components.Utilities;
+<div class="@Classes" @attributes="AdditionalAttributes">
+    <div class="pf-c-text-input-group__main pf-m-icon">
+        <span class="pf-c-text-input-group__text">
+            <span class="pf-c-text-input-group__icon">
+                <Icon Library="@IconLibrary" Weight="@IconWeight" Name="@Icon"/>
+            </span>
+            <input class="pf-c-text-input-group__text-input"
+                   type="text"
+                   value="@text"
+                   aria-label="@Placeholder"
+                   placeholder="@Placeholder"
+                   @onchange="_changed" />
+        </span>
+    </div>
+    <div class="pf-c-text-input-group__utilities">
+        <button class="pf-c-button pf-m-plain"
+                type="button"
+                aria-label="Clear input"
+                @onclick="_clear">
+            <Icon Library="@IconLibrary" Weight="@IconWeight" Name="@ClearIcon"/>
+        </button>
+    </div>
+</div>
+
+    @code {
+        [Parameter]
+        public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
+
+        [Parameter]
+        public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
+
+        [Parameter]
+        public SizeEnum IconSize { get; set; } = SizeEnum.regular;
+
+        [Parameter]
+        public string? Icon { get; set; } = "search";
+
+        [Parameter]
+        public string? ClearIcon { get; set; } = "times";
+
+        [Parameter]
+        public EventCallback<string> ValueChanged { get; set; }
+
+        [Parameter]
+        public string Placeholder { get; set; } = String.Empty;
+
+        string? text = String.Empty;
+
+        void _changed(ChangeEventArgs a)
+        {
+            this.text = (string?)a.Value;
+            ValueChanged.InvokeAsync(this.text);
+        }
+
+        void _clear()
+        {
+            this.text = String.Empty;
+            this.StateHasChanged();
+            ValueChanged.InvokeAsync(this.text);
+        }
+
+        protected override IEnumerable<string> OnIntroduceClasses()
+        {
+            return new string[] { "pf-c-text-input-group" };
+        }
+}

@@ -19,13 +19,13 @@
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
-    public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+    public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
 
     [Parameter]
     public string? Icon { get; set; } = null;
 
     [Parameter]
-    public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.solid;
+    public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
 
     [Parameter]
     public EventCallback<MouseEventArgs> Clicked { get; set; }

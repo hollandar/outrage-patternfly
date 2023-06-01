@@ -29,13 +29,13 @@
     public string? IconCaret { get; set; } = "angle-left";
 
     [Parameter]
-    public Icon.SizeEnum IconSize { get; set; } = Utilities.Icon.SizeEnum.regular;
+    public SizeEnum IconSize { get; set; } = SizeEnum.regular;
 
     [Parameter]
-    public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.solid;
+    public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
 
     [Parameter]
-    public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+    public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
 
     [Parameter]
     public string? Text { get; set; } = null;

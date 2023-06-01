@@ -1,5 +1,7 @@
 ﻿@using System.Diagnostics.CodeAnalysis
-@inherits InputBase<DateOnly>
+@using Microsoft.AspNetCore.Components.Forms;
+@using Outrage.Patternfly.Components.Form
+@inherits InputBase<DateOnly?>
 <input @attributes="@AdditionalAttributes" @bind-value="CurrentValueAsString" @bind-value:event="@(BindEvent)" />
 @code {
     [CascadingParameter(Name = "FieldName")]
@@ -20,20 +22,29 @@
         base.OnParametersSet();
     }
 
-    protected override string FormatValueAsString(DateOnly value)
+    protected override string FormatValueAsString(DateOnly? value)
     {
-        return value.ToString("yyyy-MM-dd");
+        return value?.ToString("yyyy-MM-dd") ?? String.Empty;
     }
 
-    protected override bool TryParseValueFromString(string value, [MaybeNullWhen(false)] out DateOnly result, [NotNullWhen(false)] out string validationErrorMessage)
+    protected override bool TryParseValueFromString(string value, [MaybeNullWhen(false)] out DateOnly? result, [NotNullWhen(false)] out string validationErrorMessage)
     {
         validationErrorMessage = null;
-        if (!DateOnly.TryParse(value, out result))
-        {
-            validationErrorMessage = $"Could not parse a date from {value}.";
+
+        if (String.IsNullOrWhiteSpace(value)) {
+            validationErrorMessage = $"Input string was empty.";
+            result = null;
             return false;
         }
 
+        if (!DateOnly.TryParse(value, out var dt))
+        {
+            validationErrorMessage = $"Could not parse a date from {value}.";
+            result = null;
+            return false;
+        }
+
+        result = dt;
         return true;
     }
 }

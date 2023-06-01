@@ -15,13 +15,13 @@
     public string? Icon { get; set; }
 
     [Parameter]
-    public Icon.WeightEnum IconWeight { get; set; } = Utilities.Icon.WeightEnum.solid;
+    public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
 
     [Parameter]
-    public Icon.SizeEnum IconSize { get; set; } = Utilities.Icon.SizeEnum.sm;
+    public SizeEnum IconSize { get; set; } = SizeEnum.sm;
 
     [Parameter]
-    public Icon.LibraryEnum IconLibrary { get; set; } = Utilities.Icon.LibraryEnum.fontawesome;
+    public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
 
     [Parameter]
     public EventCallback<MouseEventArgs> Clicked { get; set; }

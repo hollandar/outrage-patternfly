@@ -1,4 +1,5 @@
-﻿@switch (Library)
+﻿@using Outrage.Patternfly.Components.Utilities;
+@switch (Library)
 {
     case LibraryEnum.fontawesome:
         {
@@ -51,16 +52,11 @@
 }
 
 @code {
-    public enum LibraryEnum { fontawesome };
     [Parameter]
     public LibraryEnum Library { get; set; } = LibraryEnum.fontawesome;
 
-    public enum WeightEnum { light, regular, solid, duotone, brand }
-
     [Parameter]
     public WeightEnum Weight { get; set; } = WeightEnum.solid;
-
-    public enum SizeEnum { xs, sm, regular, lg, x2, x3, x5, x7, x10 }
 
     [Parameter]
     public SizeEnum Size { get; set; } = SizeEnum.regular;
