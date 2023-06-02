@@ -1,6 +1,6 @@
 ﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
 
-<div class="@Classes" @attributes="AdditionalAttributes">
+<div class="@Classes" @attributes="AdditionalAttributes" @onclick="async(args) => await OnClick(args)">
     @if (Header != null || Actions != null)
     {
         <div class="pf-c-card__header">
@@ -23,8 +23,7 @@
             }
         </div>
     }
-
-    @if (Header != null && Title != null)
+    else
     {
         <div class="pf-c-card__title">@Title</div>
     }
@@ -60,10 +59,34 @@
     [Parameter]
     public RenderFragment? Footer { get; set; }
 
+    [Parameter]
+    public bool Compact { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    protected Task OnClick(MouseEventArgs args)
+    {
+        if (Clicked.HasDelegate)
+            return Clicked.InvokeAsync();
+
+        return Task.CompletedTask;
+    }
+
+
     protected override IEnumerable<string> OnIntroduceClasses()
     {
         var classes = new HashSet<string>(new string[] { "pf-c-card" });
 
+        if (Compact)
+        {
+            classes.Add("pf-m-compact");
+        }
+
+        if (Clicked.HasDelegate)
+        {
+            classes.Add("pf-m-selectable-raised");
+        }
 
         return classes;
     }

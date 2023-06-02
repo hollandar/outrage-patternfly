@@ -1,8 +1,9 @@
-﻿@using Outrage.Patternfly.Components.Button;
+﻿@using Microsoft.AspNetCore.Components.Web;
+@using Outrage.Patternfly.Components.Button;
 @using Outrage.Patternfly.Components.Utilities
 @using Outrage.Patternfly.Components.Dropdown
 @using Outrage.Patternfly.Interfaces
-@inherits Patternfly.Components.Base.PatternflyComponentBase
+@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 
 <button class="@Classes" @onclick="OnClicked" @onclick:stopPropagation type="@Type" @attributes="AdditionalAttributes">
     @if (ChildContent != null) {

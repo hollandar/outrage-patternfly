@@ -10,6 +10,8 @@ namespace Outrage.Patternfly.Components.Layout
     {
         FlexStart,
         SpaceBetween,
-        FlexEnd
+		SpaceAround,
+		Center,
+		FlexEnd
     }
 }
