@@ -51,8 +51,8 @@ Api documentation and component demonstrations can be found at https://patternfl
 
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
 		<Copy SourceFiles="../../LICENSE.md" DestinationFolder="." />
-		<Exec Command="yarn install" />
-		<Exec Command="yarn run build" />
+		<!--<Exec Command="yarn install" />
+		<Exec Command="yarn run build" />-->
 	</Target>
 
 	<Target Name="RemovePackContent" BeforeTargets="Pack">

@@ -1,0 +1,106 @@
+﻿@using Outrage.EventBus;
+@using Outrage.Patternfly.Components.ManySelect
+@inject IServiceProvider serviceProvider
+@typeparam TKey
+
+<CascadingValue Name="SelectParent" Value="this">
+    <div class="pf-c-select @(toggled?"pf-m-expanded":"")">
+        <div class="pf-c-select__toggle">
+            <div class="pf-c-select__toggle-wrapper">
+                @Viewer
+            </div>
+            <button class="pf-c-button pf-m-plain pf-c-select__toggle-button"
+                    type="button"
+                    id="select-single-expanded-toggle"
+                    aria-haspopup="true"
+                    aria-expanded="true"
+                    aria-labelledby="select-single-expanded-label select-single-expanded-toggle" 
+                    @onclick="Toggle">
+                <span class="pf-c-select__toggle-arrow">
+                    <i class="fas fa-caret-down" aria-hidden="true"></i>
+                </span>
+            </button>
+        </div>
+
+        @if (toggled)
+        {
+            @Finder
+        }
+    </div>
+</CascadingValue>
+
+@code {
+    bool toggled = false;
+    public IEventAggregator EventAggregator { get; set; }
+    [Parameter] public TKey? Value { get; set; }
+    [Parameter] public EventCallback<TKey> ValueChanged { get; set; }
+    [Parameter] public HashSet<TKey> SelectedKeys { get; set; } = new HashSet<TKey>();
+    [Parameter] public EventCallback<HashSet<TKey>> SelectedKeysChanged { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (Value != null)
+        {
+            SelectedKeys.Add(Value);
+        }
+
+        EventAggregator = new Outrage.EventBus.Predefined.RootEventBus(serviceProvider);
+        base.OnInitialized();
+    }
+
+    [Parameter]
+    public RenderFragment? Viewer { get; set; }
+
+    [Parameter]
+    public RenderFragment? Finder { get; set; }
+
+    void Toggle()
+    {
+        toggled = !toggled;
+        StateHasChanged();
+    }
+
+    public async Task SetKeysAsync(params TKey[] keys)
+    {
+        this.SelectedKeys.Clear();
+        foreach (var key in keys)
+        {
+            this.SelectedKeys.Add(key);
+        }
+        await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
+        await ValueChanged.InvokeAsync(this.SelectedKeys.FirstOrDefault());
+        await SelectedKeysChanged.InvokeAsync(this.SelectedKeys);
+    }
+
+    public async Task AddKeyAsync(TKey key)
+    {
+        this.SelectedKeys.Add(key);
+        await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
+        await ValueChanged.InvokeAsync(this.SelectedKeys.FirstOrDefault());
+        await SelectedKeysChanged.InvokeAsync(this.SelectedKeys);
+    }
+
+    public async Task ToggleKeyAsync(TKey key)
+    {
+        if (this.SelectedKeys.Contains(key))
+            this.SelectedKeys.Remove(key);
+        else
+            this.SelectedKeys.Add(key);
+        await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
+        await ValueChanged.InvokeAsync(this.SelectedKeys.FirstOrDefault());
+        await SelectedKeysChanged.InvokeAsync(this.SelectedKeys);
+    }
+
+    public async Task ClearKeysAsync()
+    {
+        this.SelectedKeys.Clear();
+        await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
+        await ValueChanged.InvokeAsync(this.SelectedKeys.FirstOrDefault());
+        await SelectedKeysChanged.InvokeAsync(this.SelectedKeys);
+    }
+
+    public bool IsKeySelected(TKey key)
+    {
+        return this.SelectedKeys.Contains(key);
+    }
+}

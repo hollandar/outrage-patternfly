@@ -1,0 +1,97 @@
+﻿@typeparam TKey
+@typeparam TValue
+
+@if (!(values?.Any() ?? false))
+{
+    <span>Select values.</span>
+}
+else
+{
+    if (ToViewString != null)
+    {
+        foreach (var item in values)
+        {
+            <span>
+                @ToViewString(item.Value)
+                <button class="pf-c-button pf-m-plain pf-c-select__toggle-clear" @onclick="(args) => RemoveItem(args, item.Value)">
+                    <Icon Name="times"></Icon>
+                </button>
+            </span>
+        }
+    }
+    else
+    {
+        foreach (var item in values)
+        {
+            <span>
+                @item.Value?.ToString() ?? "Not found."
+                <button @onclick="(args) => RemoveItem(args, item.Value)">
+                    <Icon Name="times"></Icon>
+                </button>
+            </span>
+        }
+    }
+}
+
+@code {
+    public IDictionary<TKey, TValue?> values = new Dictionary<TKey, TValue?>();
+    [Parameter] public Func<TKey, Task<TValue?>>? Load { get; set; }
+    [Parameter] public Func<TValue?, string>? ToViewString { get; set; }
+    [Parameter] public Func<TValue?, TKey>? ToKey { get; set; }
+    [CascadingParameter(Name = "SelectParent")] public PatternflyManySelect<TKey> Parent { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Parent == null)
+        {
+            throw new Exception("Search and select parent is not available.");
+        }
+        if (Load == null)
+        {
+            throw new Exception($"No loader is defined.");
+        }
+
+        this.Parent.EventAggregator.Subscribe<ManySelectKeysChangedMessage<TKey>>(async (c, m) =>
+        {
+            await MergeItemsAndLoadAsync(m.Keys);
+            await this.InvokeAsync(StateHasChanged);
+        });
+
+        await MergeItemsAndLoadAsync(this.Parent.SelectedKeys);
+        await base.OnInitializedAsync();
+    }
+
+    protected async Task MergeItemsAndLoadAsync(HashSet<TKey> keys)
+    {
+        foreach (var k in keys)
+        {
+            if (!values.ContainsKey(k) && Load != null)
+            {
+                values[k] = await Load(k);
+            }
+        }
+
+        foreach (var k in values.Keys)
+        {
+            if (!keys.Contains(k))
+            {
+                values.Remove(k);
+            }
+        }
+
+    }
+
+    protected async Task RemoveItem(MouseEventArgs args, TValue? item)
+    {
+        if (ToKey == null)
+        {
+            throw new Exception("ToKey attribute is not defined.");
+        }
+
+        if (item != null)
+        {
+            var key = ToKey(item);
+            await this.Parent.ToggleKeyAsync(key);
+        }
+    }
+}

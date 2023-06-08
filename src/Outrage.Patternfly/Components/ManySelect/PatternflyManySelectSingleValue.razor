@@ -1,0 +1,48 @@
+﻿@typeparam TKey
+@typeparam TValue
+
+@if (ToViewString != null)
+{
+    <span>
+        @ToViewString(value)
+    </span>
+}
+else
+{
+    <span>
+        @value?.ToString() ?? "Not found."
+    </span>
+}
+
+@code {
+    TValue? value;
+    [Parameter] public Func<TKey, Task<TValue?>>? Load { get; set; }
+    [Parameter] public Func<TValue?, string>? ToViewString { get; set; }
+    [CascadingParameter(Name = "SearchAndSelect")] public PatternflyManySelect<TKey> Parent { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Parent == null)
+        {
+            throw new Exception("Search and select parent is not available.");
+        }
+
+        this.Parent.EventAggregator.Subscribe<ManySelectKeysChangedMessage<TKey>>(async (c, m) =>
+        {
+            var key = m.Keys.SingleOrDefault();
+            if (key != null && Load != null)
+            {
+                this.value = await Load(key);
+                await this.InvokeAsync(StateHasChanged);
+            }
+        });
+
+        var key = this.Parent.SelectedKeys.SingleOrDefault();
+        if (key != null && Load != null)
+        {
+            this.value = await Load(key);
+        }
+
+        await base.OnInitializedAsync();
+    }
+}
