@@ -37,10 +37,11 @@
     {
         var selected = this.Parent.IsKeySelected(ToKey(item));
         <li role="presentation">
-            <button class="pf-c-select__menu-item @(selected?"pf-m-selected":"")"
+            <button type="button"
+                    class="pf-c-select__menu-item @(selected?"pf-m-selected":"")"
                     role="option"
                     aria-selected="@selected"
-            @onclick="(args) => ValueClickedAsync(args, item)">
+                    @onclick="(args) => ValueClickedAsync(args, item)">
                 @if (ToViewString != null)
                 {
                     <div>@ToViewString(item)</div>

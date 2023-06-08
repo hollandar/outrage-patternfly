@@ -35,7 +35,7 @@ else
 
 @code {
     public IDictionary<TKey, TValue?> values = new Dictionary<TKey, TValue?>();
-    [Parameter] public Func<TKey, Task<TValue?>>? Load { get; set; }
+    [Parameter] public Func<TKey, Task<TValue?>>? OnLoadItems { get; set; }
     [Parameter] public Func<TValue?, string>? ToViewString { get; set; }
     [Parameter] public Func<TValue?, TKey>? ToKey { get; set; }
     [CascadingParameter(Name = "SelectParent")] public PatternflyManySelect<TKey> Parent { get; set; } = default!;
@@ -46,7 +46,7 @@ else
         {
             throw new Exception("Search and select parent is not available.");
         }
-        if (Load == null)
+        if (OnLoadItems == null)
         {
             throw new Exception($"No loader is defined.");
         }
@@ -65,9 +65,9 @@ else
     {
         foreach (var k in keys)
         {
-            if (!values.ContainsKey(k) && Load != null)
+            if (!values.ContainsKey(k) && OnLoadItems != null)
             {
-                values[k] = await Load(k);
+                values[k] = await OnLoadItems(k);
             }
         }
 

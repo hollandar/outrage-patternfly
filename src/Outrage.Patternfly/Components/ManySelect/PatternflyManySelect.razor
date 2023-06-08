@@ -34,6 +34,7 @@
     [Parameter] public EventCallback<TKey> ValueChanged { get; set; }
     [Parameter] public HashSet<TKey> SelectedKeys { get; set; } = new HashSet<TKey>();
     [Parameter] public EventCallback<HashSet<TKey>> SelectedKeysChanged { get; set; }
+    [Parameter] public bool CloseOnSelect { get; set; } = true;
 
     protected override void OnInitialized()
     {
@@ -68,6 +69,7 @@
         await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
         await ValueChanged.InvokeAsync(this.SelectedKeys.FirstOrDefault());
         await SelectedKeysChanged.InvokeAsync(this.SelectedKeys);
+        CloseSingle();
     }
 
     public async Task AddKeyAsync(TKey key)
@@ -87,6 +89,7 @@
         await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
         await ValueChanged.InvokeAsync(this.SelectedKeys.FirstOrDefault());
         await SelectedKeysChanged.InvokeAsync(this.SelectedKeys);
+        CloseSingle();
     }
 
     public async Task ClearKeysAsync()
@@ -95,10 +98,19 @@
         await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
         await ValueChanged.InvokeAsync(this.SelectedKeys.FirstOrDefault());
         await SelectedKeysChanged.InvokeAsync(this.SelectedKeys);
+        CloseSingle();
     }
 
     public bool IsKeySelected(TKey key)
     {
         return this.SelectedKeys.Contains(key);
+    }
+
+    public async void CloseSingle()
+    {
+        if (this.CloseOnSelect) {
+            toggled = false;
+            await InvokeAsync(StateHasChanged);
+        }
     }
 }

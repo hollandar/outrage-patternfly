@@ -16,9 +16,9 @@ else
 
 @code {
     TValue? value;
-    [Parameter] public Func<TKey, Task<TValue?>>? Load { get; set; }
+    [Parameter] public Func<TKey, Task<TValue?>>? OnLoadItem { get; set; }
     [Parameter] public Func<TValue?, string>? ToViewString { get; set; }
-    [CascadingParameter(Name = "SearchAndSelect")] public PatternflyManySelect<TKey> Parent { get; set; } = default!;
+    [CascadingParameter(Name = "SelectParent")] public PatternflyManySelect<TKey> Parent { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -30,17 +30,17 @@ else
         this.Parent.EventAggregator.Subscribe<ManySelectKeysChangedMessage<TKey>>(async (c, m) =>
         {
             var key = m.Keys.SingleOrDefault();
-            if (key != null && Load != null)
+            if (key != null && OnLoadItem != null)
             {
-                this.value = await Load(key);
+                this.value = await OnLoadItem(key);
                 await this.InvokeAsync(StateHasChanged);
             }
         });
 
         var key = this.Parent.SelectedKeys.SingleOrDefault();
-        if (key != null && Load != null)
+        if (key != null && OnLoadItem != null)
         {
-            this.value = await Load(key);
+            this.value = await OnLoadItem(key);
         }
 
         await base.OnInitializedAsync();
