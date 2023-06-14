@@ -1,4 +1,5 @@
 ﻿using Outrage.EventBus;
+using System.Data;
 
 namespace Outrage.Patternfly.Components.ManySelect;
 
@@ -34,4 +35,6 @@ public class ManySelectLoadResponse<TValue>
     public int PageSize { get; set; }
     public int TotalRecords { get; set; }
     public ICollection<TValue> Values { get; set; }
+
+    public static ManySelectLoadResponse<TValue> Empty = new ManySelectLoadResponse<TValue> { Page=0, PageSize=0, TotalRecords=0, Values = new List<TValue>() };
 }
