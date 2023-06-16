@@ -39,7 +39,7 @@
                     {
                         @NoItemsMessage
                     }
-                    else
+                    else if (RowTemplate != null)
                     {
                         <PatternflyGallery Gutter="@Gutter" style="@GalleryStyle">
                             @foreach (var item in pageModel.Items)
@@ -49,6 +49,9 @@
                                 </PatternflyGalleryItem>
                             }
                         </PatternflyGallery>
+                    } else
+                    {
+                        <p>RowTemplate is required</p>
                     }
                 </PatternflyStackItem>
 

@@ -25,9 +25,9 @@
         return value.ToString("HH:mm");
     }
 
-    protected override bool TryParseValueFromString(string value, [MaybeNullWhen(false)] out TimeOnly result, [NotNullWhen(false)] out string validationErrorMessage)
+    protected override bool TryParseValueFromString(string? value, [MaybeNullWhen(false)] out TimeOnly result, [NotNullWhen(false)] out string validationErrorMessage)
     {
-        validationErrorMessage = null;
+        validationErrorMessage = string.Empty;
         if (!TimeOnly.TryParse(value, out result))
         {
             validationErrorMessage = $"Could not parse a date from {value}.";

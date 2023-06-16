@@ -30,6 +30,9 @@
                     @if (RowTemplate != null)
                     {
                         @RowTemplate(row.Item)
+                    } else
+                    {
+                        <td>RowTemplate is required</td>
                     }
                 </tr>
             }

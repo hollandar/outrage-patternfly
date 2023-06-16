@@ -5,7 +5,9 @@ namespace Outrage.Patternfly.Components.ManySelect;
 
 public class ManySelectKeysChangedMessage<TKey>: IMessage {
 
-    public ManySelectKeysChangedMessage() { }
+    public ManySelectKeysChangedMessage() {
+        this.Keys = new();
+    }
 
     public ManySelectKeysChangedMessage(HashSet<TKey> keys)
     {
@@ -34,7 +36,7 @@ public class ManySelectLoadResponse<TValue>
     public int Page { get; set; }
     public int PageSize { get; set; }
     public int TotalRecords { get; set; }
-    public ICollection<TValue> Values { get; set; }
+    public ICollection<TValue> Values { get; set; } = Array.Empty<TValue>();
 
     public static ManySelectLoadResponse<TValue> Empty = new ManySelectLoadResponse<TValue> { Page=0, PageSize=0, TotalRecords=0, Values = new List<TValue>() };
 }

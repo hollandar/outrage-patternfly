@@ -1,14 +1,13 @@
 ﻿@using Outrage.Patternfly.Components.Alert
 @using Outrage.Patternfly.Components.Button
 @using Outrage.Patternfly.Components.Layout
-@implements IDisposable
 
 <CascadingValue Name="@Name" Value="this">
     <PatternflyStack class="view-manager" data-viewpath="@CurrentView" Gutter="true">
         @if (ShowView)
         {
             <PatternflyStackItem class="view-manager-current">
-                <input type="text" value="@CurrentView" @onchange="(args) => NavigateTo(args.Value?.ToString())" />
+                <input type="text" value="@CurrentView" @onchange="(args) => NavigateTo((string?)args.Value)" />
             </PatternflyStackItem>
         }
 
@@ -24,7 +23,8 @@
                         @Error
                     </Body>
                     <Actions>
-                        @if (homeView != null) {
+                        @if (homeView != null)
+                        {
                             <PatternflyButton Color="ButtonColor.InlineLink" Clicked="() => NavigateTo(homeView)">Home</PatternflyButton>
                         }
                     </Actions>
@@ -96,15 +96,17 @@
         this.innerViews.Remove(view);
     }
 
-    public async Task NavigateTo(string path)
+    public async Task NavigateTo(string? path)
     {
+        if (path == null)
+        {
+            return;
+        }
+
         this.CurrentView = path;
         await this.CurrentViewChanged.InvokeAsync(this.CurrentView);
 
         ResolveView(CurrentView);
     }
 
-    public void Dispose()
-    {
-    }
 }
