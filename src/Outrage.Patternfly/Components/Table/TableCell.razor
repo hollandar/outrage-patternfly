@@ -1,10 +1,13 @@
-﻿<td role="cell" @attributes="AdditionalAttributes">
+﻿<td role="cell" data-label="@Label" @attributes="AdditionalAttributes">
     @ChildContent
 </td>
 
 @code {
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Label { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IDictionary<string, object>? AdditionalAttributes { get; set; }

@@ -1,10 +1,13 @@
-﻿@using Microsoft.AspNetCore.Components.Web;
-@using Outrage.Patternfly.Components.Table;
+﻿@using Microsoft.AspNetCore.Components.Web
+@using Outrage.Patternfly.Components.Table
 @using Outrage.Patternfly.Models
 @using Outrage.Patternfly.Services
-@using Outrage.Patternfly.Components.Pagination;
+@using Outrage.Patternfly.Components.Pagination
 
-@inherits Patternfly.Components.Base.PatternflyComponentBase
+@namespace Outrage.Patternfly.Components.Table
+
+@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+@implements IPatternflyTable
 
 @typeparam TItem
 @typeparam TItemKey
@@ -23,10 +26,10 @@
         <tbody role="rowgroup">
             @foreach (var row in WrappedItems ?? Enumerable.Empty<DataItemWrapperModel<TItem>>())
             {
-                <tr role="row" 
-                    class="@(UseSelection && row.IsSelected ? "pf-m-selected" : "") @(OnRowClicked.HasDelegate ? "pf-m-hoverable":"")" 
-                    @key="row" 
-                    @onclick="@(async (e)=> { await RowClicked(e, row);})">
+                <tr role="row"
+                    class="@(UseSelection && row.IsSelected ? "pf-m-selected" : "") @(OnRowClicked.HasDelegate ? "pf-m-hoverable":"")"
+                    @key="row"
+                    @onclick="@(async (e) => { await RowClicked(e, row);})">
                     @if (RowTemplate != null)
                     {
                         @RowTemplate(row.Item)
@@ -61,6 +64,10 @@
 
     [Parameter] public RenderFragment? Columns { get; set; }
 
+    [Parameter] public string? SortBy { get; set; }
+
+    [Parameter] public SortOrder SortOrder { get; set; }
+
     [Parameter] public RenderFragment<TItem>? RowTemplate { get; set; }
 
     [Parameter] public RenderFragment? NoItemsMessage { get; set; }
@@ -76,6 +83,8 @@
     [Parameter] public EventCallback<DataItemWrapperModel<TItem>> OnRowClicked { get; set; }
 
     [Parameter] public bool UseSelection { get; set; } = true;
+
+    [Parameter] public Func<string, SortOrder, Task>? OnSortBy { get; set; }
 
     public bool HasSelection {get { return this.WrappedItems?.Any(r => r.IsSelected) ?? false; }}
 
@@ -113,5 +122,21 @@
             classes.Add("pf-m-striped");
         }
         return classes;
+    }
+
+    public async Task SelectSortAsync(string sortBy, SortOrder sortOrder)
+    {
+        if (SortBy != sortBy)
+        {
+            SortBy = sortBy;
+        }
+        if (SortOrder != sortOrder)
+        {
+            SortOrder = sortOrder;
+        }
+
+        if (OnSortBy != null) await OnSortBy.Invoke(sortBy, sortOrder);
+
+        await InvokeAsync(StateHasChanged);
     }
 }

@@ -5,48 +5,54 @@
 @using Outrage.Patternfly.Components.Pagination
 @using Outrage.Patternfly.Components.Toolbar
 
-@inherits Patternfly.Components.Base.PatternflyComponentBase
+@namespace Outrage.Patternfly.Components.Table
+
+@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 
 @typeparam TItem
 @typeparam TItemKey
 
 <CascadingValue Name="Parent" Value="@this">
-    @if (pageModel != null)
-    {
-        <PatternflyLoading Complete="pageModel.IsLoaded">
-            @if (ToolbarItems != null || ShowPagination == TablePaginationPosition.Top || ShowPagination == TablePaginationPosition.TopAndBottom)
-            {
-                <PatternflyToolbar>
-                    @ToolbarItems
+    <CascadingValue Name="SortBy" Value="SortBy">
 
-                    @if (ShowPagination == TablePaginationPosition.Top || ShowPagination == TablePaginationPosition.TopAndBottom)
-                    {
-                        <PatternflyToolbarItem ItemType="ToolbarItemType.pagination">
-                            <PatternflyPagination Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords"
-                                      PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
-                                      Position="PaginationPosition.Top" Compact="CompactPagination" />
-                        </PatternflyToolbarItem>
-                    }
-                </PatternflyToolbar>
-            }
+        @if (pageModel != null)
+        {
+            <PatternflyLoading Complete="pageModel.IsLoaded">
+                @if (ToolbarItems != null || ShowPagination == TablePaginationPosition.Top || ShowPagination == TablePaginationPosition.TopAndBottom)
+                {
+                    <PatternflyToolbar>
+                        @ToolbarItems
 
-            <PatternflyTable @ref="innerTable" Class="@Class" AdditionalAttributes="@AdditionalAttributes"
-                         TItem="TItem" TItemKey="TItemKey" WrappedItems="pageModel.Items"
-                         OnRowClicked="@OnRowClicked"
-                         Compact="@Compact" Label="@Label"
-                         Columns="@Columns"
-                         NoItemsMessage="@NoItemsMessage"
-                         RowTemplate="@(RowTemplate)"
-                         Fallback="@Fallback" UseSelection="@UseSelection" />
+                        @if (ShowPagination == TablePaginationPosition.Top || ShowPagination == TablePaginationPosition.TopAndBottom)
+                        {
+                            <PatternflyToolbarItem ItemType="ToolbarItemType.pagination">
+                                <PatternflyPagination Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords"
+                                                    PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
+                                                    Position="PaginationPosition.Top" Compact="CompactPagination" />
+                            </PatternflyToolbarItem>
+                        }
+                    </PatternflyToolbar>
+                }
 
-            @if (ShowPagination == TablePaginationPosition.Bottom || ShowPagination == TablePaginationPosition.TopAndBottom)
-            {
-                <PatternflyPagination Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords"
-                              PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
-                              Position="PaginationPosition.Bottom" Compact="CompactPagination" />
-            }
-        </PatternflyLoading>
-    }
+                <PatternflyTable @ref="innerTable" Class="@Class" AdditionalAttributes="@AdditionalAttributes"
+                                TItem="TItem" TItemKey="TItemKey" WrappedItems="pageModel.Items"
+                                SortBy="@SortBy" SortOrder="@SortOrder" OnSortBy="SelectSortBy"
+                                OnRowClicked="@OnRowClicked"
+                                Compact="@Compact" Label="@Label"
+                                Columns="@Columns"
+                                NoItemsMessage="@NoItemsMessage"
+                                RowTemplate="@(RowTemplate)"
+                                Fallback="@Fallback" UseSelection="@UseSelection" />
+
+                @if (ShowPagination == TablePaginationPosition.Bottom || ShowPagination == TablePaginationPosition.TopAndBottom)
+                {
+                    <PatternflyPagination Page="pageModel.Page" PageSize="pageModel.PageSize" TotalRecords="pageModel.TotalRecords"
+                                        PageSelected="SelectPage" PageSizeSelected="SelectPageSize"
+                                        Position="PaginationPosition.Bottom" Compact="CompactPagination" />
+                }
+            </PatternflyLoading>
+        }
+    </CascadingValue>
 </CascadingValue>
 
 @code {
@@ -70,6 +76,12 @@
     #region PatternflyTable parameters
 
     [Parameter] public RenderFragment? Columns { get; set; }
+
+    [Parameter] public string? SortBy { get; set; }
+
+    [Parameter] public SortOrder SortOrder { get; set; }
+
+    [Parameter] public Func<string, SortOrder, Task>? OnSortBy { get; set; }
 
     [Parameter] public RenderFragment<TItem>? RowTemplate { get; set; }
 
@@ -112,7 +124,7 @@
     {
         if (pageModel != null && OnLoadItems != null)
         {
-            var result = await OnLoadItems(new DataPageLoadArgs<TItemKey> { SelectedItemKey = loadedId, Page = page, PageSize = pageModel.PageSize });
+            var result = await OnLoadItems(new DataPageLoadArgs<TItemKey> { SelectedItemKey = loadedId, Page = page, PageSize = pageModel.PageSize, SortBy = SortBy, SortOrder = SortOrder });
             if (result != null)
             {
                 await pageModel.Update(result);
@@ -125,7 +137,7 @@
     {
         if (pageModel != null && OnLoadItems != null)
         {
-            var result = await OnLoadItems(new DataPageLoadArgs<TItemKey> { SelectedItemKey = loadedId, Page = 0, PageSize = pageSize });
+            var result = await OnLoadItems(new DataPageLoadArgs<TItemKey> { SelectedItemKey = loadedId, Page = 0, PageSize = pageSize, SortBy = SortBy, SortOrder = SortOrder });
             if (result != null)
             {
                 await pageModel.Update(result);
@@ -140,11 +152,21 @@
         await SelectPage(0);
     }
 
+    public async Task SelectSortBy(string sortBy, SortOrder sortOrder)
+    {
+        SortBy = sortBy;
+        SortOrder = sortOrder;
+
+        if (OnSortBy != null) await OnSortBy.Invoke(sortBy, sortOrder);
+
+        await Refresh();
+    }
+
     public async Task Refresh(bool reset = false)
     {
         if (pageModel != null && OnLoadItems != null)
         {
-            var result = await OnLoadItems(new DataPageLoadArgs<TItemKey> { SelectedItemKey = loadedId, Page = reset ? 0 : pageModel.Page, PageSize = pageModel.PageSize });
+            var result = await OnLoadItems(new DataPageLoadArgs<TItemKey> { SelectedItemKey = loadedId, Page = reset ? 0 : pageModel.Page, PageSize = pageModel.PageSize, SortBy = SortBy, SortOrder = SortOrder });
             if (result != null)
             {
                 await pageModel.Update(result);
