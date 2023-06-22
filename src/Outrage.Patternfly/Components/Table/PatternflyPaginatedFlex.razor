@@ -37,7 +37,7 @@
                 {
                     @NoItemsMessage
                 }
-                else
+                else if (RowTemplate != null)
                 {
                     <PatternflyStackItem>
                         <PatternflyFlex Column="@Column">
@@ -49,6 +49,9 @@
                             }
                         </PatternflyFlex>
                     </PatternflyStackItem>
+                } else
+                {
+                    <p>RowTemplate is required</p>
                 }
 
                 @if (pageModel.TotalRecords > pageModel.PageSize && (ShowPagination == TablePaginationPosition.Bottom || ShowPagination == TablePaginationPosition.TopAndBottom))

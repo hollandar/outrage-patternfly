@@ -29,7 +29,7 @@
 
 @code {
     bool toggled = false;
-    public IEventAggregator EventAggregator { get; set; }
+    public IEventAggregator? EventAggregator { get; set; }
     [Parameter] public TKey? Value { get; set; }
     [Parameter] public EventCallback<TKey> ValueChanged { get; set; }
     [Parameter] public HashSet<TKey> SelectedKeys { get; set; } = new HashSet<TKey>();
@@ -44,6 +44,7 @@
         }
 
         EventAggregator = new Outrage.EventBus.Predefined.RootEventBus(serviceProvider);
+
         base.OnInitialized();
     }
 
@@ -59,43 +60,54 @@
         StateHasChanged();
     }
 
-    public async Task SetKeysAsync(params TKey[] keys)
+    public async Task SetKeysAsync(params TKey?[] keys)
     {
         this.SelectedKeys.Clear();
         foreach (var key in keys)
         {
-            this.SelectedKeys.Add(key);
+            if (key != null)
+                this.SelectedKeys.Add(key);
         }
-        await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
+        if (this.EventAggregator != null)
+            await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
         await ValueChanged.InvokeAsync(this.SelectedKeys.FirstOrDefault());
         await SelectedKeysChanged.InvokeAsync(this.SelectedKeys);
         CloseSingle();
     }
 
-    public async Task AddKeyAsync(TKey key)
+    public async Task AddKeyAsync(TKey? key)
     {
-        this.SelectedKeys.Add(key);
-        await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
-        await ValueChanged.InvokeAsync(this.SelectedKeys.FirstOrDefault());
-        await SelectedKeysChanged.InvokeAsync(this.SelectedKeys);
-    }
-
-    public async Task ToggleKeyAsync(TKey key)
-    {
-        if (this.SelectedKeys.Contains(key))
-            this.SelectedKeys.Remove(key);
-        else
+        if (key != null)
+        {
             this.SelectedKeys.Add(key);
-        await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
-        await ValueChanged.InvokeAsync(this.SelectedKeys.FirstOrDefault());
-        await SelectedKeysChanged.InvokeAsync(this.SelectedKeys);
-        CloseSingle();
+            if (this.EventAggregator != null)
+                await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
+            await ValueChanged.InvokeAsync(this.SelectedKeys.FirstOrDefault());
+            await SelectedKeysChanged.InvokeAsync(this.SelectedKeys);
+        }
+    }
+
+    public async Task ToggleKeyAsync(TKey? key)
+    {
+        if (key != null)
+        {
+            if (this.SelectedKeys.Contains(key))
+                this.SelectedKeys.Remove(key);
+            else
+                this.SelectedKeys.Add(key);
+            if (this.EventAggregator != null)
+                await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
+            await ValueChanged.InvokeAsync(this.SelectedKeys.FirstOrDefault());
+            await SelectedKeysChanged.InvokeAsync(this.SelectedKeys);
+            CloseSingle();
+        }
     }
 
     public async Task ClearKeysAsync()
     {
         this.SelectedKeys.Clear();
-        await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
+        if (this.EventAggregator != null)
+            await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
         await ValueChanged.InvokeAsync(this.SelectedKeys.FirstOrDefault());
         await SelectedKeysChanged.InvokeAsync(this.SelectedKeys);
         CloseSingle();
@@ -108,7 +120,8 @@
 
     public async void CloseSingle()
     {
-        if (this.CloseOnSelect) {
+        if (this.CloseOnSelect)
+        {
             toggled = false;
             await InvokeAsync(StateHasChanged);
         }

@@ -50,15 +50,18 @@ else
         {
             throw new Exception($"No loader is defined.");
         }
-
-        this.Parent.EventAggregator.Subscribe<ManySelectKeysChangedMessage<TKey>>(async (c, m) =>
+        
+        if (this.Parent?.EventAggregator != null)
         {
-            await MergeItemsAndLoadAsync(m.Keys);
-            await this.InvokeAsync(StateHasChanged);
-        });
+            this.Parent.EventAggregator.Subscribe<ManySelectKeysChangedMessage<TKey>>(async (c, m) =>
+            {
+                await MergeItemsAndLoadAsync(m.Keys);
+                await this.InvokeAsync(StateHasChanged);
+            });
 
-        await MergeItemsAndLoadAsync(this.Parent.SelectedKeys);
-        await base.OnInitializedAsync();
+            await MergeItemsAndLoadAsync(this.Parent.SelectedKeys);
+            await base.OnInitializedAsync();
+        }
     }
 
     protected async Task MergeItemsAndLoadAsync(HashSet<TKey> keys)

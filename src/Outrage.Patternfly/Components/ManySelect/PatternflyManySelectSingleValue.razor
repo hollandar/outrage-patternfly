@@ -26,21 +26,32 @@ else
         {
             throw new Exception("Search and select parent is not available.");
         }
-
-        this.Parent.EventAggregator.Subscribe<ManySelectKeysChangedMessage<TKey>>(async (c, m) =>
-        {
-            var key = m.Keys.SingleOrDefault();
-            if (!(default(TKey)?.Equals(key) ?? key == null) && OnLoadItem != null)
+        if (this.Parent.EventAggregator != null) {
+            this.Parent.EventAggregator.Subscribe<ManySelectKeysChangedMessage<TKey>>(async (c, m) =>
             {
-                this.value = await OnLoadItem!(key);
-                await this.InvokeAsync(StateHasChanged);
-            }
-        });
+                var key = m.Keys.SingleOrDefault();
+                if (!(default(TKey)?.Equals(key) ?? key == null))
+                {
+                    if (OnLoadItem == null)
+                    {
+                        throw new Exception("OnLoadItem is not available.");
+                    }
+
+                    this.value = await OnLoadItem(key!);
+                    await this.InvokeAsync(StateHasChanged);
+                }
+            });
+        }
 
         var key = this.Parent.SelectedKeys.SingleOrDefault();
-        if (!(default(TKey)?.Equals(key) ?? key == null) && OnLoadItem != null)
+        if (!(default(TKey)?.Equals(key) ?? key == null))
         {
-            this.value = await OnLoadItem!(key);
+            if (OnLoadItem == null)
+            {
+                throw new Exception("OnLoadItem is not available.");
+            }
+
+            this.value = await OnLoadItem(key!);
         }
 
         await base.OnInitializedAsync();

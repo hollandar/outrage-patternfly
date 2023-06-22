@@ -67,7 +67,7 @@
 
     public bool Matches(string path)
     {
-        return matchRegex.IsMatch(path);
+        return matchRegex?.IsMatch(path) ?? false;
     }
 
     public void Hide()
@@ -82,9 +82,9 @@
 
     public void Show(string path)
     {
-        var match = matchRegex.Match(path);
+        var match = matchRegex?.Match(path);
 
-        if (match.Success)
+        if (match?.Success ?? false)
         {
             this.attributes = match.Groups.Keys.ToDictionary(r => r, r => match.Groups[r].Value);
             this.Visible = true;

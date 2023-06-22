@@ -27,9 +27,9 @@
         return value?.ToString("yyyy-MM-dd") ?? String.Empty;
     }
 
-    protected override bool TryParseValueFromString(string value, [MaybeNullWhen(false)] out DateOnly? result, [NotNullWhen(false)] out string validationErrorMessage)
+    protected override bool TryParseValueFromString(string? value, [MaybeNullWhen(false)] out DateOnly? result, [NotNullWhen(false)] out string validationErrorMessage)
     {
-        validationErrorMessage = null;
+        validationErrorMessage = String.Empty;
 
         if (String.IsNullOrWhiteSpace(value)) {
             validationErrorMessage = $"Input string was empty.";

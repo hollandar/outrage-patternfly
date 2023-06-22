@@ -7,25 +7,22 @@
 {
     var id = new HtmlId();
     <div class="pf-c-input-group">
-        <input 
-            type="text"
-            class="pf-c-form-control"
-            aria-label="Search"
-            aria-describedby="@id"
-            placeholder="Search..."
-            @bind-value="searchText"
-            @onkeyup="SearchKeyUp" />
-        <button 
-            class="pf-c-button pf-m-control"
-            type="button"
-            id="@id"
-            @onclick="@SearchItems">
+        <input type="text"
+               class="pf-c-form-control"
+               aria-label="Search"
+               aria-describedby="@id"
+               placeholder="Search..."
+               @bind-value="searchText"
+               @onkeyup="SearchKeyUp" />
+        <button class="pf-c-button pf-m-control"
+                type="button"
+                id="@id"
+                @onclick="@SearchItems">
             <Icon Name="search"></Icon>
         </button>
-        <button 
-            class="pf-c-button pf-m-control"
-            type="button"
-            @onclick="@ClearSearch">
+        <button class="pf-c-button pf-m-control"
+                type="button"
+                @onclick="@ClearSearch">
             <Icon Name="times"></Icon>
         </button>
     </div>
@@ -35,30 +32,33 @@
     aria-labelledby="select-single-expanded-label">
     @foreach (var item in loadResult?.Values ?? new List<TValue>())
     {
-        var selected = this.Parent.IsKeySelected(ToKey(item));
-        <li role="presentation">
-            <button type="button"
-                    class="pf-c-select__menu-item @(selected?"pf-m-selected":"")"
-                    role="option"
-                    aria-selected="@selected"
-                    @onclick="(args) => ValueClickedAsync(args, item)">
-                @if (ToViewString != null)
-                {
-                    <div>@ToViewString(item)</div>
-                }
-                else
-                {
-                    <div>@item.ToString()</div>
-                }
+        if (this.Parent != null)
+        {
+            var selected = this.Parent.IsKeySelected(ToKey!(item));
+            <li role="presentation">
+                <button type="button"
+                        class="pf-c-select__menu-item @(selected?"pf-m-selected":"")"
+                        role="option"
+                        aria-selected="@selected"
+                        @onclick="(args) => ValueClickedAsync(args, item)">
+                    @if (ToViewString != null)
+                    {
+                        <div>@ToViewString(item)</div>
+                    }
+                    else
+                    {
+                        <div>@item.ToString()</div>
+                    }
 
-                @if (selected)
-                {
-                    <span class="pf-c-select__menu-item-icon">
-                        <i class="fas fa-check" aria-hidden="true"></i>
-                    </span>
-                }
-            </button>
-        </li>
+                    @if (selected)
+                    {
+                        <span class="pf-c-select__menu-item-icon">
+                            <i class="fas fa-check" aria-hidden="true"></i>
+                        </span>
+                    }
+                </button>
+            </li>
+        }
     }
 </ul>
 
@@ -66,12 +66,12 @@
 @code {
     string searchText = string.Empty;
     ManySelectLoadResponse<TValue>? loadResult;
-    [Parameter] public Func<ManySelectLoadArgs, Task<ManySelectLoadResponse<TValue>?>>? OnLoadItems { get; set; }
-    [Parameter] public Func<TValue?, string>? ToViewString { get; set; }
-    [Parameter] public Func<TValue?, TKey>? ToKey { get; set; }
+    [Parameter, EditorRequired] public Func<ManySelectLoadArgs, Task<ManySelectLoadResponse<TValue>?>>? OnLoadItems { get; set; } = default!;
+    [Parameter, EditorRequired] public Func<TValue?, string>? ToViewString { get; set; } = default!;
+    [Parameter, EditorRequired] public Func<TValue?, TKey>? ToKey { get; set; } = default!;
     [Parameter] public bool Search { get; set; } = true;
     [Parameter] public bool Multiselect { get; set; } = false;
-    [CascadingParameter(Name = "SelectParent")] public PatternflyManySelect<TKey> Parent { get; set; }
+    [CascadingParameter(Name = "SelectParent")] public PatternflyManySelect<TKey>? Parent { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -79,18 +79,49 @@
         await base.OnInitializedAsync();
     }
 
+    protected override void OnParametersSet()
+    {
+        if (Parent == null)
+        {
+            throw new ArgumentNullException(nameof(Parent));
+        }
+
+        if (ToViewString == null)
+        {
+            throw new ArgumentNullException(nameof(ToViewString));
+        }
+
+        if (ToKey == null)
+        {
+            throw new ArgumentNullException(nameof(ToKey));
+        }
+
+        if (OnLoadItems == null)
+        {
+            throw new ArgumentNullException(nameof(OnLoadItems));
+        }
+
+        base.OnParametersSet();
+    }
+
     async Task LoadItems()
     {
-        var args = new ManySelectLoadArgs(0, 10, String.Empty);
-        loadResult = await OnLoadItems(args);
-        await InvokeAsync(StateHasChanged);
+        if (OnLoadItems != null)
+        {
+            var args = new ManySelectLoadArgs(0, 10, String.Empty);
+            loadResult = await OnLoadItems(args);
+            await InvokeAsync(StateHasChanged);
+        }
     }
 
     async Task SearchItems(MouseEventArgs a)
     {
-        var args = new ManySelectLoadArgs(0, 10, searchText);
-        loadResult = await OnLoadItems(args);
-        await InvokeAsync(StateHasChanged);
+        if (OnLoadItems != null)
+        {
+            var args = new ManySelectLoadArgs(0, 10, searchText);
+            loadResult = await OnLoadItems(args);
+            await InvokeAsync(StateHasChanged);
+        }
     }
 
     async Task ClearSearch()
@@ -104,21 +135,27 @@
         if (args.Code == "Enter")
         {
             var loadArgs = new ManySelectLoadArgs(0, 10, searchText);
-            loadResult = await OnLoadItems(loadArgs);
-            await InvokeAsync(StateHasChanged);
+            if (OnLoadItems != null)
+            {
+                loadResult = await OnLoadItems(loadArgs);
+                await InvokeAsync(StateHasChanged);
+            }
         }
     }
 
     async Task ValueClickedAsync(MouseEventArgs args, TValue value)
     {
-        var key = this.ToKey(value);
-        if (Multiselect)
+        if (ToKey != null && this.Parent != null)
         {
-            await this.Parent.ToggleKeyAsync(key);
-        }
-        else
-        {
-            await this.Parent.SetKeysAsync(key);
+            var key = this.ToKey(value);
+            if (Multiselect)
+            {
+                await this.Parent.ToggleKeyAsync(key);
+            }
+            else
+            {
+                await this.Parent.SetKeysAsync(key);
+            }
         }
     }
 }
