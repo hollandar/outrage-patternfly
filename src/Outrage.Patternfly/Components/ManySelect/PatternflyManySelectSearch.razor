@@ -30,6 +30,27 @@
 <ul class="pf-c-select__menu"
     role="listbox"
     aria-labelledby="select-single-expanded-label">
+    @if (typeof(TKey).GetGenericTypeDefinition() == typeof(Nullable<>)) {
+        var selected = this.Parent.SelectedKeys.Count == 0;
+        <li role="presentation">
+            <button type="button"
+                    class="pf-c-select__menu-item @(selected?"pf-m-selected":"")"
+                    role="option"
+                    aria-selected="@selected"
+                    @onclick="(args) => NullClickedAsync(args)">
+
+                @WhenNull
+
+                @if (selected)
+                {
+                    <span class="pf-c-select__menu-item-icon">
+                        <i class="fas fa-check" aria-hidden="true"></i>
+                    </span>
+                }
+            </button>
+        </li>
+    }
+
     @foreach (var item in loadResult?.Values ?? new List<TValue>())
     {
         if (this.Parent != null)
@@ -72,6 +93,7 @@
     [Parameter] public bool Search { get; set; } = true;
     [Parameter] public bool Multiselect { get; set; } = false;
     [CascadingParameter(Name = "SelectParent")] public PatternflyManySelect<TKey>? Parent { get; set; }
+    [Parameter] public string WhenNull { get; set; } = "(none)";
 
     protected override async Task OnInitializedAsync()
     {
@@ -157,5 +179,10 @@
                 await this.Parent.SetKeysAsync(key);
             }
         }
+    }
+
+    async Task NullClickedAsync(MouseEventArgs args)
+    {
+        await this.Parent.ClearKeysAsync();
     }
 }

@@ -1,7 +1,12 @@
 ﻿@typeparam TKey
 @typeparam TValue
 
-@if (ToViewString != null)
+@if (typeof(TKey).GetGenericTypeDefinition() == typeof(Nullable<>) && this.Parent.SelectedKeys.Count == 0)
+{
+    <span>
+        (none)
+    </span>
+} else if (ToViewString != null)
 {
     <span>
         @ToViewString(value)
