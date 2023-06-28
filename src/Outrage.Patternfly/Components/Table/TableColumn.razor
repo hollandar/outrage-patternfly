@@ -103,12 +103,13 @@
     {
         if (this.Sortable)
         {
-            if (CanToggleSortOrder && Parent?.SortBy == this.SortBy)
+            if (CanToggleSortOrder)
             {
-                this.SortOrder = this.SortOrder == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+                if (Parent?.SortBy == this.SortBy)
+                    this.SortOrder = this.SortOrder == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+                else
+                    this.SortOrder = SortOrder.Ascending;
             }
-            else
-                this.SortOrder = SortOrder.Ascending;
 
             if (Parent != null) await InvokeAsync(() => Parent.SelectSortAsync(this.SortBy, this.SortOrder));
             if (Changed != null) await Changed.Invoke(this.SortBy, this.SortOrder);

@@ -1,4 +1,6 @@
-﻿@inherits InputNumber<TValue>
+﻿@using Microsoft.AspNetCore.Components.Forms;
+@using System.Globalization;
+@inherits InputNumber<TValue>
 @typeparam TValue
 <input @attributes="@AdditionalAttributes" @bind-value="CurrentValueAsString" @bind-value:event="@(BindEvent)" />
 @code {
@@ -8,15 +10,54 @@
     [Parameter]
     public bool BindOnInput { get; set; } = false;
 
+    [Parameter]
+    public int DecimalPlaces { get; set; } = 0;
+
+    [Parameter]
+    public bool ZeroPadDecimals { get; set; } = false;
+
     protected string BindEvent => BindOnInput ? "oninput" : "onchange";
 
     protected override void OnParametersSet()
     {
         this.AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "pf-c-form-control", this.FieldName, (a) =>
         {
-           if (!a.ContainsKey("type"))
+            if (!a.ContainsKey("type"))
                 a["type"] = "number";
         }) ?? null;
         base.OnParametersSet();
+    }
+
+    protected override string? FormatValueAsString(TValue? value)
+    {
+        string format = $"N{(ZeroPadDecimals ? "0": string.Empty)}{DecimalPlaces}";
+
+        // Avoiding a cast to IFormattable to avoid boxing.
+        switch (value)
+        {
+            case null:
+                return null;
+
+            case int @int:
+                return (@int).ToString(format);
+
+            case long @long:
+                return (@long).ToString(format);
+
+            case short @short:
+                return (@short).ToString(format);
+
+            case float @float:
+                return (@float).ToString(format);
+
+            case double @double:
+                return (@double).ToString(format);
+
+            case decimal @decimal:
+                return (@decimal).ToString(format);
+
+            default:
+                throw new InvalidOperationException($"Unsupported type {value.GetType()}");
+        }
     }
 }
