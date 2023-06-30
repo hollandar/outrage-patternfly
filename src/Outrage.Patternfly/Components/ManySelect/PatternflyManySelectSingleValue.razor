@@ -1,20 +1,27 @@
 ﻿@typeparam TKey
 @typeparam TValue
 
-@if (typeof(TKey).GetGenericTypeDefinition() == typeof(Nullable<>) && this.Parent.SelectedKeys.Count == 0)
+@if (typeof(TKey).IsGenericType && typeof(TKey).GetGenericTypeDefinition() == typeof(Nullable<>) && this.Parent.SelectedKeys.Count == 0)
 {
-    <span>
-        (none)
-    </span>
-} else if (ToViewString != null)
+    <span class="pf-c-select__toggle-text">(none) </span>
+}
+else if (ToViewString != null)
 {
-    <span>
-        @ToViewString(value)
-    </span>
+    string valueString = ToViewString(value);
+    if (string.IsNullOrEmpty(valueString))
+    {
+        <span class="pf-c-select__toggle-text">&nbsp; </span>
+    }
+    else
+    {
+        <span class="pf-c-select__toggle-text">
+            @valueString
+        </span>
+    }
 }
 else
 {
-    <span>
+    <span class="pf-c-select__toggle-text">
         @value?.ToString() ?? "Not found."
     </span>
 }

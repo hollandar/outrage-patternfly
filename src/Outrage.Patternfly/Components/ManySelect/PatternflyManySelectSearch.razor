@@ -30,7 +30,7 @@
 <ul class="pf-c-select__menu"
     role="listbox"
     aria-labelledby="select-single-expanded-label">
-    @if (typeof(TKey).GetGenericTypeDefinition() == typeof(Nullable<>)) {
+    @if (typeof(TKey).IsGenericType && typeof(TKey).GetGenericTypeDefinition() == typeof(Nullable<>)) {
         var selected = this.Parent.SelectedKeys.Count == 0;
         <li role="presentation">
             <button type="button"
