@@ -1,21 +1,21 @@
 ﻿@typeparam TKey
 @typeparam TValue
 
-@if (ToViewString != null)
+@if (string.IsNullOrEmpty(valueString))
 {
-    <span>
-        @ToViewString(value)
-    </span>
+    <span class="pf-c-select__toggle-text">&nbsp;</span>
 }
 else
 {
-    <span>
-        @value?.ToString() ?? "Not found."
+    <span class="pf-c-select__toggle-text">
+        @valueString
     </span>
 }
 
 @code {
     TValue? value;
+    string valueString = string.Empty;
+
     [Parameter] public Func<TKey, Task<TValue?>>? OnLoadItem { get; set; }
     [Parameter] public Func<TValue?, string>? ToViewString { get; set; }
     [CascadingParameter(Name = "SelectParent")] public PatternflyManySelect<TKey> Parent { get; set; } = default!;
@@ -52,6 +52,15 @@ else
             }
 
             this.value = await OnLoadItem(key!);
+        }
+
+        if (ToViewString != null)
+        {
+            valueString = ToViewString(value);
+        }
+        else
+        {
+            valueString = value?.ToString() ?? "Not found.";
         }
 
         await base.OnInitializedAsync();
