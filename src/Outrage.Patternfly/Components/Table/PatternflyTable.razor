@@ -26,18 +26,33 @@
         <tbody role="rowgroup">
             @foreach (var row in WrappedItems ?? Enumerable.Empty<DataItemWrapperModel<TItem>>())
             {
-                <tr role="row"
-                    class="@(UseSelection && row.IsSelected ? "pf-m-selected" : "") @(OnRowClicked.HasDelegate ? "pf-m-hoverable":"")"
-                    @key="row"
-                    @onclick="@(async (e) => { await RowClicked(e, row);})">
-                    @if (RowTemplate != null)
-                    {
-                        @RowTemplate(row.Item)
-                    } else
-                    {
-                        <td>RowTemplate is required</td>
-                    }
-                </tr>
+                if (OnRowClicked.HasDelegate)
+                {
+                    <tr @key="row" @attributes="GetRowAttributes(row)"
+                            @onclick="@(async (MouseEventArgs e) => await RowClicked(e, row))">
+                        @if (RowTemplate != null)
+                        {
+                            @RowTemplate(row.Item)
+                        }
+                        else
+                        {
+                            <td>RowTemplate is required</td>
+                        }
+                    </tr>
+                }
+                else
+                {
+                    <tr @key="row" @attributes="GetRowAttributes(row)">
+                        @if (RowTemplate != null)
+                        {
+                            @RowTemplate(row.Item)
+                        }
+                        else
+                        {
+                            <td>RowTemplate is required</td>
+                        }
+                    </tr>
+                }
             }
         </tbody>
     </table>
@@ -91,6 +106,18 @@
 
     public bool HasSelection {get { return this.WrappedItems?.Any(r => r.IsSelected) ?? false; }}
 
+    public Dictionary<string, object> GetRowAttributes(DataItemWrapperModel<TItem> row)
+    {
+        var attributes = new Dictionary<string, object>();
+        attributes.Add("role", "row");
+
+        var classes = new HashSet<string>();
+        if (UseSelection && row.IsSelected) classes.Add("pf-m-selected");
+        if (OnRowClicked.HasDelegate) classes.Add("pf-m-hoverable");
+        attributes.Add("class", classes);
+
+        return attributes;
+    }
 
     public async Task RowClicked(MouseEventArgs args, DataItemWrapperModel<TItem> wrapper)
     {
