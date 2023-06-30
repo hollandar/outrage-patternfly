@@ -107,6 +107,8 @@
         this.SelectedKeys.Clear();
         if (this.EventAggregator != null)
             await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.SelectedKeys));
+        var blah = this.SelectedKeys.FirstOrDefault();
+
         await ValueChanged.InvokeAsync(this.SelectedKeys.FirstOrDefault());
         await SelectedKeysChanged.InvokeAsync(this.SelectedKeys);
         CloseSingle();

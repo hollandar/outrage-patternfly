@@ -47,8 +47,8 @@
     public decimal Progress {
         get
         {
-            if (Complete) return 1m;
             decimal size = ValueMax - ValueMin;
+            if (Complete || size == 0) return 1m;
             decimal consumed = Value - ValueMin;
             return consumed / size;
         }

@@ -1,21 +1,26 @@
 ﻿@typeparam TKey
 @typeparam TValue
 
-@if (string.IsNullOrEmpty(valueString))
+@if (typeof(TKey).GetGenericTypeDefinition() == typeof(Nullable<>) && this.Parent.SelectedKeys.Count == 0)
 {
-    <span class="pf-c-select__toggle-text">&nbsp;</span>
+    <span>
+        (none)
+    </span>
+} else if (ToViewString != null)
+{
+    <span>
+        @ToViewString(value)
+    </span>
 }
 else
 {
-    <span class="pf-c-select__toggle-text">
-        @valueString
+    <span>
+        @value?.ToString() ?? "Not found."
     </span>
 }
 
 @code {
     TValue? value;
-    string valueString = string.Empty;
-
     [Parameter] public Func<TKey, Task<TValue?>>? OnLoadItem { get; set; }
     [Parameter] public Func<TValue?, string>? ToViewString { get; set; }
     [CascadingParameter(Name = "SelectParent")] public PatternflyManySelect<TKey> Parent { get; set; } = default!;
@@ -52,15 +57,6 @@ else
             }
 
             this.value = await OnLoadItem(key!);
-        }
-
-        if (ToViewString != null)
-        {
-            valueString = ToViewString(value);
-        }
-        else
-        {
-            valueString = value?.ToString() ?? "Not found.";
         }
 
         await base.OnInitializedAsync();
