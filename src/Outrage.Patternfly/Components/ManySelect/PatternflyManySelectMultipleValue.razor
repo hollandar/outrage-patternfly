@@ -13,9 +13,7 @@ else
         {
             <span>
                 @ToViewString(item.Value)
-                <button class="pf-c-button pf-m-plain pf-c-select__toggle-clear" @onclick="(args) => RemoveItem(args, item.Value)">
-                    <Icon Name="times"></Icon>
-                </button>
+                <PatternflyButton type="button" Color="ButtonColor.Plain" Icon="times" Clicked="(args) => RemoveItem(args, item.Value)" />
             </span>
         }
     }
@@ -25,9 +23,7 @@ else
         {
             <span>
                 @item.Value?.ToString() ?? "Not found."
-                <button @onclick="(args) => RemoveItem(args, item.Value)">
-                    <Icon Name="times"></Icon>
-                </button>
+                <PatternflyButton type="button" Color="ButtonColor.Plain" Icon="times" Clicked="(args) => RemoveItem(args, item.Value)" />
             </span>
         }
     }
@@ -94,7 +90,7 @@ else
         if (item != null)
         {
             var key = ToKey(item);
-            await this.Parent.ToggleKeyAsync(key);
+            await this.Parent.RemoveKeyAsync(key);
         }
     }
 }
