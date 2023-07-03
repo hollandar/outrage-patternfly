@@ -12,17 +12,19 @@
                aria-label="Search"
                aria-describedby="@id"
                placeholder="Search..."
-               @bind-value="searchText"
-               @onkeyup="SearchKeyUp" />
+        @bind-value="searchText"
+        @onkeydown="SearchKeyDown"
+        @onkeypress="SearchKeyPress"
+        @onkeypress:preventDefault />
         <button class="pf-c-button pf-m-control"
                 type="button"
                 id="@id"
-                @onclick="@SearchItems">
+        @onclick="@SearchItems">
             <Icon Name="search"></Icon>
         </button>
         <button class="pf-c-button pf-m-control"
                 type="button"
-                @onclick="@ClearSearch">
+        @onclick="@ClearSearch">
             <Icon Name="times"></Icon>
         </button>
     </div>
@@ -30,14 +32,15 @@
 <ul class="pf-c-select__menu"
     role="listbox"
     aria-labelledby="select-single-expanded-label">
-    @if (typeof(TKey).IsGenericType && typeof(TKey).GetGenericTypeDefinition() == typeof(Nullable<>)) {
+    @if (typeof(TKey).IsGenericType && typeof(TKey).GetGenericTypeDefinition() == typeof(Nullable<>))
+    {
         var selected = this.Parent.SelectedKeys.Count == 0;
         <li role="presentation">
             <button type="button"
                     class="pf-c-select__menu-item @(selected?"pf-m-selected":"")"
                     role="option"
                     aria-selected="@selected"
-                    @onclick="(args) => NullClickedAsync(args)">
+            @onclick="(args) => NullClickedAsync(args)">
 
                 @WhenNull
 
@@ -61,7 +64,7 @@
                         class="pf-c-select__menu-item @(selected?"pf-m-selected":"")"
                         role="option"
                         aria-selected="@selected"
-                        @onclick="(args) => ValueClickedAsync(args, item)">
+                @onclick="(args) => ValueClickedAsync(args, item)">
                     @if (ToViewString != null)
                     {
                         <div>@ToViewString(item)</div>
@@ -85,15 +88,15 @@
 
 
 @code {
-    string searchText = string.Empty;
-    ManySelectLoadResponse<TValue>? loadResult;
-    [Parameter, EditorRequired] public Func<ManySelectLoadArgs, Task<ManySelectLoadResponse<TValue>?>>? OnLoadItems { get; set; } = default!;
-    [Parameter, EditorRequired] public Func<TValue?, string>? ToViewString { get; set; } = default!;
-    [Parameter, EditorRequired] public Func<TValue?, TKey>? ToKey { get; set; } = default!;
-    [Parameter] public bool Search { get; set; } = true;
-    [Parameter] public bool Multiselect { get; set; } = false;
-    [CascadingParameter(Name = "SelectParent")] public PatternflyManySelect<TKey>? Parent { get; set; }
-    [Parameter] public string WhenNull { get; set; } = "(none)";
+        string searchText = string.Empty;
+        ManySelectLoadResponse<TValue>? loadResult;
+        [Parameter, EditorRequired] public Func<ManySelectLoadArgs, Task<ManySelectLoadResponse<TValue>?>>? OnLoadItems { get; set; } = default!;
+        [Parameter, EditorRequired] public Func<TValue?, string>? ToViewString { get; set; } = default!;
+        [Parameter, EditorRequired] public Func<TValue?, TKey>? ToKey { get; set; } = default!;
+        [Parameter] public bool Search { get; set; } = true;
+        [Parameter] public bool Multiselect { get; set; } = false;
+        [CascadingParameter(Name = "SelectParent")] public PatternflyManySelect<TKey>? Parent { get; set; }
+        [Parameter] public string WhenNull { get; set; } = "(none)";
 
     protected override async Task OnInitializedAsync()
     {
@@ -152,7 +155,17 @@
         await LoadItems();
     }
 
-    async Task SearchKeyUp(KeyboardEventArgs args)
+    async Task SearchKeyDown(KeyboardEventArgs args)
+    {
+        if (args.Code == "Backspace" && this.searchText.Length >= 1)
+        {
+            var length = this.searchText.Length - 1;
+            this.searchText = this.searchText.Substring(0, length);
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    async Task SearchKeyPress(KeyboardEventArgs args)
     {
         if (args.Code == "Enter")
         {
@@ -163,6 +176,13 @@
                 await InvokeAsync(StateHasChanged);
             }
         }
+
+        else if (args.Code != args.Key)
+        {
+            this.searchText += args.Key;
+            await InvokeAsync(StateHasChanged);
+        }
+
     }
 
     async Task ValueClickedAsync(MouseEventArgs args, TValue value)

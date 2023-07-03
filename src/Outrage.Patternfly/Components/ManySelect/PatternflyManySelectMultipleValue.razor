@@ -1,6 +1,5 @@
 ﻿@typeparam TKey
 @typeparam TValue
-
 @if (!(values?.Any() ?? false))
 {
     <span>Select values.</span>
@@ -46,7 +45,7 @@ else
         {
             throw new Exception($"No loader is defined.");
         }
-        
+
         if (this.Parent?.EventAggregator != null)
         {
             this.Parent.EventAggregator.Subscribe<ManySelectKeysChangedMessage<TKey>>(async (c, m) =>
