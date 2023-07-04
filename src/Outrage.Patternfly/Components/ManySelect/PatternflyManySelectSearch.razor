@@ -2,24 +2,23 @@
 @using Outrage.Patternfly.Models;
 @typeparam TKey
 @typeparam TValue
+@inject IJSRuntime JS
+@implements IDisposable
 
 @if (Search)
 {
     var id = new HtmlId();
     <div class="pf-c-input-group">
-        <input type="text"
+        <input id="@searchId"
+               type="text"
                class="pf-c-form-control"
                aria-label="Search"
                aria-describedby="@id"
-               placeholder="Search..."
-        @bind-value="searchText"
-        @onkeydown="SearchKeyDown"
-        @onkeypress="SearchKeyPress"
-        @onkeypress:preventDefault />
+               placeholder="Search..." />
         <button class="pf-c-button pf-m-control"
                 type="button"
                 id="@id"
-        @onclick="@SearchItems">
+                @onclick="@SearchItems">
             <Icon Name="search"></Icon>
         </button>
         <button class="pf-c-button pf-m-control"
@@ -88,20 +87,37 @@
 
 
 @code {
-        string searchText = string.Empty;
-        ManySelectLoadResponse<TValue>? loadResult;
-        [Parameter, EditorRequired] public Func<ManySelectLoadArgs, Task<ManySelectLoadResponse<TValue>?>>? OnLoadItems { get; set; } = default!;
-        [Parameter, EditorRequired] public Func<TValue?, string>? ToViewString { get; set; } = default!;
-        [Parameter, EditorRequired] public Func<TValue?, TKey>? ToKey { get; set; } = default!;
-        [Parameter] public bool Search { get; set; } = true;
-        [Parameter] public bool Multiselect { get; set; } = false;
-        [CascadingParameter(Name = "SelectParent")] public PatternflyManySelect<TKey>? Parent { get; set; }
-        [Parameter] public string WhenNull { get; set; } = "(none)";
+    string searchId = HtmlId.Create();
+    IJSObjectReference module = default!;
+    ManySelectLoadResponse<TValue>? loadResult;
+    [Parameter, EditorRequired] public Func<ManySelectLoadArgs, Task<ManySelectLoadResponse<TValue>?>>? OnLoadItems { get; set; } = default!;
+    [Parameter, EditorRequired] public Func<TValue?, string>? ToViewString { get; set; } = default!;
+    [Parameter, EditorRequired] public Func<TValue?, TKey>? ToKey { get; set; } = default!;
+    [Parameter] public bool Search { get; set; } = true;
+    [Parameter] public bool Multiselect { get; set; } = false;
+    [CascadingParameter(Name = "SelectParent")] public PatternflyManySelect<TKey>? Parent { get; set; }
+    [Parameter] public string WhenNull { get; set; } = "(none)";
 
     protected override async Task OnInitializedAsync()
     {
         await LoadItems();
         await base.OnInitializedAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            this.module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Outrage.Patternfly/scripts/components/manyselect/PatternflyManySelectSearch.js");
+            await this.module.InvokeVoidAsync("init", searchId, DotNetObjectReference.Create(this));
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    public void Refresh()
+    {
+        
     }
 
     protected override void OnParametersSet()
@@ -138,11 +154,12 @@
             await InvokeAsync(StateHasChanged);
         }
     }
-
-    async Task SearchItems(MouseEventArgs a)
+    [JSInvokable("SearchItems")]
+    public async void SearchItems()
     {
         if (OnLoadItems != null)
         {
+            var searchText = await this.module.InvokeAsync<string>("getSearchText", searchId);
             var args = new ManySelectLoadArgs(0, 10, searchText);
             loadResult = await OnLoadItems(args);
             await InvokeAsync(StateHasChanged);
@@ -151,38 +168,8 @@
 
     async Task ClearSearch()
     {
-        this.searchText = String.Empty;
+        await this.module.InvokeVoidAsync("clearSearch", searchId);
         await LoadItems();
-    }
-
-    async Task SearchKeyDown(KeyboardEventArgs args)
-    {
-        if (args.Code == "Backspace" && this.searchText.Length >= 1)
-        {
-            var length = this.searchText.Length - 1;
-            this.searchText = this.searchText.Substring(0, length);
-            await InvokeAsync(StateHasChanged);
-        }
-    }
-
-    async Task SearchKeyPress(KeyboardEventArgs args)
-    {
-        if (args.Code == "Enter")
-        {
-            var loadArgs = new ManySelectLoadArgs(0, 10, searchText);
-            if (OnLoadItems != null)
-            {
-                loadResult = await OnLoadItems(loadArgs);
-                await InvokeAsync(StateHasChanged);
-            }
-        }
-
-        else if (args.Code != args.Key)
-        {
-            this.searchText += args.Key;
-            await InvokeAsync(StateHasChanged);
-        }
-
     }
 
     async Task ValueClickedAsync(MouseEventArgs args, TValue value)
@@ -204,5 +191,11 @@
     async Task NullClickedAsync(MouseEventArgs args)
     {
         await this.Parent.ClearKeysAsync();
+    }
+
+    public void Dispose()
+    {
+        this.module.InvokeVoidAsync("dispose", searchId);
+        this.module.DisposeAsync();
     }
 }

@@ -94,11 +94,19 @@
 
     protected override async Task OnInitializedAsync()
     {
-        this.module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Outrage.Patternfly/scripts/components/breadcrumb/PatternflyBreadcrumb.js");
-
         await base.OnInitializedAsync();
         Nav.LocationChanged += PageChanged;
         BreadcrumbService.BreadcrumbsChanged += BreadcrumbsChanged;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            this.module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Outrage.Patternfly/scripts/components/breadcrumb/PatternflyBreadcrumb.js");
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     protected override async Task OnParametersSetAsync()
