@@ -28,7 +28,7 @@
             {
                 if (OnRowClicked.HasDelegate)
                 {
-                    <tr @key="row" @attributes="GetRowAttributes(row)"
+                    <tr @key="@(RowId != null ? RowId(row.Item) : row)" @attributes="GetRowAttributes(row)"
                             @onclick="@(async (MouseEventArgs e) => await RowClicked(e, row))">
                         @if (RowTemplate != null)
                         {
@@ -42,7 +42,7 @@
                 }
                 else
                 {
-                    <tr @key="row" @attributes="GetRowAttributes(row)">
+                    <tr @key="@(RowId != null ? RowId(row.Item) : row)" @attributes="GetRowAttributes(row)">
                         @if (RowTemplate != null)
                         {
                             @RowTemplate(row.Item)
@@ -100,6 +100,8 @@
 
     [Parameter] public EventCallback<DataItemWrapperModel<TItem>> OnRowClicked { get; set; }
 
+    [Parameter] public Func<TItem, object>? RowId { get; set; }
+
     [Parameter] public bool UseSelection { get; set; } = true;
 
     [Parameter] public Func<string, SortOrder, Task>? OnSortBy { get; set; }
@@ -114,7 +116,8 @@
         var classes = new HashSet<string>();
         if (UseSelection && row.IsSelected) classes.Add("pf-m-selected");
         if (OnRowClicked.HasDelegate) classes.Add("pf-m-hoverable");
-        attributes.Add("class", classes);
+        if (classes.Any()) attributes.Add("class", string.Join(' ', classes));
+        if (RowId != null) attributes.Add("id", $"_{RowId(row.Item).ToString()}");
 
         return attributes;
     }

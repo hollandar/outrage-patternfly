@@ -36,6 +36,7 @@
 
                 <PatternflyTable @ref="innerTable" Class="@Class" AdditionalAttributes="@AdditionalAttributes"
                                 TItem="TItem" TItemKey="TItemKey" WrappedItems="pageModel.Items"
+                                RowId="RowId"
                                 SortBy="@SortBy" SortOrder="@SortOrder" OnSortBy="SelectSortBy"
                                 OnRowClicked="@OnRowClicked"
                                 Compact="@Compact" Label="@Label"
@@ -96,6 +97,8 @@
     [Parameter] public string? Label { get; set; } = null;
 
     [Parameter] public bool Compact { get; set; }
+
+    [Parameter] public Func<TItem, object>? RowId { get; set; }
 
     #endregion
 
