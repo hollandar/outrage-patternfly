@@ -1,4 +1,5 @@
-﻿@typeparam TKey
+﻿@implements IDisposable
+@typeparam TKey
 @typeparam TValue
 
 @if (typeof(TKey).IsGenericType && typeof(TKey).GetGenericTypeDefinition() == typeof(Nullable<>) && this.Parent.Value.Count == 0)
@@ -34,28 +35,18 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        if (Parent == null)
+        if (Parent is null)
         {
             throw new Exception("Search and select parent is not available.");
         }
-        if (this.Parent.EventAggregator != null) {
-            this.Parent.EventAggregator.Subscribe<ManySelectKeysChangedMessage<TKey>>(async (c, m) =>
-            {
-                var key = m.Keys.SingleOrDefault();
-                if (!(default(TKey)?.Equals(key) ?? key == null))
-                {
-                    if (OnLoadItem == null)
-                    {
-                        throw new Exception("OnLoadItem is not available.");
-                    }
+        Parent.OnKeysChanged += KeysChanged;
 
-                    this.value = await OnLoadItem(key!);
-                    await this.InvokeAsync(StateHasChanged);
-                }
-            });
-        }
+        await base.OnInitializedAsync();
+    }
 
-        var key = this.Parent.Value.SingleOrDefault();
+    public async Task KeysChanged(HashSet<TKey> keys)
+    {
+        var key = keys.SingleOrDefault();
         if (!(default(TKey)?.Equals(key) ?? key == null))
         {
             if (OnLoadItem == null)
@@ -64,8 +55,15 @@ else
             }
 
             this.value = await OnLoadItem(key!);
+            await this.InvokeAsync(StateHasChanged);
         }
+    }
 
-        await base.OnInitializedAsync();
+    public void Dispose()
+    {
+        if (Parent is not null)
+        {
+            Parent.OnKeysChanged -= KeysChanged;
+        }
     }
 }

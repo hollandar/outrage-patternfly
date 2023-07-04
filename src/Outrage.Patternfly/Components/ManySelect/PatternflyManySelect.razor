@@ -27,16 +27,17 @@
 </CascadingValue>
 
 @code {
+    public delegate Task KeysChangedHandler(HashSet<TKey> keys);
+
     bool toggled = false;
-    public IEventAggregator? EventAggregator { get; set; }
     [Parameter] public HashSet<TKey> Value { get; set; } = default!;
     [Parameter] public EventCallback<HashSet<TKey>> ValueChanged { get; set; }
     [Parameter] public bool CloseOnSelect { get; set; } = true;
 
+    public event KeysChangedHandler OnKeysChanged = default!;
+
     protected override void OnInitialized()
     {
-        EventAggregator = new Outrage.EventBus.Predefined.RootEventBus(serviceProvider);
-
         base.OnInitialized();
     }
 
@@ -54,16 +55,15 @@
 
     public async Task SetKeysAsync(params TKey?[] keys)
     {
-        
+
         this.Value.Clear();
         foreach (var key in keys)
         {
             if (key != null)
                 this.Value.Add(key);
         }
-        if (this.EventAggregator != null)
-            await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.Value));
 
+        await OnKeysChanged.Invoke(this.Value);
         await ValueChanged.InvokeAsync(this.Value);
         CloseSingle();
     }
@@ -73,9 +73,8 @@
         if (key != null)
         {
             this.Value.Add(key);
-            if (this.EventAggregator != null)
-                await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.Value));
 
+            await OnKeysChanged.Invoke(this.Value);
             await ValueChanged.InvokeAsync(this.Value);
         }
     }
@@ -85,9 +84,8 @@
         if (key != null)
         {
             this.Value.Remove(key);
-            if (this.EventAggregator != null)
-                await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.Value));
 
+            await OnKeysChanged.Invoke(this.Value);
             await ValueChanged.InvokeAsync(this.Value);
         }
     }
@@ -100,9 +98,8 @@
                 this.Value.Remove(key);
             else
                 this.Value.Add(key);
-            if (this.EventAggregator != null)
-                await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.Value));
 
+            await OnKeysChanged.Invoke(this.Value);
             await ValueChanged.InvokeAsync(this.Value);
             CloseSingle();
         }
@@ -111,9 +108,8 @@
     public async Task ClearKeysAsync()
     {
         this.Value.Clear();
-        if (this.EventAggregator != null)
-            await this.EventAggregator.PublishAsync(new ManySelectKeysChangedMessage<TKey>(this.Value));
 
+        await OnKeysChanged.Invoke(this.Value);
         await ValueChanged.InvokeAsync(this.Value);
         CloseSingle();
     }

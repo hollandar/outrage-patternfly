@@ -1,5 +1,7 @@
-﻿@typeparam TKey
+﻿@implements IDisposable
+@typeparam TKey
 @typeparam TValue
+
 @if (!(values?.Any() ?? false))
 {
     <span>Select values.</span>
@@ -37,26 +39,26 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        if (Parent == null)
+        if (Parent is null)
         {
             throw new Exception("Search and select parent is not available.");
         }
-        if (OnLoadItems == null)
+
+        Parent.OnKeysChanged += KeysChanged;
+
+        if (OnLoadItems is null)
         {
             throw new Exception($"No loader is defined.");
         }
 
-        if (this.Parent?.EventAggregator != null)
-        {
-            this.Parent.EventAggregator.Subscribe<ManySelectKeysChangedMessage<TKey>>(async (c, m) =>
-            {
-                await MergeItemsAndLoadAsync(m.Keys);
-                await this.InvokeAsync(StateHasChanged);
-            });
+        await KeysChanged(this.Parent.Value);
+        await base.OnInitializedAsync();
+    }
 
-            await MergeItemsAndLoadAsync(this.Parent.Value);
-            await base.OnInitializedAsync();
-        }
+    public async Task KeysChanged(HashSet<TKey> keys)
+    {
+        await MergeItemsAndLoadAsync(keys);
+        await this.InvokeAsync(StateHasChanged);
     }
 
     protected async Task MergeItemsAndLoadAsync(HashSet<TKey> keys)
@@ -81,15 +83,21 @@ else
 
     protected async Task RemoveItem(MouseEventArgs args, TValue? item)
     {
-        if (ToKey == null)
+        if (ToKey is null)
         {
             throw new Exception("ToKey attribute is not defined.");
         }
 
-        if (item != null)
+        if (item is not null)
         {
             var key = ToKey(item);
             await this.Parent.RemoveKeyAsync(key);
         }
+    }
+
+    public void Dispose()
+    {
+        if (Parent is not null)
+            Parent.OnKeysChanged -= KeysChanged;
     }
 }
