@@ -1,0 +1,20 @@
+﻿@typeparam TKey
+@using Outrage.Patternfly.Components.ManySelect
+
+<PatternflyManySelect @ref="selectChild" TKey="TKey" CloseOnSelect="true" Value="@(new HashSet<TKey> { this.Value })" ValueChanged="UnderlyingValueChanged">
+    <Viewer>@Viewer</Viewer>
+    <Finder>@Finder</Finder>
+</PatternflyManySelect>
+
+@code {
+    PatternflyManySelect<TKey> selectChild = default!;
+    [Parameter] public TKey Value { get; set; } = default!;
+    [Parameter] public EventCallback<TKey> ValueChanged { get; set; }
+    [Parameter] public RenderFragment? Viewer { get; set; }
+    [Parameter] public RenderFragment? Finder { get; set; }
+
+    void UnderlyingValueChanged()
+    {
+        this.ValueChanged.InvokeAsync(selectChild.Value.FirstOrDefault());
+    }
+}

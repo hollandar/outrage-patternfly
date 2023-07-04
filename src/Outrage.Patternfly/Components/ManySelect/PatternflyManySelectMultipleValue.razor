@@ -54,7 +54,7 @@ else
                 await this.InvokeAsync(StateHasChanged);
             });
 
-            await MergeItemsAndLoadAsync(this.Parent.SelectedKeys);
+            await MergeItemsAndLoadAsync(this.Parent.Value);
             await base.OnInitializedAsync();
         }
     }

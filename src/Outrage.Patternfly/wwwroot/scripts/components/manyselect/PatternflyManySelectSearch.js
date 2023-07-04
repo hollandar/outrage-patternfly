@@ -1,4 +1,5 @@
 
+// Map holds references for all instances of the search control on the page, by search id
 const map = new Map()
 
 export function init(searchId, searchControl) {

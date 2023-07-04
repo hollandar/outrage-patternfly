@@ -1,7 +1,7 @@
 ﻿@typeparam TKey
 @typeparam TValue
 
-@if (typeof(TKey).IsGenericType && typeof(TKey).GetGenericTypeDefinition() == typeof(Nullable<>) && this.Parent.SelectedKeys.Count == 0)
+@if (typeof(TKey).IsGenericType && typeof(TKey).GetGenericTypeDefinition() == typeof(Nullable<>) && this.Parent.Value.Count == 0)
 {
     <span class="pf-c-select__toggle-text">(none) </span>
 }
@@ -55,7 +55,7 @@ else
             });
         }
 
-        var key = this.Parent.SelectedKeys.SingleOrDefault();
+        var key = this.Parent.Value.SingleOrDefault();
         if (!(default(TKey)?.Equals(key) ?? key == null))
         {
             if (OnLoadItem == null)
