@@ -13,8 +13,8 @@
     [Parameter] public RenderFragment? Viewer { get; set; }
     [Parameter] public RenderFragment? Finder { get; set; }
 
-    void UnderlyingValueChanged()
+    void UnderlyingValueChanged(HashSet<TKey> values)
     {
-        this.ValueChanged.InvokeAsync(selectChild.Value.FirstOrDefault());
+        this.ValueChanged.InvokeAsync(values.FirstOrDefault());
     }
 }

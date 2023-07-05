@@ -41,6 +41,8 @@ else
         }
         Parent.OnKeysChanged += KeysChanged;
 
+        await KeysChanged(Parent.Value);
+
         await base.OnInitializedAsync();
     }
 
