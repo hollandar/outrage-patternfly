@@ -1,9 +1,9 @@
 ﻿@inherits PatternflyToggleGroupBase<TValueType>
 @attribute [CascadingTypeParameter(nameof(TValueType))]
 @typeparam TValueType
-
 @using Outrage.Patternfly.Components.ToggleGroup;
 @using Outrage.Patternfly.Components.Utilities
+
 
 <CascadingValue Name="ToggleGroup" Value="this">
     <div class="@Classes" @attributes="AdditionalAttributes">
@@ -12,10 +12,11 @@
 </CascadingValue>
 
 @code {
+
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public bool Compact { get; set; }
-    [Parameter] public TValueType? Value { get; set; }
-    [Parameter] public EventCallback<TValueType> ValueChanged { get; set; }
+    [Parameter] public HashSet<TValueType?> Value { get; set; }
+    [Parameter] public EventCallback<HashSet<TValueType>> ValueChanged { get; set; }
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
@@ -30,13 +31,19 @@
         return classes;
     }
 
+
+
     public override async Task SetValue(TValueType? value)
     {
-        this.Value = value;
+        if (Value.Contains(value))
+            this.Value.Remove(value);
+        else
+            this.Value.Add(value);
+
         if (this.ValueChanged.HasDelegate)
-            await this.ValueChanged.InvokeAsync(value);
+            await this.ValueChanged.InvokeAsync(this.Value);
         await this.InvokeAsync(StateHasChanged);
     }
 
-    public override bool Contains(TValueType value) => this.Value?.Equals(value) ?? false;
+    public override bool Contains(TValueType value) => this.Value.Contains(value);
 }

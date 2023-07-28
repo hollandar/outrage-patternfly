@@ -50,6 +50,12 @@ Api documentation and component demonstrations can be found at https://patternfl
 		<EmbeddedResource Include="wwwroot/**" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="Components\ToggleGroup\PatternflyToggleGroupMultiselect.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	</ItemGroup>
+
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
 		<Copy SourceFiles="../../LICENSE.md" DestinationFolder="." />
 		<!--<Exec Command="yarn install" />

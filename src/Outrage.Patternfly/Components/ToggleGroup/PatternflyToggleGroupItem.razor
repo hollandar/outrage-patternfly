@@ -26,7 +26,7 @@
 </div>
 
 @code {
-    public bool Selected { get { return this.Parent?.Value?.Equals(Value) ?? false; } }
+    public bool Selected { get { return this.Parent?.Contains(Value) ?? false; } }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string? Icon { get; set; }
     [Parameter] public IconPosition IconPosition { get; set; } = IconPosition.Start;
@@ -34,7 +34,7 @@
     [Parameter] public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
     [Parameter] public EventCallback<TValueType> Clicked { get; set; }
     [Parameter] public TValueType? Value { get; set; }
-    [CascadingParameter(Name = "ToggleGroup")] public PatternflyToggleGroup<TValueType>? Parent { get; set; }
+    [CascadingParameter(Name = "ToggleGroup")] public PatternflyToggleGroupBase<TValueType>? Parent { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
