@@ -62,6 +62,8 @@
     [Parameter] public string IconCaretDown { get; set; } = "caret-down";
     [Parameter] public string IconElipsis { get; set; } = "ellipsis-v";
 
+    [Parameter] public EventCallback DroppedDown { get; set; }
+
     public string DropdownButtonClass
     {
         get
@@ -94,6 +96,8 @@
     void ToggleDropdown()
     {
         this.Expanded = !this.Expanded;
+        if (this.Expanded) DroppedDown.InvokeAsync();
+
         this.StateHasChanged();
     }
 

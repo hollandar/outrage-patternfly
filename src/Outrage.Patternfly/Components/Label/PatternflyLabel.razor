@@ -3,7 +3,7 @@
 
 @inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 
-<span class="@Classes" @attributes="AdditionalAttributes">
+<span class="@Classes" @attributes="AdditionalAttributes" style="--pf-c-label--BackgroundColor: @(CustomColor != null?CustomColor: String.Empty)">
     <span class="pf-c-label__content">
         @if (!string.IsNullOrEmpty(Icon))
         {
@@ -23,10 +23,10 @@
     @if (Closed.HasDelegate)
     {
         <PatternflyButton Color="ButtonColor.Plain"
-                      Icon="times"
-                      type="button"
-                      aria-label="Remove"
-                      Clicked="CloseLabel">
+                          Icon="times"
+                          type="button"
+                          aria-label="Remove"
+                          Clicked="CloseLabel">
         </PatternflyButton>
     }
 </span>
@@ -39,6 +39,7 @@
     [Parameter] public string? Text { get; set; } = null;
     [Parameter] public bool Compact { get; set; } = false;
     [Parameter] public bool Outline { get; set; } = false;
+    [Parameter] public string? CustomColor { get; set; } = null;
     [Parameter] public EventCallback<string> Closed { get; set; }
     [Parameter] public EventCallback<string> Clicked { get; set; }
 
