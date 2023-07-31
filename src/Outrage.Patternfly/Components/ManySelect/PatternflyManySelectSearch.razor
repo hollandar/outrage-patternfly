@@ -5,32 +5,34 @@
 @inject IJSRuntime JS
 @implements IDisposable
 
-@if (Search)
-{
-    var id = new HtmlId();
-    <div class="pf-c-input-group">
-        <input id="@searchId"
-               type="text"
-               class="pf-c-form-control"
-               aria-label="Search"
-               aria-describedby="@id"
-               placeholder="Search..." />
-        <button class="pf-c-button pf-m-control"
-                type="button"
-                id="@id"
-                @onclick="@SearchItems">
-            <Icon Name="search"></Icon>
-        </button>
-        <button class="pf-c-button pf-m-control"
-                type="button"
-        @onclick="@ClearSearch">
-            <Icon Name="times"></Icon>
-        </button>
-    </div>
-}
 <ul class="pf-c-select__menu"
     role="listbox"
     aria-labelledby="select-single-expanded-label">
+    @if (Search)
+    {
+        var id = new HtmlId();
+        <li role="presentation">
+            <div class="pf-c-input-group">
+                <input id="@searchId"
+                        type="text"
+                        class="pf-c-form-control"
+                        aria-label="Search"
+                        aria-describedby="@id"
+                        placeholder="Search..." />
+                <button class="pf-c-button pf-m-control"
+                        type="button"
+                        id="@id"
+                        @onclick="@SearchItems">
+                    <Icon Name="search"></Icon>
+                </button>
+                <button class="pf-c-button pf-m-control"
+                        type="button"
+                @onclick="@ClearSearch">
+                    <Icon Name="times"></Icon>
+                </button>
+            </div>
+        </li>
+    }
     @if (typeof(TKey).IsGenericType && typeof(TKey).GetGenericTypeDefinition() == typeof(Nullable<>))
     {
         var selected = this.Parent.Value.Count == 0;

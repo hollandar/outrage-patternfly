@@ -62,7 +62,7 @@
         [Required]
         public string Name { get; set; } = string.Empty;
         public int Age { get; set; } = 35;
-        public DateOnly Dob { get; set; } = new DateOnly(1990, 1, 1);
+        public DateOnly? Dob { get; set; } = new DateOnly(1990, 1, 1);
         public TimeOnly Tob { get; set; } = new TimeOnly(0,0,0);
         public DateTimeOffset DTob { get; set; } = new DateTimeOffset(1990, 1, 1, 0, 0, 0, TimeSpan.Zero);
     }

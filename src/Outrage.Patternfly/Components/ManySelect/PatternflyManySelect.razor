@@ -3,8 +3,10 @@
 @inject IServiceProvider serviceProvider
 @typeparam TKey
 
+@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+
 <CascadingValue Name="SelectParent" Value="this">
-    <div class="pf-c-select @(toggled?"pf-m-expanded":"")">
+    <div class="@Classes" @attributes="AdditionalAttributes">
         <div class="pf-c-select__toggle" @onclick="Toggle" @onclick:stopPropagation>
             <div class="pf-c-select__toggle-wrapper">
                 @Viewer
@@ -126,5 +128,16 @@
             toggled = false;
         }
         await InvokeAsync(StateHasChanged);
+    }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>();
+        classes.Add("pf-c-select");
+        if (toggled)
+        {
+            classes.Add("pf-m-expanded");
+        }
+        return classes;
     }
 }

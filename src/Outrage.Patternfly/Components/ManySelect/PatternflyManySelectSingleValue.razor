@@ -6,7 +6,7 @@
 {
     <span class="pf-c-select__toggle-text">(none) </span>
 }
-else if (ToViewString != null)
+else if (ToViewString is not null)
 {
     string valueString = ToViewString(value);
     if (string.IsNullOrEmpty(valueString))
@@ -49,7 +49,7 @@ else
     public async Task KeysChanged(HashSet<TKey> keys)
     {
         var key = keys.SingleOrDefault();
-        if (!(default(TKey)?.Equals(key) ?? key == null))
+        if (!(default(TKey)?.Equals(key) ?? key is null))
         {
             if (OnLoadItem == null)
             {
@@ -59,6 +59,8 @@ else
             this.value = await OnLoadItem(key!);
             await this.InvokeAsync(StateHasChanged);
         }
+        else
+            this.value = default(TValue?);
     }
 
     public void Dispose()
