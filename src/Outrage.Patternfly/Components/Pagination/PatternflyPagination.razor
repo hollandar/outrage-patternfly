@@ -84,10 +84,10 @@
         {
             <div class="pf-v5-c-pagination__nav-control pf-m-first">
                 <button class="pf-v5-c-button pf-m-plain"
-                    type="button"
-                    aria-label="Go to first page"
-                    @onclick="@(async () => await SelectPage(0))"
-                    disabled="@(Page <= 0)">
+                        type="button"
+                        aria-label="Go to first page"
+                        @onclick="@(async () => await SelectPage(0))"
+                        disabled="@(Page <= 0)">
                     <Icon Name="angle-double-left" aria-hidden="true" />
                 </button>
             </div>
@@ -105,11 +105,12 @@
         {
             <form @onsubmit="@(async () => await SelectPage(selectedPage - 1))">
                 <div class="pf-v5-c-pagination__nav-page-select">
-                    <input class="pf-v5-c-form-control"
-                       aria-label="Current page"
-                       type="number"
-                       min="1"
-                       @bind-value="@(selectedPage)" />
+                    <span class="pf-v5-c-form-control">
+                        <input aria-label="Current page"
+                               type="number"
+                               min="1"
+                               @bind-value="@(selectedPage)" />
+                    </span>
                     <span aria-hidden="true">of @(pageCount.ToString("N0"))</span>
                 </div>
             </form>
@@ -127,10 +128,10 @@
         {
             <div class="pf-v5-c-pagination__nav-control pf-m-last">
                 <button class="pf-v5-c-button pf-m-plain"
-                    type="button"
-                    aria-label="Go to last page"
-                    @onclick="@(async () => await SelectPage(pageCount - 1))"
-                    disabled="@(Page >= pageCount - 1)">
+                        type="button"
+                        aria-label="Go to last page"
+                        @onclick="@(async () => await SelectPage(pageCount - 1))"
+                        disabled="@(Page >= pageCount - 1)">
                     <Icon Name="angle-double-right" aria-hidden="true" />
                 </button>
             </div>

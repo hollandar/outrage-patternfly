@@ -6,14 +6,14 @@
         aria-label="@(Label??"")">
         @if (Columns != null)
         {
-            <thead>
-                <tr role="row">
+            <thead class="pf-v5-c-table__thead">
+                <tr role="row" class="pf-v5-c-table__tr">
                     @Columns
                 </tr>
             </thead>
         }
 
-        <tbody role="rowgroup">
+        <tbody role="rowgroup" class="pf-v5-c-table__tbody">
             @Rows
         </tbody>
     </table>
