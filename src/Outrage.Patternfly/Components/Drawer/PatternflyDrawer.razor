@@ -1,0 +1,98 @@
+﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="@Classes @(Open ? "pf-m-expanded":"")" @attributes="AdditionalAttributes">
+    <div class="pf-v5-c-drawer__main">
+        <div class="pf-v5-c-drawer__content">
+            <div class="pf-v5-c-drawer__body">
+                @Content
+            </div>
+            <div class="pf-v5-c-drawer__panel" hidden="@(!Open)">
+                <div class="pf-v5-c-drawer__body">
+                    <div class="pf-v5-c-drawer__head">
+                        @Header
+                        <div class="pf-v5-c-drawer__actions">
+                            <div class="pf-v5-c-drawer__close">
+                                <button class="pf-v5-c-button pf-m-plain"
+                                        type="button"
+                                        aria-label="Close drawer panel">
+                                    <i class="fas fa-times" aria-hidden="true" @onclick="CloseDrawer"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (Open)
+                {
+                    <div class="pf-v5-c-drawer__body">
+                        @Body
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? Content { get; set; }
+    [Parameter] public RenderFragment? Header { get; set; }
+    [Parameter] public RenderFragment? Body { get; set; }
+    [Parameter] public bool Open { get; set; } = false;
+    [Parameter] public EventCallback OnOpen { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+    [Parameter] public PanelPosition Position { get; set; } = PanelPosition.Right;
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>();
+        classes.Add("pf-v5-c-drawer");
+        switch (Position)
+        {
+            case PanelPosition.Left:
+                { classes.Add("pf-m-panel-left"); }
+                break;
+            case PanelPosition.Static:
+                { classes.Add("pf-m-panel-static"); }
+                break;
+            case PanelPosition.Bottom:
+                { classes.Add("pf-m-panel-bottom"); }
+                break;
+            case PanelPosition.Inline:
+                { classes.Add("pf-m-panel-inline"); }
+                break;
+            case PanelPosition.Right:
+                { classes.Add("pf-m-panel-right"); }
+                break;
+            default:
+                break;
+        }
+
+        return classes;
+    }
+
+    public async Task OpenDrawer()
+    {
+        this.Open = true;
+        await OnOpen.InvokeAsync();
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+    public async Task CloseDrawer()
+    {
+        this.Open = false;
+        await OnClose.InvokeAsync();
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+    public async Task ToggleDrawer()
+    {
+        if (Open)
+        {
+            await CloseDrawer();
+        }
+        else
+        {
+            await OpenDrawer();
+        }
+
+    }
+}

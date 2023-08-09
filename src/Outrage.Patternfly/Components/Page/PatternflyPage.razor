@@ -33,7 +33,7 @@
     </header>
     @if (Sidebar != null)
     {
-        <div id="@controlsId" class="pf-v5-c-page__sidebar @(sidebar?"pf-m-expanded":"pf-m-collapsed")" aria-expanded="@sidebar">
+        <div id="@controlsId" class="pf-v5-c-page__sidebar @(sidebar?"pf-m-expanded":"pf-m-collapsed")" aria-expanded="@(sidebar?"true":"false")">
             <div class="pf-v5-c-page__sidebar-body">@Sidebar</div>
         </div>
     }
