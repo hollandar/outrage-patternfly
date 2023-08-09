@@ -6,28 +6,28 @@
             <div class="pf-v5-c-drawer__body">
                 @Content
             </div>
-            <div class="pf-v5-c-drawer__panel" hidden="@(!Open)">
-                <div class="pf-v5-c-drawer__body">
-                    <div class="pf-v5-c-drawer__head">
-                        @Header
-                        <div class="pf-v5-c-drawer__actions">
-                            <div class="pf-v5-c-drawer__close">
-                                <button class="pf-v5-c-button pf-m-plain"
-                                        type="button"
-                                        aria-label="Close drawer panel">
-                                    <i class="fas fa-times" aria-hidden="true" @onclick="CloseDrawer"></i>
-                                </button>
-                            </div>
+        </div>
+        <div class="pf-v5-c-drawer__panel" hidden="@(!Open)">
+            <div class="pf-v5-c-drawer__body">
+                <div class="pf-v5-c-drawer__head">
+                    @Header
+                    <div class="pf-v5-c-drawer__actions">
+                        <div class="pf-v5-c-drawer__close">
+                            <button class="pf-v5-c-button pf-m-plain"
+                                    type="button"
+                                    aria-label="Close drawer panel">
+                                <i class="fas fa-times" aria-hidden="true" @onclick="CloseDrawer"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
-                @if (Open)
-                {
-                    <div class="pf-v5-c-drawer__body">
-                        @Body
-                    </div>
-                }
             </div>
+            @if (Open)
+            {
+                <div class="pf-v5-c-drawer__body">
+                    @Body
+                </div>
+            }
         </div>
     </div>
 </div>
