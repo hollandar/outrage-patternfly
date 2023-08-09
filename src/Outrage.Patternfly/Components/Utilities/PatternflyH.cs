@@ -52,7 +52,7 @@ namespace Outrage.Patternfly.Components.Utilities
         }
         protected override IEnumerable<string> OnIntroduceClasses()
         {
-            var classes = new List<string>(new string[] { "pf-c-title" });
+            var classes = new List<string>(new string[] { "pf-v5-c-title" });
 
             if (!string.IsNullOrEmpty(Class))
                 classes.Add(Class);

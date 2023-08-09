@@ -6,12 +6,12 @@
 @using Outrage.Patternfly.Messages
 @using Outrage.Patternfly.Services
 
-<ul class="pf-c-alert-group pf-m-toast">
+<ul class="pf-v5-c-alert-group pf-m-toast">
     @foreach (var message in messages.OrderByDescending(message => message.ExpireTime))
     {
         if (message.ExpireTime > DateTimeOffset.UtcNow && !message.IsDismissed)
         {
-            <li class="pf-c-alert-group__item" @key="message">
+            <li class="pf-v5-c-alert-group__item" @key="message">
                 <PatternflyAlert
                              Dismissable="true" OnDismiss="@(() => message.Dismiss())"
                              Color="@message.Message.Color"

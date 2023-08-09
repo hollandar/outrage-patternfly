@@ -2,7 +2,11 @@
 @using System.Globalization;
 @inherits InputNumber<TValue>
 @typeparam TValue
-<input @attributes="@AdditionalAttributes" @bind-value="CurrentValueAsString" @bind-value:event="@(BindEvent)" />
+
+<span class="pf-v5-c-form-control">
+    <input @attributes="@AdditionalAttributes" @bind-value="CurrentValueAsString" @bind-value:event="@(BindEvent)" />
+</span>
+
 @code {
     [CascadingParameter(Name = "FieldName")]
     public string? FieldName { get; set; }
@@ -20,7 +24,7 @@
 
     protected override void OnParametersSet()
     {
-        this.AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "pf-c-form-control", this.FieldName, (a) =>
+        this.AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "", this.FieldName, (a) =>
         {
             if (!a.ContainsKey("type"))
                 a["type"] = "number";
@@ -30,7 +34,7 @@
 
     protected override string? FormatValueAsString(TValue? value)
     {
-        string format = $"N{(ZeroPadDecimals ? "0": string.Empty)}{DecimalPlaces}";
+        string format = $"N{(ZeroPadDecimals ? "0" : string.Empty)}{DecimalPlaces}";
 
         // Avoiding a cast to IFormattable to avoid boxing.
         switch (value)

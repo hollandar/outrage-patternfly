@@ -6,7 +6,7 @@
     <a class="@Classes" href="javascript:void(0)" @attributes="AdditionalAttributes" @onclick="ItemClicked">
         @if (Icon != null)
         {
-            <span><Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" FixedWidth="true" class="pf-u-mr-sm" aria-hidden="true" /></span>
+            <span><Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" FixedWidth="true" class="pf-v5-u-mr-sm" aria-hidden="true" /></span>
         }
         @if (Text != null)
         {
@@ -31,7 +31,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-nav__link" });
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-nav__link" });
 
         if (Active) classes.Add("pf-m-current");
 

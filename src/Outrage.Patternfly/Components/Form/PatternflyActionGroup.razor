@@ -1,6 +1,6 @@
 ﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase  
 <div class="@Classes" @attributes="AdditionalAttributes">
-    <div class="pf-c-form__actions">
+    <div class="pf-v5-c-form__actions">
       @ChildContent
     </div>
   </div>
@@ -10,7 +10,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new List<string>{ "pf-c-form__group", "pf-m-action" };
+        var classes = new List<string>{ "pf-v5-c-form__group", "pf-m-action" };
         return classes;
     }
 }

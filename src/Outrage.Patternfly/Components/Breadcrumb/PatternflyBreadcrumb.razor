@@ -9,48 +9,48 @@
 @implements IDisposable
 
 <nav class="@Classes" @attributes="AdditionalAttributes" aria-label="breadcrumb">
-    <ol class="pf-c-breadcrumb__list">
+    <ol class="pf-v5-c-breadcrumb__list">
 
         @if (this.breadcrumbs != null && this.breadcrumbs.Count() > 1)
         {
             @foreach (var breadcrumb in this.breadcrumbs.Take(Math.Min(Length, this.breadcrumbs.Count() - 1)))
             {
-                <li class="pf-c-breadcrumb__item">
-                    <span class="pf-c-breadcrumb__item-divider">
+                <li class="pf-v5-c-breadcrumb__item">
+                    <span class="pf-v5-c-breadcrumb__item-divider">
                         <Icon Name="@IconDivider" Weight="@IconWeight" Library="@IconLibrary" FixedWidth="true" />
                     </span>
-                    <a href="@breadcrumb.Href" class="pf-c-breadcrumb__link">@breadcrumb.Name</a>
+                    <a href="@breadcrumb.Href" class="pf-v5-c-breadcrumb__link">@breadcrumb.Name</a>
                 </li>
             }
 
             if (this.breadcrumbs.Count() - 1 - Length > 0)
             {
-                <li class="pf-c-breadcrumb__item">
-                    <span class="pf-c-breadcrumb__item-divider">
+                <li class="pf-v5-c-breadcrumb__item">
+                    <span class="pf-v5-c-breadcrumb__item-divider">
                         <i class="fas fa-angle-right" aria-hidden="true"></i>
                     </span>
-                    <span class="pf-c-breadcrumb__dropdown">
-                        <div class="pf-c-dropdown pf-m-expanded">
-                            <button class="pf-c-dropdown__toggle pf-m-plain"
+                    <span class="pf-v5-c-breadcrumb__dropdown">
+                        <div class="pf-v5-c-dropdown pf-m-expanded">
+                            <button class="pf-v5-c-dropdown__toggle pf-m-plain"
                             id="dropdown-badge-toggle-button"
                             aria-expanded="true"
                             type="button"
                             @onclick="ToggleDropdown">
-                                <span class="pf-c-badge pf-m-read">
+                                <span class="pf-v5-c-badge pf-m-read">
                                     @(this.breadcrumbs.Count() - 1 - Length)
-                                    <span class="pf-c-dropdown__toggle-icon">
+                                    <span class="pf-v5-c-dropdown__toggle-icon">
                                         <Icon Name="@(droppedDown? IconOpen: IconClosed)" Weight="@IconWeight" Library="@IconLibrary" FixedWidth="true" />
                                     </span>
                                 </span>
                             </button>
                             @if (droppedDown)
                             {
-                                <ul class="pf-c-dropdown__menu" aria-labelledby="dropdown-badge-toggle-button">
+                                <ul class="pf-v5-c-dropdown__menu" aria-labelledby="dropdown-badge-toggle-button">
                                     @foreach (var breadcrumb in this.breadcrumbs.Skip(Length).Take(this.breadcrumbs.Count() - 1 - Length))
                                     {
                                         var currentBreadcrumb = breadcrumb;
                                         <li>
-                                            <button class="pf-c-dropdown__menu-item" type="button" @onclick="() => Nav.NavigateTo(currentBreadcrumb.Href)">
+                                            <button class="pf-v5-c-dropdown__menu-item" type="button" @onclick="() => Nav.NavigateTo(currentBreadcrumb.Href)">
                                                 @breadcrumb.Name
                                             </button>
                                         </li>
@@ -66,12 +66,12 @@
         @if (this.breadcrumbs != null && this.breadcrumbs.Count() > 0)
         {
             var lastBreadcrumb = this.breadcrumbs.Last();
-            <li class="pf-c-breadcrumb__item">
-                <span class="pf-c-breadcrumb__item-divider">
+            <li class="pf-v5-c-breadcrumb__item">
+                <span class="pf-v5-c-breadcrumb__item-divider">
                     <Icon Name="@IconDivider" Weight="@IconWeight" Library="@IconLibrary" FixedWidth="true" />
                 </span>
                 <a href="#"
-               class="pf-c-breadcrumb__link pf-m-current"
+               class="pf-v5-c-breadcrumb__link pf-m-current"
                aria-current="page">@lastBreadcrumb.Name</a>
             </li>
         }
@@ -153,7 +153,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        return new string[] { "pf-c-breadcrumb" };
+        return new string[] { "pf-v5-c-breadcrumb" };
     }
 
     public void Dispose()

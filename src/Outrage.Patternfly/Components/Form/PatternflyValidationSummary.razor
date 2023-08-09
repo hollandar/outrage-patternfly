@@ -13,22 +13,22 @@
     <div class="@Classes" @attributes="AdditionalAttributes">
         @if (!string.IsNullOrEmpty(Icon))
         {
-            <div class="pf-c-alert__icon">
+            <div class="pf-v5-c-alert__icon">
                 <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" Size="@IconSize" />
             </div>
         }
         @if (validationMessages.Count() == 1)
         {
-            <p class="pf-c-alert__title">@validationMessages.First()</p>        
+            <p class="pf-v5-c-alert__title">@validationMessages.First()</p>        
         }
         else if (!string.IsNullOrEmpty(Title))
         {
-            <p class="pf-c-alert__title">@Title</p>
+            <p class="pf-v5-c-alert__title">@Title</p>
         }
 
         @if (validationMessages.Count() > 1)
         {
-            <div class="pf-c-alert__description">
+            <div class="pf-v5-c-alert__description">
                 @foreach (var error in validationMessages)
                 {
                     <p>@error</p>
@@ -92,7 +92,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new List<string>(new string[] { "pf-c-alert", "pf-m-danger", "pf-m-inline" });
+        var classes = new List<string>(new string[] { "pf-v5-c-alert", "pf-m-danger", "pf-m-inline" });
         return classes;
     }
 

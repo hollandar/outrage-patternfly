@@ -6,7 +6,7 @@
 <button class="@Classes" @onclick="OnClicked" @onclick:stopPropagation type="button" disabled="@Disabled" @attributes="AdditionalAttributes">
     @if (!string.IsNullOrEmpty(Icon))
     {
-        <span class="pf-c-dropdown__menu-item-icon">
+        <span class="pf-v5-c-dropdown__menu-item-icon">
             <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true" />
         </span>
     }
@@ -38,7 +38,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        List<string> classes = new List<string>(new string[] { "pf-c-dropdown__menu-item" });
+        List<string> classes = new List<string>(new string[] { "pf-v5-c-dropdown__menu-item" });
 
         if (!string.IsNullOrEmpty(Class))
             classes.Add(Class);

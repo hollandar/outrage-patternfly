@@ -3,21 +3,21 @@
 @typeparam TKey
 
 <div class="@Classes" @attributes="AdditionalAttributes">
-    <div class="pf-c-dual-list-selector__pane pf-m-available">
-        <div class="pf-c-dual-list-selector__header">
-            <div class="pf-c-dual-list-selector__title">
-                <div class="pf-c-dual-list-selector__title-text">@AvailableHeading</div>
+    <div class="pf-v5-c-dual-list-selector__pane pf-m-available">
+        <div class="pf-v5-c-dual-list-selector__header">
+            <div class="pf-v5-c-dual-list-selector__title">
+                <div class="pf-v5-c-dual-list-selector__title-text">@AvailableHeading</div>
             </div>
         </div>
-        <div class="pf-c-dual-list-selector__tools">
-            <div class="pf-c-dual-list-selector__tools-filter">
-                <div class="pf-c-search-input">
-                    <div class="pf-c-search-input__bar">
-                        <span class="pf-c-search-input__text">
-                            <span class="pf-c-search-input__icon">
+        <div class="pf-v5-c-dual-list-selector__tools">
+            <div class="pf-v5-c-dual-list-selector__tools-filter">
+                <div class="pf-v5-c-search-input">
+                    <div class="pf-v5-c-search-input__bar">
+                        <span class="pf-v5-c-search-input__text">
+                            <span class="pf-v5-c-search-input__icon">
                                 <Icon Name="@IconSearch" FixedWidth="true" Library="@IconLibrary" Weight="@IconWeight" />
                             </span>
-                            <input class="pf-c-search-input__text-input"
+                            <input class="pf-v5-c-search-input__text-input"
                                    type="text"
                                    placeholder="Filter options"
                                    aria-label="Filter options"
@@ -27,19 +27,19 @@
                     </div>
                 </div>
             </div>
-            <div class="pf-c-dual-list-selector__tools-actions">
-                <button class="pf-c-button pf-m-plain" type="button" aria-label="Sort" @onclick="() => { this.availableAscending = !this.availableAscending; this.StateHasChanged(); }">
+            <div class="pf-v5-c-dual-list-selector__tools-actions">
+                <button class="pf-v5-c-button pf-m-plain" type="button" aria-label="Sort" @onclick="() => { this.availableAscending = !this.availableAscending; this.StateHasChanged(); }">
                     <Icon Name="@(availableAscending?IconSortDown:IconSortUp)" Weight="@IconWeight" Library="@IconLibrary"></Icon>
                 </button>
                 @AvailableAction
             </div>
         </div>
-        <div class="pf-c-dual-list-selector__status">
-            <span class="pf-c-dual-list-selector__status-text"
+        <div class="pf-v5-c-dual-list-selector__status">
+            <span class="pf-v5-c-dual-list-selector__status-text"
                   id="@controlId.With("chosen-item-selected-available-status-text")">@(AvailableItems.Where(r => r.IsHighlighted).Count()) of @(AvailableItems.Count()) items selected</span>
         </div>
-        <div class="pf-c-dual-list-selector__menu">
-            <ul class="pf-c-dual-list-selector__list"
+        <div class="pf-v5-c-dual-list-selector__menu">
+            <ul class="pf-v5-c-dual-list-selector__list"
                 role="listbox"
                 aria-labelledby="@controlId.With("chosen-item-selected-available-status-text")"
                 aria-multiselectable="true"
@@ -47,16 +47,16 @@
                 style="user-select:none">
                 @foreach (var item in this.AvailableItems)
                 {
-                    <li class="pf-c-dual-list-selector__list-item" role="option" @onclick="async (args) => await SelectItem(args, item)">
-                        <div class="pf-c-dual-list-selector__list-item-row @(item.IsHighlighted?"pf-m-selected":"")">
-                            <span class="pf-c-dual-list-selector__item">
-                                <span class="pf-c-dual-list-selector__item-main">
-                                    <span class="pf-c-dual-list-selector__item-text">@item.Value</span>
+                    <li class="pf-v5-c-dual-list-selector__list-item" role="option" @onclick="async (args) => await SelectItem(args, item)">
+                        <div class="pf-v5-c-dual-list-selector__list-item-row @(item.IsHighlighted?"pf-m-selected":"")">
+                            <span class="pf-v5-c-dual-list-selector__item">
+                                <span class="pf-v5-c-dual-list-selector__item-main">
+                                    <span class="pf-v5-c-dual-list-selector__item-text">@item.Value</span>
                                 </span>
                                 @if (item.HasCount)
                                 {
-                                    <span class="pf-c-dual-list-selector__item-count">
-                                        <span class="pf-c-badge pf-m-read">@item.Count</span>
+                                    <span class="pf-v5-c-dual-list-selector__item-count">
+                                        <span class="pf-v5-c-badge pf-m-read">@item.Count</span>
                                     </span>
                                 }
                             </span>
@@ -66,9 +66,9 @@
             </ul>
         </div>
     </div>
-    <div class="pf-c-dual-list-selector__controls">
-        <div class="pf-c-dual-list-selector__controls-item">
-            <button class="pf-c-button pf-m-plain"
+    <div class="pf-v5-c-dual-list-selector__controls">
+        <div class="pf-v5-c-dual-list-selector__controls-item">
+            <button class="pf-v5-c-button pf-m-plain"
                     type="button"
                     disabled="@(!AvailableItems.Where(r => r.IsHighlighted).Any())"
                     aria-label="Add selected"
@@ -76,8 +76,8 @@
                 <Icon Name="@IconRight" FixedWidth="true" Library="@IconLibrary" Weight="@IconWeight" />
             </button>
         </div>
-        <div class="pf-c-dual-list-selector__controls-item">
-            <button class="pf-c-button pf-m-plain"
+        <div class="pf-v5-c-dual-list-selector__controls-item">
+            <button class="pf-v5-c-button pf-m-plain"
                     type="button"
                     disabled="@(!AvailableItems.Any())"
                     aria-label="Add all"
@@ -85,8 +85,8 @@
                 <Icon Name="@IconRightAll" FixedWidth="true" Library="@IconLibrary" Weight="@IconWeight" />
             </button>
         </div>
-        <div class="pf-c-dual-list-selector__controls-item">
-            <button class="pf-c-button pf-m-plain"
+        <div class="pf-v5-c-dual-list-selector__controls-item">
+            <button class="pf-v5-c-button pf-m-plain"
                     type="button"
                     disabled="@(!SelectedItems.Any())"
                     aria-label="Remove all"
@@ -94,8 +94,8 @@
                 <Icon Name="@IconLeftAll" FixedWidth="true" Library="@IconLibrary" Weight="@IconWeight" />
             </button>
         </div>
-        <div class="pf-c-dual-list-selector__controls-item">
-            <button class="pf-c-button pf-m-plain"
+        <div class="pf-v5-c-dual-list-selector__controls-item">
+            <button class="pf-v5-c-button pf-m-plain"
                     type="button"
                     disabled="@(!SelectedItems.Where(r => r.IsHighlighted).Any())"
                     aria-label="Remove selected"
@@ -104,21 +104,21 @@
             </button>
         </div>
     </div>
-    <div class="pf-c-dual-list-selector__pane pf-m-chosen">
-        <div class="pf-c-dual-list-selector__header">
-            <div class="pf-c-dual-list-selector__title">
-                <div class="pf-c-dual-list-selector__title-text">@SelectedHeading</div>
+    <div class="pf-v5-c-dual-list-selector__pane pf-m-chosen">
+        <div class="pf-v5-c-dual-list-selector__header">
+            <div class="pf-v5-c-dual-list-selector__title">
+                <div class="pf-v5-c-dual-list-selector__title-text">@SelectedHeading</div>
             </div>
         </div>
-        <div class="pf-c-dual-list-selector__tools">
-            <div class="pf-c-dual-list-selector__tools-filter">
-                <div class="pf-c-search-input">
-                    <div class="pf-c-search-input__bar">
-                        <span class="pf-c-search-input__text">
-                            <span class="pf-c-search-input__icon">
+        <div class="pf-v5-c-dual-list-selector__tools">
+            <div class="pf-v5-c-dual-list-selector__tools-filter">
+                <div class="pf-v5-c-search-input">
+                    <div class="pf-v5-c-search-input__bar">
+                        <span class="pf-v5-c-search-input__text">
+                            <span class="pf-v5-c-search-input__icon">
                                 <Icon Name="@IconSearch" FixedWidth="true" Library="@IconLibrary" Weight="@IconWeight" />
                             </span>
-                            <input class="pf-c-search-input__text-input"
+                            <input class="pf-v5-c-search-input__text-input"
                                    type="text"
                                    placeholder="Filter options"
                                    aria-label="Filter options"
@@ -128,19 +128,19 @@
                     </div>
                 </div>
             </div>
-            <div class="pf-c-dual-list-selector__tools-actions">
-                <button class="pf-c-button pf-m-plain" type="button" aria-label="Sort" @onclick="() => { this.selectedAscending = !this.selectedAscending; this.StateHasChanged(); }">
+            <div class="pf-v5-c-dual-list-selector__tools-actions">
+                <button class="pf-v5-c-button pf-m-plain" type="button" aria-label="Sort" @onclick="() => { this.selectedAscending = !this.selectedAscending; this.StateHasChanged(); }">
                     <Icon Name="@(selectedAscending?IconSortDown:IconSortUp)" Weight="@IconWeight" Library="@IconLibrary"></Icon>
                 </button>
                 @SelectedAction
             </div>
         </div>
-        <div class="pf-c-dual-list-selector__status">
-            <span class="pf-c-dual-list-selector__status-text"
+        <div class="pf-v5-c-dual-list-selector__status">
+            <span class="pf-v5-c-dual-list-selector__status-text"
                   id="@controlId.With("chosen-item-selected-chosen-status-text")">@(SelectedItems.Where(r => r.IsHighlighted).Count()) of @(SelectedItems.Count()) items selected</span>
         </div>
-        <div class="pf-c-dual-list-selector__menu">
-            <ul class="pf-c-dual-list-selector__list"
+        <div class="pf-v5-c-dual-list-selector__menu">
+            <ul class="pf-v5-c-dual-list-selector__list"
                 role="listbox"
                 aria-labelledby="@controlId.With("chosen-item-selected-chosen-status-text")"
                 aria-multiselectable="true"
@@ -148,16 +148,16 @@
                 style="user-select:none">
                 @foreach (var item in SelectedItems)
                 {
-                    <li class="pf-c-dual-list-selector__list-item" role="option" @onclick="async (args) => await this.DeselectItem(args, item)">
-                        <div class="pf-c-dual-list-selector__list-item-row @(item.IsHighlighted?"pf-m-selected":"")">
-                            <span class="pf-c-dual-list-selector__item">
-                                <span class="pf-c-dual-list-selector__item-main">
-                                    <span class="pf-c-dual-list-selector__item-text">@item.Value</span>
+                    <li class="pf-v5-c-dual-list-selector__list-item" role="option" @onclick="async (args) => await this.DeselectItem(args, item)">
+                        <div class="pf-v5-c-dual-list-selector__list-item-row @(item.IsHighlighted?"pf-m-selected":"")">
+                            <span class="pf-v5-c-dual-list-selector__item">
+                                <span class="pf-v5-c-dual-list-selector__item-main">
+                                    <span class="pf-v5-c-dual-list-selector__item-text">@item.Value</span>
                                 </span>
                                 @if (item.HasCount)
                                 {
-                                    <span class="pf-c-dual-list-selector__item-count">
-                                        <span class="pf-c-badge pf-m-read">@item.Count</span>
+                                    <span class="pf-v5-c-dual-list-selector__item-count">
+                                        <span class="pf-v5-c-badge pf-m-read">@item.Count</span>
                                     </span>
                                 }
                             </span>
@@ -195,7 +195,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>() { "pf-c-dual-list-selector" };
+        var classes = new HashSet<string>() { "pf-v5-c-dual-list-selector" };
         return classes;
     }
 

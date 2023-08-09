@@ -9,7 +9,7 @@
     <ul class="@Classes" @attributes="AdditionalAttributes" role="list" aria-label="@AriaLabel">
         @foreach(var item in Items ?? Enumerable.Empty<TItemModel>())
         {
-            <li class="pf-c-data-list__item @(OnItemClicked.HasDelegate ? "pf-m-selectable" : string.Empty) @(item.Equals(selectedItem) ? "pf-m-selected" : string.Empty)" 
+            <li class="pf-v5-c-data-list__item @(OnItemClicked.HasDelegate ? "pf-m-selectable" : string.Empty) @(item.Equals(selectedItem) ? "pf-m-selected" : string.Empty)" 
                     aria-labelledby="@(ItemAriaLabel != null ? ItemAriaLabel(item) : String.Empty)" @onclick="@(() => OnItemSelected(item))" @key="item">
                 @if (ItemTemplate != null)
                 {
@@ -52,7 +52,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-data-list" });
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-data-list" });
 
         if (Compact)
             classes.Add("pf-m-compact");

@@ -1,9 +1,9 @@
 ﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
 
 <span class="@Classes" @attributes="AdditionalAttributes" role="progressbar" aria-label="Loading...">
-    <span class="pf-c-spinner__clipper"></span>
-    <span class="pf-c-spinner__lead-ball"></span>
-    <span class="pf-c-spinner__tail-ball"></span>
+    <span class="pf-v5-c-spinner__clipper"></span>
+    <span class="pf-v5-c-spinner__lead-ball"></span>
+    <span class="pf-v5-c-spinner__tail-ball"></span>
 </span>
 
 @code {
@@ -11,7 +11,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-spinner" });
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-spinner" });
 
         switch (Size)
         {

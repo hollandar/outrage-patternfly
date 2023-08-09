@@ -4,8 +4,8 @@
 
 <CascadingValue Name="Menu" Value="this">
     <div class="@Classes" @attributes="AdditionalAttributes">
-        <div @ref="menuContentReference" class="pf-c-menu__content">
-            <ul class="pf-c-menu__list">
+        <div @ref="menuContentReference" class="pf-v5-c-menu__content">
+            <ul class="pf-v5-c-menu__list">
                 @ChildContent
             </ul>
         </div>
@@ -68,7 +68,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-menu" });
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-menu" });
         if (!string.IsNullOrEmpty(Class))
             classes.Add(Class);
         if (Scrollable)
@@ -88,7 +88,7 @@
     public override Dictionary<string, object> DeriveAdditionalAttributes(Dictionary<string, object> additionalAttributes)
     {
         if (Scrollable && MaxHeightPx != null)
-            additionalAttributes["style"] = $"--pf-c-menu__content--MaxHeight: {MaxHeightPx}px;";
+            additionalAttributes["style"] = $"--pf-v5-c-menu__content--MaxHeight: {MaxHeightPx}px;";
 
         return base.DeriveAdditionalAttributes(additionalAttributes);
     }

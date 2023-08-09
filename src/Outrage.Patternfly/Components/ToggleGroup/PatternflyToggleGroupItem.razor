@@ -5,20 +5,20 @@
 @inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 
 <div class="@Classes" @attributes="AdditionalAttributes">
-    <button class="pf-c-toggle-group__button @(Selected ? "pf-m-selected" : string.Empty)" type="button" @onclick="ToggleClicked">
+    <button class="pf-v5-c-toggle-group__button @(Selected ? "pf-m-selected" : string.Empty)" type="button" @onclick="ToggleClicked">
         @if (Icon != null && IconPosition == IconPosition.Start)
         {
-            <span class="pf-c-toggle-group__icon">
+            <span class="pf-v5-c-toggle-group__icon">
                 <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" aria-hidden="true" />
             </span>            
         }
         @if (ChildContent != null)
         {
-            <span class="pf-c-toggle-group__text">@ChildContent</span>            
+            <span class="pf-v5-c-toggle-group__text">@ChildContent</span>            
         }
         @if (Icon != null && IconPosition == IconPosition.End)
         {
-            <span class="pf-c-toggle-group__icon">
+            <span class="pf-v5-c-toggle-group__icon">
                 <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" aria-hidden="true" />
             </span>            
         }
@@ -44,7 +44,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-toggle-group__item" });
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-toggle-group__item" });
         return classes;
     }
 

@@ -5,9 +5,9 @@
 <div class="@Classes" @attributes="AdditionalAttributes">
     <span id="@id.With("select-single-typeahead-expanded-label")" hidden>New</span>
 
-    <div class="pf-c-select__toggle pf-m-typeahead">
-        <div class="pf-c-select__toggle-wrapper">
-            <input class="pf-c-form-control pf-c-select__toggle-typeahead"
+    <div class="pf-v5-c-select__toggle pf-m-typeahead">
+        <div class="pf-v5-c-select__toggle-wrapper">
+            <input class="pf-v5-c-form-control pf-v5-c-select__toggle-typeahead"
                    type="text"
                    id="@id.With("select-single-typeahead-expanded-typeahead")"
                    aria-label="Type to filter"
@@ -17,7 +17,7 @@
         </div>
         @if (OnItemCreated.HasDelegate && !String.IsNullOrEmpty(this.Text))
         {
-            <button class="pf-c-button pf-m-plain pf-c-select__toggle-clear"
+            <button class="pf-v5-c-button pf-m-plain pf-v5-c-select__toggle-clear"
                     type="button"
                     aria-label="Clear all"
                 @onclick="CreateItem">
@@ -27,7 +27,7 @@
 
         @if (!String.IsNullOrEmpty(this.Text))
         {
-            <button class="pf-c-button pf-m-plain pf-c-select__toggle-clear"
+            <button class="pf-v5-c-button pf-m-plain pf-v5-c-select__toggle-clear"
                     type="button"
                     aria-label="Clear all"
                 @onclick="ClearSearch">
@@ -35,7 +35,7 @@
             </button>
         }
 
-        <button class="pf-c-button pf-m-plain pf-c-select__toggle-button"
+        <button class="pf-v5-c-button pf-m-plain pf-v5-c-select__toggle-button"
                 type="button"
                 id="@id.With("select-single-typeahead-expanded-toggle")"
                 aria-haspopup="true"
@@ -43,11 +43,11 @@
                 aria-labelledby="@id.With("select-single-typeahead-expanded-label") @id.With("select-single-typeahead-expanded-toggle")"
                 aria-label="Select"
                 @onclick="ToggleExpanded">
-            <Icon Name="@IconCaret" class="pf-c-select__toggle-arrow" Size="@IconSize" Weight="@IconWeight" Library="@IconLibrary" />
+            <Icon Name="@IconCaret" class="pf-v5-c-select__toggle-arrow" Size="@IconSize" Weight="@IconWeight" Library="@IconLibrary" />
         </button>
     </div>
 
-    <ul class="pf-c-select__menu"
+    <ul class="pf-v5-c-select__menu"
         aria-labelledby="@id.With("select-single-typeahead-expanded-label")"
         role="listbox"
         hidden="@(!Expanded)">
@@ -73,12 +73,12 @@
                 }
 
                 <li role="presentation" @key="item">
-                    <button type="button" class="pf-c-select__menu-item" role="option" @onclick="() => SelectItem(item!)">
-                        <mark class="pf-c-select__menu-item--match">@mark</mark>@notmark
+                    <button type="button" class="pf-v5-c-select__menu-item" role="option" @onclick="() => SelectItem(item!)">
+                        <mark class="pf-v5-c-select__menu-item--match">@mark</mark>@notmark
 
                         @if (item?.Selected ?? false)
                         {
-                            <span class="pf-c-select__menu-item-icon">
+                            <span class="pf-v5-c-select__menu-item-icon">
                                 <Icon Name="@IconCheck" Size="@IconSize" Weight="@IconWeight" Library="@IconLibrary" />
                             </span>
                         }
@@ -142,7 +142,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-select" });
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-select" });
         if (Expanded)
         {
             classes.Add("pf-m-expanded");

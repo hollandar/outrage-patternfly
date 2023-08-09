@@ -3,18 +3,18 @@
 <div class="@Classes" @attributes="AdditionalAttributes">
     @if (Header != null)
     {
-        <div class="pf-c-panel__header">@Header</div>
-        <hr class="pf-c-divider" />
+        <div class="pf-v5-c-panel__header">@Header</div>
+        <hr class="pf-v5-c-divider" />
     }
-    <div class="pf-c-panel__main">
-        <div class="pf-c-panel__main-body">
+    <div class="pf-v5-c-panel__main">
+        <div class="pf-v5-c-panel__main-body">
             @Body
         </div>
     </div>
     @if (Footer != null)
     {
-        <hr class="pf-c-divider" />
-        <div class="pf-c-panel__footer">
+        <hr class="pf-v5-c-divider" />
+        <div class="pf-v5-c-panel__footer">
             @Footer
         </div>
     }
@@ -45,7 +45,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-panel" });
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-panel" });
         if (Raised)
             classes.Add("pf-m-raised");
         if (Bordered)
@@ -59,7 +59,7 @@
     public override Dictionary<string, object> DeriveAdditionalAttributes(Dictionary<string, object> additionalAttributes)
     {
         if (Scrollable && MaxHeightPx != null)
-            additionalAttributes["Style"] = $"--pf-c-panel__main--MaxHeight: {MaxHeightPx}px;";
+            additionalAttributes["Style"] = $"--pf-v5-c-panel__main--MaxHeight: {MaxHeightPx}px;";
 
         return base.DeriveAdditionalAttributes(additionalAttributes);
     }

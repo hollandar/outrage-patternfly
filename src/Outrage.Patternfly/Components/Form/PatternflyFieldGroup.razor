@@ -5,30 +5,30 @@
     <div class="@Classes" @attributes="AdditionalAttributes">
         @if (Label != null || Help != null)
         {
-            <div class="pf-c-form__group-label">
+            <div class="pf-v5-c-form__group-label">
                 @if (Label != null)
                 {
-                    <label class="pf-c-form__label" for="@formGroupId.With(this.Name)">
-                        <span class="pf-c-form__label-text">@Label</span>
+                    <label class="pf-v5-c-form__label" for="@formGroupId.With(this.Name)">
+                        <span class="pf-v5-c-form__label-text">@Label</span>
                         @if (IsRequired)
                         {
-                            <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+                            <span class="pf-v5-c-form__label-required" aria-hidden="true">&#42;</span>
                         }
                     </label>
                 }
                 @if (Help != null)
                 {
-                    <button type="button" class="pf-c-form__group-label-help" aria-label="More info" @onclick="ToggleHelp">
+                    <button type="button" class="pf-v5-c-form__group-label-help" aria-label="More info" @onclick="ToggleHelp">
                         <Icon Name="@IconHelp" Library="@IconLibrary" Weight="@IconWeight" />
                     </button>
                 }
             </div>
         }
-        <div class="pf-c-form__group-control @(Stack? "pf-m-stack":"")">
+        <div class="pf-v5-c-form__group-control @(Stack? "pf-m-stack":"")">
             @Editors
             @if (Help != null && showHelp)
             {
-                <p class="pf-c-form__helper-text" id="@formGroupId.With("helptext")" aria-live="polite">@Help</p>
+                <p class="pf-v5-c-form__helper-text" id="@formGroupId.With("helptext")" aria-live="polite">@Help</p>
             }
         </div>
     </div>
@@ -69,6 +69,6 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        return new string[] { "pf-c-form__group" };
+        return new string[] { "pf-v5-c-form__group" };
     }
 }

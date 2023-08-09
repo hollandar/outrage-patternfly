@@ -3,43 +3,45 @@
 @inject NavigationManager Nav
 
 <div class="@Classes" @attributes="AdditionalAttributes">
-    <header class="pf-c-page__header" role="banner">
-        <div class="pf-c-page__header-brand">
-            @if (Toggle != null)
-            {
-                <div class="pf-c-page__header-brand-toggle">
-                    <button class="pf-c-button pf-c-plain" type="button" aria-expanded="false" aria-disabled="false" aria-label="Global navigation" @onclick="ToggleSidebar">@Toggle</button>
-                </div>
-            }
-            @if (Logo != null)
-            {
-                <a href="#" @onclick="NavigateHome" class="pf-c-page__header-brand-link">
+    <header class="pf-v5-c-masthead">
+        @if (Toggle != null)
+        {
+            <span class="pf-v5-c-masthead__toggle">
+                <button class="pf-v5-c-button pf-m-plain" type="button" aria-expanded="false" aria-disabled="false" aria-label="Global navigation" @onclick="ToggleSidebar">@Toggle</button>
+            </span>
+        }
+        @if (Logo != null)
+        {
+            <div class="pf-v5-c-masthead__main">
+                <a href="#" @onclick="NavigateHome" class="pf-v5-c-masthead__brand">
                     @Logo
                 </a>
-            }
-        </div>
-        @if (Header != null)
-        {
-            <div class="pf-c-page__header-nav">@Header</div>
-        }
-        @if (Tools != null)
-        {
-            <div class="pf-c-page__header-tools">
-                @Tools
             </div>
         }
+        <div class="pf-v5-c-masthead__content">
+            @if (Header != null)
+            {
+                @Header
+            }
+            @if (Tools != null)
+            {
+                <div class="pf-v5-c-page__header-tools">
+                    @Tools
+                </div>
+            }
+        </div>
     </header>
     @if (Sidebar != null)
     {
-        <div id="@controlsId" class="pf-c-page__sidebar @(sidebar?"pf-m-expanded":"pf-m-collapsed")" aria-expanded="@sidebar">
-            <div class="pf-c-page__sidebar-body">@Sidebar</div>
+        <div id="@controlsId" class="pf-v5-c-page__sidebar @(sidebar?"pf-m-expanded":"pf-m-collapsed")" aria-expanded="@sidebar">
+            <div class="pf-v5-c-page__sidebar-body">@Sidebar</div>
         </div>
     }
 
     @RenderPageTarget()
 
     <CascadingValue Name="PatternflyParentPage" Value="this.onPageTarget">
-        <main class="pf-c-page__main" tabindex="-1" role="main">
+        <main class="pf-v5-c-page__main" tabindex="-1" role="main">
             @if (Sections != null)
             {
                 @Sections
@@ -93,7 +95,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        return new string[] { "pf-c-page" };
+        return new string[] { "pf-v5-c-page" };
     }
 
     protected virtual void NavigateHome()
@@ -101,9 +103,9 @@
         this.Nav.NavigateTo(LogoLinkUrl);
     }
 
-    
 
-    
 
-    
+
+
+
 }

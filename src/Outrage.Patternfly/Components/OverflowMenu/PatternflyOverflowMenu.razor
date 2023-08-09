@@ -2,13 +2,13 @@
 <div class="@Classes" @attributes="AdditionalAttributes">
     @if (Control != null)
     {
-        <div class="pf-c-overflow-menu__control">
+        <div class="pf-v5-c-overflow-menu__control">
             @Control
         </div>
     }
     else if (Content != null)
     {
-        <div class="pf-c-overflow-menu__content">
+        <div class="pf-v5-c-overflow-menu__content">
             @Content
         </div>
     }
@@ -19,7 +19,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new List<string> { "pf-c-overflow-menu" };
+        var classes = new List<string> { "pf-v5-c-overflow-menu" };
         return classes;
 
     }

@@ -5,7 +5,7 @@
         aria-label="Actions"
         @onclick="OnClicked" 
         @onclick:stopPropagation>
-    <span class="pf-c-menu__item-action-icon">
+    <span class="pf-v5-c-menu__item-action-icon">
         <Icon Name="@Icon" Weight="@IconWeight" Size="@IconSize" Library="@IconLibrary" />
     </span>
 </button>
@@ -28,7 +28,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        return new string[] { "pf-c-menu__item-action" };
+        return new string[] { "pf-v5-c-menu__item-action" };
     }
 
     protected async Task OnClicked(MouseEventArgs args)

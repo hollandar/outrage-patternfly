@@ -1,6 +1,10 @@
 ﻿@using System.Diagnostics.CodeAnalysis
 @inherits InputBase<TimeSpan>
-<input @attributes="@AdditionalAttributes" @bind-value="CurrentValueAsString" @bind-value:event="@(BindEvent)" />
+
+<span class="pf-v5-c-form-control">
+    <input @attributes="@AdditionalAttributes" @bind-value="CurrentValueAsString" @bind-value:event="@(BindEvent)" />
+</span>
+
 @code {
     [CascadingParameter(Name = "FieldName")]
     public string? FieldName { get; set; }
@@ -12,7 +16,7 @@
 
     protected override void OnParametersSet()
     {
-        this.AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "pf-c-form-control", this.FieldName, (a) =>
+        this.AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "", this.FieldName, (a) =>
         {
             a["type"] = "text";
         }

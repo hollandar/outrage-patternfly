@@ -2,7 +2,7 @@
 
 <div class="@Classes" @attributes="AdditionalAttributes">
   <input
-    class="pf-c-check__input"
+    class="pf-v5-c-check__input"
     type="checkbox"
     id="@checkboxId"
     name="@(Name ?? checkboxId.ToString())"
@@ -11,7 +11,7 @@
     disabled="@Disabled"
   />
 
-  <label class="pf-c-check__label" for="@checkboxId">@Label</label>
+  <label class="pf-v5-c-check__label" for="@checkboxId">@Label</label>
 </div>
 
 @code {
@@ -42,7 +42,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] {"pf-c-check" });
+        var classes = new HashSet<string>(new string[] {"pf-v5-c-check" });
 
         return classes;
     }

@@ -5,7 +5,7 @@
     role="treeitem"
     aria-expanded="@Expanded"
     tabindex="0">
-    <div class="pf-c-tree-view__content @dropClass"
+    <div class="pf-v5-c-tree-view__content @dropClass"
          draggable="@(OnDragStart.HasDelegate?"true": "false")"
          @ondragstart="DragStart"
          ondragover="event.preventDefault();"
@@ -13,12 +13,12 @@
          @ondragleave="DragLeave"
          @ondrop="Drop">
 
-        <button class="pf-c-tree-view__node" @onclick="ToggleExpanded">
-            <div class="pf-c-tree-view__node-container">
+        <button class="pf-v5-c-tree-view__node" @onclick="ToggleExpanded">
+            <div class="pf-v5-c-tree-view__node-container">
                 @if (Children != null)
                 {
-                    <div class="pf-c-tree-view__node-toggle">
-                        <span class="pf-c-tree-view__node-toggle-icon">
+                    <div class="pf-v5-c-tree-view__node-toggle">
+                        <span class="pf-v5-c-tree-view__node-toggle-icon">
                             @if (Expanded)
                             {
                                 <Icon Name="angle-down" />
@@ -30,7 +30,7 @@
                         </span>
                     </div>
                 }
-                <span class="pf-c-tree-view__node-icon">
+                <span class="pf-v5-c-tree-view__node-icon">
                     @if (Expanded)
                     {
                         <Icon Name="@IconOpen" />
@@ -40,21 +40,21 @@
                         <Icon Name="@Icon" />
                     }
                 </span>
-                <span class="pf-c-tree-view__node-text">
+                <span class="pf-v5-c-tree-view__node-text">
                     @Text
                 </span>
             </div>
         </button>
         @if (Action != null)
         {
-            <div class="pf-c-tree-view__action">
+            <div class="pf-v5-c-tree-view__action">
                 @Action
             </div>
         }
     </div>
     @if (Children != null && Expanded)
     {
-        <ul class="pf-c-tree-view__list" role="group">
+        <ul class="pf-v5-c-tree-view__list" role="group">
             @Children
         </ul>
     }
@@ -79,7 +79,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-tree-view__list-item" });
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-tree-view__list-item" });
         if (Expanded)
             classes.Add("pf-m-expanded");
 

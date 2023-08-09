@@ -11,9 +11,9 @@ public class PatternflyEditForm : EditForm
     protected override void OnParametersSet()
     {
         if (Horizontal)
-            this.AdditionalAttributes = FormHelpers.PatternflyAugment(this.AdditionalAttributes, "pf-c-form pf-m-horizontal");
+            this.AdditionalAttributes = FormHelpers.PatternflyAugment(this.AdditionalAttributes, "pf-v5-c-form pf-m-horizontal");
         else
-            this.AdditionalAttributes = FormHelpers.PatternflyAugment(this.AdditionalAttributes, "pf-c-form");
+            this.AdditionalAttributes = FormHelpers.PatternflyAugment(this.AdditionalAttributes, "pf-v5-c-form");
 
         base.OnParametersSet();
     }

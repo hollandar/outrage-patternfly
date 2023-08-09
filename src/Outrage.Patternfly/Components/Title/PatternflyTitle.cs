@@ -29,7 +29,7 @@ namespace Outrage.Patternfly.Components.Title
 
         protected override IEnumerable<string> OnIntroduceClasses()
         {
-            var classes = new HashSet<string>(new string[] { "pf-c-title" });
+            var classes = new HashSet<string>(new string[] { "pf-v5-c-title" });
             classes.Add(Size switch
             {
                 TitleSize.xl4 => "pf-m-4xl",

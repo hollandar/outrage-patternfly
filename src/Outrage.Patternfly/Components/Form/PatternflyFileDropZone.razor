@@ -1,26 +1,26 @@
 ﻿@using Outrage.Patternfly.Components.Utilities
 
 <InputFileDropZone @ref="inputFileDropZone" OnChange="RaiseChange">
-    <div class="pf-c-multiple-file-upload">
-        <div class="pf-c-multiple-file-upload__main">
-            <div class="pf-c-multiple-file-upload__title">
-                <div class="pf-c-multiple-file-upload__title-icon">
+    <div class="pf-v5-c-multiple-file-upload">
+        <div class="pf-v5-c-multiple-file-upload__main">
+            <div class="pf-v5-c-multiple-file-upload__title">
+                <div class="pf-v5-c-multiple-file-upload__title-icon">
                     <Icon Name="upload" />
                 </div>
-                <div class="pf-c-multiple-file-upload__title-text">
+                <div class="pf-v5-c-multiple-file-upload__title-text">
                     @if (Title != null)
                     {
                         @Title
                     } else {
                         <div>Drag and drop files here</div>
-                        <div class="pf-c-multiple-file-upload__title-text-separator">or</div>
+                        <div class="pf-v5-c-multiple-file-upload__title-text-separator">or</div>
                     }
                 </div>
             </div>
-            <div class="pf-c-multiple-file-upload__upload">
-                <button class="pf-c-button pf-m-secondary" type="button" @onclick="Browse">Upload</button>
+            <div class="pf-v5-c-multiple-file-upload__upload">
+                <button class="pf-v5-c-button pf-m-secondary" type="button" @onclick="Browse">Upload</button>
             </div>
-            <div class="pf-c-multiple-file-upload__info">
+            <div class="pf-v5-c-multiple-file-upload__info">
                 Accepted file types: @AllowedTypes
             </div>
         </div>

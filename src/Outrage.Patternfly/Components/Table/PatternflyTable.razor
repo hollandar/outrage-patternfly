@@ -16,19 +16,19 @@
     <table class="@Classes" @attributes="AdditionalAttributes" role="grid" aria-label="@(Label ?? "")">
         @if (this.Columns != null)
         {
-            <thead>
-                <tr role="row">
+            <thead class="pf-v5-c-table__thead">
+                <tr class="pf-v5-c-table__tr" role="row">
                     @this.Columns
                 </tr>
             </thead>
         }
 
-        <tbody role="rowgroup">
+        <tbody class="pf-v5-c-table__tbody" role="rowgroup">
             @foreach (var row in WrappedItems ?? Enumerable.Empty<DataItemWrapperModel<TItem>>())
             {
                 if (OnRowClicked.HasDelegate)
                 {
-                    <tr @key="@(RowId != null ? RowId(row.Item) : row)" @attributes="GetRowAttributes(row)"
+                    <tr class="pf-v5-c-table__tr" @key="@(RowId != null ? RowId(row.Item) : row)" @attributes="GetRowAttributes(row)"
                             @onclick="@(async (MouseEventArgs e) => await RowClicked(e, row))">
                         @if (RowTemplate != null)
                         {
@@ -36,13 +36,13 @@
                         }
                         else
                         {
-                            <td>RowTemplate is required</td>
+                            <td class ="pf-v5-c-table__td">RowTemplate is required</td>
                         }
                     </tr>
                 }
                 else
                 {
-                    <tr @key="@(RowId != null ? RowId(row.Item) : row)" @attributes="GetRowAttributes(row)">
+                    <tr class="pf-v5-c-table__tr" @key="@(RowId != null ? RowId(row.Item) : row)" @attributes="GetRowAttributes(row)">
                         @if (RowTemplate != null)
                         {
                             @RowTemplate(row.Item)
@@ -137,7 +137,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-table" });
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-table" });
         switch (Fallback)
         {
             case TableFallbackPoint.Custom: classes.Add("pf-m-grid"); break;

@@ -15,7 +15,7 @@ PatternflyMenu.resizeMenuContent = function (element) {
     }
 
     // Discover top level menu list padding
-    let menuList = element.querySelector(".pf-c-menu__list");
+    let menuList = element.querySelector(".pf-v5-c-menu__list");
     let computedStyle = window.getComputedStyle(menuList, null);
     let paddingTop = parseInt(computedStyle.getPropertyValue("padding-top"), 10);
     let paddingBottom = parseInt(computedStyle.getPropertyValue("padding-bottom"), 10);
@@ -23,10 +23,10 @@ PatternflyMenu.resizeMenuContent = function (element) {
 
     // Adjust the height based on current path
     var currentPath = currentPaths.item(currentPaths.length - 1);
-    let menu = currentPath.querySelector(".pf-c-menu");
+    let menu = currentPath.querySelector(".pf-v5-c-menu");
     if (menu) {
         let height = menu.offsetHeight;
-        element.setAttribute("style", "--pf-c-menu__content--Height:" + (height + heightExtension) + "px;");
+        element.setAttribute("style", "--pf-v5-c-menu__content--Height:" + (height + heightExtension) + "px;");
     }
 
 }

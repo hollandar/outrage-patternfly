@@ -1,7 +1,7 @@
 ﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 
 <div class="@Classes" @attributes="AdditionalAttributes">
-  <ul class="pf-c-tree-view__list" role="tree">
+  <ul class="pf-v5-c-tree-view__list" role="tree">
     @ChildContent
   </ul>
 </div>
@@ -11,7 +11,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-tree-view"});
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-tree-view"});
         return classes;
     }
 }

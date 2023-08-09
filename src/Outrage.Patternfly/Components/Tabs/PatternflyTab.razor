@@ -7,14 +7,14 @@
 @implements ITab
 
 <li class="@(Classes) @(tabCssClass)" id="@(TabId)_tab" @attributes="AdditionalAttributes">
-    <button class="pf-c-tabs__link" type="button" disabled="@(Disabled)" title="@(Title)" @onclick="ActivateTab">
+    <button class="pf-v5-c-tabs__link" type="button" disabled="@(Disabled)" title="@(Title)" @onclick="ActivateTab">
         @if (!string.IsNullOrEmpty(Icon))
         {
-            <span class="pf-c-tabs__item-icon" aria-hidden="true">
+            <span class="pf-v5-c-tabs__item-icon" aria-hidden="true">
               <Icon Name="@(Icon)" Weight="@IconWeight" Library="@IconLibrary" />
             </span>
         }
-        <span class="pf-c-tabs__item-text @(TitleCssClass)">@(Title)</span>
+        <span class="pf-v5-c-tabs__item-text @(TitleCssClass)">@(Title)</span>
     </button>
 </li>
 
@@ -52,6 +52,6 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        return new string[] { "pf-c-tabs__item" };
+        return new string[] { "pf-v5-c-tabs__item" };
     }
 }

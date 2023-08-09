@@ -1,4 +1,5 @@
-﻿@import "../node_modules/@patternfly/patternfly/sass-utilities/all";
+﻿$pf-v5-global--enable-fontawesome-cdn: true !default;
+@import "../node_modules/@patternfly/patternfly/sass-utilities/all";
 @import "./blazor";
 @import "../node_modules/@patternfly/patternfly/base/variables";
 @import "../node_modules/@patternfly/patternfly/base/fonts";
@@ -9,7 +10,7 @@
 @import "../node_modules/@patternfly/patternfly/components/all";
 
 // Additional items
-.pf-c-modal-box.pf-m-full {
+.pf-v5-c-modal-box.pf-m-full {
     width: 80vw;
 }
 

@@ -1,5 +1,7 @@
 ﻿@inherits InputTextArea
-<textarea @attributes="@AdditionalAttributes" @bind-value="CurrentValueAsString" @bind-value:event="@(BindEvent)" />
+<span class="pf-v5-c-form-control">
+    <textarea @attributes="@AdditionalAttributes" @bind-value="CurrentValueAsString" @bind-value:event="@(BindEvent)" />
+</span>
 @code {
     [CascadingParameter(Name = "FieldName")]
     public string? FieldName { get; set; }
@@ -11,7 +13,7 @@
 
     protected override void OnParametersSet()
     {
-        this.AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "pf-c-form-control", this.FieldName) ?? null;
+        this.AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "", this.FieldName) ?? null;
         base.OnParametersSet();
     }
 }

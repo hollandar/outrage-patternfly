@@ -2,20 +2,20 @@
 @using Outrage.Patternfly.Components.Utilities
 
 <li class="@Classes" @attributes="AdditionalAttributes">
-    <button class="pf-c-nav__link"
+    <button class="pf-v5-c-nav__link"
             id="@controlsId"
             aria-expanded="@Expanded"
             @onclick="ToggleExpanded">
         @if (Icon != null)
         {
-            <span><Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" FixedWidth="true" class="pf-u-mr-sm" aria-hidden="true" /></span>
+            <span><Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" FixedWidth="true" class="pf-v5-u-mr-sm" aria-hidden="true" /></span>
         }
         @if (Text != null)
         {
             <span>@Text</span>
         }
-        <span class="pf-c-nav__toggle">
-            <span class="pf-c-nav__toggle-icon">
+        <span class="pf-v5-c-nav__toggle">
+            <span class="pf-v5-c-nav__toggle-icon">
                 @if (Expanded)
                 {
                     <span><Icon Name="@IconExpanded" Library="@IconLibrary" Weight="@IconWeight" FixedWidth="true" aria-hidden="true"/></span>
@@ -26,10 +26,10 @@
             </span>
         </span>
     </button>
-    <section class="pf-c-nav__subnav"
+    <section class="pf-v5-c-nav__subnav"
              aria-labelledby="@controlsId"
              hidden="@(!Expanded)">
-        <ul class="pf-c-nav__list">
+        <ul class="pf-v5-c-nav__list">
             @ChildContent
         </ul>
     </section>
@@ -65,7 +65,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-nav__item", "pf-m-expandable" });
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-nav__item", "pf-m-expandable" });
         if (this.Expanded)
             classes.Add("pf-m-expanded");
 

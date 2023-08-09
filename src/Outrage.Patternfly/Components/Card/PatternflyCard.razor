@@ -3,10 +3,10 @@
 <div class="@Classes" @attributes="AdditionalAttributes" @onclick="async(args) => await OnClick(args)">
     @if (Header != null || Actions != null)
     {
-        <div class="pf-c-card__header">
+        <div class="pf-v5-c-card__header">
             @if (Header != null)
             {
-                <div class="pf-c-card__header-main">
+                <div class="pf-v5-c-card__header-main">
                     @Header
                 </div>
             }
@@ -14,10 +14,10 @@
             {
                 if (Header == null && Title != null)
                 {
-                    <div class="pf-c-card__title">@Title</div>
+                    <div class="pf-v5-c-card__title">@Title</div>
                 }
 
-                <div class="pf-c-card__actions @(ActionsNoOffset ? "pf-m-no-offset" : string.Empty)">
+                <div class="pf-v5-c-card__actions @(ActionsNoOffset ? "pf-m-no-offset" : string.Empty)">
                     @Actions
                 </div>
             }
@@ -25,16 +25,16 @@
     }
     else
     {
-        <div class="pf-c-card__title">@Title</div>
+        <div class="pf-v5-c-card__title">@Title</div>
     }
 
-    <div class="pf-c-card__body">
+    <div class="pf-v5-c-card__body">
         @Body
     </div>
     
     @if (Footer != null)
     {
-        <div class="pf-c-card__footer">
+        <div class="pf-v5-c-card__footer">
             @Footer
         </div>
     }
@@ -76,7 +76,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-card" });
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-card" });
 
         if (Compact)
         {

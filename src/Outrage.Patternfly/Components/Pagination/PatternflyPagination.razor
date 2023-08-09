@@ -8,39 +8,39 @@
 <div class="@Classes" @attributes="AdditionalAttributes">
     @if (Position == PaginationPosition.Top)
     {
-        <div class="pf-c-pagination__total-items">
+        <div class="pf-v5-c-pagination__total-items">
             <b>@FirstRecord - @LastRecord</b>&nbsp;of&nbsp;
             <b>@TotalRecords.ToString("N0")</b>
         </div>
     }
-    <div class="pf-c-options-menu @(Position == PaginationPosition.Bottom ? "pf-m-top" : string.Empty)">
-        <div class="pf-c-options-menu__toggle pf-m-text pf-m-plain">
-            <span class="pf-c-options-menu__toggle-text">
+    <div class="pf-v5-c-options-menu @(Position == PaginationPosition.Bottom ? "pf-m-top" : string.Empty)">
+        <div class="pf-v5-c-options-menu__toggle pf-m-text pf-m-plain">
+            <span class="pf-v5-c-options-menu__toggle-text">
                 <b>@FirstRecord - @LastRecord</b>&nbsp;of&nbsp;
                 <b>@TotalRecords.ToString("N0")</b>
             </span>
-            <button class="pf-c-options-menu__toggle-button"
+            <button class="pf-v5-c-options-menu__toggle-button"
                     id="pagination-options-toggle-@(componentId)"
                     aria-haspopup="listbox"
                     aria-expanded="false"
                     aria-label="Items per page" @onclick="@(() => showPageSizeSelector = !showPageSizeSelector)">
-                <span class="pf-c-options-menu__toggle-button-icon">
+                <span class="pf-v5-c-options-menu__toggle-button-icon">
                     <Icon Name="caret-down" aria-hidden="true" />
                 </span>
             </button>
         </div>
-        <ul class="pf-c-options-menu__menu @(Position == PaginationPosition.Bottom ? "pf-m-top" : string.Empty)"
+        <ul class="pf-v5-c-options-menu__menu @(Position == PaginationPosition.Bottom ? "pf-m-top" : string.Empty)"
             aria-labelledby="pagination-options-toggle-@(componentId)"
             hidden="@(!showPageSizeSelector)">
             @for (int i = 5; i < 20; i += 5)
             {
                 var pageSize = i;
                 <li>
-                    <button class="pf-c-options-menu__menu-item" type="button" @onclick="@(async () => await SelectPageSize(pageSize))">
+                    <button class="pf-v5-c-options-menu__menu-item" type="button" @onclick="@(async () => await SelectPageSize(pageSize))">
                         @(pageSize) per page
                         @if (PageSize == pageSize)
                         {
-                            <div class="pf-c-options-menu__menu-item-icon">
+                            <div class="pf-v5-c-options-menu__menu-item-icon">
                                 <Icon Name="check" aria-hidden="true" />
                             </div>
                         }
@@ -51,11 +51,11 @@
             {
                 var pageSize = i;
                 <li>
-                    <button class="pf-c-options-menu__menu-item" type="button" @onclick="@(async () => await SelectPageSize(pageSize))">
+                    <button class="pf-v5-c-options-menu__menu-item" type="button" @onclick="@(async () => await SelectPageSize(pageSize))">
                         @(pageSize) per page
                         @if (PageSize == pageSize)
                         {
-                            <div class="pf-c-options-menu__menu-item-icon">
+                            <div class="pf-v5-c-options-menu__menu-item-icon">
                                 <Icon Name="check" aria-hidden="true" />
                             </div>
                         }
@@ -66,11 +66,11 @@
             {
                 var pageSize = i;
                 <li>
-                    <button class="pf-c-options-menu__menu-item" type="button" @onclick="@(async () => await SelectPageSize(pageSize))">
+                    <button class="pf-v5-c-options-menu__menu-item" type="button" @onclick="@(async () => await SelectPageSize(pageSize))">
                         @(pageSize) per page
                         @if (PageSize == pageSize)
                         {
-                            <div class="pf-c-options-menu__menu-item-icon">
+                            <div class="pf-v5-c-options-menu__menu-item-icon">
                                 <Icon Name="check" aria-hidden="true" />
                             </div>
                         }
@@ -79,11 +79,11 @@
             }
         </ul>
     </div>
-    <nav class="pf-c-pagination__nav" aria-label="Pagination">
+    <nav class="pf-v5-c-pagination__nav" aria-label="Pagination">
         @if (!Compact)
         {
-            <div class="pf-c-pagination__nav-control pf-m-first">
-                <button class="pf-c-button pf-m-plain"
+            <div class="pf-v5-c-pagination__nav-control pf-m-first">
+                <button class="pf-v5-c-button pf-m-plain"
                     type="button"
                     aria-label="Go to first page"
                     @onclick="@(async () => await SelectPage(0))"
@@ -92,8 +92,8 @@
                 </button>
             </div>
         }
-        <div class="pf-c-pagination__nav-control pf-m-prev">
-            <button class="pf-c-button pf-m-plain"
+        <div class="pf-v5-c-pagination__nav-control pf-m-prev">
+            <button class="pf-v5-c-button pf-m-plain"
                     type="button"
                     aria-label="Go to previous page"
                     @onclick="@(async () => await SelectPage(Page - 1))"
@@ -104,8 +104,8 @@
         @if (!Compact)
         {
             <form @onsubmit="@(async () => await SelectPage(selectedPage - 1))">
-                <div class="pf-c-pagination__nav-page-select">
-                    <input class="pf-c-form-control"
+                <div class="pf-v5-c-pagination__nav-page-select">
+                    <input class="pf-v5-c-form-control"
                        aria-label="Current page"
                        type="number"
                        min="1"
@@ -114,8 +114,8 @@
                 </div>
             </form>
         }
-        <div class="pf-c-pagination__nav-control pf-m-next">
-            <button class="pf-c-button pf-m-plain"
+        <div class="pf-v5-c-pagination__nav-control pf-m-next">
+            <button class="pf-v5-c-button pf-m-plain"
                     type="button"
                     aria-label="Go to next page"
                     @onclick="@(async () => await SelectPage(Page + 1))"
@@ -125,8 +125,8 @@
         </div>
         @if (!Compact)
         {
-            <div class="pf-c-pagination__nav-control pf-m-last">
-                <button class="pf-c-button pf-m-plain"
+            <div class="pf-v5-c-pagination__nav-control pf-m-last">
+                <button class="pf-v5-c-button pf-m-plain"
                     type="button"
                     aria-label="Go to last page"
                     @onclick="@(async () => await SelectPage(pageCount - 1))"
@@ -193,7 +193,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        List<string> classes = new List<string>(new string[] { "pf-c-pagination" });
+        List<string> classes = new List<string>(new string[] { "pf-v5-c-pagination" });
         if (!string.IsNullOrEmpty(Class))
             classes.Add(Class);
 

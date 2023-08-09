@@ -5,27 +5,27 @@
 @inject IJSRuntime JS
 @implements IDisposable
 
-<ul class="pf-c-select__menu"
+<ul class="pf-v5-c-select__menu"
     role="listbox"
     aria-labelledby="select-single-expanded-label">
     @if (Search)
     {
         var id = new HtmlId();
         <li role="presentation">
-            <div class="pf-c-input-group">
+            <div class="pf-v5-c-input-group">
                 <input id="@searchId"
                         type="text"
-                        class="pf-c-form-control"
+                        class="pf-v5-c-form-control"
                         aria-label="Search"
                         aria-describedby="@id"
                         placeholder="Search..." />
-                <button class="pf-c-button pf-m-control"
+                <button class="pf-v5-c-button pf-m-control"
                         type="button"
                         id="@id"
                         @onclick="@SearchItems">
                     <Icon Name="search"></Icon>
                 </button>
-                <button class="pf-c-button pf-m-control"
+                <button class="pf-v5-c-button pf-m-control"
                         type="button"
                 @onclick="@ClearSearch">
                     <Icon Name="times"></Icon>
@@ -38,7 +38,7 @@
         var selected = this.Parent.Value.Count == 0;
         <li role="presentation">
             <button type="button"
-                    class="pf-c-select__menu-item @(selected?"pf-m-selected":"")"
+                    class="pf-v5-c-select__menu-item @(selected?"pf-m-selected":"")"
                     role="option"
                     aria-selected="@selected"
             @onclick="(args) => NullClickedAsync(args)">
@@ -47,7 +47,7 @@
 
                 @if (selected)
                 {
-                    <span class="pf-c-select__menu-item-icon">
+                    <span class="pf-v5-c-select__menu-item-icon">
                         <i class="fas fa-check" aria-hidden="true"></i>
                     </span>
                 }
@@ -62,7 +62,7 @@
             var selected = this.Parent.IsKeySelected(ToKey!(item));
             <li role="presentation">
                 <button type="button"
-                        class="pf-c-select__menu-item @(selected?"pf-m-selected":"")"
+                        class="pf-v5-c-select__menu-item @(selected?"pf-m-selected":"")"
                         role="option"
                         aria-selected="@selected"
                 @onclick="(args) => ValueClickedAsync(args, item)">
@@ -77,7 +77,7 @@
 
                     @if (selected)
                     {
-                        <span class="pf-c-select__menu-item-icon">
+                        <span class="pf-v5-c-select__menu-item-icon">
                             <i class="fas fa-check" aria-hidden="true"></i>
                         </span>
                     }

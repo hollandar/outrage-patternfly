@@ -19,18 +19,18 @@ namespace Outrage.Patternfly.Components.Form
 
         protected override void OnParametersSet()
         {
-            AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "pf-c-check__input", this.FieldName);
+            AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "pf-v5-c-check__input", this.FieldName);
             base.OnParametersSet();
         }
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             builder.OpenElement(901, "div");
-            builder.AddAttribute(902, "class", "pf-c-check");
+            builder.AddAttribute(902, "class", "pf-v5-c-check");
             base.BuildRenderTree(builder);
             if (!String.IsNullOrEmpty(Label))
             {
                 builder.OpenElement(903, "label");
-                builder.AddAttribute(904, "class", "pf-c-check__label");
+                builder.AddAttribute(904, "class", "pf-v5-c-check__label");
                 builder.AddAttribute(905, "for", this.FieldName);
                 builder.AddContent(906, this.Label);
                 builder.CloseElement();

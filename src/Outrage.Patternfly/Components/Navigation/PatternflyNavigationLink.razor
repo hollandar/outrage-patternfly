@@ -6,7 +6,7 @@
     <NavLink class="@Classes" ActiveClass="pf-m-current" Match="@Match" href="@(mergedHref)" @attributes="AdditionalAttributes">
         @if (Icon != null)
         {
-            <span><Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" FixedWidth="true" class="pf-u-mr-sm" aria-hidden="true" /></span>
+            <span><Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" FixedWidth="true" class="pf-v5-u-mr-sm" aria-hidden="true" /></span>
         }
         @if (Text != null)
         {
@@ -32,7 +32,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        return new string[] { "pf-c-nav__link" };
+        return new string[] { "pf-v5-c-nav__link" };
     }
 
     protected override void OnParametersSet()

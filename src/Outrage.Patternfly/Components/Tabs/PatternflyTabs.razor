@@ -4,23 +4,23 @@
 @namespace Outrage.Patternfly.Components.Tabs
 
 <nav class="@Classes" @attributes="AdditionalAttributes">
-  <button class="pf-c-tabs__scroll-button" disabled aria-hidden="true" aria-label="Scroll left"> 
+  <button class="pf-v5-c-tabs__scroll-button" disabled aria-hidden="true" aria-label="Scroll left"> 
     <Icon Name="@IconLeft" Library="@IconLibrary" Weight="@IconWeight" />
   </button>
 
   <CascadingValue Value="@this">
-    <ul class="pf-c-tabs__list">
+    <ul class="pf-v5-c-tabs__list">
         @ChildContent        
     </ul>
   </CascadingValue>
   
-  <button class="pf-c-tabs__scroll-button" disabled aria-hidden="true" aria-label="Scroll right" >
+  <button class="pf-v5-c-tabs__scroll-button" disabled aria-hidden="true" aria-label="Scroll right" >
     <Icon Name="@IconRight" Library="@IconLibrary" Weight="@IconWeight" />
   </button>
 </nav>
 
-<section class="pf-c-tab-content @(ActiveTab?.PanelCssClass)" role="tabpanel" tabindex="0" id="@(ActiveTab?.TabId)_panel">
-  <div class="pf-c-tab-content__body">@(ActiveTab?.ChildContent)</div>
+<section class="pf-v5-c-tab-content @(ActiveTab?.PanelCssClass)" role="tabpanel" tabindex="0" id="@(ActiveTab?.TabId)_panel">
+  <div class="pf-v5-c-tab-content__body">@(ActiveTab?.ChildContent)</div>
 </section>
 
 
@@ -65,6 +65,6 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        return new string[] { "pf-c-tabs" };
+        return new string[] { "pf-v5-c-tabs" };
     }
 }

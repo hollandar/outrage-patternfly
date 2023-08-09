@@ -1,12 +1,12 @@
 ﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 @using Outrage.Patternfly.Components.Utilities;
 <div class="@Classes" @attributes="AdditionalAttributes">
-    <div class="pf-c-text-input-group__main pf-m-icon">
-        <span class="pf-c-text-input-group__text">
-            <span class="pf-c-text-input-group__icon">
+    <div class="pf-v5-c-text-input-group__main pf-m-icon">
+        <span class="pf-v5-c-text-input-group__text">
+            <span class="pf-v5-c-text-input-group__icon">
                 <Icon Library="@IconLibrary" Weight="@IconWeight" Name="@Icon"/>
             </span>
-            <input class="pf-c-text-input-group__text-input"
+            <input class="pf-v5-c-text-input-group__text-input"
                    type="text"
                    value="@text"
                    aria-label="@Placeholder"
@@ -14,8 +14,8 @@
                    @onchange="_changed" />
         </span>
     </div>
-    <div class="pf-c-text-input-group__utilities">
-        <button class="pf-c-button pf-m-plain"
+    <div class="pf-v5-c-text-input-group__utilities">
+        <button class="pf-v5-c-button pf-m-plain"
                 type="button"
                 aria-label="Clear input"
                 @onclick="_clear">
@@ -63,6 +63,6 @@
 
         protected override IEnumerable<string> OnIntroduceClasses()
         {
-            return new string[] { "pf-c-text-input-group" };
+            return new string[] { "pf-v5-c-text-input-group" };
         }
 }

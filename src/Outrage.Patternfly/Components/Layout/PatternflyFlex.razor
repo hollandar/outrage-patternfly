@@ -19,7 +19,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-l-flex" });
+        var classes = new HashSet<string>(new string[] { "pf-v5-l-flex" });
         if (AdditionalAttributes?.ContainsKey("class") ?? false)
         {
             classes.Add((string)AdditionalAttributes["class"]);    

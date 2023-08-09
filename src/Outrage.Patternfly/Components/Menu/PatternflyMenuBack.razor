@@ -1,18 +1,18 @@
 ﻿@using Outrage.Patternfly.Components.Utilities
 
-<li class="pf-c-menu__list-item pf-m-drill-up" role="none">
+<li class="pf-v5-c-menu__list-item pf-m-drill-up" role="none">
     <button
-        class="pf-c-menu__item"
+        class="pf-v5-c-menu__item"
         type="button"
         role="menuitem"
         tabindex="0"
         @onclick="CloseAsync"
     >
-        <span class="pf-c-menu__item-main">
-        <span class="pf-c-menu__item-toggle-icon">
+        <span class="pf-v5-c-menu__item-main">
+        <span class="pf-v5-c-menu__item-toggle-icon">
             <Icon Name="@IconCaret" Size="@IconSize" Weight="@IconWeight" Library="@IconLibrary" />
         </span>
-            <span class="pf-c-menu__item-text">@if (ParentItem != null)
+            <span class="pf-v5-c-menu__item-text">@if (ParentItem != null)
                 {
                     @(Text ?? ParentItem.Text)
                 } else

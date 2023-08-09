@@ -2,18 +2,18 @@
 @using Outrage.Patternfly.Components.Utilities
 
 <h3>
-    <button class="pf-c-accordion__toggle @(Visible? "pf-m-expanded":string.Empty)" type="button" aria-expanded="@Visible" @onclick="Show">
-        <span class="pf-c-accordion__toggle-text">
+    <button class="pf-v5-c-accordion__toggle @(Visible? "pf-m-expanded":string.Empty)" type="button" aria-expanded="@Visible" @onclick="Show">
+        <span class="pf-v5-c-accordion__toggle-text">
             @Header
         </span>
 
-        <span class="pf-c-accordion__toggle-icon">
+        <span class="pf-v5-c-accordion__toggle-icon">
             <Icon Name="@(Visible?IconExpanded:IconCollapsed)" Library="@IconLibrary" Weight="@IconWeight" />
         </span>
     </button>
 </h3>
-<div class="pf-c-accordion__expanded-content @(Visible? "pf-m-expanded":string.Empty)" hidden="@(!Visible)">
-    <div class="pf-c-accordion__expanded-content-body">@Body</div>
+<div class="pf-v5-c-accordion__expanded-content @(Visible? "pf-m-expanded":string.Empty)" hidden="@(!Visible)">
+    <div class="pf-v5-c-accordion__expanded-content-body">@Body</div>
 </div>
 
 @code {

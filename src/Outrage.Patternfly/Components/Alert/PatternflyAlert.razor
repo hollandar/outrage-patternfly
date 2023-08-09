@@ -6,17 +6,17 @@
 <div class="@Classes" @attributes="AdditionalAttributes" aria-label="@($"{@Color.ToString()} alert")" hidden="@Closed">
     @if (Icon != null)
     {
-        <div class="pf-c-alert__icon">
+        <div class="pf-v5-c-alert__icon">
             <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true"/>
         </div>
     }
-    <p class="pf-c-alert__title">
+    <p class="pf-v5-c-alert__title">
         <span class="pf-screen-reader">@Color.ToString() alert:</span>
         @Title
     </p>
     @if (Dismissable)
     {
-        <div class="pf-c-alert__action">
+        <div class="pf-v5-c-alert__action">
             <PatternflyButton Color="ButtonColor.Plain"
                               aria-label="@($"Close alert: {Title}")"
                               Clicked="CloseAlert">
@@ -26,14 +26,14 @@
     }
     @if (Description != null || Body != null)
     {
-        <div class="pf-c-alert__description">
+        <div class="pf-v5-c-alert__description">
             @Description
             @Body
         </div>
     }
     @if (Actions != null)
     {
-        <div class="pf-c-alert__action-group">
+        <div class="pf-v5-c-alert__action-group">
             @Actions
         </div>
     }
@@ -64,7 +64,7 @@
     protected override IEnumerable<string> OnIntroduceClasses()
     {
         var classes = new HashSet<string>();
-        classes.Add("pf-c-alert");
+        classes.Add("pf-v5-c-alert");
         switch (Color)
         {
             case AlertColor.Info: classes.Add("pf-m-info"); break;

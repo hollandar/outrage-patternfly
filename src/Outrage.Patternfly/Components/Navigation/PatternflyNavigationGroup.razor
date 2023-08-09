@@ -3,15 +3,15 @@
 @if (Title != null)
 {
     <section class="@Classes" @attributes="AdditionalAttributes" aria-labelledby="@id.Value">
-        <h2 class="pf-c-nav__section-title" id="@id.Value">@Title</h2>
-        <ul class="pf-c-nav__list">
+        <h2 class="pf-v5-c-nav__section-title" id="@id.Value">@Title</h2>
+        <ul class="pf-v5-c-nav__list">
             @ChildContent
         </ul>
     </section>
 }
 else
 {
-    <ul class="pf-c-nav__list">
+    <ul class="pf-v5-c-nav__list">
         @ChildContent
     </ul>
 }
@@ -23,7 +23,7 @@ else
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-nav__section" });
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-nav__section" });
 
         if (Title == null)
             classes.Add("pg-m-no-title");

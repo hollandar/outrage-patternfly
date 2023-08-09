@@ -1,22 +1,22 @@
 ﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
 
-<div class="pf-c-progress @Classes" id="@progressId" @attributes="AdditionalAttributes">
+<div class="pf-v5-c-progress @Classes" id="@progressId" @attributes="AdditionalAttributes">
   <div
-    class="pf-c-progress__description"
+    class="pf-v5-c-progress__description"
     id="@progressId.With("description")"
   >@Description</div>
-  <div class="pf-c-progress__status" aria-hidden="true">
-    <span class="pf-c-progress__measure">@(Progress.ToString("##0.%"))</span>
+  <div class="pf-v5-c-progress__status" aria-hidden="true">
+    <span class="pf-v5-c-progress__measure">@(Progress.ToString("##0.%"))</span>
   </div>
   <div
-    class="pf-c-progress__bar"
+    class="pf-v5-c-progress__bar"
     role="progressbar"
     aria-valuemin="@ValueMin"
     aria-valuemax="@ValueMax"
     aria-valuenow="@Value"
     aria-labelledby="@progressId.With("description")"
   >
-    <div class="pf-c-progress__indicator" style="width:@(Progress.ToString("P"));"></div>
+    <div class="pf-v5-c-progress__indicator" style="width:@(Progress.ToString("P"));"></div>
   </div>
 </div>
 

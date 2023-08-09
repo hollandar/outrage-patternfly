@@ -19,7 +19,8 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        List<string> classes = new List<string>();
+        HashSet<string> classes = new HashSet<string>();
+        classes.Add("pf-v5-c-table__tr");
         if (Clicked.HasDelegate)
         {
             classes.Add("pf-m-hoverable");

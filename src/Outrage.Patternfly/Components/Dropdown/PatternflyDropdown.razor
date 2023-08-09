@@ -13,8 +13,8 @@
                 @onclick="ToggleDropdown" @onclick:stopPropagation>
             @if (Style == DropdownStyle.regular)
             {
-                <span class="pf-c-dropdown__toggle-text">@Text</span>
-                <span class="pf-c-dropdown__toggle-icon">
+                <span class="pf-v5-c-dropdown__toggle-text">@Text</span>
+                <span class="pf-v5-c-dropdown__toggle-icon">
                     <Icon Name="@IconCaretDown" Library="@IconLibrary" Weight="@IconWeight" />
                 </span>
             }
@@ -27,13 +27,13 @@
         {
             if (IsGrouped)
             {
-                <div class="pf-c-dropdown__menu @(AlignRight ? "pf-m-align-right": string.Empty)" aria-labelledby="@dropdownId">
+                <div class="pf-v5-c-dropdown__menu @(AlignRight ? "pf-m-align-right": string.Empty)" aria-labelledby="@dropdownId">
                     @ChildContent
                 </div>
             }
             else
             {
-                <ul class="pf-c-dropdown__menu @(AlignRight ? "pf-m-align-right": string.Empty)" aria-labelledby="@dropdownId">
+                <ul class="pf-v5-c-dropdown__menu @(AlignRight ? "pf-m-align-right": string.Empty)" aria-labelledby="@dropdownId">
                     @ChildContent
                 </ul>
             }
@@ -70,8 +70,8 @@
         {
             return Style switch
             {
-                DropdownStyle.regular => "pf-c-dropdown__toggle",
-                DropdownStyle.kebab => "pf-c-dropdown__toggle pf-m-plain",
+                DropdownStyle.regular => "pf-v5-c-dropdown__toggle",
+                DropdownStyle.kebab => "pf-v5-c-dropdown__toggle pf-m-plain",
                 _ => string.Empty
             };
         }
@@ -84,7 +84,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-dropdown" });
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-dropdown" });
         if (Expanded)
         {
             classes.Add("pf-m-expanded");

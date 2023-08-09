@@ -3,21 +3,21 @@
 
 @inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 
-<span class="@Classes" @attributes="AdditionalAttributes" style="--pf-c-label--BackgroundColor: @(CustomColor != null?CustomColor: String.Empty)">
-    <span class="pf-c-label__content">
+<span class="@Classes" @attributes="AdditionalAttributes" style="--pf-v5-c-label--BackgroundColor: @(CustomColor != null?CustomColor: String.Empty)">
+    <span class="pf-v5-c-label__content">
         @if (!string.IsNullOrEmpty(Icon))
         {
-            <span class="pf-c-label__icon">
+            <span class="pf-v5-c-label__icon">
                 <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" aria-hidden="true" />
             </span>
         }
         @if (Clicked.HasDelegate)
         {
-            <a class="pf-c-label__text" href="javascript:void(0)" @onclick="ClickLabel" @onclick:preventDefault @onclick:stopPropagation>@Text</a>
+            <a class="pf-v5-c-label__text" href="javascript:void(0)" @onclick="ClickLabel" @onclick:preventDefault @onclick:stopPropagation>@Text</a>
         }
         else
         {
-            <span class="pf-c-label__text">@Text</span>
+            <span class="pf-v5-c-label__text">@Text</span>
         }
     </span>
     @if (Closed.HasDelegate)
@@ -55,7 +55,7 @@
     protected override IEnumerable<string> OnIntroduceClasses()
     {
         var classes = new HashSet<string>();
-        classes.Add("pf-c-label");
+        classes.Add("pf-v5-c-label");
         switch (Color)
         {
             case LabelColor.Blue: classes.Add("pf-m-blue"); break;

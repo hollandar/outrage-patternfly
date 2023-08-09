@@ -4,17 +4,17 @@
 <div class="@Classes" @attributes="AdditionalAttributes">
   <button
     type="button"
-    class="pf-c-expandable-section__toggle"
+    class="pf-v5-c-expandable-section__toggle"
     aria-expanded="@Expanded"
     @onclick="ToggleExpanded"
   >
-    <span class="pf-c-expandable-section__toggle-icon">
+    <span class="pf-v5-c-expandable-section__toggle-icon">
       <Icon Name="@IconExpand" Library="@IconLibrary" Weight="@IconWeight" />
     </span>
-    <span class="pf-c-expandable-section__toggle-text">@(Expanded?ShowLess:ShowMore)</span>
+    <span class="pf-v5-c-expandable-section__toggle-text">@(Expanded?ShowLess:ShowMore)</span>
   </button>
   <div
-    class="pf-c-expandable-section__content"
+    class="pf-v5-c-expandable-section__content"
     hidden="@(!Expanded)"
   >@ChildContent</div>
 </div>
@@ -39,7 +39,7 @@
     protected override IEnumerable<string> OnIntroduceClasses()
     {
         var classes = new HashSet<string>();
-        classes.Add("pf-c-expandable-section");
+        classes.Add("pf-v5-c-expandable-section");
         if (Expanded) classes.Add("pf-m-expanded");
         return classes;
     }

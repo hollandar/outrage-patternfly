@@ -9,15 +9,15 @@
 <th role="columnheader" scope="col" class="@Classes" @attributes="AdditionalAttributes" aria-sort="@(SortOrder.ToString().ToLower())">
     @if (this.Sortable)
     {
-        <button class="pf-c-table__button" @onclick="_clicked">
-            <div class="pf-c-table__button-content">
-                <span class="pf-c-table__text">
+        <button class="pf-v5-c-table__button" @onclick="_clicked">
+            <div class="pf-v5-c-table__button-content">
+                <span class="pf-v5-c-table__text">
                     @ChildContent
                     @Title
                 </span>
                 @if (Sortable)
                 {
-                    <span class="pf-c-table__sort-indicator">
+                    <span class="pf-v5-c-table__sort-indicator">
                         @if (Parent?.SortBy == this.SortBy)
                         {
                             if (SortOrder == Outrage.Patternfly.Components.Table.SortOrder.Ascending)
@@ -94,7 +94,8 @@
     protected override IEnumerable<string> OnIntroduceClasses()
     {
         var classes = new HashSet<string>();
-        if (Sortable) classes.Add("pf-c-table__sort");
+        classes.Add("pf-v5-c-table__th");
+        if (Sortable) classes.Add("pf-v5-c-table__sort");
         if (Parent?.SortBy == SortBy) classes.Add("pf-m-selected");
         return classes;
     }

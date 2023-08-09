@@ -2,20 +2,20 @@
 <div class="@Classes" @attributes="AdditionalAttributes">
     @if (Actions != null)
     {
-        <div class="pf-c-hint__actions">
+        <div class="pf-v5-c-hint__actions">
             @Actions
         </div>
     }
     @if (!string.IsNullOrEmpty(Title))
     {
-        <div class="pf-c-hint__title">@Title</div>
+        <div class="pf-v5-c-hint__title">@Title</div>
     }
-    <div class="pf-c-hint__body">
+    <div class="pf-v5-c-hint__body">
         @Body
     </div>
     @if (Footer != null)
     {
-        <div class="pf-c-hint__footer">
+        <div class="pf-v5-c-hint__footer">
             @Footer
         </div>
     }
@@ -28,7 +28,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        var classes = new HashSet<string>(new string[] { "pf-c-hint" });
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-hint" });
         return classes;
     }
 }

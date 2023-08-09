@@ -1,30 +1,30 @@
 ﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
 @using Outrage.Patternfly.Components.Utilities
 
-<li class="pf-c-menu__list-item @(Expanded && this.Menu?.MenuStyle == MenuStyle.DrillDown? "pf-m-current-path":"") @Classes" @attributes="AdditionalAttributes">
-    <button class="pf-c-menu__item" type="button" @onclick="OnClicked">
-        <span class="pf-c-menu__item-main">
+<li class="pf-v5-c-menu__list-item @(Expanded && this.Menu?.MenuStyle == MenuStyle.DrillDown? "pf-m-current-path":"") @Classes" @attributes="AdditionalAttributes">
+    <button class="pf-v5-c-menu__item" type="button" @onclick="OnClicked">
+        <span class="pf-v5-c-menu__item-main">
             @if (Icon != null)
             {
-                <span class="pf-c-menu__item-icon">
+                <span class="pf-v5-c-menu__item-icon">
                     <i class="@Icon" aria-hidden="true"></i>
                     <Icon Name="@Icon" Size="@IconSize" Weight="@IconWeight" Library="@IconLibrary" />
                     &nbsp;
                 </span>
             }
-            <span class="pf-c-menu__item-text">
+            <span class="pf-v5-c-menu__item-text">
                 @Text
             </span>
             @if (Menus != null)
             {
-                <span class="pf-c-menu__item-toggle-icon">
+                <span class="pf-v5-c-menu__item-toggle-icon">
                     <Icon Name="@IconCaret" Size="@IconSize" Weight="@IconWeight" Library="@IconLibrary" />
                 </span>
             }
         </span>
         @if (Description != null)
         {
-            <span class="pf-c-menu__item-description">@Description</span>
+            <span class="pf-v5-c-menu__item-description">@Description</span>
         }
     </button>
     @if (Actions != null)

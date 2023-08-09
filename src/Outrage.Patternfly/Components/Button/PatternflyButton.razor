@@ -9,14 +9,14 @@
     @if (ChildContent != null) {
         @if (Icon != null && IconPosition == IconPosition.Start)
         {
-            <span class="pf-c-button__icon pf-m-start">
+            <span class="pf-v5-c-button__icon pf-m-start">
                 <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" Size="@IconSize" aria-hidden="true" />
             </span>
         }
         @ChildContent
         @if (Icon != null && IconPosition == IconPosition.End)
         {
-            <span class="pf-c-button__icon pf-m-end">
+            <span class="pf-v5-c-button__icon pf-m-end">
                 <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" Size="@IconSize" aria-hidden="true" />
             </span>
         }
@@ -66,7 +66,7 @@
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
-        List<string> classes = new List<string>(new string[] { "pf-c-button" });
+        List<string> classes = new List<string>(new string[] { "pf-v5-c-button" });
 
         if (!string.IsNullOrEmpty(Class))
             classes.Add(Class);
