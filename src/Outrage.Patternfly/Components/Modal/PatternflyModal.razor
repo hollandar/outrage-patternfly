@@ -9,9 +9,11 @@
         <PatternflyBackdrop>
             <PatternflyBullseye>
                 <div class="@Classes" style="max-height: 80vh;" @attributes="AdditionalAttributes" aria-modal="true" aria-labelledby="@modalId.With("modal-help-title")" aria-describedby="@modalId.With("modal-help-description")">
-                    <button class="pf-v5-c-button pf-m-plain" type="button" aria-label="Close" @onclick="Hide">
-                        <Icon Name="@IconClose" Library="@IconLibrary" Weight="@IconWeight" />
-                    </button>
+                    <div class="pf-v5-c-modal-box__close">
+                        <button class="pf-v5-c-button pf-m-plain" type="button" aria-label="Close" @onclick="Hide">
+                            <Icon Name="@IconClose" Library="@IconLibrary" Weight="@IconWeight" />
+                        </button>
+                    </div>
                     <header class="pf-v5-c-modal-box__header pf-m-help">
                         <div class="pf-v5-c-modal-box__header-main">
                             <h1 class="pf-v5-c-modal-box__title" id="@modalId.With("modal-help-title")">
