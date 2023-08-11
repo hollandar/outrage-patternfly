@@ -1,0 +1,24 @@
+﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="@Classes" @attributes="AdditionalAttributes">
+    <div class="pf-v5-c-label-group__main">
+        <ul class="pf-v5-c-label-group__list"
+            role="list"
+            aria-label="@Description">
+            
+            @ChildContent
+        </ul>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? Description { get; set; } = "Group of labels";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>();
+        classes.Add("pf-v5-c-label-group");
+        return classes;
+    }
+}

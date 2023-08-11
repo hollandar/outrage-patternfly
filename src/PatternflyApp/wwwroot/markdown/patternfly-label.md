@@ -27,3 +27,19 @@ namespace: Outrage.Patternfly.Components.Label
 * *Closed* : `EventCallback` : When defined, shows a close x on the label and calls back when it is clicked, on label removal for example.
 * *Clicked* : `EventCallback` : When defined, calls back when the label is clicked.
 
+# PatternflyLabelGroup
+
+## Example usage
+...
+<PatternflyLabelGroup Description="My labels">
+	<PatternflyLabelGroupListItem>
+		<PatternflyLabel Color="LabelColor.Blue" Icon="info" Text="Information"></PatternflyLabel>
+	</PatternflyLabelGroupListItem>
+	<PatternflyLabelGroupListItem>
+		<PatternflyLabel Color="LabelColor.Purple" Icon="question" Text="Question"></PatternflyLabel>
+	</PatternflyLabelGroupListItem>
+</PatternflyLabelGroup>
+...
+
+## Attributes
+* *Description* : Description for screen readers

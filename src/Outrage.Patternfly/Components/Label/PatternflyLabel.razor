@@ -22,12 +22,14 @@
     </span>
     @if (Closed.HasDelegate)
     {
-        <PatternflyButton Color="ButtonColor.Plain"
-                          Icon="times"
-                          type="button"
-                          aria-label="Remove"
-                          Clicked="CloseLabel">
-        </PatternflyButton>
+        <span class="pf-v5-c-label__actions">
+            <PatternflyButton Color="ButtonColor.Plain"
+                              Icon="times"
+                              type="button"
+                              aria-label="Remove"
+                              Clicked="CloseLabel">
+            </PatternflyButton>
+        </span>
     }
 </span>
 
