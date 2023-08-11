@@ -32,9 +32,9 @@
                     <span class="pf-v5-c-breadcrumb__dropdown">
                         <div class="pf-v5-c-dropdown pf-m-expanded">
                             <button class="pf-v5-c-dropdown__toggle pf-m-plain"
-                            id="dropdown-badge-toggle-button"
-                            aria-expanded="true"
-                            type="button"
+                                    id="dropdown-badge-toggle-button"
+                                    aria-expanded="true"
+                                    type="button"
                             @onclick="ToggleDropdown">
                                 <span class="pf-v5-c-badge pf-m-read">
                                     @(this.breadcrumbs.Count() - 1 - Length)
@@ -71,8 +71,8 @@
                     <Icon Name="@IconDivider" Weight="@IconWeight" Library="@IconLibrary" FixedWidth="true" />
                 </span>
                 <a href="#"
-               class="pf-v5-c-breadcrumb__link pf-m-current"
-               aria-current="page">@lastBreadcrumb.Name</a>
+                   class="pf-v5-c-breadcrumb__link pf-m-current"
+                   aria-current="page">@lastBreadcrumb.Name</a>
             </li>
         }
 
@@ -125,17 +125,20 @@
 
     protected async Task UpdateBreadcrumbs()
     {
-        var title = await module.InvokeAsync<string>("PatternflyBreadcrumb.getPageTitle");
-        if (title != null && HandleVisits)
+        if (this.module is not null)
         {
-            this.breadcrumbs = await this.BreadcrumbService.VisitAsync(
-                Nav.Uri, 
-                this.BreadcrumbService.RegexMatches(this.BreadcrumbService.TitlePattern, title)
-            );
-        }
-        else
-        {
-            this.breadcrumbs = await this.BreadcrumbService.GetAsync();
+            var title = await module.InvokeAsync<string>("PatternflyBreadcrumb.getPageTitle");
+            if (title != null && HandleVisits)
+            {
+                this.breadcrumbs = await this.BreadcrumbService.VisitAsync(
+                    Nav.Uri,
+                    this.BreadcrumbService.RegexMatches(this.BreadcrumbService.TitlePattern, title)
+                );
+            }
+            else
+            {
+                this.breadcrumbs = await this.BreadcrumbService.GetAsync();
+            }
         }
     }
 

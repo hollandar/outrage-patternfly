@@ -1,10 +1,8 @@
 ﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
 
-<span class="@Classes" @attributes="AdditionalAttributes" role="progressbar" aria-label="Loading...">
-    <span class="pf-v5-c-spinner__clipper"></span>
-    <span class="pf-v5-c-spinner__lead-ball"></span>
-    <span class="pf-v5-c-spinner__tail-ball"></span>
-</span>
+<svg class="@Classes" @attributes="AdditionalAttributes" role="progressbar" aria-label="Loading..." viewBox="0 0 100 100">
+    <circle class="pf-v5-c-spinner__path" cx="50" cy="50" r="45" fill="none" />
+</svg>
 
 @code {
     [Parameter] public SpinnerSize Size { get; set; } = SpinnerSize.Default;
