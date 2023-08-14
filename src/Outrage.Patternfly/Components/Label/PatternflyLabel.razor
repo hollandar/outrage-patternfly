@@ -3,23 +3,31 @@
 
 @inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 
-<span class="@Classes" @attributes="AdditionalAttributes" style="--pf-v5-c-label--BackgroundColor: @(CustomColor != null?CustomColor: String.Empty)">
-    <span class="pf-v5-c-label__content">
-        @if (!string.IsNullOrEmpty(Icon))
-        {
-            <span class="pf-v5-c-label__icon">
-                <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" aria-hidden="true" />
-            </span>
-        }
-        @if (Clicked.HasDelegate)
-        {
-            <a class="pf-v5-c-label__text" href="javascript:void(0)" @onclick="ClickLabel" @onclick:preventDefault @onclick:stopPropagation>@Text</a>
-        }
-        else
-        {
+<span class="@Classes" @attributes="AdditionalAttributes" style="@(CustomColor != null ? $"--pf-v5-c-label--BackgroundColor: {CustomColor}": String.Empty)">
+    @if (Clicked.HasDelegate)
+    {
+        <a class="pf-v5-c-label__content" href="javascript:void(0)" @onclick="ClickLabel" @onclick:preventDefault @onclick:stopPropagation>
+            @if (!string.IsNullOrEmpty(Icon))
+            {
+                <span class="pf-v5-c-label__icon">
+                    <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" aria-hidden="true" />
+                </span>
+            }
             <span class="pf-v5-c-label__text">@Text</span>
-        }
-    </span>
+        </a>
+    }
+    else
+    {
+        <span class="pf-v5-c-label__content">
+            @if (!string.IsNullOrEmpty(Icon))
+            {
+                <span class="pf-v5-c-label__icon">
+                    <Icon Name="@Icon" Weight="@IconWeight" Library="@IconLibrary" aria-hidden="true" />
+                </span>
+            }
+            <span class="pf-v5-c-label__text">@Text</span>
+        </span>
+    }
     @if (Closed.HasDelegate)
     {
         <span class="pf-v5-c-label__actions">
