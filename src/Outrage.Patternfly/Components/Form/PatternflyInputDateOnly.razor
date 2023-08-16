@@ -3,7 +3,7 @@
 @using Outrage.Patternfly.Components.Form
 @inherits InputBase<DateOnly?>
 
-<span class="pf-v5-c-form-control">
+<span class="pf-v5-c-form-control @(ReadOnly ? "pf-m-readonly" : string.Empty)">
     <input @attributes="@AdditionalAttributes" @bind-value="CurrentValueAsString" @bind-value:event="@(BindEvent)" />
 </span>
 
@@ -14,6 +14,9 @@
     [Parameter]
     public bool BindOnInput { get; set; } = false;
 
+    [Parameter]
+    public bool ReadOnly { get; set; } = false;
+
     protected string BindEvent => BindOnInput ? "oninput" : "onchange";
 
     protected override void OnParametersSet()
@@ -21,8 +24,8 @@
         this.AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "", this.FieldName, (a) =>
         {
             a["type"] = "date";
-        }
-        ) ?? null;
+            if (ReadOnly) a["readonly"] = "readonly";
+        }) ?? null;
         base.OnParametersSet();
     }
 
