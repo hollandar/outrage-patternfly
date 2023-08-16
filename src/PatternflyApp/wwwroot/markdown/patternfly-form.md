@@ -109,6 +109,7 @@ Standard field, but can be bound on change or in input.
 ## Attributes
 
 * *BindOnInput* : Bind on change (false), or on input (true). Default false.
+* *ReadOnly* : Make the field readonly. Default false.
 
 # Other controls
 
