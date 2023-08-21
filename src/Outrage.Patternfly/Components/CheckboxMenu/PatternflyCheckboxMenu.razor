@@ -1,0 +1,92 @@
+﻿@using Outrage.Patternfly.Components.Utilities
+@inherits Patternfly.Components.Base.PatternflyComponentBase
+@typeparam TKey where TKey: IComparable
+@typeparam TValue
+
+<div class="@Classes" @attributes="AdditionalAttributes">
+    <span id="@id.With("label")" hidden>Choose one</span>
+
+    <button class="pf-v5-c-select__toggle"
+            type="button"
+            id="@id.With("toggle")"
+            aria-haspopup="@(this.Options?.Any() ?? false)"
+            aria-expanded="@Expanded"
+            aria-labelledby="@id.With("label") @id.With("toggle")"
+            @onclick="ToggleExpandedAsync">
+        <div class="pf-v5-c-select__toggle-wrapper">
+            <span class="pf-v5-c-select__toggle-text">
+                @Text
+                @if (this.SelectedKeys.Count > 0)
+                {
+                    <span class="pf-v5-c-badge pf-m-read pf-v5-u-ml-xs">@this.SelectedKeys.Count</span>
+                }
+            </span>
+        </div>
+        <span class="pf-v5-c-select__toggle-arrow">
+            <Icon Name="@IconCaretDown" Library="@IconLibrary" Weight="@IconWeight" />
+        </span>
+    </button>
+    <div class="pf-v5-c-select__menu" hidden="@(!Expanded)">
+        <fieldset class="pf-v5-c-select__menu-fieldset" aria-label="Select input">
+            @foreach (var option in this.Options ?? Enumerable.Empty<KeyValuePair<TKey, TValue>>())
+            {
+                <label class="pf-v5-c-check pf-v5-c-select__menu-item">
+                    <input class="pf-v5-c-check__input"
+                           type="checkbox"
+                           id="toolbar-expanded-elements-example-select-checkbox-status-active"
+                           name="toolbar-expanded-elements-example-select-checkbox-status-active" checked="@(SelectedKeys.Contains(option.Key))" 
+                           @onclick="@(async() => await ChangeValueAsync(option.Key))" />
+
+                    @if (ItemTemplate is null)
+                    {
+                        <span class="pf-v5-c-check__label">@option.Value</span>
+                    }
+                    else
+                    {
+                        <span class="pf-v5-c-check__label">
+                            @ItemTemplate(option)
+                        </span>
+                    }
+                </label>
+            }
+        </fieldset>
+    </div>
+</div>
+
+@code {
+    HtmlId id = new HtmlId();
+    [Parameter] public bool Expanded { get; set; } = false;
+    [Parameter] public string Text { get; set; } = "Select";
+    [Parameter] public IEnumerable<KeyValuePair<TKey, TValue>>? Options { get; set; }
+    [Parameter] public RenderFragment<KeyValuePair<TKey,TValue>>? ItemTemplate { get; set; }
+    [Parameter] public HashSet<TKey> SelectedKeys { get; set; } = new();
+    [Parameter] public EventCallback<HashSet<TKey>> SelectedKeysChanged { get; set; }
+    [Parameter] public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
+    [Parameter] public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
+    [Parameter] public string IconCaretDown { get; set; } = "caret-down";
+    [Parameter] public string IconCheck { get; set; } = "check";
+
+    async Task ToggleExpandedAsync()
+    {
+        this.Expanded = !this.Expanded;
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+    async Task ChangeValueAsync(TKey key)
+    {
+        if (this.SelectedKeys.Contains(key)) this.SelectedKeys.Remove(key);
+        else this.SelectedKeys.Add(key);
+
+        await this.SelectedKeysChanged.InvokeAsync(this.SelectedKeys);
+
+        await this.InvokeAsync(StateHasChanged);
+    }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<String> { "pf-v5-c-select" };
+        if (this.Expanded)
+            classes.Add("pf-m-expanded");
+        return classes;
+    }
+}
