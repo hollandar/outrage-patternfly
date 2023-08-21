@@ -1,0 +1,13 @@
+﻿<div class="pf-v5-c-back-to-top">
+    <a class="pf-v5-c-button pf-m-primary" onclick="document.querySelector('@(ContainerSelector)').scrollIntoView({ behavior:'smooth' });">
+        @Text
+        <span class="pf-v5-c-button__icon pf-m-end">
+            <i class="fas fa-angle-up" aria-hidden="true"></i>
+        </span>
+    </a>
+</div>
+
+@code {
+    [Parameter] public string ContainerSelector { get; set; } = "main.pf-v5-c-page__main .pf-v5-c-page__main-section";
+    [Parameter] public string Text { get; set; } = "Back to top";
+}
