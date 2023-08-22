@@ -1,0 +1,32 @@
+﻿@page "/patternfly-checkboxmenu"
+@using Outrage.Patternfly.Components.CheckboxMenu
+
+<PageTitle>Patternfly - Checkbox Menu</PageTitle>
+
+<PatternflyTitle>Patternfly Checkbox Menu</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyTitle HeadingLevel="2">Checkbox Menu</PatternflyTitle>
+        <PatternflyCheckboxMenu TKey="int" TValue="string" Options="values" Text="Select number(s)"  @bind-SelectedKeys="selected">
+            <ItemTemplate>
+                <span>@context.Key</span> - <span>@context.Value</span>
+            </ItemTemplate>
+        </PatternflyCheckboxMenu>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-checkboxmenu.md"></Markdown>
+
+@code {
+    IEnumerable<KeyValuePair<int, string>> values = new KeyValuePair<int, string>[]
+    {
+        new KeyValuePair<int, string>(1, "One"),
+        new KeyValuePair<int, string>(2, "Two"),
+        new KeyValuePair<int, string>(3, "Three"),
+        new KeyValuePair<int, string>(4, "Four"),
+
+    };
+
+    HashSet<int> selected = new();
+}
