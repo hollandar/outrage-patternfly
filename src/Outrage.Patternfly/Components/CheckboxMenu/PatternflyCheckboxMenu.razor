@@ -16,10 +16,7 @@
         <div class="pf-v5-c-select__toggle-wrapper">
             <span class="pf-v5-c-select__toggle-text">
                 @Text
-                @if (this.SelectedKeys.Count > 0)
-                {
-                    <span class="pf-v5-c-badge pf-m-read pf-v5-u-ml-xs">@this.SelectedKeys.Count</span>
-                }
+                <span class="pf-v5-c-badge pf-m-read pf-v5-u-ml-xs" style="@(this.SelectedKeys.Count <= 0 ? "visibility:hidden;" : string.Empty)">@this.SelectedKeys.Count</span>
             </span>
         </div>
         <span class="pf-v5-c-select__toggle-arrow">
