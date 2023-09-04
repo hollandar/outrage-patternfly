@@ -56,7 +56,7 @@
             }
         </tbody>
     </table>
-    @if (WrappedItems != null && !WrappedItems.Any())
+    @if (!(WrappedItems?.Any() ?? false))
     {
         <div class="ou-not-found">
             @if (NoItemsMessage != null)
