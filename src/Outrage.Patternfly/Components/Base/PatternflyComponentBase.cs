@@ -9,15 +9,21 @@ namespace Outrage.Patternfly.Components.Base
 {
     public class PatternflyComponentBase: ComponentBase
     {
-        private Dictionary<string, object> additionalAttributes = new Dictionary<string, object>();
-
         [Parameter(CaptureUnmatchedValues = true)]
-        public Dictionary<string, object> AdditionalAttributes { get { return DeriveAdditionalAttributes(this.additionalAttributes); } set { this.additionalAttributes = value; } }
+        public Dictionary<string, object>? CapturedAttributes { get; set; }
+
+        public Dictionary<string, object> AdditionalAttributes { get { return DeriveAdditionalAttributes(this.CapturedAttributes ?? new Dictionary<string, object>()); } }
 
         [Parameter]
         public string? Class { get; set; } = null;
 
         protected string Classes { get { return DeriveClasses(); } }
+
+        public void DefineIfUndefined(string key, string value)
+        {
+            if (this.CapturedAttributes is null) CapturedAttributes = new Dictionary<string, object>();
+            if (!this.CapturedAttributes.ContainsKey(key)) this.CapturedAttributes.Add(key, value);
+        }
 
         protected virtual string DeriveClasses()
         {
@@ -44,7 +50,7 @@ namespace Outrage.Patternfly.Components.Base
 
         public virtual Dictionary<string, object> DeriveAdditionalAttributes(Dictionary<string, object> additionalAttributes) {
 
-            return additionalAttributes.Where(r => r.Key != "class").ToDictionary(r => r.Key, r => r.Value) ?? new Dictionary<string, object>();
+            return additionalAttributes.Where(r => r.Key != "class").ToDictionary(r => r.Key, r => r.Value);
         }
 
         protected virtual IEnumerable<string> OnIntroduceClasses()

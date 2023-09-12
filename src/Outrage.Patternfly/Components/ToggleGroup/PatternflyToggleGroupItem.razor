@@ -26,7 +26,7 @@
 </div>
 
 @code {
-    public bool Selected { get { return this.Parent?.Contains(Value) ?? false; } }
+    public bool Selected { get { return Value != null && (this.Parent?.Contains(Value) ?? false); } }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string? Icon { get; set; }
     [Parameter] public IconPosition IconPosition { get; set; } = IconPosition.Start;

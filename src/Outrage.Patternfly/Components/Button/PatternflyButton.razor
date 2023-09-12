@@ -118,12 +118,7 @@
                 break;
         }
 
-        if (!AdditionalAttributes?.ContainsKey("type") ?? false)
-        {
-            if (AdditionalAttributes == null)
-                AdditionalAttributes = new Dictionary<string, object>();
-            AdditionalAttributes["type"] = "button";
-        }
+        DefineIfUndefined("type", "button");
 
         return classes;
     }

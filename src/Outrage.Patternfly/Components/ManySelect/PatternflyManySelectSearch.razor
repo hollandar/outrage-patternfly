@@ -35,6 +35,7 @@
     }
     @if (typeof(TKey).IsGenericType && typeof(TKey).GetGenericTypeDefinition() == typeof(Nullable<>))
     {
+        ArgumentNullException.ThrowIfNull(this.Parent);
         var selected = this.Parent.Value.Count == 0;
         <li role="presentation">
             <button type="button"
@@ -187,6 +188,7 @@
 
     async Task NullClickedAsync(MouseEventArgs args)
     {
+        ArgumentNullException.ThrowIfNull(this.Parent);
         await this.Parent.ClearKeysAsync();
     }
 

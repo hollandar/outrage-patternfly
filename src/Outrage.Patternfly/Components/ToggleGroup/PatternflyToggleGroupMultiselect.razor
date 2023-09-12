@@ -15,8 +15,8 @@
 
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public bool Compact { get; set; }
-    [Parameter] public HashSet<TValueType?> Value { get; set; }
-    [Parameter] public EventCallback<HashSet<TValueType>> ValueChanged { get; set; }
+    [Parameter, EditorRequired] public HashSet<TValueType?>? Value { get; set; } = default!;
+    [Parameter] public EventCallback<HashSet<TValueType>>? ValueChanged { get; set; }
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {
@@ -35,15 +35,16 @@
 
     public override async Task SetValue(TValueType? value)
     {
+        ArgumentNullException.ThrowIfNull(this.Value);
         if (Value.Contains(value))
             this.Value.Remove(value);
         else
             this.Value.Add(value);
 
-        if (this.ValueChanged.HasDelegate)
-            await this.ValueChanged.InvokeAsync(this.Value);
+        if (this.ValueChanged?.HasDelegate ?? false)
+            await this.ValueChanged.Value.InvokeAsync(this.Value!);
         await this.InvokeAsync(StateHasChanged);
     }
 
-    public override bool Contains(TValueType value) => this.Value.Contains(value);
+    public override bool Contains(TValueType value) => this.Value?.Contains(value) ?? false;
 }
