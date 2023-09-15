@@ -5,7 +5,7 @@
 @using Outrage.Patternfly.Interfaces
 @inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 
-<button class="@Classes" @onclick="OnClicked" @onclick:stopPropagation type="@Type" @attributes="AdditionalAttributes">
+<button class="@Classes" @onclick="OnClicked" @onclick:stopPropagation @attributes="AdditionalAttributes">
     @if (ChildContent != null) {
         @if (Icon != null && IconPosition == IconPosition.Start)
         {
@@ -118,7 +118,7 @@
                 break;
         }
 
-        DefineIfUndefined("type", "button");
+        DefineIfUndefined("type", Type);
 
         return classes;
     }

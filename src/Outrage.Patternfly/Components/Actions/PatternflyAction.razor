@@ -6,7 +6,7 @@
 @using Outrage.Patternfly.Components.Button
 
 <div class="@Classes" @attributes="AdditionalAttributes">
-    <PatternflyButton type="@Type" Color="@Color" Icon="@Icon" IconLibrary="@IconLibrary" IconWeight="@IconWeight" IconPosition="@IconPosition" Clicked="ActionClicked" @attributes="AdditionalAttributes">
+    <PatternflyButton type="@(Type ?? "button")" Color="@Color" Icon="@Icon" IconLibrary="@IconLibrary" IconWeight="@IconWeight" IconPosition="@IconPosition" Clicked="ActionClicked" @attributes="AdditionalAttributes">
         @ChildContent
     </PatternflyButton>
 </div>
@@ -35,7 +35,7 @@
     public EventCallback<MouseEventArgs> Clicked { get; set; }
 
     [Parameter]
-    public string Type { get; set; } = "button";
+    public string? Type { get; set; }
 
     async Task ActionClicked(MouseEventArgs e)
     {
