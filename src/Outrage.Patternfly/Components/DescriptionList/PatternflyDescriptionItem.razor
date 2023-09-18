@@ -21,8 +21,8 @@
     [Parameter] public RenderFragment? Term { get; set; }
     [Parameter] public RenderFragment? Description { get; set; }
     [Parameter] public string? Icon { get; set; }
-    [Parameter] public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
-    [Parameter] public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
+    [Parameter] public WeightEnum IconWeight { get; set; } = PatternflyDefaults.IconWeight;
+    [Parameter] public LibraryEnum IconLibrary { get; set; } = PatternflyDefaults.IconLibrary;
 
     protected override IEnumerable<string> OnIntroduceClasses()
     {

@@ -44,8 +44,8 @@
 @code {
     [Parameter] public LabelColor Color { get; set; } = LabelColor.Default;
     [Parameter] public string? Icon { get; set; } = null;
-    [Parameter] public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
-    [Parameter] public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
+    [Parameter] public WeightEnum IconWeight { get; set; } = PatternflyDefaults.IconWeight;
+    [Parameter] public LibraryEnum IconLibrary { get; set; } = PatternflyDefaults.IconLibrary;
     [Parameter] public string? Text { get; set; } = null;
     [Parameter] public bool Compact { get; set; } = false;
     [Parameter] public bool Outline { get; set; } = false;

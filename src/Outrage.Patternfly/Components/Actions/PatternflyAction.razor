@@ -23,13 +23,13 @@
     public string? Icon { get; set; } = null;
 
     [Parameter]
-    public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
+    public LibraryEnum IconLibrary { get; set; } = PatternflyDefaults.IconLibrary;
 
     [Parameter] 
     public IconPosition IconPosition { get; set; } = IconPosition.Start;
 
     [Parameter]
-    public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
+    public WeightEnum IconWeight { get; set; } = PatternflyDefaults.IconWeight;
 
     [Parameter]
     public EventCallback<MouseEventArgs> Clicked { get; set; }

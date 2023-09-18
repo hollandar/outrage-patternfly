@@ -125,9 +125,9 @@
     [Parameter] public string IconCheck { get; set; } = "check";
     [Parameter] public string IconClear { get; set; } = "times-circle";
     [Parameter] public string IconCaret { get; set; } = "caret-down";
-    [Parameter] public SizeEnum IconSize { get; set; } = SizeEnum.regular;
-    [Parameter] public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
-    [Parameter] public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
+    [Parameter] public SizeEnum IconSize { get; set; } = PatternflyDefaults.IconSize;
+    [Parameter] public LibraryEnum IconLibrary { get; set; } = PatternflyDefaults.IconLibrary;
+    [Parameter] public WeightEnum IconWeight { get; set; } = PatternflyDefaults.IconWeight;
     [Parameter] public Func<TItem, string>? ItemToString { get; set; } = null;
     [Parameter] public bool Highlight { get; set; } = true;
 

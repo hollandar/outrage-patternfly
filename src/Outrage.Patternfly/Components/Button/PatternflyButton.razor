@@ -35,16 +35,16 @@
     public ButtonColor Color { get; set; } = ButtonColor.Primary;
 
     [Parameter]
-    public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
+    public LibraryEnum IconLibrary { get; set; } = PatternflyDefaults.IconLibrary;
 
     [Parameter]
     public string? Icon { get; set; } = null;
 
     [Parameter]
-    public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
+    public WeightEnum IconWeight { get; set; } = PatternflyDefaults.IconWeight;
 
     [Parameter]
-    public SizeEnum IconSize { get; set; } = SizeEnum.regular;
+    public SizeEnum IconSize { get; set; } = PatternflyDefaults.IconSize;
 
     [Parameter]
     public IconPosition IconPosition { get; set; } = IconPosition.Start;

@@ -26,15 +26,15 @@
 
     @code {
         [Parameter]
-        public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
+        public LibraryEnum IconLibrary { get; set; } = PatternflyDefaults.IconLibrary;
 
         [Parameter]
-        public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
+    public WeightEnum IconWeight { get; set; } = PatternflyDefaults.IconWeight;
 
-        [Parameter]
-        public SizeEnum IconSize { get; set; } = SizeEnum.regular;
+    [Parameter]
+    public SizeEnum IconSize { get; set; } = PatternflyDefaults.IconSize;
 
-        [Parameter]
+    [Parameter]
         public string? Icon { get; set; } = "search";
 
         [Parameter]

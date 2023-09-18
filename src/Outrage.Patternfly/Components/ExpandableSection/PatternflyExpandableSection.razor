@@ -32,8 +32,8 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    [Parameter] public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
-    [Parameter] public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
+    [Parameter] public LibraryEnum IconLibrary { get; set; } = PatternflyDefaults.IconLibrary;
+    [Parameter] public WeightEnum IconWeight { get; set; } = PatternflyDefaults.IconWeight;
     [Parameter] public string IconExpand { get; set; } = "angle-right";
 
     protected override IEnumerable<string> OnIntroduceClasses()

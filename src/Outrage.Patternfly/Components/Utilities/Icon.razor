@@ -1,6 +1,7 @@
 ﻿@using Outrage.Patternfly.Components.Utilities;
 @switch (Library)
 {
+    case LibraryEnum.fontawesome_5:
     case LibraryEnum.fontawesome:
         {
             string size = String.Empty;
@@ -21,6 +22,7 @@
 
             switch (Weight)
             {
+                case WeightEnum.thin: throw new NotImplementedException($"{Weight} is not supported in FA5");
                 case WeightEnum.light:
                     {
                         <i @attributes="AdditionalExceptClass" class="fal fa-@Name @PassedClass @size @fafw" aria-hidden="true"></i>
@@ -36,6 +38,7 @@
                         <i @attributes="AdditionalExceptClass" class="fas fa-@Name @PassedClass @size @fafw" aria-hidden="true"></i>
                         break;
                     }
+                case WeightEnum.sharp: throw new NotImplementedException($"{Weight} is not supported in FA5");
                 case WeightEnum.duotone:
                     {
                         <i @attributes="AdditionalExceptClass" class="fad fa-@Name @PassedClass @size @fafw" aria-hidden="true"></i>
@@ -48,18 +51,76 @@
                     }
             }
             break;
+        }case LibraryEnum.fontawesome_6:
+        {
+            string size = String.Empty;
+            switch (Size) {
+                case SizeEnum.xs2: size = "fa-2xs"; break;
+                case SizeEnum.xs: size = "fa-xs"; break;
+                case SizeEnum.sm: size = "fa-sm"; break;
+                case SizeEnum.regular: break;
+                case SizeEnum.lg: size = "fa-lg"; break;
+                case SizeEnum.x2: size = "fa-xl"; break;
+                case SizeEnum.x3: size = "fa-2xl"; break;
+                case SizeEnum.x5: 
+                case SizeEnum.x7: 
+                case SizeEnum.x10: throw new NotSupportedException($"{Size} is not supported in FA5");
+            }
+
+            string fafw = String.Empty;
+            if (FixedWidth) { fafw = "fa-fw"; }
+
+            switch (Weight)
+            {
+                case WeightEnum.thin:
+                    {
+                        <i @attributes="AdditionalExceptClass" class="fa-thin fa-@Name @PassedClass @size @fafw" aria-hidden="true"></i>
+                        break;
+                    }
+                case WeightEnum.light:
+                    {
+                        <i @attributes="AdditionalExceptClass" class="fa-light fa-@Name @PassedClass @size @fafw" aria-hidden="true"></i>
+                        break;
+                    }
+                case WeightEnum.regular:
+                    {
+                        <i @attributes="AdditionalExceptClass" class="fa-regular fa-@Name @PassedClass @size @fafw" aria-hidden="true"></i>
+                        break;
+                    }
+                case WeightEnum.solid:
+                    {
+                        <i @attributes="AdditionalExceptClass" class="fa-solid fa-@Name @PassedClass @size @fafw" aria-hidden="true"></i>
+                        break;
+                    }
+                case WeightEnum.sharp:
+                    {
+                        <i @attributes="AdditionalExceptClass" class="fa-sharp fa-@Name @PassedClass @size @fafw" aria-hidden="true"></i>
+                        break;
+                    }
+                case WeightEnum.duotone:
+                    {
+                        <i @attributes="AdditionalExceptClass" class="fa-duotone fa-@Name @PassedClass @size @fafw" aria-hidden="true"></i>
+                        break;
+                    }
+                case WeightEnum.brand:
+                    {
+                        <i @attributes="AdditionalExceptClass" class="fa-brands fa-@Name @PassedClass @size @fafw" aria-hidden="true"></i>
+                        break;
+                    }
+            }
+            break;
         }
 }
 
 @code {
     [Parameter]
-    public LibraryEnum Library { get; set; } = LibraryEnum.fontawesome;
+    public LibraryEnum Library { get; set; } = PatternflyDefaults.IconLibrary;
 
     [Parameter]
-    public WeightEnum Weight { get; set; } = WeightEnum.solid;
+    public WeightEnum Weight { get; set; } = PatternflyDefaults.IconWeight;
 
     [Parameter]
-    public SizeEnum Size { get; set; } = SizeEnum.regular;
+    public SizeEnum Size { get; set; } = PatternflyDefaults.IconSize;
 
     [Parameter]
     public string? Name { get; set; }

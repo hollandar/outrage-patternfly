@@ -12,4 +12,6 @@ builder.Services.AddPatternflyToaster();
 builder.Services.AddPatternflyPagedModelFactory();
 builder.Services.AddPatternflyBreadcrumb();
 
+PatternflyDefaults.IconLibrary = Outrage.Patternfly.Components.Utilities.LibraryEnum.fontawesome_6;
+
 await builder.Build().RunAsync();

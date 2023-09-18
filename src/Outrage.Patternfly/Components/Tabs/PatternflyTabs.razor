@@ -27,8 +27,8 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public EventCallback<string> OnTabSelected { get; set; }
-    [Parameter] public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
-    [Parameter] public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
+    [Parameter] public LibraryEnum IconLibrary { get; set; } = PatternflyDefaults.IconLibrary;
+    [Parameter] public WeightEnum IconWeight { get; set; } = PatternflyDefaults.IconWeight;
     [Parameter] public string IconLeft { get; set; } = "angle-right";
     [Parameter] public string IconRight { get; set; } = "angle-left";
     public ITab? ActiveTab { get; private set; }

@@ -43,8 +43,8 @@
     [Parameter] public AlertColor Color { get; set; } = AlertColor.Default;
     [Parameter] public string? Icon { get; set; } = null;
     [Parameter] public string IconClose { get; set; } = "times";
-    [Parameter] public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
-    [Parameter] public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
+    [Parameter] public WeightEnum IconWeight { get; set; } = PatternflyDefaults.IconWeight;
+    [Parameter] public LibraryEnum IconLibrary { get; set; } = PatternflyDefaults.IconLibrary;
     [Parameter] public bool Inline { get; set; }
     [Parameter] public string? Title { get; set; } = null;
     [Parameter] public string? Description { get; set; } = null;

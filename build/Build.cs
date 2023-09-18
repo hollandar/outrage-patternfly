@@ -14,7 +14,7 @@ using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
-[CheckBuildProjectConfigurations]
+//[CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
 class Build : NukeBuild
 {
@@ -92,7 +92,7 @@ class Build : NukeBuild
     .DependsOn(Pack)
     .Executes(() =>
     {
-        foreach (var nugetPackage in GlobFiles(NugetDirectory, "*.nupkg"))
+        foreach (var nugetPackage in OutputDirectory.GlobFiles(NugetDirectory, "*.nupkg"))
         {
             Console.WriteLine(nugetPackage);
             DotNetNuGetPush(s => s

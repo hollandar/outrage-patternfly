@@ -30,8 +30,8 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string? Icon { get; set; }
     [Parameter] public IconPosition IconPosition { get; set; } = IconPosition.Start;
-    [Parameter] public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
-    [Parameter] public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
+    [Parameter] public WeightEnum IconWeight { get; set; } = PatternflyDefaults.IconWeight;
+    [Parameter] public LibraryEnum IconLibrary { get; set; } = PatternflyDefaults.IconLibrary;
     [Parameter] public EventCallback<TValueType> Clicked { get; set; }
     [Parameter] public TValueType? Value { get; set; }
     [CascadingParameter(Name = "ToggleGroup")] public PatternflyToggleGroupBase<TValueType>? Parent { get; set; }

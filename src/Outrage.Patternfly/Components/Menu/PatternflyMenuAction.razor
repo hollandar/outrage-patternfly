@@ -15,13 +15,13 @@
     public string? Icon { get; set; }
 
     [Parameter]
-    public WeightEnum IconWeight { get; set; } = WeightEnum.solid;
+    public WeightEnum IconWeight { get; set; } = PatternflyDefaults.IconWeight;
 
     [Parameter]
-    public SizeEnum IconSize { get; set; } = SizeEnum.sm;
+    public SizeEnum IconSize { get; set; } = PatternflyDefaults.IconSize;
 
     [Parameter]
-    public LibraryEnum IconLibrary { get; set; } = LibraryEnum.fontawesome;
+    public LibraryEnum IconLibrary { get; set; } = PatternflyDefaults.IconLibrary;
 
     [Parameter]
     public EventCallback<MouseEventArgs> Clicked { get; set; }
