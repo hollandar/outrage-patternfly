@@ -24,11 +24,12 @@
             </PatternflyButton>
         </div>
     }
-    @if (Description != null || Body != null)
+    @if (Description != null || Body != null || ChildContent != null)
     {
         <div class="pf-v5-c-alert__description">
             @Description
             @Body
+            @ChildContent
         </div>
     }
     @if (Actions != null)
@@ -53,6 +54,7 @@
     [Parameter] public bool Closed { get; set; } = false;
     [Parameter] public bool Dismissable { get; set; } = true;
     [Parameter] public EventCallback OnDismiss { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
 
     protected async Task CloseAlert()
     {
