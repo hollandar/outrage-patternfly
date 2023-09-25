@@ -39,6 +39,6 @@
 
     public Task<IEnumerable<TypeaheadItem<string>>> LoadItems(string txt)
     {
-        return Task.FromResult(typeaheads.Where(r => r.Item.StartsWith(txt)));
+        return Task.FromResult(typeaheads.Where(r => r.Item.StartsWith(txt, StringComparison.CurrentCultureIgnoreCase)));
     }
 }

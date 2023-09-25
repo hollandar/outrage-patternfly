@@ -7,13 +7,14 @@
 
     <div class="pf-v5-c-select__toggle pf-m-typeahead">
         <div class="pf-v5-c-select__toggle-wrapper">
-            <input class="pf-v5-c-form-control pf-v5-c-select__toggle-typeahead"
-                   type="text"
+            <span class="pf-v5-c-form-control">
+            <input type="text"
                    id="@id.With("select-single-typeahead-expanded-typeahead")"
                    aria-label="Type to filter"
                    placeholder="@Placeholder"
                    @bind-value="this.Text" @bind-value:event="oninput"
                    @onkeydown="HandleEnterKey" />
+            </span>
         </div>
         @if (OnItemCreated.HasDelegate && !String.IsNullOrEmpty(this.Text))
         {
