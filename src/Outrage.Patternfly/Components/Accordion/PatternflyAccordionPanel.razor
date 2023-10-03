@@ -13,7 +13,12 @@
     </button>
 </h3>
 <div class="pf-v5-c-accordion__expandable-content @(Visible? "pf-m-expanded":string.Empty)" hidden="@(!Visible)">
-    <div class="pf-v5-c-accordion__expandable-content-body">@Body</div>
+    <div class="pf-v5-c-accordion__expandable-content-body">
+        @if (Visible)
+        {
+            @Body
+        }
+    </div>
 </div>
 
 @code {
