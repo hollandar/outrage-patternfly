@@ -49,4 +49,16 @@
         this.Expanded = !this.Expanded;
         await this.InvokeAsync(this.StateHasChanged);
     }
+
+    public async Task Expand()
+    {
+        this.Expanded = true;
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    public async Task Collapse()
+    {
+        this.Expanded = false;
+        await this.InvokeAsync(this.StateHasChanged);
+    }
 }
