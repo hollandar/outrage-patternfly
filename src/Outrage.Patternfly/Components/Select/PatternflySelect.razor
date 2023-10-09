@@ -12,7 +12,7 @@
             aria-haspopup="@(this.Options?.Any() ?? false)"
             aria-expanded="@Expanded"
             aria-labelledby="@id.With("label") @id.With("toggle")"
-            @onclick="ToggleExpandedAsync">
+    @onclick="ToggleExpandedAsync">
         <div class="pf-v5-c-select__toggle-wrapper">
             <span class="pf-v5-c-select__toggle-text">
                 @GetText()
@@ -31,10 +31,10 @@
         {
             <li role="presentation">
                 <button class="pf-v5-c-select__menu-item pf-m-selected"
-                    type="button"
-                    role="option"
-                    aria-selected="@(option.Key?.Equals(this.SelectedKey) ?? false)"
-                    @onclick="async () => await ChangeValueAsync(option.Key)">
+                        type="button"
+                        role="option"
+                        aria-selected="@(option.Key?.Equals(this.SelectedKey) ?? false)"
+                @onclick="async () => await ChangeValueAsync(option.Key)">
                     @option.Value
                     @if (option.Key?.Equals(SelectedKey) ?? false)
                     {
@@ -59,6 +59,7 @@
     [Parameter] public WeightEnum IconWeight { get; set; } = PatternflyDefaults.IconWeight;
     [Parameter] public string IconCaretDown { get; set; } = "caret-down";
     [Parameter] public string IconCheck { get; set; } = "check";
+    [Parameter] public bool Deselect { get; set; } = false;
 
     async Task ToggleExpandedAsync()
     {
@@ -68,8 +69,15 @@
 
     async Task ChangeValueAsync(TKey key)
     {
-        this.SelectedKey = key;
-        await this.SelectedKeyChanged.InvokeAsync(key);
+        if (Deselect && (this.SelectedKey?.Equals(key) ?? false))
+        {
+            this.SelectedKey = default(TKey);
+        }
+        else
+        {
+            this.SelectedKey = key;
+        }
+        await this.SelectedKeyChanged.InvokeAsync(this.SelectedKey);
 
         this.Expanded = false;
         await this.InvokeAsync(StateHasChanged);
