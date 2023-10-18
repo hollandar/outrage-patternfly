@@ -1,0 +1,12 @@
+﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+
+<span class="@Classes" @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        return new string[] { "pf-v5-c-input-group__text" };
+    }
+}

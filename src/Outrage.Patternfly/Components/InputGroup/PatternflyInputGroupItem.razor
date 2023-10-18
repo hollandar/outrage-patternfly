@@ -1,0 +1,37 @@
+﻿@inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
+
+<div class="@Classes" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Box { get; set; } = false;
+    [Parameter] public bool Plain { get; set; } = false;
+    [Parameter] public bool Fill { get; set; } = false;
+    [Parameter] public bool Disabled { get; set; } = false;
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>();
+        classes.Add("pf-v5-c-input-group__item");
+
+        if (Box)
+        {
+            classes.Add("pf-m-box");
+        }
+        if (Plain)
+        {
+            classes.Add("pf-m-plain");
+        }
+        if (Fill)
+        {
+            classes.Add("pf-m-fill");
+        }
+        if (Disabled)
+        {
+            classes.Add("pf-m-disabled");
+        }
+        return classes;
+    }
+}
