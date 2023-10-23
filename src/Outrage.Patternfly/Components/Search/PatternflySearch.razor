@@ -1,0 +1,212 @@
+﻿@using Outrage.Patternfly.Helpers;
+@typeparam TItem
+@typeparam TItemKey
+@inject IJSRuntime JS
+
+@* TODO: Test this search component on a touch display *@
+@* ISSUE: Clicking the scroll bar on the dropdown select menu causes the control to loose focus and close. *@
+
+<div class="autocomplete" @onfocusin="FocusSearch" @onfocusout="BlurSearch">
+    <span class="pf-v5-c-form-control">
+        <input @ref="inputElement" type="text" value="@foundText" readonly="@found" @oninput="InputChanged" @onkeydown="KeyUp" />
+    </span>
+    <div class="pf-v5-c-menu pf-m-scrollable @(focused? "" : "hidden")">
+        <div class="pf-v5-c-menu__content">
+            <ul class="pf-v5-c-menu__list" role="menu">
+                @if (foundNames.Length > 0)
+                {
+                    dropDownElements = new string[foundNames.Length];
+                    for (int i = 0; i < foundNames.Length; i++)
+                    {
+                        var ci = i;
+                        var name = foundNames[ci];
+                        var selected = ci == selectedIndex;
+                        var id = HtmlId.Create();
+
+                        <li @key="name.Key" class="pf-v5-c-menu__list-item" role="none">
+                            <button id="@id" class="pf-v5-c-menu__item @(selected ? "selected" : "not-selected")" type="button" role="menuitem" tabindex="-1" @onclick="@((args) => SelectName(name))">
+                                <span class="pf-v5-c-menu__item-main">
+                                    <span class="pf-v5-c-menu__item-text">@name.Value.ToString()</span>
+                                </span>
+                            </button>
+                        </li>
+                        dropDownElements[ci] = id;
+                    }
+                }
+                else
+                {
+                    dropDownElements = Array.Empty<string>();
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+@code {
+    IJSObjectReference module = default!;
+    ElementReference? inputElement = default!;
+    string[] dropDownElements = Array.Empty<string>();
+    bool focused = false;
+    bool found = true;
+    int selectedIndex = -1;
+    string foundText = string.Empty;
+    [Parameter, EditorRequired] public Func<string, Task<IEnumerable<KeyValuePair<TItemKey, TItem>>>>? LoadItems { get; set; }
+    KeyValuePair<TItemKey, TItem>[] foundNames = Array.Empty<KeyValuePair<TItemKey, TItem>>();
+
+    bool loading = false;
+    bool queued = false;
+
+    [Parameter] public TItemKey Value { get; set; } = default!;
+    [Parameter] public EventCallback<TItemKey> ValueChanged { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Outrage.Patternfly/scripts/components/search/PatternflySearch.js");
+        await RefreshAsync();
+        await base.OnInitializedAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+
+            if (selectedIndex > -1)
+            {
+                await module.InvokeVoidAsync("PatternflySearch.scrollIntoView", dropDownElements[selectedIndex]);
+            }
+
+            if (inputElement is not null && focused)
+            {
+                await inputElement.Value.FocusAsync();
+            }
+        }
+        catch (Exception) { }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    protected async Task<IEnumerable<KeyValuePair<TItemKey, TItem>>?> DebounceLoadItems(string filter)
+    {
+        IEnumerable<KeyValuePair<TItemKey, TItem>>? items = Array.Empty<KeyValuePair<TItemKey, TItem>>();
+        if (LoadItems is not null)
+        {
+            if (loading)
+            {
+                queued = true;
+                return null;
+            }
+
+            do
+            {
+                loading = true;
+                queued = false;
+                items = await LoadItems(filter);
+                loading = false;
+            } while (queued);
+        }
+
+        return items;
+    }
+
+    public async Task RefreshAsync()
+    {
+        ArgumentNullException.ThrowIfNull(LoadItems);
+        var items = await DebounceLoadItems(foundText);
+        if (items is not null)
+        {
+            foundNames = items.ToArray();
+            if (selectedIndex >= foundNames.Length)
+            {
+                selectedIndex = 0;
+            }
+            StateHasChanged();
+        }
+    }
+
+    public async void KeyUp(KeyboardEventArgs e)
+    {
+        if (!focused) return;
+
+        if (e.Key == "Enter" && selectedIndex >= 0)
+        {
+            found = true;
+            foundText = foundNames[selectedIndex].Value.ToString();
+            this.Value = foundNames[selectedIndex].Key;
+            await this.ValueChanged.InvokeAsync(this.Value);
+        }
+        else if (e.Key == "ArrowDown")
+        {
+            if (selectedIndex < foundNames.Length - 1)
+            {
+                selectedIndex++;
+            }
+        }
+        else if (e.Key == "ArrowUp")
+        {
+            if (selectedIndex > 0)
+            {
+                selectedIndex--;
+            }
+        }
+        else if (e.Key == "Escape")
+        {
+            this.foundText = string.Empty;
+            found = false;
+            this.Value = default(TItemKey);
+            await this.ValueChanged.InvokeAsync(this.Value);
+            await RefreshAsync();
+        }
+        else if (e.Key == "Tab" && selectedIndex < foundNames.Length && selectedIndex >= 0)
+        {
+            found = true;
+            focused = false;
+            if (!e.ShiftKey)
+            {
+                foundText = foundNames[selectedIndex].Value.ToString();
+                this.Value = foundNames[selectedIndex].Key;
+                await this.ValueChanged.InvokeAsync(this.Value);
+            }
+            else
+            {
+                selectedIndex = -1;
+            }
+        }
+        else if (e.Key == "Tab" && selectedIndex == -1)
+        {
+            focused = false;
+        }
+    }
+
+    public async Task InputChanged(ChangeEventArgs args)
+    {
+        var oldText = foundText;
+        this.foundText = args.Value?.ToString() ?? String.Empty;
+
+        if (oldText != foundText)
+        {
+            await RefreshAsync();
+        }
+    }
+
+
+    protected void FocusSearch()
+    {
+        this.found = false;
+        this.focused = true;
+    }
+
+    protected void BlurSearch()
+    {
+        this.focused = false;
+        this.selectedIndex = -1;
+    }
+
+    protected void SelectName(KeyValuePair<TItemKey, TItem> name)
+    {
+        this.found = true;
+        this.foundText = name.Value.ToString();
+        this.Value = name.Key;
+        this.ValueChanged.InvokeAsync(this.Value);
+        StateHasChanged();
+    }
+}

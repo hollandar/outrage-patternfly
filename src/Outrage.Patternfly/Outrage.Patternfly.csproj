@@ -28,6 +28,7 @@ Api documentation and component demonstrations can be found at https://patternfl
 	
 	<ItemGroup>
 		<Content Remove="wwwroot\scripts\components\manyselect\PatternflyManySelectSearch.js" />
+		<Content Remove="wwwroot\scripts\components\search\PatternflySearch.js" />
 		<Content Remove="yarn.lock" />
 		<Content Remove="package.json" />
 		<None Include="yarn.lock" />

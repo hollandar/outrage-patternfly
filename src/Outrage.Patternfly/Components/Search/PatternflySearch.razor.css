@@ -1,0 +1,22 @@
+.autocomplete {
+    position: relative;
+    display: block;
+    width: 200px;
+}
+
+.pf-v5-c-menu {
+    position: absolute;
+    width: 100%;
+}
+
+    .pf-v5-c-menu.hidden {
+        display: none;
+    }
+
+.pf-v5-c-menu__item {
+    cursor: pointer;
+}
+
+    .pf-v5-c-menu__item.selected {
+        background: var(--pf-v5-c-menu__list-item--focus-within--BackgroundColor);
+    }

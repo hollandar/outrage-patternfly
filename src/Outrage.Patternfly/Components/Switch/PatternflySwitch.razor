@@ -1,0 +1,54 @@
+﻿@inherits Patternfly.Components.Base.PatternflyComponentBase
+
+<label class="@Classes" @attributes="AdditionalAttributes" for="@(id)">
+    <input class="pf-v5-c-switch__input"
+           type="checkbox"
+           id="@id"
+           aria-labelledby="@(id)-on"
+           checked="@this.Checked"
+           @onchange="OnCheckedChanged" />
+
+    <span class="pf-v5-c-switch__toggle"></span>
+
+    @if (!String.IsNullOrEmpty(MessageWhenOn))
+    {
+        <span class="pf-v5-c-switch__label pf-m-on"
+              id="@(id)-on"
+              aria-hidden="true">@MessageWhenOn</span>
+    }
+    @if (!String.IsNullOrEmpty(MessageWhenOff))
+    {
+        <span class="pf-v5-c-switch__label pf-m-off"
+              id="@(id)-off"
+              aria-hidden="true">@MessageWhenOff</span>
+    }
+</label>
+
+@code {
+    string id = HtmlId.Create();
+
+    [Parameter] public bool Checked { get; set; }
+    [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+    [Parameter] public bool Reverse { get; set; }
+    [Parameter] public string MessageWhenOn { get; set; } = String.Empty;
+    [Parameter] public string MessageWhenOff { get; set; } = String.Empty;
+
+    public async Task OnCheckedChanged(ChangeEventArgs args)
+    {
+        if (args.Value is bool)
+        {
+            this.Checked = (bool)args.Value;
+            await this.CheckedChanged.InvokeAsync(this.Checked);
+        }
+    }
+
+    protected override IEnumerable<string> OnIntroduceClasses()
+    {
+        var classes = new HashSet<string>(new string[] { "pf-v5-c-switch" });
+        if (Reverse)
+        {
+            classes.Add("pf-m-reverse");
+        }
+        return classes;
+    }
+}
