@@ -72,7 +72,7 @@
 </CascadingValue>
 
 @code {
-#pragma warning disable BL0007
+    #pragma warning disable BL0007
     [Parameter] public bool Compact { get; set; }
 
     [Parameter] public bool Striped { get; set; }
@@ -114,9 +114,9 @@
         var attributes = new Dictionary<string, object>();
         attributes.Add("role", "row");
 
-        var classes = new HashSet<string>();
+        var classes = new HashSet<string> { "pf-v5-c-table__tr" };
         if (UseSelection && row.IsSelected) classes.Add("pf-m-selected");
-        if (OnRowClicked.HasDelegate) classes.Add("pf-m-hoverable");
+        if (OnRowClicked.HasDelegate) classes.Add("pf-m-clickable");
         if (classes.Any()) attributes.Add("class", string.Join(' ', classes));
         if (RowId != null) attributes.Add("id", $"_{RowId(row.Item).ToString()}");
 

@@ -34,7 +34,7 @@
                     </PatternflyToolbar>
                 }
 
-                <PatternflyTable @ref="innerTable" Class="@Class" AdditionalAttributes="@AdditionalAttributes"
+                <PatternflyTable @ref="innerTable" Class="@Class" @attributes="@AdditionalAttributes"
                                 TItem="TItem" TItemKey="TItemKey" WrappedItems="pageModel.Items"
                                 RowId="RowId"
                                 SortBy="@SortBy" SortOrder="@SortOrder" OnSortBy="SelectSortBy"
