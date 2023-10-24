@@ -2,9 +2,9 @@
 
 @inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 
-<div class="@Classes" @attributes="AdditionalAttributes">
+<dl class="@Classes" @attributes="AdditionalAttributes">
     @ChildContent
-</div>
+</dl>
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
