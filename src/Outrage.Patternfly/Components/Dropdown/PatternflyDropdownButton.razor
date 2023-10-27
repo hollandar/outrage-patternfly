@@ -4,19 +4,28 @@
 @inherits Outrage.Patternfly.Components.Base.PatternflyComponentBase
 
 <button class="@Classes" @onclick="OnClicked" @onclick:stopPropagation type="button" disabled="@Disabled" @attributes="AdditionalAttributes">
-    @if (!string.IsNullOrEmpty(Icon))
-    {
-        <span class="pf-v5-c-dropdown__menu-item-icon">
-            <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true" />
-        </span>
-    }
-    @ChildContent
+    <span class="pf-v5-c-menu__item-main">
+        @if (!string.IsNullOrEmpty(Icon))
+        {
+            <span class="pf-v5-c-menu__item-icon">
+                <Icon Name="@Icon" Library="@IconLibrary" Weight="@IconWeight" aria-hidden="true" />
+            </span>
+        }
+        <span class="pf-v5-c-menu__item-text">@ChildContent</span>
+        @if (!string.IsNullOrEmpty(Description))
+        {
+            <span class="pf-v5-c-menu__item-description">Description</span>
+        }
+    </span>
 </button>
 
 
 @code {
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Description { get; set; } = null;
 
     [Parameter]
     public LibraryEnum IconLibrary { get; set; } = PatternflyDefaults.IconLibrary;
@@ -42,10 +51,6 @@
 
         if (!string.IsNullOrEmpty(Class))
             classes.Add(Class);
-
-
-        if (!string.IsNullOrEmpty(Icon))
-            classes.Add("pf-m-icon");
 
         DefineIfUndefined("type", "button");
 

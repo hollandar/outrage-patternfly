@@ -25,18 +25,20 @@
         </button>
         @if (Expanded)
         {
-            if (IsGrouped)
-            {
-                <div class="pf-v5-c-dropdown__menu @(AlignRight ? "pf-m-align-right": string.Empty)" aria-labelledby="@dropdownId">
-                    @ChildContent
+            <div class="pf-v5-c-menu" aria-labelledby="@dropdownId">
+                <div class="pf-v5-c-menu__content">
+                    @if (IsGrouped)
+                    {
+                        @ChildContent
+                    }
+                    else
+                    {
+                        <ul class="pf-v5-c-menu__list" role="menu">
+                            @ChildContent
+                        </ul>
+                    }
                 </div>
-            }
-            else
-            {
-                <ul class="pf-v5-c-dropdown__menu @(AlignRight ? "pf-m-align-right": string.Empty)" aria-labelledby="@dropdownId">
-                    @ChildContent
-                </ul>
-            }
+            </div>
         }
     </div>
 </CascadingValue>
@@ -56,6 +58,9 @@
 
     [Parameter]
     public bool IsGrouped { get; set; }
+
+    [Parameter]
+    public bool Scrollable { get; set; }
 
     [Parameter] public LibraryEnum IconLibrary { get; set; } = PatternflyDefaults.IconLibrary;
     [Parameter] public WeightEnum IconWeight { get; set; } = PatternflyDefaults.IconWeight;
@@ -88,6 +93,11 @@
         if (Expanded)
         {
             classes.Add("pf-m-expanded");
+        }
+
+        if (Scrollable)
+        {
+            classes.Add("pf-m-scrollable");
         }
 
         return classes;
