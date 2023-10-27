@@ -3,35 +3,38 @@
 @inject NavigationManager Nav
 
 <div class="@Classes" @attributes="AdditionalAttributes">
-    <header class="pf-v5-c-masthead">
-        @if (Toggle != null)
-        {
-            <span class="pf-v5-c-masthead__toggle">
-                <button class="pf-v5-c-button pf-m-plain" type="button" aria-expanded="false" aria-disabled="false" aria-label="Global navigation" @onclick="ToggleSidebar">@Toggle</button>
-            </span>
-        }
-        @if (Logo != null)
-        {
-            <div class="pf-v5-c-masthead__main">
-                <a href="#" @onclick="NavigateHome" class="pf-v5-c-masthead__brand">
-                    @Logo
-                </a>
-            </div>
-        }
-        <div class="pf-v5-c-masthead__content">
-            @if (Header != null)
+    @if (Toggle is not null || Logo is not null || Header is not null || Tools is not null)
+    {
+        <header class="pf-v5-c-masthead">
+            @if (Toggle is not null)
             {
-                @Header
+                <span class="pf-v5-c-masthead__toggle">
+                    <button class="pf-v5-c-button pf-m-plain" type="button" aria-expanded="false" aria-disabled="false" aria-label="Global navigation" @onclick="ToggleSidebar">@Toggle</button>
+                </span>
             }
-            @if (Tools != null)
+            @if (Logo is not null)
             {
-                <div class="pf-v5-c-page__header-tools">
-                    @Tools
+                <div class="pf-v5-c-masthead__main">
+                    <a href="#" @onclick="NavigateHome" class="pf-v5-c-masthead__brand">
+                        @Logo
+                    </a>
                 </div>
             }
-        </div>
-    </header>
-    @if (Sidebar != null)
+            <div class="pf-v5-c-masthead__content">
+                @if (Header is not null)
+                {
+                    @Header
+                }
+                @if (Tools is not null)
+                {
+                    <div class="pf-v5-c-page__header-tools">
+                        @Tools
+                    </div>
+                }
+            </div>
+        </header>
+    }
+    @if (Sidebar is not null)
     {
         <div id="@controlsId" class="pf-v5-c-page__sidebar @(sidebar?"pf-m-expanded":"pf-m-collapsed")" aria-expanded="@(sidebar?"true":"false")">
             <div class="pf-v5-c-page__sidebar-body">@Sidebar</div>
@@ -42,15 +45,15 @@
 
     <CascadingValue Name="PatternflyParentPage" Value="this.onPageTarget">
         <main class="pf-v5-c-page__main" tabindex="-1" role="main">
-            @if (Sections != null)
+            @if (Sections is not null)
             {
                 @Sections
             }
-            @if (Body != null)
+            @if (Body is not null)
             {
                 <PatternflyPageSection Fill="@FillMainContent" Class="page-main-section">@Body</PatternflyPageSection>
             }
-            @if (Footer != null)
+            @if (Footer is not null)
             {
                 <PatternflyPageSection Class="page-footer-section" Sticky="@(StickyFooter ? SectionPosition.bottom: SectionPosition.none)" Color="SectionColor.dark_200">@Footer</PatternflyPageSection>
             }
