@@ -16,7 +16,7 @@ public class PatternflyInputSelect<[DynamicallyAccessedMembers(DynamicallyAccess
 
     protected override void OnParametersSet()
     {
-        this.AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, "pf-v5-c-form-control", this.FieldName) ?? null;
+        this.AdditionalAttributes = FormHelpers.PatternflyAugment(AdditionalAttributes, string.Empty, this.FieldName) ?? null;
         base.OnParametersSet();
     }
 
