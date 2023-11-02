@@ -23,23 +23,20 @@
                 <Icon Name="@IconElipsis" Library="@IconLibrary" Weight="@IconWeight" />
             }
         </button>
-        @if (Expanded)
-        {
-            <div class="pf-v5-c-menu" aria-labelledby="@dropdownId" style="@(AlignRight ? "right:0;" : string.Empty)">
-                <div class="pf-v5-c-menu__content">
-                    @if (IsGrouped)
-                    {
+        <div class="pf-v5-c-menu" aria-labelledby="@dropdownId" style="@(AlignRight ? "right:0;" : string.Empty)" hidden="@(!Expanded)">
+            <div class="pf-v5-c-menu__content">
+                @if (IsGrouped)
+                {
+                    @ChildContent
+                }
+                else
+                {
+                    <ul class="pf-v5-c-menu__list" role="menu">
                         @ChildContent
-                    }
-                    else
-                    {
-                        <ul class="pf-v5-c-menu__list" role="menu">
-                            @ChildContent
-                        </ul>
-                    }
-                </div>
+                    </ul>
+                }
             </div>
-        }
+        </div>
     </div>
 </CascadingValue>
 
