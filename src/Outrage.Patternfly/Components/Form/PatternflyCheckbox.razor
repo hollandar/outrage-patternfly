@@ -11,7 +11,7 @@
     disabled="@Disabled"
   />
 
-  <label class="pf-v5-c-check__label" for="@checkboxId">@Label</label>
+  <label class="pf-v5-c-check__label @(Disabled ?? false ? "pf-m-disabled":string.Empty)" for="@checkboxId">@Label</label>
 </div>
 
 @code {
