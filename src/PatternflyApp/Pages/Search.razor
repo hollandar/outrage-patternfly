@@ -1,0 +1,60 @@
+﻿@page "/patternfly-search"
+@using Outrage.Patternfly.Components.Form
+@using Outrage.Patternfly.Components.Search
+
+<PageTitle>Patternfly - Search</PageTitle>
+
+<PatternflyTitle>Patternfly Search </PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyEditForm Model="this.model">
+            <PatternflySearch TItem="string" TItemKey="Guid?" LoadItems="LoadFruits" @bind-Value="this.model.Id"/>
+        </PatternflyEditForm>
+
+        @if (this.model.Id.HasValue)
+        {
+            <div>
+                <span>Selected:</span>
+                <span>@fruits.Where(r => r.Id == this.model.Id.Value).First().Name</span>
+            </div>
+        }
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-search.md"></Markdown>
+
+@code {
+
+    Model model = new();
+
+    public class Model
+    {
+        public Guid? Id { get; set; }
+    }
+
+    class FruitItem
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    static List<FruitItem> fruits = new List<FruitItem> {
+        new FruitItem { Id = Guid.NewGuid(), Name = "Apple" },
+        new FruitItem { Id = Guid.NewGuid(), Name = "Banana" },
+        new FruitItem { Id = Guid.NewGuid(), Name = "Cherry" },
+        new FruitItem { Id = Guid.NewGuid(), Name = "Date" },
+        new FruitItem { Id = Guid.NewGuid(), Name = "Elderberry" },
+        new FruitItem { Id = Guid.NewGuid(), Name = "Fig" }
+    };
+
+    private Task<IEnumerable<KeyValuePair<Guid?, string>>> LoadFruits(string search)
+    {
+        if (String.IsNullOrWhiteSpace(search)) {
+            return Task.FromResult<IEnumerable<KeyValuePair<Guid?, string>>>(fruits.Select(f => new KeyValuePair<Guid?, string>(f.Id, f.Name)).ToList());
+        }
+        else {
+            return Task.FromResult<IEnumerable<KeyValuePair<Guid?, string>>>(fruits.Where(f => f.Name.Contains(search, StringComparison.OrdinalIgnoreCase)).Select(f => new KeyValuePair<Guid?, string>(f.Id, f.Name)).ToList());
+        }
+    }
+}

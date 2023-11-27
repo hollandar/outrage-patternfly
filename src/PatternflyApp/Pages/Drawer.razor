@@ -1,0 +1,39 @@
+﻿@page "/patternfly-drawer"
+
+@using Outrage.Patternfly.Components.Drawer
+
+<PageTitle>Patternfly - Drawer</PageTitle>
+
+<PatternflyTitle>Patternfly Drawer</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyDrawer @ref="drawer">
+            <Content>
+                <p>
+                    Donec interdum sapien non bibendum sagittis. Etiam eu nisl sit amet lectus volutpat maximus id eleifend erat. Mauris consectetur
+                    finibus posuere. Fusce vel magna velit. Etiam semper libero a arcu tempus, a pulvinar mauris sodales. Aenean non mattis nisl.
+                    Vivamus eu lorem nisi. Quisque leo lorem, congue nec quam sed, placerat dapibus diam. Aenean scelerisque luctus gravida. Mauris
+                    erat libero, mollis ut metus quis, hendrerit tincidunt urna. Fusce et urna laoreet, vulputate turpis vitae, suscipit nisi.
+                </p>
+                <PatternflyButton Color="ButtonColor.Primary" Clicked="() => drawer?.ToggleDrawer()">Toggle Drawer</PatternflyButton>
+            </Content>
+            <Header>More details in the drawer...</Header>
+            <Body>
+                <p>
+                    Sed malesuada eros ipsum, in blandit ante euismod et. Suspendisse tincidunt justo lacus, vitae consectetur quam feugiat non.
+                    Nam aliquet venenatis elementum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+                    Nam vitae lectus pharetra, bibendum mauris vel, sodales dolor. Nam a laoreet ipsum. Nulla nunc lectus, vestibulum non risus in,
+                    egestas eleifend arcu. Mauris auctor ligula et erat luctus congue. Pellentesque imperdiet felis ut augue viverra, nec molestie
+                    odio tristique. Integer scelerisque porttitor mi, vitae hendrerit massa rutrum ac.
+                </p>
+            </Body>
+        </PatternflyDrawer>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-drawer.md"></Markdown>
+
+@code {
+    PatternflyDrawer? drawer;
+}

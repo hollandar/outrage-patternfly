@@ -117,7 +117,11 @@ These controls follow the standard Blazor controls.
 
 * PatternflyInputRadio
 * PatternflyInputSelect
-* PatternflyInputCheckbox
+* PatternflyInputCheckbox 
+* PatternflyInputDateOnly
+* PatternflyInputTimeOnly
+* PatternflyInputDateTime
+* PatternflyFileDropZone - A file drop zone that falls back to a standard InputFile control.
 
 # PatternflyValidationMessage
 

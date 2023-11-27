@@ -21,6 +21,18 @@ Provides the choice between a number of bound values.
         Item Three
     </PatternflyToggleGroupItem>
 </PatternflyToggleGroup>
+
+<PatternflyToggleGroupMultiselect @bind-Value="selectedValues">
+    <PatternflyToggleGroupItem Value="@("One")">
+        Item One
+    </PatternflyToggleGroupItem>
+    <PatternflyToggleGroupItem Value="@("Two")">
+        Item Two
+    </PatternflyToggleGroupItem>
+    <PatternflyToggleGroupItem Value="@("Three")">
+        Item Three
+    </PatternflyToggleGroupItem>
+</PatternflyToggleGroupMultiselect>
 ```
 
 # PatternflyToggleGroup
@@ -33,6 +45,18 @@ Child content.  A list of PatternflyToggleGroupItem's
 
 * *TValueType* : The type of the value that the toggle group tracks.
 * *Value* : The current value of the toggle group.
+* *Compact* : Is the compact version of the toggle group used?  Default false.
+
+# PatternflyToggleGroupMultiselect
+
+## Sections
+
+Child content.  A list of PatternflyToggleGroupItem's
+
+## Attributes
+
+* *TValueType* : The type of the value that the toggle group tracks.
+* *Value* : A HashSet of the selected values, of TValueType.
 * *Compact* : Is the compact version of the toggle group used?  Default false.
 
 # PatternflyToggleGroupItem

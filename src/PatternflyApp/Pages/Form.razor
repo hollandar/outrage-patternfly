@@ -14,39 +14,47 @@
             <PatternflyFieldGroup Label="Name">
                 <Help>Your name</Help>
                 <Editors>
-                    <PatternflyInputText @bind-Value="formModel.Name"/>
-                    <PatternflyValidationMessage For="() => formModel.Name"/>
+                    <PatternflyInputText @bind-Value="formModel.Name" />
+                    <PatternflyValidationMessage For="() => formModel.Name" />
                 </Editors>
             </PatternflyFieldGroup>
             <PatternflyFieldGroup Label="Age">
                 <Help>Your age</Help>
                 <Editors>
-                    <PatternflyInputNumber @bind-Value="formModel.Age"/>
-                    <PatternflyValidationMessage For="() => formModel.Age"/>
+                    <PatternflyInputNumber @bind-Value="formModel.Age" />
+                    <PatternflyValidationMessage For="() => formModel.Age" />
                 </Editors>
             </PatternflyFieldGroup>
             <PatternflyFieldGroup Label="Date of Birth">
                 <Help>Your date of birth</Help>
                 <Editors>
-                    <PatternflyInputDateOnly type="date" @bind-Value="formModel.Dob"/>
-                    <PatternflyValidationMessage For="() => formModel.Dob"/>
+                    <PatternflyInputDateOnly type="date" @bind-Value="formModel.Dob" />
+                    <PatternflyValidationMessage For="() => formModel.Dob" />
                 </Editors>
             </PatternflyFieldGroup>
             <PatternflyFieldGroup Label="Time of Birth">
                 <Help>Your time of birth</Help>
                 <Editors>
-                    <PatternflyInputTimeOnly type="date" @bind-Value="formModel.Tob"/>
-                    <PatternflyValidationMessage For="() => formModel.Tob"/>
+                    <PatternflyInputTimeOnly type="date" @bind-Value="formModel.Tob" />
+                    <PatternflyValidationMessage For="() => formModel.Tob" />
                 </Editors>
             </PatternflyFieldGroup>
             <PatternflyFieldGroup Label="Date/Time of Birth">
                 <Help>Your date/time of birth</Help>
                 <Editors>
-                    <PatternflyInputDateTime @bind-Value="formModel.DTob"/>
-                    <PatternflyValidationMessage For="() => formModel.DTob"/>
+                    <PatternflyInputDateTime @bind-Value="formModel.DTob" />
+                    <PatternflyValidationMessage For="() => formModel.DTob" />
                 </Editors>
             </PatternflyFieldGroup>
-            <PatternflyValidationSummary/>
+            <PatternflyFieldGroup Label="Are you attending?">
+                <Editors>
+                    <PatternflyInputSelect TValue="string" @bind-Value="formModel.Attending">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </PatternflyInputSelect>
+                </Editors>
+            </PatternflyFieldGroup>
+            <PatternflyValidationSummary />
             <PatternflyActionGroup>
                 <PatternflyButton Type="submit">Save</PatternflyButton>
             </PatternflyActionGroup>
@@ -63,8 +71,9 @@
         public string Name { get; set; } = string.Empty;
         public int Age { get; set; } = 35;
         public DateOnly? Dob { get; set; } = new DateOnly(1990, 1, 1);
-        public TimeOnly Tob { get; set; } = new TimeOnly(0,0,0);
+        public TimeOnly Tob { get; set; } = new TimeOnly(0, 0, 0);
         public DateTimeOffset DTob { get; set; } = new DateTimeOffset(1990, 1, 1, 0, 0, 0, TimeSpan.Zero);
+        public string Attending { get; set; } = "No";
     }
 
     FormModel formModel = new();

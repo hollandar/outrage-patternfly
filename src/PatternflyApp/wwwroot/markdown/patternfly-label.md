@@ -2,17 +2,38 @@
 
 # PatternflyLabel
 
-link: [Patternfly Label](https://www.patternfly.org/v4/components/label)
+link: [Patternfly Label](https://www.patternfly.org/components/label)
 
 namespace: Outrage.Patternfly.Components.Label
 
 ## Example usage
 
 ```
-<PatternflyLabel Color="LabelColor.Blue" Icon="info" Text="Information"></PatternflyLabel>
-<PatternflyLabel Color="LabelColor.Purple" Icon="question" Text="Question"></PatternflyLabel>
+<PatternflyLabelGroup>
+    <PatternflyLabelGroupListItem>
+        <PatternflyLabel Color="LabelColor.Blue" Icon="info" Text="Information"></PatternflyLabel>
+    </PatternflyLabelGroupListItem>
+    <PatternflyLabelGroupListItem>
+        <PatternflyLabel Color="LabelColor.Purple" Icon="question" Text="Question"></PatternflyLabel>
+    </PatternflyLabelGroupListItem>
+</PatternflyLabelGroup>
 ```
 
+# PatternflyLabelGroup
+
+## Sections
+
+Child content contains a number of PatternflyLabelGroupListItem's.
+
+## Attributes
+
+* *Description* : Description for screen readers.
+
+# PatternflyLabelGroupListItem
+
+A member of the label group list, this is a container for a PatternflyLabel when it is used inside a PatternflyLabelGroup.
+
+# PatternflyLabel
 
 ## Attributes
 
@@ -26,20 +47,3 @@ namespace: Outrage.Patternfly.Components.Label
 
 * *Closed* : `EventCallback` : When defined, shows a close x on the label and calls back when it is clicked, on label removal for example.
 * *Clicked* : `EventCallback` : When defined, calls back when the label is clicked.
-
-# PatternflyLabelGroup
-
-## Example usage
-...
-<PatternflyLabelGroup Description="My labels">
-	<PatternflyLabelGroupListItem>
-		<PatternflyLabel Color="LabelColor.Blue" Icon="info" Text="Information"></PatternflyLabel>
-	</PatternflyLabelGroupListItem>
-	<PatternflyLabelGroupListItem>
-		<PatternflyLabel Color="LabelColor.Purple" Icon="question" Text="Question"></PatternflyLabel>
-	</PatternflyLabelGroupListItem>
-</PatternflyLabelGroup>
-...
-
-## Attributes
-* *Description* : Description for screen readers

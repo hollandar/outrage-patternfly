@@ -24,7 +24,7 @@
                         var id = HtmlId.Create();
 
                         <li @key="name.Key" class="pf-v5-c-menu__list-item" role="none">
-                            <button id="@id" class="pf-v5-c-menu__item @(selected ? "selected" : "not-selected")" type="button" role="menuitem" tabindex="-1" @onclick="@((args) => SelectName(name))">
+                            <button id="@id" class="pf-v5-c-menu__item @(selected ? "selected" : "not-selected")" type="button" role="menuitem" tabindex="-1" @onmousedown="@((args) => SelectName(name))">
                                 <span class="pf-v5-c-menu__item-main">
                                     <span class="pf-v5-c-menu__item-text">@name.Value.ToString()</span>
                                 </span>
@@ -150,11 +150,7 @@
         }
         else if (e.Key == "Escape")
         {
-            this.foundText = string.Empty;
-            found = false;
-            this.Value = default(TItemKey);
-            await this.ValueChanged.InvokeAsync(this.Value);
-            await RefreshAsync();
+            await Clear();
         }
         else if (e.Key == "Tab" && selectedIndex < foundNames.Length && selectedIndex >= 0)
         {
@@ -177,6 +173,15 @@
         }
     }
 
+    public async Task Clear()
+    {
+        this.foundText = string.Empty;
+        found = false;
+        this.Value = default(TItemKey);
+        await this.ValueChanged.InvokeAsync(this.Value);
+        await RefreshAsync();
+    }
+
     public async Task InputChanged(ChangeEventArgs args)
     {
         var oldText = foundText;
@@ -195,8 +200,13 @@
         this.focused = true;
     }
 
-    protected void BlurSearch()
+    protected void BlurSearch(FocusEventArgs args)
     {
+        if (!found)
+        {
+            this.foundText = string.Empty;
+        }
+
         this.focused = false;
         this.selectedIndex = -1;
     }

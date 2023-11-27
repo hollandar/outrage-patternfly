@@ -1,0 +1,24 @@
+﻿@page "/patternfly-switch"
+
+@using Outrage.Patternfly.Components.Form
+@using Outrage.Patternfly.Components.Switch
+
+<PageTitle>Patternfly - Switch</PageTitle>
+
+<PatternflyTitle>Patternfly Switch</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflySwitch @bind-Checked="this.model.Checked" id="switch" MessageWhenOn="Switch Off" MessageWhenOff="Switch On" />        
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-switch.md"></Markdown>
+
+@code {
+    Model model = new();
+
+    class Model {
+        public bool Checked { get; set; }
+    }
+}

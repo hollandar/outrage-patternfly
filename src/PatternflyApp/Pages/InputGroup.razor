@@ -1,0 +1,37 @@
+﻿@page "/patternfly-inputgroup"
+@using Outrage.Patternfly.Components.InputGroup
+@using Outrage.Patternfly.Components.Form
+
+<PageTitle>Patternfly - Input Group</PageTitle>
+
+<PatternflyTitle>Patternfly Input Group</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyEditForm Model="this.model">
+            <PatternflyFieldGroup Label="Email Address">
+                <Editors>
+                    <PatternflyInputGroup>
+                        <PatternflyInputGroupItem Box>
+                            <PatternflyInputGroupText>@@</PatternflyInputGroupText>
+                        </PatternflyInputGroupItem>
+                        <PatternflyInputGroupItem Fill>
+                            <PatternflyInputText @bind-Value="model.EmailAddress"></PatternflyInputText>
+                        </PatternflyInputGroupItem>
+                    </PatternflyInputGroup>
+                </Editors>
+            </PatternflyFieldGroup>
+        </PatternflyEditForm>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-inputgroup.md"></Markdown>
+
+@code {
+    Model model = new();
+
+    class Model
+    {
+        public string EmailAddress { get; set; }
+    }
+}

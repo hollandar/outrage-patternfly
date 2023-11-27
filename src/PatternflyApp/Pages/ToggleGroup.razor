@@ -7,6 +7,7 @@
 
 <PatternflyPanel>
     <Body>
+        <PatternflyTitle HeadingLevel="2">Single Select</PatternflyTitle>
         <PatternflyToggleGroup @bind-Value="selectedValue">
             <PatternflyToggleGroupItem Value="@("One")">
                 Item One
@@ -20,8 +21,29 @@
         </PatternflyToggleGroup>
 
         <div>
-            Selected:
-            @selectedValue
+            <span>Selected:</span><span>@selectedValue</span>
+        </div>
+        
+        <PatternflyTitle HeadingLevel="2">Multiple Select</PatternflyTitle>
+        <PatternflyToggleGroupMultiselect @bind-Value="selectedValues">
+            <PatternflyToggleGroupItem Value="@("One")">
+                Item One
+            </PatternflyToggleGroupItem>
+            <PatternflyToggleGroupItem Value="@("Two")">
+                Item Two
+            </PatternflyToggleGroupItem>
+            <PatternflyToggleGroupItem Value="@("Three")">
+                Item Three
+            </PatternflyToggleGroupItem>
+        </PatternflyToggleGroupMultiselect>
+
+        <div>
+            Selected values:
+            @foreach (var value in selectedValues)
+            {
+                <span>@value</span>
+                <span>&nbsp;</span>
+            }
         </div>
     </Body>
 </PatternflyPanel>
@@ -30,4 +52,5 @@
 
 @code {
     string? selectedValue;
+    HashSet<string> selectedValues = new();
 }

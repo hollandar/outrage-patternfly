@@ -1,0 +1,104 @@
+﻿@page "/patternfly-manyselect"
+@using Outrage.Patternfly.Components.Form
+@using Outrage.Patternfly.Components.ManySelect
+
+<PageTitle>Patternfly - Many Select</PageTitle>
+
+<PatternflyTitle>Patternfly Many Select</PatternflyTitle>
+
+<PatternflyPanel>
+    <Body>
+        <PatternflyEditForm Model="this.model">
+        
+            <PatternflyTitle HeadingLevel="2">Single Select</PatternflyTitle>
+
+            <PatternflySingleSelect TKey="Guid?" @bind-Value="this.model.Id">
+                <Viewer>
+                    <PatternflyManySelectSingleValue TKey="Guid?"
+                                                     TValue="FruitItem"
+                                                     OnLoadItem="LoadFruit"
+                                                     ToViewString="FruitToString" />
+                </Viewer>
+                <Finder>
+                    <PatternflyManySelectSearch TKey="Guid?"
+                                                TValue="FruitItem"
+                                                OnLoadItems="LoadFruits"
+                                                ToViewString="FruitToString"
+                                                ToKey="(v) => v.Id" />
+                </Finder>
+            </PatternflySingleSelect>
+
+            <PatternflyTitle HeadingLevel="2">Many Select</PatternflyTitle>
+
+            <PatternflyManySelect TKey="Guid?" @bind-Value="this.model.Ids">
+                <Viewer>
+                    <PatternflyManySelectMultipleValue TKey="Guid?"
+                                                     TValue="FruitItem"
+                                                     OnLoadItems="LoadFruit"
+                                                     ToViewString="FruitToString"
+                                                     ToKey="(v) => v.Id"/>
+                </Viewer>
+                <Finder>
+                    <PatternflyManySelectSearch TKey="Guid?"
+                                                TValue="FruitItem"
+                                                OnLoadItems="LoadFruits"
+                                                ToViewString="FruitToString"
+                                                ToKey="(v) => v.Id" 
+                                                Multiselect />
+                </Finder>
+            </PatternflyManySelect>
+        </PatternflyEditForm>
+    </Body>
+</PatternflyPanel>
+
+<Markdown Href="/markdown/patternfly-manyselect.md"></Markdown>
+
+@code {
+    Model model = new();
+
+    public class Model
+    {
+        public Guid? Id { get; set; }
+        public HashSet<Guid?> Ids { get; set; } = new();
+    }
+
+    class FruitItem
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    static List<FruitItem> fruits = new List<FruitItem> {
+        new FruitItem { Id = Guid.NewGuid(), Name = "Apple" },
+        new FruitItem { Id = Guid.NewGuid(), Name = "Banana" },
+        new FruitItem { Id = Guid.NewGuid(), Name = "Cherry" },
+        new FruitItem { Id = Guid.NewGuid(), Name = "Date" },
+        new FruitItem { Id = Guid.NewGuid(), Name = "Elderberry" },
+        new FruitItem { Id = Guid.NewGuid(), Name = "Fig" }
+    };
+
+    Task<ManySelectLoadResponse<FruitItem>> LoadFruits(ManySelectLoadArgs args)
+    {
+        var result = fruits.ToList();
+        if (!String.IsNullOrEmpty(args.Search))
+            result = fruits.Where(f => f.Name.Contains(args.Search, StringComparison.OrdinalIgnoreCase)).ToList();
+
+        return Task.FromResult(new ManySelectLoadResponse<FruitItem>()
+        {
+            Page = args.Page,
+            PageSize = args.PageSize,
+            TotalRecords = result.Count,
+            Values = result.Skip(args.Page * args.PageSize).Take(args.PageSize).ToList()
+        });
+    }
+
+    Task<FruitItem?> LoadFruit(Guid? id)
+    {
+        return Task.FromResult(fruits.FirstOrDefault(f => f.Id == id));
+    }
+
+    string FruitToString(FruitItem? fruit)
+    {
+        return fruit?.Name ?? String.Empty;
+    }
+}
