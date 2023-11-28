@@ -8,9 +8,9 @@
 		<Authors>Adrian Holland, Andrew Tie</Authors>
 		<Company>Webfinity Pty. Ltd.</Company>
 		<Description>
-A collection of Blazor UI components for both blazor server and blazor wasm projects, the API is kept as close to standard blazor as possible.
-The library makes use of the Patternfly styles, published at https://www.patternfly.org/v4/; which are well designed and very easy to customize using CSS variables.
-Api documentation and component demonstrations can be found at https://patternfly.outrage.net.au.</Description>
+			A collection of Blazor UI components for both blazor server and blazor wasm projects, the API is kept as close to standard blazor as possible.
+			The library makes use of the Patternfly styles, published at https://www.patternfly.org/; which are well designed and very easy to customize using CSS variables.
+			Api documentation and component demonstrations can be found at https://patternfly.outrage.net.au.</Description>
 		<Copyright>2021-2022, Webefinity Pty Ltd</Copyright>
 		<PackageTags>Blazor;WASM;Components;Styles;Controls;App;UI;Presentation</PackageTags>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
