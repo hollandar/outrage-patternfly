@@ -24,7 +24,7 @@ class Build : NukeBuild
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
-    const string semVer = "1.0.2";
+    const string semVer = "1.1.0";
     const string suffixVer = "rc01";
 
     public static int Main() => Execute<Build>(x => x.Compile);
@@ -48,9 +48,9 @@ class Build : NukeBuild
         .Before(Restore)
         .Executes(() =>
         {
-            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
-            TestsDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
-            EnsureCleanDirectory(OutputDirectory);
+            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(p => p.DeleteDirectory());
+            TestsDirectory.GlobDirectories("**/bin", "**/obj").ForEach(p => p.DeleteDirectory());
+            OutputDirectory.CreateOrCleanDirectory();
         });
 
     Target Restore => _ => _
@@ -73,7 +73,7 @@ class Build : NukeBuild
     Target Pack => _ => _
            .Executes(() =>
            {
-               EnsureCleanDirectory(NugetDirectory);
+               NugetDirectory.CreateOrCleanDirectory();
                foreach (var project in Solution.AllProjects)
                {
                    if (project.GetProperty<bool>("IsPackable"))
@@ -92,13 +92,14 @@ class Build : NukeBuild
     .DependsOn(Pack)
     .Executes(() =>
     {
-        foreach (var nugetPackage in OutputDirectory.GlobFiles(NugetDirectory, "*.nupkg"))
+        Console.WriteLine(NugetDirectory);
+        foreach (var nugetPackage in NugetDirectory.GlobFiles("*.nupkg"))
         {
             Console.WriteLine(nugetPackage);
             DotNetNuGetPush(s => s
                 .SetTargetPath(nugetPackage)
                 .When(Configuration != Configuration.Release, s => s
-                    .SetSource("outrage")
+                    .SetSource("nuget.org")
                     .SetProcessArgumentConfigurator(a => a.Add("-k {0}", ApiKey))
                 )
                 .When(Configuration == Configuration.Release, s => s
