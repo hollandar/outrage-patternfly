@@ -41,6 +41,11 @@
         </div>
     </div>
 </div>
+
+@found
+@focused
+@foundText
+@selectedIndex
 @code {
     IJSObjectReference module = default!;
     ElementReference? inputElement = default!;
@@ -50,6 +55,7 @@
     int selectedIndex = -1;
     string foundText = string.Empty;
     [Parameter, EditorRequired] public Func<string, Task<IEnumerable<KeyValuePair<TItemKey, TItem>>>>? LoadItems { get; set; }
+    IEnumerable<KeyValuePair<TItemKey, TItem>>? allItems = null;
     KeyValuePair<TItemKey, TItem>[] foundNames = Array.Empty<KeyValuePair<TItemKey, TItem>>();
 
     bool loading = false;
@@ -62,6 +68,7 @@
     {
         module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Outrage.Patternfly/scripts/components/search/PatternflySearch.js");
         await RefreshAsync();
+        allItems = foundNames;
         await base.OnInitializedAsync();
     }
 
@@ -69,7 +76,6 @@
     {
         try
         {
-
             if (selectedIndex > -1)
             {
                 await module.InvokeVoidAsync("PatternflySearch.scrollIntoView", dropDownElements[selectedIndex]);
@@ -202,9 +208,12 @@
 
     protected void BlurSearch(FocusEventArgs args)
     {
-        if (!found)
+        if (this.Value is null)
         {
-            this.foundText = string.Empty;
+            this.foundText = String.Empty;
+        } else
+        {
+            this.foundText = allItems.Where(r => r.Key?.Equals(this.Value) ?? false).Select(r => r.Value?.ToString()).FirstOrDefault() ?? String.Empty;
         }
 
         this.focused = false;
